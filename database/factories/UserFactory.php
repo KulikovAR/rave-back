@@ -26,11 +26,9 @@ class UserFactory extends Factory
             // 'phone_prefix'      => $this->faker->numerify('+##'),
             // 'phone_verified_at' => now(),
             'salt'              => Hash::make(Str::random(10)),
-            'password'          => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
-            //'language'          => config('app.locale'),
+            'password'          => Hash::make('test'),
+            'language'        => config('app.locale'),
             'remember_token'    => Str::random(10),
-            'is_partner'        => 1,
-            'partner_takeout'   => TakeOut::TAKEOUT_CARD,
         ];
     }
 

@@ -33,8 +33,6 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
         'email_verified_at',
         'password',
         'language',
-        'is_partner',
-        'partner_takeout',
     ];
 
     /**
@@ -57,7 +55,6 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
         'phone_verified_at' => 'datetime',
         'deleted_at'        => 'datetime',
         'password'          => 'hashed',
-        'is_partner'        => 'boolean',
     ];
 
     public function userProfile(): HasOne
@@ -65,39 +62,9 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
         return $this->hasOne(UserProfile::class);
     }
 
-    public function passenger(): HasMany
-    {
-        return $this->hasMany(Passenger::class);
-    }
-
     public function order(): HasMany
     {
         return $this->hasMany(Order::class);
-    }
-
-    public function partnerMessage(): HasOne
-    {
-        return $this->hasOne(PartnerMessage::class);
-    }
-
-    public function banks(): HasMany
-    {
-        return $this->hasMany(Bank::class);
-    }
-
-    public function creditCards(): HasMany
-    {
-        return $this->hasMany(CreditCard::class);
-    }
-
-    public function takeouts(): HasMany
-    {
-        return $this->hasMany(TakeOut::class);
-    }
-
-    public function promoCodes(): HasMany
-    {
-        return $this->hasMany(Promocode::class);
     }
 
     public function preferredLocale()

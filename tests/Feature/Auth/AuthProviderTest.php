@@ -26,10 +26,12 @@ class AuthProviderTest extends TestCase
     public function test_google_provider_creating_user()
     {
         $googleFakeResp = $this->google_response();
-        $result         = (new AuthProviderService())->authenticate($googleFakeResp, 'google');
+        $response         = (new AuthProviderService())->authenticate($googleFakeResp, 'google');
 
-        $url = $result->getTargetUrl();
-        $this->assertStringContainsString('?bearer_token=', $url);
+        $bearerTokenCookie = $response->headers->getCookies()[0];
+
+        $this->assertSame($bearerTokenCookie->getName(), 'bearer_token');
+        $this->assertNotEmpty($bearerTokenCookie->getValue());
 
         $user = User::whereEmail(self::TEST_EMAIL)->first();
 

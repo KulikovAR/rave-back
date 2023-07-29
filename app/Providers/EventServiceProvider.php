@@ -2,11 +2,7 @@
 
 namespace App\Providers;
 
-use App\Events\BookFlightEvent;
-use App\Events\PartnerMessageEvent;
 use App\Events\RegisteredUserEvent;
-use App\Listeners\BookFlightListener;
-use App\Listeners\PartnerMessageListener;
 use App\Listeners\RegisteredUserListener;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -19,8 +15,6 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $listen = [
         RegisteredUserEvent::class => [RegisteredUserListener::class],
-        BookFlightEvent::class     => [BookFlightListener::class],
-        PartnerMessageEvent::class => [PartnerMessageListener::class],
     ];
 
     /**

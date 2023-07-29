@@ -43,6 +43,6 @@ class AuthProviderService
         $bearerToken = $this->createAuthToken($user);
         $cookieToken = $this->createBearerCookie($bearerToken);
 
-        return redirect(config('front-end.auth_provider') . $bearerToken)->withCookie($cookieToken);
+        return redirect(config('front-end.auth_provider'))->withCookie($cookieToken);
     }
 }

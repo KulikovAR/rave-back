@@ -20,9 +20,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
 	return view('app');
 });
-/*Route::get('{reactRoutes}', function () {
-    return view('app');
-})->where('reactRoutes', '^((?!api).)*$');*/ // except 'api' word
 
 Route::post('/login/session', [AuthSessionController::class, 'store'])->name('login.stateful');
 

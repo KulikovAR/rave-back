@@ -2,30 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\BookFlightEvent;
 use App\Http\Requests\UuidRequest;
-use App\Interfaces\FetchFlightInterface;
 use App\Interfaces\PaymentServiceInterface;
-use App\Interfaces\PdfServiceInterface;
-use App\Interfaces\XmlParserInterface;
-use App\Models\Order;
 use App\Services\NotificationService;
-use App\Services\PdfService;
 use App\Services\TinkoffPaymentService;
-use App\Services\TripsFetcherService;
-use App\Services\XmlParserService;
-use Barryvdh\DomPDF\Facade\Pdf;
 use Log;
 
 class PaymentController extends Controller
 {
     public function __construct(
         public PaymentServiceInterface $paymentService = new TinkoffPaymentService(),
-        public XmlParserInterface      $xmlParserService = new XmlParserService(),
-        public FetchFlightInterface    $fetchFlightService = new TripsFetcherService(),
-        public PdfServiceInterface     $pdfService = new PdfService()
     ) {}
 
+    //TODO add orders Model
+    //TODO fix filament and csrf
+    //TODO fix output of user resource
+    //TODO check and rename Json RESPONSE and others
     public function redirect(UuidRequest $request)
     {
         $order = Order::where(['order_status' => Order::CREATED])->findOrFail($request->id);

@@ -28,16 +28,8 @@ namespace App\Docs;
  *      description="Настройки пользователя"
  * )
  * @OA\Tag(
- *      name="Flights",
- *      description="Поиск билетов"
- * )
- * @OA\Tag(
  *      name="Orders",
  *      description="Заказы и оплата"
- * )
- * @OA\Tag(
- *      name="Partners",
- *      description="Партнёрка"
  * )
  * @OA\Tag(
  *      name="Assets",

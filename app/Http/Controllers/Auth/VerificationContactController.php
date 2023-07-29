@@ -64,7 +64,7 @@ class VerificationContactController extends Controller
             $token       = $this->createTemporaryAuthToken($user);
             $cookieToken = $this->createBearerCookie($token);
 
-            return redirect(config('front-end.email_verified') . $token)->withCookie($cookieToken);
+            return redirect(config('front-end.email_verified'))->withCookie($cookieToken);
         }
 
         return redirect(config('front-end.email_verified_error'));

@@ -25,6 +25,7 @@ return new class extends MigrationService {
             $table->text('birthday');
             $table->char('phone_prefix', 10);
             $table->text('phone');
+
             $table->uuid('user_id');
             $table->foreign('user_id')
                   ->references('id')

@@ -26,7 +26,7 @@ class AuthTokenController
      *          required=true,
      *          @OA\Schema(
      *              type="string",
-     *              example="testtest"
+     *              example="test@test.ru"
      *          )
      *     ),
      *     @OA\Response(

@@ -46,41 +46,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::patch('/password', [PasswordController::class, 'update'])->name('password.update');
     Route::delete('/logout', [AuthTokenController::class, 'destroy'])->name('logout.stateless');
 
-
     Route::middleware('verified')->group(function () {
         Route::get('/user_profile', [UserProfileController::class, 'index'])->name('user_profile.index');
         Route::post('/user_profile', [UserProfileController::class, 'store'])->name('user_profile.store');
-
-        Route::get('/passengers', [PassengersController::class, 'index'])->name('passengers.index');
-        Route::post('/passengers', [PassengersController::class, 'store'])->name('passengers.store');
-        Route::put('/passengers', [PassengersController::class, 'update'])->name('passengers.update');
-        Route::delete('/passengers', [PassengersController::class, 'destroy'])->name('passengers.destroy');
-
-        Route::delete('/orders', [OrdersController::class, 'destroy'])->name('orders.destroy');
-
-
-        Route::prefix('partners')->group(function () {
-            Route::post('/message', [PartnerMessageController::class, 'store'])->name('partner-message.store');
-
-            Route::get('/takeouts', [TakeOutController::class, 'index'])->name('takeout.index');
-            Route::post('/takeouts', [TakeOutController::class, 'store'])->name('takeout.store');
-
-            Route::get('/promocodes', [PromoCodeController::class, 'index'])->name('promocode.index');
-            Route::post('/promocodes', [PromoCodeController::class, 'store'])->name('promocode.store');
-            Route::put('/promocodes', [PromoCodeController::class, 'update'])->name('promocode.update');
-            Route::delete('/promocodes', [PromoCodeController::class, 'destroy'])->name('promocode.destroy');
-
-            Route::get('/credit_card', [CreditCardController::class, 'index'])->name('credit-card.index');
-            Route::post('/credit_card', [CreditCardController::class, 'store'])->name('credit-card.store');
-            Route::put('/credit_card', [CreditCardController::class, 'update'])->name('credit-card.update');
-            Route::delete('/credit_card', [CreditCardController::class, 'destroy'])->name('credit-card.destroy');
-
-            Route::get('/bank', [BankController::class, 'index'])->name('bank.index');
-            Route::post('/bank', [BankController::class, 'store'])->name('bank.store');
-            Route::put('/bank', [BankController::class, 'update'])->name('bank.update');
-            Route::delete('/bank', [BankController::class, 'destroy'])->name('bank.destroy');
-        });
-
     });
 });
 
@@ -91,16 +59,12 @@ Route::get('/verification/{id}/{hash}', [VerificationContactController::class, '
 
 Route::get('/assets/{locale?}', [AssetsController::class, 'show'])->name('assets.index');
 
-Route::get('/flights', [SearchFlightController::class, 'index'])->name('search-flight');
-Route::get('/airports', [AirportsController::class, 'index'])->name('search-airports');
+Route::prefix('payments')->group(function () {
+    Route::get('/redirect', [PaymentController::class, 'redirect'])->name('payment.redirect');
+    Route::get('/success', [PaymentController::class, 'success'])->name('payment.success');
+    Route::get('/failed', [PaymentController::class, 'failed'])->name('payment.failed');
+    Route::get('/download', [PaymentController::class, 'download'])->name('payment.download');
+    Route::get('/retry', [PaymentController::class, 'retry'])->name('payment.retry');
 
-Route::post('/orders', [OrdersController::class, 'store'])->name('orders.store');
-Route::put('/orders', [OrdersController::class, 'update'])->middleware(['throttle:60,1'])->name('orders.update');
-Route::get('/orders', [OrdersController::class, 'index'])->middleware(['throttle:60,1'])->name('orders.index');
-
-Route::get('/payments/redirect', [PaymentController::class, 'redirect'])->name('payment.redirect');
-Route::get('/payments/success', [PaymentController::class, 'success'])->name('payment.success');
-Route::get('/payments/failed', [PaymentController::class, 'failed'])->name('payment.failed');
-Route::get('/payments/download', [PaymentController::class, 'download'])->name('payment.download');
-Route::get('/payments/retry', [PaymentController::class, 'retry'])->name('payment.retry');
+});
 

@@ -22,9 +22,6 @@ return new class extends MigrationService {
             $table->string('password')->nullable();
             $table->char('language', 2)->nullable();
 
-            $table->boolean('is_partner')->nullable();
-            $table->enum('partner_takeout', [TakeOut::TAKEOUT_CARD, TakeOut::TAKEOUT_BANK])->nullable();
-
             $table->softDeletes();
             $table->timestamps();
             $table->rememberToken();
