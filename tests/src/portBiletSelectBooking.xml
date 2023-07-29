@@ -1,0 +1,212 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+    <S:Body>
+        <ns2:selectFlightResponse xmlns:ns2="http://ws2.vip.server.xtrip.gridnine.com/">
+            <return>
+                <messages/>
+                <flight>
+                    <token>
+                        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
+                    </token>
+                    <carrier>
+                        <code>JU</code>
+                        <name>Air Serbia</name>
+                    </carrier>
+                    <charter>false</charter>
+                    <eticket>true</eticket>
+                    <latinRegistration>true</latinRegistration>
+                    <flightFaresSearchDisabled>false</flightFaresSearchDisabled>
+                    <ancillaryFeesRequestNeeded>false</ancillaryFeesRequestNeeded>
+                    <mtd>false</mtd>
+                    <timeLimit>2023-10-29T22:50:00+03:00</timeLimit>
+                    <gds>SABRE</gds>
+                    <gdsAccount>Sabre (DE)</gdsAccount>
+                    <segments>
+                        <segment>
+                            <serviceClass>ECONOMY</serviceClass>
+                            <bookingClass>B</bookingClass>
+                            <airline>
+                                <code>JU</code>
+                                <name>Air Serbia</name>
+                            </airline>
+                            <operatingAirline>
+                                <code>JU</code>
+                                <name>Air Serbia</name>
+                            </operatingAirline>
+                            <board>
+                                <code>319</code>
+                                <name>АЭРОБУС А319</name>
+                            </board>
+                            <dateBegin>2023-10-30T02:50:00</dateBegin>
+                            <dateEnd>2023-10-30T04:00:00</dateEnd>
+                            <flightNumber>659</flightNumber>
+                            <locationBegin>
+                                <code>SVO</code>
+                                <name>Аэропорт Шереметьево</name>
+                            </locationBegin>
+                            <cityBegin>
+                                <code>MOW</code>
+                                <name>Москва</name>
+                            </cityBegin>
+                            <countryBegin>
+                                <code>RU</code>
+                                <name>Россия</name>
+                            </countryBegin>
+                            <locationEnd>
+                                <code>BEG</code>
+                                <name>Никола Тесла</name>
+                            </locationEnd>
+                            <cityEnd>
+                                <code>BEG</code>
+                                <name>Белград</name>
+                            </cityEnd>
+                            <countryEnd>
+                                <code>RS</code>
+                                <name>Сербия</name>
+                            </countryEnd>
+                            <starting>true</starting>
+                            <connected>false</connected>
+                            <travelDuration>190</travelDuration>
+                            <techStops/>
+                            <fareInfos>
+                                <fareInfos>
+                                    <baggageWeightLimit>NILN</baggageWeightLimit>
+                                    <fareBasis>BNBORU</fareBasis>
+                                    <remarksSearchContext>
+                                        PG9iamVjdCBjbGFzcz0iY29tLmdyaWRuaW5lLnh0cmlwLmNvbW1vbi5nZHMuc2FicmUuaGVscGVycy5TYWJyZVJlbWFya3NTZWFyY2hDb250ZXh0Ij4KICAgIDxzZWdOdW1iZXI+MTwvc2VnTnVtYmVyPgogICAgPHBUeXBlPkFEVDwvcFR5cGU+Cjwvb2JqZWN0Pg==
+                                    </remarksSearchContext>
+                                    <fareDetails>
+                                        <cabinLuggageInfo>
+                                            <pieces>1</pieces>
+                                            <weight>8</weight>
+                                            <size>118</size>
+                                        </cabinLuggageInfo>
+                                    </fareDetails>
+                                    <passengerType originalCode="ADULT">ADULT</passengerType>
+                                </fareInfos>
+                            </fareInfos>
+                        </segment>
+                        <segment>
+                            <serviceClass>ECONOMY</serviceClass>
+                            <bookingClass>B</bookingClass>
+                            <airline>
+                                <code>JU</code>
+                                <name>Air Serbia</name>
+                            </airline>
+                            <operatingAirline>
+                                <code>JU</code>
+                                <name>Air Serbia</name>
+                            </operatingAirline>
+                            <board>
+                                <code>319</code>
+                                <name>АЭРОБУС А319</name>
+                            </board>
+                            <dateBegin>2023-10-30T17:05:00</dateBegin>
+                            <dateEnd>2023-10-30T19:45:00</dateEnd>
+                            <flightNumber>584</flightNumber>
+                            <locationBegin>
+                                <code>BEG</code>
+                                <name>Никола Тесла</name>
+                            </locationBegin>
+                            <cityBegin>
+                                <code>BEG</code>
+                                <name>Белград</name>
+                            </cityBegin>
+                            <countryBegin>
+                                <code>RS</code>
+                                <name>Сербия</name>
+                            </countryBegin>
+                            <locationEnd>
+                                <code>BCN</code>
+                                <name>Эль-Прат</name>
+                            </locationEnd>
+                            <cityEnd>
+                                <code>BCN</code>
+                                <name>Барселона</name>
+                            </cityEnd>
+                            <countryEnd>
+                                <code>ES</code>
+                                <name>Испания и Канарские Острова</name>
+                            </countryEnd>
+                            <starting>false</starting>
+                            <connected>true</connected>
+                            <travelDuration>160</travelDuration>
+                            <techStops/>
+                            <fareInfos>
+                                <fareInfos>
+                                    <baggageWeightLimit>NILN</baggageWeightLimit>
+                                    <fareBasis>BNBORU</fareBasis>
+                                    <remarksSearchContext>
+                                        PG9iamVjdCBjbGFzcz0iY29tLmdyaWRuaW5lLnh0cmlwLmNvbW1vbi5nZHMuc2FicmUuaGVscGVycy5TYWJyZVJlbWFya3NTZWFyY2hDb250ZXh0Ij4KICAgIDxzZWdOdW1iZXI+Mjwvc2VnTnVtYmVyPgogICAgPHBUeXBlPkFEVDwvcFR5cGU+Cjwvb2JqZWN0Pg==
+                                    </remarksSearchContext>
+                                    <fareDetails>
+                                        <cabinLuggageInfo>
+                                            <pieces>1</pieces>
+                                            <weight>8</weight>
+                                            <size>118</size>
+                                        </cabinLuggageInfo>
+                                    </fareDetails>
+                                    <passengerType originalCode="ADULT">ADULT</passengerType>
+                                </fareInfos>
+                            </fareInfos>
+                        </segment>
+                    </segments>
+                    <price>
+                        <price>
+                            <elementType>TARIFF</elementType>
+                            <passengerType originalCode="ADULT">ADULT</passengerType>
+                            <amount>59119.0</amount>
+                        </price>
+                        <price>
+                            <elementType>TAXES</elementType>
+                            <passengerType originalCode="ADULT">ADULT</passengerType>
+                            <amount>4211.0</amount>
+                        </price>
+                        <price>
+                            <elementType>FEE</elementType>
+                            <passengerType originalCode="ADULT">ADULT</passengerType>
+                            <amount>726.00</amount>
+                        </price>
+                        <price>
+                            <elementType>COMMISSION</elementType>
+                            <passengerType originalCode="ADULT">ADULT</passengerType>
+                            <amount>0.0</amount>
+                        </price>
+                    </price>
+                    <taxDetails>
+                        <taxDetails>
+                            <passengerType originalCode="ADULT">ADULT</passengerType>
+                            <amount>1811.0</amount>
+                            <taxCode>RI</taxCode>
+                        </taxDetails>
+                        <taxDetails>
+                            <passengerType originalCode="ADULT">ADULT</passengerType>
+                            <amount>494.0</amount>
+                            <taxCode>LG</taxCode>
+                        </taxDetails>
+                        <taxDetails>
+                            <passengerType originalCode="ADULT">ADULT</passengerType>
+                            <amount>476.0</amount>
+                            <taxCode>RS</taxCode>
+                        </taxDetails>
+                        <taxDetails>
+                            <passengerType originalCode="ADULT">ADULT</passengerType>
+                            <amount>1322.0</amount>
+                            <taxCode>YR</taxCode>
+                        </taxDetails>
+                        <taxDetails>
+                            <passengerType originalCode="ADULT">ADULT</passengerType>
+                            <amount>108.0</amount>
+                            <taxCode>RF</taxCode>
+                        </taxDetails>
+                    </taxDetails>
+                    <penaltyInfos>
+                        <penaltyInfos>
+                            <passengerType originalCode="ADULT">ADULT</passengerType>
+                        </penaltyInfos>
+                    </penaltyInfos>
+                </flight>
+            </return>
+        </ns2:selectFlightResponse>
+    </S:Body>
+</S:Envelope>

@@ -1,0 +1,208 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+    <S:Body>
+        <ns2:createBookingResponse xmlns:ns2="http://ws2.vip.server.xtrip.gridnine.com/">
+            <return>
+                <messages/>
+                <bookingFile>
+                    <number>23181226</number>
+                    <reservations>
+                        <reservation>
+                            <token>MjMxODEyMjZ8NjBmOGJiYmEtZmE3YS00MDBlLWE1Y2EtOTE4NjdkMmM3OTBl</token>
+                            <bookingNumber>23181226</bookingNumber>
+                            <products>
+                                <airTicket>
+                                    <uid>9f25db7b-04d1-4d61-ba0b-8e7fcfe46f78</uid>
+                                    <fareCalculationData>MOW JU X/BEG JU BCN Q MOWBCN107.09 468.00NUC575.09END
+                                        ROE0.933742
+                                    </fareCalculationData>
+                                    <carrier>
+                                        <code>JU</code>
+                                        <name>Air Serbia</name>
+                                    </carrier>
+                                    <charter>false</charter>
+                                    <eticket>true</eticket>
+                                    <issueDate>2023-07-17T19:55:52.353+03:00</issueDate>
+                                    <status>BOOKING</status>
+                                    <passenger>
+                                        <passport>
+                                            <firstName>Alexander</firstName>
+                                            <lastName>Alexander</lastName>
+                                            <citizenship>
+                                                <code>US</code>
+                                                <name>United States</name>
+                                            </citizenship>
+                                            <expired>2025-10-21T15:23:38</expired>
+                                            <issued>2015-10-21T15:23:38</issued>
+                                            <number>9054322114</number>
+                                            <type>PASSPORT</type>
+                                            <birthday>1986-10-22T00:00:00</birthday>
+                                            <gender>MALE</gender>
+                                        </passport>
+                                        <type originalCode="ADULT">ADULT</type>
+                                        <phoneType>WORK_PHONE</phoneType>
+                                        <phoneNumber>4323231</phoneNumber>
+                                        <countryCode>7</countryCode>
+                                        <areaCode>905</areaCode>
+                                        <email>petrov@mail.ru</email>
+                                    </passenger>
+                                    <segments>
+                                        <segment>
+                                            <airlineLocator>OOUVCI</airlineLocator>
+                                            <bookingClass>B</bookingClass>
+                                            <serviceClass>ECONOMY</serviceClass>
+                                            <fareBasis>BNBORU</fareBasis>
+                                            <airline>
+                                                <code>JU</code>
+                                                <name>Air Serbia</name>
+                                            </airline>
+                                            <board>
+                                                <code>319</code>
+                                                <name>AIRBUS A319</name>
+                                            </board>
+                                            <dateBegin>2023-10-30T02:50:00</dateBegin>
+                                            <dateEnd>2023-10-30T04:00:00</dateEnd>
+                                            <flightNumber>659</flightNumber>
+                                            <locationBegin>
+                                                <code>SVO</code>
+                                                <name>Sheremetevo Airport</name>
+                                            </locationBegin>
+                                            <locationEnd>
+                                                <code>BEG</code>
+                                                <name>Nikola Tesla</name>
+                                            </locationEnd>
+                                            <mealServiceIndicator>
+                                                <code>G</code>
+                                                <name>Food and Beverage for Purchase</name>
+                                            </mealServiceIndicator>
+                                            <terminalBegin>C</terminalBegin>
+                                            <terminalEnd>2</terminalEnd>
+                                            <remarksSearchContext>
+                                                PG9iamVjdCBjbGFzcz0iY29tLmdyaWRuaW5lLnh0cmlwLmNvbW1vbi5nZHMuc2FicmUuaGVscGVycy5TYWJyZVJlbWFya3NTZWFyY2hDb250ZXh0Ij4KICAgIDxzZWdOdW1iZXI+MTwvc2VnTnVtYmVyPgogICAgPHBUeXBlPkFEVDwvcFR5cGU+Cjwvb2JqZWN0Pg==
+                                            </remarksSearchContext>
+                                            <starting>true</starting>
+                                            <connected>false</connected>
+                                            <travelDuration>190</travelDuration>
+                                            <baggageWeightLimit>без багажа</baggageWeightLimit>
+                                            <fareDetails>
+                                                <cabinLuggageInfo>
+                                                    <pieces>1</pieces>
+                                                    <weight>8</weight>
+                                                    <size>118</size>
+                                                </cabinLuggageInfo>
+                                            </fareDetails>
+                                            <techStops/>
+                                        </segment>
+                                        <segment>
+                                            <airlineLocator>OOUVCI</airlineLocator>
+                                            <bookingClass>B</bookingClass>
+                                            <serviceClass>ECONOMY</serviceClass>
+                                            <fareBasis>BNBORU</fareBasis>
+                                            <airline>
+                                                <code>JU</code>
+                                                <name>Air Serbia</name>
+                                            </airline>
+                                            <board>
+                                                <code>319</code>
+                                                <name>AIRBUS A319</name>
+                                            </board>
+                                            <dateBegin>2023-10-30T17:05:00</dateBegin>
+                                            <dateEnd>2023-10-30T19:45:00</dateEnd>
+                                            <flightNumber>584</flightNumber>
+                                            <locationBegin>
+                                                <code>BEG</code>
+                                                <name>Nikola Tesla</name>
+                                            </locationBegin>
+                                            <locationEnd>
+                                                <code>BCN</code>
+                                                <name>El Prat Airport</name>
+                                            </locationEnd>
+                                            <mealServiceIndicator>
+                                                <code>G</code>
+                                                <name>Food and Beverage for Purchase</name>
+                                            </mealServiceIndicator>
+                                            <terminalBegin>2</terminalBegin>
+                                            <terminalEnd>2</terminalEnd>
+                                            <remarksSearchContext>
+                                                PG9iamVjdCBjbGFzcz0iY29tLmdyaWRuaW5lLnh0cmlwLmNvbW1vbi5nZHMuc2FicmUuaGVscGVycy5TYWJyZVJlbWFya3NTZWFyY2hDb250ZXh0Ij4KICAgIDxzZWdOdW1iZXI+Mjwvc2VnTnVtYmVyPgogICAgPHBUeXBlPkFEVDwvcFR5cGU+Cjwvb2JqZWN0Pg==
+                                            </remarksSearchContext>
+                                            <starting>false</starting>
+                                            <connected>true</connected>
+                                            <travelDuration>160</travelDuration>
+                                            <baggageWeightLimit>без багажа</baggageWeightLimit>
+                                            <fareDetails>
+                                                <cabinLuggageInfo>
+                                                    <pieces>1</pieces>
+                                                    <weight>8</weight>
+                                                    <size>118</size>
+                                                </cabinLuggageInfo>
+                                            </fareDetails>
+                                            <techStops/>
+                                        </segment>
+                                    </segments>
+                                    <price>
+                                        <price>
+                                            <elementType>TARIFF</elementType>
+                                            <passengerType originalCode="ADULT">ADULT</passengerType>
+                                            <amount>59119.0</amount>
+                                        </price>
+                                        <price>
+                                            <elementType>TAXES</elementType>
+                                            <passengerType originalCode="ADULT">ADULT</passengerType>
+                                            <amount>4211.0</amount>
+                                        </price>
+                                        <price>
+                                            <elementType>FEE</elementType>
+                                            <passengerType originalCode="ADULT">ADULT</passengerType>
+                                            <amount>726.00</amount>
+                                        </price>
+                                    </price>
+                                    <taxDetails>
+                                        <taxDetails>
+                                            <passengerType originalCode="ADULT">ADULT</passengerType>
+                                            <amount>1811.0</amount>
+                                            <taxCode>RI</taxCode>
+                                        </taxDetails>
+                                        <taxDetails>
+                                            <passengerType originalCode="ADULT">ADULT</passengerType>
+                                            <amount>494.0</amount>
+                                            <taxCode>LG</taxCode>
+                                        </taxDetails>
+                                        <taxDetails>
+                                            <passengerType originalCode="ADULT">ADULT</passengerType>
+                                            <amount>476.0</amount>
+                                            <taxCode>RS</taxCode>
+                                        </taxDetails>
+                                        <taxDetails>
+                                            <passengerType originalCode="ADULT">ADULT</passengerType>
+                                            <amount>1322.0</amount>
+                                            <taxCode>YR</taxCode>
+                                        </taxDetails>
+                                        <taxDetails>
+                                            <passengerType originalCode="ADULT">ADULT</passengerType>
+                                            <amount>108.0</amount>
+                                            <taxCode>RF</taxCode>
+                                        </taxDetails>
+                                    </taxDetails>
+                                </airTicket>
+                            </products>
+                            <recordLocator>WXUXUD</recordLocator>
+                            <date>2023-07-17T19:55:52.353+03:00</date>
+                            <timeLimit>2023-10-29T22:50:00+03:00</timeLimit>
+                        </reservation>
+                    </reservations>
+                    <createDate>2023-07-17T19:55:43.109+03:00</createDate>
+                    <status>NEW</status>
+                    <documents/>
+                    <customer>
+                        <name>petrov</name>
+                        <phone>3224221</phone>
+                        <email>petrov@mail.ru</email>
+                        <countryCode>7</countryCode>
+                        <areaCode>909</areaCode>
+                    </customer>
+                </bookingFile>
+            </return>
+        </ns2:createBookingResponse>
+    </S:Body>
+</S:Envelope>

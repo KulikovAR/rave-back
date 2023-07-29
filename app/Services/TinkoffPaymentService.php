@@ -1,0 +1,111 @@
+<?php
+
+namespace App\Services;
+
+use App\Enums\EnvironmentTypeEnum;
+use App\Interfaces\PaymentServiceInterface;
+use App\Models\Order;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Http;
+use Log;
+
+class TinkoffPaymentService implements PaymentServiceInterface
+{
+    const URL_PAYMENT       = 'https://securepay.tinkoff.ru/v2/Init';
+    const URL_PAYMENT_STATE = 'https://securepay.tinkoff.ru/v2/GetState';
+
+    public function getPaymentUrl(Order $order): array
+    {
+        $priceTotal = ($order->price - $order->discount) * 100;
+
+        $requestData = [
+            "TerminalKey" => config('tinkoff-payment.terminal'),
+            "SuccessURL"  => route('payment.success', ['id' => $order->id]),
+            "FailURL"     => route('payment.failed', ['id' => $order->id]),
+            "Amount"      => $priceTotal,
+            "OrderId"     => $order->id,
+            "Description" => "Бронирование через airsurfer",
+            "DATA"        => [
+                "DefaultCard" => "none"
+            ],
+            "Receipt"     => [
+                "Email"        => $order->email,
+                "Phone"        => trim($order->phone_prefix) . trim($order->phone),
+                "EmailCompany" => config('site-values.email_support.email_support'),
+                "Taxation"     => "usn_income",
+                "Items"        => [
+                    [
+                        "Name"          => "Бронирование через airsurfer",
+                        "Price"         => $priceTotal,
+                        "Quantity"      => 1.00,
+                        "Amount"        => $priceTotal * 1,
+                        "PaymentMethod" => "full_prepayment",
+                        "Tax"           => "none",
+                    ],
+                ]
+            ]
+        ];
+
+        $responseArr = $this->makeRequest($requestData, self::URL_PAYMENT);
+
+        $paymentUrl = ($responseArr['Success'] ?? null)
+            ? $responseArr['PaymentURL']
+            : config('front-end.payment_failed')
+            . $order->id
+            . config('front-end.payment_status_failed')
+            . ($responseArr['Message'] ?? '')
+            . ($responseArr['Details'] ?? '');
+
+        $paymentId = $responseArr['PaymentId'] ?? null;
+
+        return [$paymentUrl, $paymentId];
+    }
+
+    public function getPaymentState(Order $order): array
+    {
+        $requestData = [
+            "TerminalKey" => config('tinkoff-payment.terminal'),
+            "PaymentId"   => $order->payment_id,
+        ];
+
+        $responseArr = $this->makeRequest($requestData, self::URL_PAYMENT_STATE);
+
+        $paymentSuccessState = $responseArr['Success'];
+        $paymentAmount       = $responseArr['Amount'] ?? null;
+
+        return [$paymentSuccessState, $paymentAmount];
+    }
+
+    protected function makeRequest(array $requestData, string $url): array
+    {
+        $response = Http::withOptions(['verify' => false, 'allow_redirects' => true])
+                        ->withBody(json_encode($requestData + $this->getSignToken($requestData)), 'application/json')
+                        ->post($url);
+
+        $responseJson = $response->json();
+
+        if (App::environment(EnvironmentTypeEnum::notProductEnv())) {
+            Log::info($responseJson);
+        }
+
+        return $responseJson;
+    }
+
+    private function getSignToken(array $args): array
+    {
+        $token = '';
+
+        $args['Password'] = config('tinkoff-payment.secret');
+
+        ksort($args);
+
+        foreach ($args as $arg) {
+            if (!is_array($arg)) {
+                $token .= $arg;
+            }
+        }
+        $signToken = hash('sha256', $token);
+
+        return ['Token' => $signToken];
+    }
+}
