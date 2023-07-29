@@ -13,7 +13,7 @@ class UserProfileResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'phone_prefix'     => $this->phone_prefix,
+            'phone_prefix'     => trim($this->phone_prefix),
             'phone'            => $this->phone,
             'country'          => $this->country,
             'firstname'        => $this->firstname,
