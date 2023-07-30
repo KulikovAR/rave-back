@@ -18,8 +18,6 @@ class UserResource extends JsonResource
             'id'              => $this->id,
             'email'           => $this->email,
             'email_verified'  => $this->email_verified_at,
-            'is_partner'      => $this->is_partner,
-            'partner_takeout' => $this->partner_takeout,
             'profile'         => new UserProfileResource($this->userProfile),
         ];
     }

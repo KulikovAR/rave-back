@@ -71,21 +71,11 @@ class UserResource extends Resource
                                        return Role::where(['name' => Role::ROLE_USER]);
                                })
                                ->preload(),
-                         Select::make('partner_takeout')->label('Способ вывода')
-                               ->options([
-                                             TakeOut::TAKEOUT_CARD => 'на карту',
-                                             TakeOut::TAKEOUT_BANK => 'по реквизитам',
-                                         ])
-                               ->required(),
-                         Toggle::make('is_partner')->label('Партнёр'),
-                         DateTimePicker::make('email_verified_at'),
+                         TextInput::make('language')
+                                  ->maxLength(2),
                          DateTimePicker::make('created_at')->disabled(),
                          DateTimePicker::make('updated_at')->disabled(),
                          DateTimePicker::make('deleted_at')->disabled(),
-                         /*TextInput::make('language')
-                          ->maxLength(2),
-                      */
-
                      ]);
     }
 
@@ -94,21 +84,18 @@ class UserResource extends Resource
         return $table
             ->columns([
                           TextColumn::make('id'),
-                          //TextColumn::make('name'),
+                          TextColumn::make('name'),
                           TextColumn::make('email')->searchable(),
                           IconColumn::make('email_verified_at')
                                     ->boolean()
                                     ->trueIcon('heroicon-o-mail-open')
                                     ->falseIcon('heroicon-o-mail'),
                           TextColumn::make('roles.name'),
-                          IconColumn::make('is_partner')->boolean(),
-                          TextColumn::make('partner_takeout'),
-
-                          //   TextColumn::make('salt'),
-                          //   TextColumn::make('language'),
-                          /* TextColumn::make('created_at')
-                                     ->dateTime()
-                                     ->sortable(),*/
+                          //TextColumn::make('salt'),
+                          TextColumn::make('language'),
+                          TextColumn::make('created_at')
+                                    ->dateTime()
+                                    ->sortable(),
                           TextColumn::make('updated_at')
                                     ->dateTime()
                                     ->sortable(),
@@ -139,8 +126,6 @@ class UserResource extends Resource
     {
         return [
             UserProfileRelationManager::class,
-            PassengerRelationManager::class,
-            OrderRelationManager::class,
         ];
     }
 
@@ -148,8 +133,8 @@ class UserResource extends Resource
     {
         return [
             'index'  => ListUsers::route('/'),
-            'view'   => ViewUser::route('/{record}'),
             'create' => CreateUser::route('/create'),
+            'view'   => ViewUser::route('/{record}'),
             'edit'   => EditUser::route('/{record}/edit'),
         ];
     }

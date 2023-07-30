@@ -6,6 +6,7 @@ use App\Filament\Resources\UserProfileResource\Pages;
 use App\Filament\Resources\UserProfileResource\RelationManagers;
 use App\Models\UserProfile;
 use Filament\Forms;
+use Filament\Forms\Components\DateTimePicker;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
@@ -28,7 +29,7 @@ class UserProfileResource extends Resource
                                                 ->required(),
                          Forms\Components\TextInput::make('firstname')
                                                    ->required()
-                                                   ->maxLength(65535),
+                                                   ->maxLength(255),
                          Forms\Components\TextInput::make('lastname')
                                                    ->required()
                                                    ->maxLength(255),
@@ -36,14 +37,14 @@ class UserProfileResource extends Resource
                                                    ->maxLength(255),
                          Forms\Components\TextInput::make('country')
                                                    ->required()
-                                                   ->maxLength(255),
+                                                   ->maxLength(2),
                          Forms\Components\TextInput::make('gender')
                                                    ->required(),
                          Forms\Components\TextInput::make('document_number')
                                                    ->required()
-                                                   ->maxLength(255),
-                         Forms\Components\TextInput::make('document_expires')
-                                                   ->maxLength(255),
+                                                   ->maxLength(9),
+                         Forms\Components\DateTimePicker::make('document_expires')
+                                                        ->required(),
                          Forms\Components\TextInput::make('birthday')
                                                    ->required()
                                                    ->maxLength(255),
@@ -54,6 +55,8 @@ class UserProfileResource extends Resource
                          Forms\Components\TextInput::make('phone')
                                                    ->required()
                                                    ->maxLength(255),
+                         DateTimePicker::make('created_at')->default(now()),
+                         DateTimePicker::make('updated_at')->default(now()),
                      ]);
     }
 

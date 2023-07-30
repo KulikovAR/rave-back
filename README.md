@@ -20,7 +20,7 @@
 
 ## Admin Panel
 
-[https://api.true-school.dev-2-tech.ru/admin/login](https://api.true-school.dev-2-tech.ru/api/documentation)
+[https://api.true-school.dev-2-tech.ru/admin/login](https://api.true-school.dev-2-tech.ru/admin/login)
 
 login: admin@admin
 

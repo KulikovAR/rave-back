@@ -5,10 +5,15 @@ namespace App\Filament\Resources\UserResource\RelationManagers;
 use App\Filament\MenuTitles;
 use App\Models\UserProfile;
 use Filament\Forms;
+use Filament\Forms\Components\DateTimePicker;
 use Filament\Resources\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\ViewAction;
 
 class UserProfileRelationManager extends RelationManager
 {
@@ -20,16 +25,11 @@ class UserProfileRelationManager extends RelationManager
     {
         return $form
             ->schema([
-                         Forms\Components\Select::make('user_id')
-                                                ->relationship('user', 'email')
-                                                ->disabled(),
                          Forms\Components\TextInput::make('firstname')
                                                    ->required()
                                                    ->maxLength(255),
                          Forms\Components\TextInput::make('lastname')
                                                    ->required()
-                                                   ->maxLength(255),
-                         Forms\Components\TextInput::make('patronymic')
                                                    ->maxLength(255),
                          Forms\Components\TextInput::make('country')
                                                    ->required()
@@ -42,8 +42,9 @@ class UserProfileRelationManager extends RelationManager
                                                 ->required(),
                          Forms\Components\TextInput::make('document_number')
                                                    ->required()
-                                                   ->maxLength(255),
-                         Forms\Components\DateTimePicker::make('document_expires'),
+                                                   ->maxLength(9),
+                         Forms\Components\DateTimePicker::make('document_expires')
+                                                        ->required(),
                          Forms\Components\DateTimePicker::make('birthday')
                                                         ->required(),
                          Forms\Components\TextInput::make('phone_prefix')
@@ -63,7 +64,6 @@ class UserProfileRelationManager extends RelationManager
             ->columns([
                           Tables\Columns\TextColumn::make('firstname'),
                           Tables\Columns\TextColumn::make('lastname'),
-                          Tables\Columns\TextColumn::make('patronymic'),
                           Tables\Columns\TextColumn::make('country'),
                           Tables\Columns\TextColumn::make('gender'),
                           Tables\Columns\TextColumn::make('document_number'),
@@ -80,8 +80,11 @@ class UserProfileRelationManager extends RelationManager
                           //
                       ])
             ->actions([
-                          Tables\Actions\EditAction::make(),
-                          Tables\Actions\ViewAction::make(),
+                          ActionGroup::make([
+                                                ViewAction::make(),
+                                                EditAction::make(),
+                                                DeleteAction::make(),
+                                            ])
                       ])
             ->bulkActions([
                               Tables\Actions\DeleteBulkAction::make(),
