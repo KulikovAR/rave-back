@@ -62,7 +62,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
         return $this->hasOne(UserProfile::class);
     }
 
-    public function order(): HasMany
+    public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
     }

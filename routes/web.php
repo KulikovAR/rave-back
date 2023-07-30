@@ -16,13 +16,10 @@ use Illuminate\Support\Facades\Route;
 | GET|HEAD  sanctum/csrf-cookie
 |
 */
-
-Route::get('/', function () {
-	return view('app');
-});
-
 Route::post('/login/session', [AuthSessionController::class, 'store'])->name('login.stateful');
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/logout/session', [AuthSessionController::class, 'destroy'])->name('logout.stateful');
 });
+
+//TODO fix filament login and csrf

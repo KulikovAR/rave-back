@@ -39,9 +39,12 @@ abstract class TestCase extends BaseTestCase
         return User::where(["email" => UserSeeder::USER_EMAIL])->firstOrFail();
     }
 
-    protected function getHeadersForUser(): array
+    protected function getHeadersForUser(User $user = null): array
     {
-        $token = $this->getTestUser()->createToken('spa')->plainTextToken;
+        $token = ($user ?? $this->getTestUser())
+            ->createToken('spa')
+            ->plainTextToken;
+
         return ['Authorization' => "Bearer $token"];
     }
 

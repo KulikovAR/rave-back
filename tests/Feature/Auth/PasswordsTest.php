@@ -17,23 +17,30 @@ class PasswordsTest extends TestCase
 {
     use PasswordHash;
 
-    public function test_user_can_update_password(): void
+    public function test_update_password(): void
     {
         $user           = $this->getTestUser();
         $user->password = $this->hashMake(UserSeeder::USER_PASSWORD);
         $user->save();
-        $oldPass = DB::table('users')->where(['email' => UserSeeder::USER_EMAIL])->get('password');
 
-        $response = $this->actingAs($user)->json('patch', route('password.update'), [
+        $oldPass = DB::table('users')
+                     ->where(['email' => UserSeeder::USER_EMAIL])
+                     ->get('password');
+
+        $response = $this->json('patch', route('password.update'), [
             'current_password'      => UserSeeder::USER_PASSWORD,
             'password'              => "password",
             'password_confirmation' => "password",
-        ]);
+        ],                      $this->getHeadersForUser());
 
-        $newPass = DB::table('users')->where(['email' => UserSeeder::USER_EMAIL])->get('password');
+        $newPass = DB::table('users')
+                     ->where(['email' => UserSeeder::USER_EMAIL])
+                     ->get('password');
+
         $this->assertNotSame($oldPass, $newPass);
 
         $response->assertStatus(200);
+
         $response->assertJsonStructure([
                                            'status',
                                            'message',
@@ -44,11 +51,11 @@ class PasswordsTest extends TestCase
 
     public function test_update_password_validation(): void
     {
-        $response = $this->actingAs($this->getTestUser())->json('patch', route('password.update'), [
+        $response = $this->json('patch', route('password.update'), [
             'current_password'      => "wrong_pass",
             'password'              => "password",
             'password_confirmation' => "password",
-        ]);
+        ],                      $this->getHeadersForUser());
 
         $response->assertStatus(422);
 
@@ -68,16 +75,20 @@ class PasswordsTest extends TestCase
 
         $response->assertStatus(200);
 
-        $tokens = DB::table('password_reset_tokens')->where(['email' => UserSeeder::USER_EMAIL])->count();
+        $passResetTokens = DB::table('password_reset_tokens')
+                             ->where(['email' => UserSeeder::USER_EMAIL])
+                             ->get();
 
-        $this->assertNotEmpty($tokens);
+        $this->assertNotEmpty($passResetTokens);
 
         Notification::assertSentTo($this->getTestUser(), PasswordResetNotification::class);
 
-        DB::table('password_reset_tokens')->where(['email' => UserSeeder::USER_EMAIL])->delete();
+        DB::table('password_reset_tokens')
+          ->where(['email' => UserSeeder::USER_EMAIL])
+          ->delete();
     }
 
-    public function test_send_password_reset_link_validation(): void
+    public function test_password_reset_link_validation(): void
     {
         $response = $this->json('post', route('password.send'), [
             'email' => 'bad_email',
@@ -93,12 +104,14 @@ class PasswordsTest extends TestCase
 
     public function test_reset_password(): void
     {
-        $token   = Password::createToken($this->getTestUser());
-        $oldPass = DB::table('users')->where(['email' => UserSeeder::USER_EMAIL])->get('password');
+        $passResetTokens = Password::createToken($this->getTestUser());
+        $oldPass         = DB::table('users')
+                             ->where(['email' => UserSeeder::USER_EMAIL])
+                             ->get('password');
 
         $response = $this->json('post', route('password.reset'), [
             'email'    => UserSeeder::USER_EMAIL,
-            'token'    => $token,
+            'token'    => $passResetTokens,
             'password' => UserSeeder::USER_PASSWORD,
         ]);
 
@@ -106,10 +119,16 @@ class PasswordsTest extends TestCase
 
         $this->assertSame(__('passwords.reset'), $response->json()['message']);
 
-        $newPass = DB::table('users')->where(['email' => UserSeeder::USER_EMAIL])->get('password');
+        $newPass = DB::table('users')
+                     ->where(['email' => UserSeeder::USER_EMAIL])
+                     ->get('password');
+
         $this->assertNotSame($oldPass, $newPass);
 
-        $tokensCount = DB::table('password_reset_tokens')->where(['email' => UserSeeder::USER_EMAIL])->count();
-        $this->assertEmpty($tokensCount);
+        $passResetTokens = DB::table('password_reset_tokens')
+                             ->where(['email' => UserSeeder::USER_EMAIL])
+                             ->get();
+
+        $this->assertEmpty($passResetTokens);
     }
 }

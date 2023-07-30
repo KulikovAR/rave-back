@@ -8,28 +8,15 @@ use App\Http\Requests\UserProfile\UserProfileRequest;
 use App\Http\Resources\UserProfileResource;
 use App\Http\Resources\UserResource;
 use App\Http\Responses\ApiJsonResponse;
-use App\Http\Responses\ApiResourceResponse;
 use Illuminate\Http\Request;
-use stdClass;
 
 class UserProfileController extends Controller
 {
 
     public function index(Request $request)
     {
-        $user        = $request->user();
-        $userProfile = $user->userProfile;
-
         return new ApiJsonResponse(
-            200,
-            StatusEnum::OK,
-            '',
-            [
-                'user'    => new UserResource($user),
-                'profile' => $userProfile
-                    ? new UserProfileResource($user->userProfile)
-                    : new stdClass(),
-            ]
+            data: new UserResource($request->user())
         );
     }
 
@@ -43,7 +30,7 @@ class UserProfileController extends Controller
                                 $request->validated()
                             );
 
-        return new ApiResourceResponse(
+        return new ApiJsonResponse(
             200,
             StatusEnum::OK,
             __("user-profile.created"),

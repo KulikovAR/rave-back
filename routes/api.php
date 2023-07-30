@@ -1,21 +1,12 @@
 <?php
 
-use App\Http\Controllers\AirportsController;
 use App\Http\Controllers\AssetsController;
 use App\Http\Controllers\Auth\AuthProviderController;
 use App\Http\Controllers\Auth\AuthTokenController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\RegistrationController;
 use App\Http\Controllers\Auth\VerificationContactController;
-use App\Http\Controllers\BankController;
-use App\Http\Controllers\CreditCardController;
-use App\Http\Controllers\OrdersController;
-use App\Http\Controllers\Partners\PartnerMessageController;
-use App\Http\Controllers\Partners\PromoCodeController;
-use App\Http\Controllers\Partners\TakeOutController;
-use App\Http\Controllers\PassengersController;
 use App\Http\Controllers\PaymentController;
-use App\Http\Controllers\SearchFlightController;
 use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -63,8 +54,6 @@ Route::prefix('payments')->group(function () {
     Route::get('/redirect', [PaymentController::class, 'redirect'])->name('payment.redirect');
     Route::get('/success', [PaymentController::class, 'success'])->name('payment.success');
     Route::get('/failed', [PaymentController::class, 'failed'])->name('payment.failed');
-    Route::get('/download', [PaymentController::class, 'download'])->name('payment.download');
-    Route::get('/retry', [PaymentController::class, 'retry'])->name('payment.retry');
 
 });
 

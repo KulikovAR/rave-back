@@ -37,7 +37,7 @@ class AuthTokenController extends Controller
 
     public function destroy(Request $request): ApiJsonResponse
     {
-        $request->user()->tokens()->delete();
+        $request->user()->currentAccessToken()->delete();
 
         return new ApiJsonResponse();
     }
