@@ -21,5 +21,3 @@ Route::post('/login/session', [AuthSessionController::class, 'store'])->name('lo
 Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/logout/session', [AuthSessionController::class, 'destroy'])->name('logout.stateful');
 });
-
-//TODO fix filament login and csrf
