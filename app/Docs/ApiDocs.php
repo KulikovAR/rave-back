@@ -39,6 +39,10 @@ namespace App\Docs;
  *      name="CSRF",
  *      description="session auth with CSRF protection"
  * )
+ * @OA\Tag(
+ *      name="Lesson",
+ *      description="Видеоуроки"
+ * )
  * @OA\Server(
  *      url="/api/v1",
  *      description="API Server"

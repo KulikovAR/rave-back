@@ -43,3 +43,7 @@ yarn-debug.log*
 yarn-error.log*
 
 load_dumps.sh
+Dockerfile
+docker-compose.yml
+docker-compose/nginx/travellist.conf
+docker-compose/nginx/trueschool.conf
