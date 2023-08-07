@@ -2,12 +2,14 @@
 
 namespace App\Http\Resources\Lesson;
 
+use App\Traits\DateFormats;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class LessonResource extends JsonResource
 {
+    use DateFormats;
     /**
      * Transform the resource into an array.
      *
@@ -20,7 +22,7 @@ class LessonResource extends JsonResource
             'description'  => $this->description,
             'video_path'   => $this->video_path,
             'preview_path' => $this->preview_path,
-            'announc_date' => Carbon::parse($this->announc_date)->format('Y-m-d'),
+            'announc_date' => $this->formatDateForOutput($this->announc_date),
             'tags'         => $this->tags
         ];
     }
