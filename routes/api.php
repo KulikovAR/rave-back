@@ -33,7 +33,6 @@ Route::middleware(['guest'])->group(function () {
     // Lesson
     Route::prefix('lessons')->group(function () {
         Route::get('/', [LessonController::class, 'index'])->name('lesson.index');
-        Route::get('/{lesson_id}', [LessonController::class, 'view'])->name('lesson.view');
     });
 });
 
