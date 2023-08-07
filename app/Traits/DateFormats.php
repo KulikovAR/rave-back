@@ -7,22 +7,6 @@ use Carbon\Carbon;
 
 trait DateFormats
 {
-    public function passengerType(string $birthday, ?string $arrivalDate = null): ?string
-    {
-        $dateEnd = $arrivalDate
-            ? Carbon::parse($arrivalDate)
-            : Carbon::tomorrow();
-
-        $yearsOld = Carbon::parse($birthday)->diffInYears($dateEnd);
-
-        return match (true) {
-            $yearsOld >= 12                    => PassengerTypeEnum::ADULT->value,
-            ($yearsOld >= 3 && $yearsOld < 12) => PassengerTypeEnum::CHILD->value,
-            ($yearsOld < 3)                    => PassengerTypeEnum::INFANT->value,
-            default                            => null,
-        };
-    }
-
     private function formatDateForInput(?string $date): ?string
     {
         if (empty($date)) {

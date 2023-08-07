@@ -16,6 +16,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements MustVerifyEmail, HasLocalePreference, FilamentUser, HasName
@@ -65,6 +66,11 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
     public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
+    }
+
+    public function lessons(): BelongsToMany
+    {
+        return $this->BelongsToMany(Lesson::class);
     }
 
     public function preferredLocale()
