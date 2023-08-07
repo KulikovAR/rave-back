@@ -11,18 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('lesson_user', function (Blueprint $table) {
+        Schema::create('lesson_tag', function (Blueprint $table) {
             $table->id();
-
-            $table->uuid('user_id');
-            $table->foreign('user_id')
-                ->references('id')
-                ->on('users');
 
             $table->uuid('lesson_id');
             $table->foreign('lesson_id')
                 ->references('id')
                 ->on('lessons');
+
+            $table->uuid('tag_id');
+            $table->foreign('tag_id')
+                ->references('id')
+                ->on('tags');
 
             $table->timestamps();
         });
@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('lesson_user');
+        Schema::dropIfExists('lesson_tag');
     }
 };

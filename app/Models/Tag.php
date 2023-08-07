@@ -7,20 +7,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Lesson extends Model
+class Tag extends Model
 {
     use HasFactory, HasUuids;
 
     protected $fillable = [
-        'title',
-        'description',
-        'video_path',
-        'preview_path',
-        'announc_date'
+        'name',
+        'image'
     ];
 
-    public function tags(): BelongsToMany
+    public function lessons(): BelongsToMany
     {
-        return $this->BelongsToMany(Tag::class);
+        return $this->BelongsToMany(Lesson::class);
     }
 }

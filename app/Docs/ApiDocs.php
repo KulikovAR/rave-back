@@ -24,6 +24,10 @@ namespace App\Docs;
  *      description="Авторизация"
  * )
  * @OA\Tag(
+ *      name="Lesson",
+ *      description="Видеоуроки"
+ * )
+ * @OA\Tag(
  *      name="UserProfile",
  *      description="Настройки пользователя"
  * )
@@ -38,10 +42,6 @@ namespace App\Docs;
  * @OA\Tag(
  *      name="CSRF",
  *      description="session auth with CSRF protection"
- * )
- * @OA\Tag(
- *      name="Lesson",
- *      description="Видеоуроки"
  * )
  * @OA\Server(
  *      url="/api/v1",

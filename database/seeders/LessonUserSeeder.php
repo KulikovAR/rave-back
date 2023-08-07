@@ -19,13 +19,6 @@ class LessonUserSeeder extends Seeder
             return;
         }
         
-        $users = User::all();
-
-        foreach($users as $user) {
-            $lessons = Lesson::all()->random(5);
-            foreach($lessons as $lesson) {
-                $user->lessons()->attach($lesson->id);
-            }
-        }
+        User::factory() ->hasAttached( Lesson::factory()->count(3))->count(5)->create();
     }
 }

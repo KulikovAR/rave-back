@@ -16,11 +16,12 @@ class LessonResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'title' => $this->title,
-            'description' => $this->description,
-            'video_path' => $this->video_path,
+            'title'        => $this->title,
+            'description'  => $this->description,
+            'video_path'   => $this->video_path,
             'preview_path' => $this->preview_path,
-            'announc_date' => Carbon::parse($this->announc_date)->format('Y-m-d')
+            'announc_date' => Carbon::parse($this->announc_date)->format('Y-m-d'),
+            'tags'         => $this->tags
         ];
     }
 }

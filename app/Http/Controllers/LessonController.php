@@ -2,18 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Lesson\LessonRequest;
+use App\Http\Requests\UuidRequest;
+use App\Http\Resources\Lesson\LessonCollection;
 use App\Http\Resources\Lesson\LessonResource;
+use App\Http\Responses\ApiJsonPaginationResponse;
 use App\Http\Responses\ApiJsonResponse;
-use App\Models\Lesson;
 
 class LessonController extends Controller
 {
-    public function index(LessonRequest $request) {
+    public function index(UuidRequest $request) {
+
         if($request->has('id')) {
-            return new ApiJsonResponse(data: new LessonResource(Lesson::find($request->id)));
+            return new ApiJsonResponse(data: new LessonResource($request->user()->lessons()->findOrFail($request->id)));
         }
 
-        return new ApiJsonResponse(data: LessonResource::collection($request->user()->lessons()->paginate(15)));
+        return new ApiJsonPaginationResponse(
+            data: new LessonCollection(
+                $request->user()->lessons()->orderBy('updated_at', 'desc')->paginate(1)
+            )
+        );
     }
 }
