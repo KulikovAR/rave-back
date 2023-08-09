@@ -27,7 +27,7 @@ class UserFactory extends Factory
             // 'phone_verified_at' => now(),
             'salt'              => Hash::make(Str::random(10)),
             'password'          => Hash::make('test'),
-            'language'        => config('app.locale'),
+            'language'          => config('app.locale'),
             'remember_token'    => Str::random(10),
         ];
     }

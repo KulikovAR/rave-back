@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Notifications\PasswordResetNotification;
 use App\Notifications\VerifyEmailNotification;
+use Carbon\Carbon;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasName;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -34,6 +35,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
         'email_verified_at',
         'password',
         'language',
+        ''
     ];
 
     /**
@@ -96,5 +98,13 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
     public function getFilamentName(): string
     {
         return "{$this->email}";
+    }
+
+    public function subscriptionAvailable() {
+        if(is_null($this->subscription_expires_at)) {
+            return false;
+        }
+
+        return Carbon::now() < Carbon::parse($this->subscription_expires_at);
     }
 }

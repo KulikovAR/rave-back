@@ -28,6 +28,10 @@ namespace App\Docs;
  *      description="Видеоуроки"
  * )
  * @OA\Tag(
+ *      name="Tag",
+ *      description="Теги"
+ * )
+ * @OA\Tag(
  *      name="UserProfile",
  *      description="Настройки пользователя"
  * )
