@@ -7,10 +7,11 @@ class TagController
     /**
      *
      * @OA\Get(
-     *     path="/tag",
+     *     path="/tags",
      *     tags={"Tag"},
      *     operationId="index_tags",
      *     summary="Получить все теги",
+     *     security={{"api": {}}},
      *     @OA\Response(
      *          response="200",
      *          description="Success",

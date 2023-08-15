@@ -19,7 +19,7 @@ class ShortsController extends Controller
 
         return new ApiJsonPaginationResponse(
             data: new ShortCollection(
-                Short::orderBy('updated_at', 'desc')->paginate(15)
+                Short::orderBy('updated_at', 'desc')->paginate(config('pagination.per_page'))
             )
         );
     }

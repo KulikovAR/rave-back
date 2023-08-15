@@ -17,17 +17,6 @@ class LessonTest extends TestCase
         $response->assertStatus(401);
     }
 
-    public function test_auth(): void
-    {
-        $user = User::factory()->hasAttached(Lesson::factory()->count(3))->create([
-            'subscription_expires_at' => Carbon::now()->addMonths(5)
-        ]);
-
-        $response = $this->json('get', route('lesson.index'), headers: $this->getHeadersForUser($user));
-
-        $response->assertStatus(200);
-    }
-
     public function test_view(): void
     {
         $lesson = Lesson::factory()->create();
@@ -57,15 +46,11 @@ class LessonTest extends TestCase
     }
 
     public function test_index(): void
-    {
-        $user = User::factory()->hasAttached(Lesson::factory()->count(3))->create([
-            'subscription_expires_at' => Carbon::now()->addMonths(5)
-        ]);
-        
+    {    
         $response = $this->json(
             'get',
             route('lesson.index'),
-            headers: $this->getHeadersForUser($user)
+            headers: $this->getHeadersForUser()
         );
 
         $response->assertStatus(200);

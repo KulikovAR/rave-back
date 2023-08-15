@@ -29,6 +29,14 @@ namespace App\Docs;
  * )
  * @OA\Tag(
  *      name="Tag",
+ *      description="Тэги"
+ * )
+ * @OA\Tag(
+ *      name="Shorts",
+ *      description="Короткие видео"
+ * )
+ * @OA\Tag(
+ *      name="Tag",
  *      description="Теги"
  * )
  * @OA\Tag(

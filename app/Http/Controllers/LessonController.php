@@ -18,7 +18,7 @@ class LessonController extends Controller
 
         return new ApiJsonPaginationResponse(
             data: new LessonCollection(
-                $request->user()->lessons()->orderBy('updated_at', 'desc')->paginate(15)
+                $request->user()->lessons()->orderBy('updated_at', 'desc')->paginate(config('pagination.per_page'))
             )
         );
     }

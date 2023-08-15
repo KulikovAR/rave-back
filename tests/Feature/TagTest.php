@@ -17,27 +17,12 @@ class TagTest extends TestCase
         $response->assertStatus(401);
     }
 
-    public function test_auth(): void
-    {
-        $user = User::factory()->create([
-            'subscription_expires_at' => Carbon::now()->addMonths(5)
-        ]);
-
-        $response = $this->json('get', route('tag.index'), headers: $this->getHeadersForUser($user));
-
-        $response->assertStatus(200);
-    }
-
     public function test_index(): void
     {
-        $user = User::factory()->create([
-            'subscription_expires_at' => Carbon::now()->addMonths(5)
-        ]);
-
         $response = $this->json(
             'get',
             route('tag.index'),
-            headers: $this->getHeadersForUser($user)
+            headers: $this->getHeadersForUser()
         );
 
         $response->assertStatus(200);

@@ -11,30 +11,15 @@ use Tests\TestCase;
 
 class ShortsTest extends TestCase
 {
-    public function test_not_auth(): void
+    public function test_not_auth_user_can_not_get_shorts(): void
     {
         $response = $this->json('get', route('short.index'));
 
         $response->assertStatus(401);
     }
 
-    public function test_auth(): void
+    public function test_show_shorts(): void
     {
-        $user = User::factory()->create([
-            'subscription_expires_at' => Carbon::now()->addMonths(5)
-        ]);
-
-        $response = $this->json('get', route('short.index'), headers: $this->getHeadersForUser($user));
-
-        $response->assertStatus(200);
-    }
-
-    public function test_view(): void
-    {
-        $user = User::factory()->create([
-            'subscription_expires_at' => Carbon::now()->addMonths(5)
-        ]);
-
         $shorts = Short::factory()->count(20)->create();
 
         foreach ($shorts as $short) {
@@ -47,7 +32,7 @@ class ShortsTest extends TestCase
             [
                 'id' => $short->id
             ],
-            $this->getHeadersForUser($user)
+            $this->getHeadersForUser()
         );
 
         $response->assertStatus(200);
@@ -63,14 +48,10 @@ class ShortsTest extends TestCase
 
     public function test_index(): void
     {
-        $user = User::factory()->create([
-            'subscription_expires_at' => Carbon::now()->addMonths(5)
-        ]);
-
         $response = $this->json(
             'get',
             route('short.index'),
-            headers: $this->getHeadersForUser($user)
+            headers: $this->getHeadersForUser()
         );
 
         $response->assertStatus(200);
