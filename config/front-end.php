@@ -3,6 +3,7 @@ $baseUrl = env('FRONT_URL', 'http://localhost:3000');
 
 return [
     'front_url'              => $baseUrl,
+    'pass_reset_url'         => $baseUrl . '/account/recovery',
     'email_verified'         => $baseUrl . '/?email_verified=true',
     'email_verified_error'   => $baseUrl . '/?email_verified=false',
     'auth_provider'          => $baseUrl,
@@ -13,3 +14,4 @@ return [
     'payment_status_success' => '?payment=success',
     'subscription_expired'   => $baseUrl . '/account/subscription'
 ];
+

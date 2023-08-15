@@ -34,6 +34,6 @@ class PasswordResetNotification extends BaseNotification
 
     protected function resetUrl(User $notifiable): string
     {
-        return config('front-end.front_url') . "?pass_reset_token=" . $this->token . "&email=" . $notifiable->getEmailForPasswordReset();
+        return config('front-end.pass_reset_url') . "?pass_reset_token=" . $this->token . "&email=" . $notifiable->getEmailForPasswordReset();
     }
 }
