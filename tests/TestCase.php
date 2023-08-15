@@ -57,4 +57,25 @@ abstract class TestCase extends BaseTestCase
     {
         $this->assertNotSame(json_decode($resource->toJson(), true), $responseArray);
     }
+
+    protected function getPaginationResponse() {
+        return [
+            'message',
+            'status',
+            'data',
+            'links' => [
+                "first_page_url",
+                "prev_page_url",
+                "next_page_url",
+                "last_page_url",
+            ],
+            'meta'  => [
+                "current_page",
+                "last_page",
+                "per_page",
+                "total",
+                "path"
+            ],
+        ];
+    }
 }

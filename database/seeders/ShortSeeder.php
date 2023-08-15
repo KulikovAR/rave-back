@@ -3,12 +3,12 @@
 namespace Database\Seeders;
 
 use App\Enums\EnvironmentTypeEnum;
-use App\Models\Lesson;
-use App\Models\User;
+use App\Models\Short;
+use Database\Factories\SlideFactory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\App;
 
-class LessonUserSeeder extends Seeder
+class ShortSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -18,7 +18,11 @@ class LessonUserSeeder extends Seeder
         if (App::environment(EnvironmentTypeEnum::productEnv())) {
             return;
         }
-        
-        User::factory() ->hasAttached( Lesson::factory()->count(3))->count(5)->create();
+
+        $shorts = Short::factory()->count(20)->create();
+
+        foreach($shorts as $short) {
+            $short->slides()->create((new SlideFactory())->definition());
+        }
     }
 }

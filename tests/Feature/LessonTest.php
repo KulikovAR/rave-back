@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Http\Resources\Lesson\LessonResource;
 use App\Models\Lesson;
 use App\Models\User;
+use Carbon\Carbon;
 use Tests\TestCase;
 
 class LessonTest extends TestCase
@@ -16,22 +17,17 @@ class LessonTest extends TestCase
         $response->assertStatus(401);
     }
 
-    public function test_auth(): void
-    {
-        $response = $this->json('get', route('lesson.index'), headers: $this->getHeadersForUser());
-
-        $response->assertStatus(200);
-    }
-
     public function test_view(): void
     {
         $lesson = Lesson::factory()->create();
 
-        $user = User::factory()->hasAttached($lesson)->create();
+        $user = User::factory()->hasAttached($lesson)->create([
+            'subscription_expires_at' => Carbon::now()->addMonths(5)
+        ]);
 
         $response = $this->json(
-            'get', 
-            route('lesson.index'), 
+            'get',
+            route('lesson.index'),
             [
                 'id' => $lesson->id
             ],
@@ -50,7 +46,7 @@ class LessonTest extends TestCase
     }
 
     public function test_index(): void
-    {
+    {    
         $response = $this->json(
             'get',
             route('lesson.index'),
@@ -59,23 +55,6 @@ class LessonTest extends TestCase
 
         $response->assertStatus(200);
 
-        $response->assertJsonStructure([
-            'message',
-            'status',
-            'data',
-            'links' => [
-                "first_page_url",
-                "prev_page_url",
-                "next_page_url",
-                "last_page_url",
-            ],
-            'meta'  => [
-                "current_page",
-                "last_page",
-                "per_page",
-                "total",
-                "path"
-            ],
-        ]);
+        $response->assertJsonStructure($this->getPaginationResponse());
     }
 }

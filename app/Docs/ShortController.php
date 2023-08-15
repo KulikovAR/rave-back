@@ -2,15 +2,15 @@
 
 namespace App\Docs;
 
-class LessonController
+class ShortController
 {
     /**
      *
      * @OA\Get(
-     *     path="/lessons",
-     *     tags={"Lesson"},
-     *     operationId="index_lessons",
-     *     summary="Получить все уроки",
+     *     path="/shorts",
+     *     tags={"Shorts"},
+     *     operationId="index_Shorts",
+     *     summary="Получить все shorts",
      *     security={{"api": {}}},
      *     @OA\Parameter(
      *          name="page",
@@ -40,7 +40,7 @@ class LessonController
      *                @OA\Property(property="message", type="string", example=""),
      *                @OA\Property(property="data", type="array",
      *                      @OA\Items(
-     *                           ref="#/components/schemas/Lesson",
+     *                           ref="#/components/schemas/Short",
      *                       )
      *                ),
      *                @OA\Property(property="links", type="object", ref="#/components/schemas/Links",),
@@ -49,7 +49,7 @@ class LessonController
      *              @OA\Schema(
      *                @OA\Property(property="status", type="string", example="OK"),
      *                @OA\Property(property="message", type="string", example=""),
-     *                @OA\Property(property="data", type="object", ref="#/components/schemas/Lesson")
+     *                @OA\Property(property="data", type="object", ref="#/components/schemas/Short")
      *             ),
      *         )
      *     ),
@@ -71,7 +71,7 @@ class LessonController
      *      ),
      * )
      */
-    public function index() {
-
+    public function index()
+    {
     }
 }

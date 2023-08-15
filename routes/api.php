@@ -8,6 +8,8 @@ use App\Http\Controllers\Auth\RegistrationController;
 use App\Http\Controllers\Auth\VerificationContactController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\ShortsController;
+use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,11 +31,6 @@ Route::middleware(['guest'])->group(function () {
 
     Route::post('/password/send', [PasswordController::class, 'sendPasswordLink'])->middleware(['throttle:6,1'])->name('password.send');
     Route::post('/password/reset', [PasswordController::class, 'store'])->name('password.reset');
-
-    // Lesson
-    Route::prefix('lessons')->group(function () {
-        Route::get('/', [LessonController::class, 'index'])->name('lesson.index');
-    });
 });
 
 
@@ -48,12 +45,20 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/user_profile', [UserProfileController::class, 'index'])->name('user_profile.index');
         Route::post('/user_profile', [UserProfileController::class, 'store'])->name('user_profile.store');
 
-    });
+        Route::middleware('subscription')->group(function () {
+            Route::prefix('lessons')->group(function () {
+                Route::get('/', [LessonController::class, 'index'])->name('lesson.index');
+            });
 
-    // Lesson
-    Route::prefix('lessons')->group(function () {
-        Route::get('/', [LessonController::class, 'index'])->name('lesson.index');
-        Route::get('/{lesson_id}', [LessonController::class, 'view'])->name('lesson.view');
+
+            Route::prefix('tags')->group(function () {
+                Route::get('/', [TagController::class, 'index'])->name('tag.index');
+            });
+
+            Route::prefix('shorts')->group(function () {
+                Route::get('/', [ShortsController::class, 'index'])->name('short.index');
+            });
+        });
     });
 });
 
@@ -70,4 +75,3 @@ Route::prefix('payments')->group(function () {
     Route::get('/failed', [PaymentController::class, 'failed'])->name('payment.failed');
 
 });
-

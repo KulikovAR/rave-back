@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Lesson>
  */
-class LessonFactory extends Factory
+class ShortFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,11 +17,8 @@ class LessonFactory extends Factory
     public function definition(): array
     {
         return [
-            'title'        => $this->faker->realText(100),
-            'description'  => $this->faker->realText(),
-            'video_path'   => url('videos/test_video.mp4'),
-            'preview_path' => url('previews/test_preview.png'),
-            'announc_date' => $this->faker->date()
+            'title'      => $this->faker->realText(100),
+            'view_count' => $this->faker->numberBetween(1, 100)
         ];
     }
 }
