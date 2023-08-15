@@ -16,6 +16,6 @@ class Subscription
      */
     public function handle(Request $request, Closure $next): Response
     {
-        return $request->user()->subscriptionAvailable() ? $next($request) : redirect(config('front-end.subscription_expired'));
+        return $request->user()->subscriptionAvailable() ? $next($request) : response()->redirectTo(config('front-end.subscription_expired'));
     }
 }

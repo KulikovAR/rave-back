@@ -13,16 +13,18 @@ class SubscriptionTest extends TestCase
     /**
      * A basic feature test example.
      */
-    // public function test_user_have_no_subscription(): void
-    // {
-    //     $user = User::factory()->hasAttached(Lesson::factory()->create())->create();
+    public function test_user_have_no_subscription(): void
+    {
+        $user = User::factory()->hasAttached(Lesson::factory()->create())->create();
 
-    //     $response = $this->json(
-    //         'get',
-    //         route('lesson.index'),
-    //         $this->getHeadersForUser($user)
-    //     );
+        $response = $this->json(
+            'get',
+            route('lesson.index'),
+            headers: $this->getHeadersForUser($user)
+        );
 
-    //     $response->assertRedirect(config('front-end.subscription_expired'));
-    // }
+        $response->assertStatus(302);
+
+        $response->assertRedirect(config('front-end.subscription_expired'));
+    }
 }
