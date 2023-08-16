@@ -18,12 +18,13 @@ class LessonResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'title'        => $this->title,
-            'description'  => $this->description,
-            'video_path'   => $this->video_path,
-            'preview_path' => $this->preview_path,
-            'announc_date' => $this->formatDateForOutput($this->announc_date),
-            'tags'         => $this->tags
+            'title'            => $this->title,
+            'description'      => $this->description,
+            'video_path'       => $this->video_path,
+            'preview_path'     => $this->preview_path,
+            'announc_date'     => $this->formatDateForOutput($this->announc_date),
+            'tags'             => $this->tags,
+            'addictional_data' => $this->lesson_addictional_data
         ];
     }
 }

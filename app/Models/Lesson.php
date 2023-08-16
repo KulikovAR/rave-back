@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Lesson extends Model
 {
@@ -22,5 +23,10 @@ class Lesson extends Model
     public function tags(): BelongsToMany
     {
         return $this->BelongsToMany(Tag::class);
+    }
+
+    public function lesson_addictional_data(): HasMany
+    {
+        return $this->hasMany(LessonAddictionalData::class);
     }
 }
