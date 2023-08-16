@@ -15,8 +15,9 @@ class LessonAdditionalDataResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
-            'file' => $this->file
+            'id'    => $this->id,
+            'title' => $this->title,
+            'file'  => $this->file
         ];
     }
 }

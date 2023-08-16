@@ -17,7 +17,8 @@ class LessonAdditionalDataFactory extends Factory
     public function definition(): array
     {
         return [
-            'file' => url('Additional_data/file.pdf'),
+            'title' => $this->faker->realText(50),
+            'file' => url('additional_data/file.pdf'),
         ];
     }
 }
