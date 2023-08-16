@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('lesson_addictional_data', function (Blueprint $table) {
+        Schema::create('lesson_additional_data', function (Blueprint $table) {
             $table->uuid('id');
             $table->string('file');
             $table->uuid('lesson_id');
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('lesson_addictional_data');
+        Schema::dropIfExists('lesson_Additional_data');
     }
 };

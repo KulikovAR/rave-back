@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Lesson>
  */
-class LessonAddictionalDataFactory extends Factory
+class LessonAdditionalDataFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,7 +17,7 @@ class LessonAddictionalDataFactory extends Factory
     public function definition(): array
     {
         return [
-            'file' => url('addictional_data/file.pdf'),
+            'file' => url('Additional_data/file.pdf'),
         ];
     }
 }

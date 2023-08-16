@@ -25,8 +25,8 @@ class Lesson extends Model
         return $this->BelongsToMany(Tag::class);
     }
 
-    public function lesson_addictional_data(): HasMany
+    public function lesson_additional_data(): HasMany
     {
-        return $this->hasMany(LessonAddictionalData::class);
+        return $this->hasMany(LessonAdditionalData::class);
     }
 }
