@@ -28,7 +28,7 @@ class LessonSeeder extends Seeder
             ->count(10)->create();
 
         foreach ($lessons as $lesson) {
-            $lesson->lesson_Additional_data()->create((new LessonAdditionalDataFactory())->definition());
+            $lesson->lesson_additional_data()->create((new LessonAdditionalDataFactory())->definition());
         }
         
         User::where('email', UserSeeder::USER_EMAIL)
