@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\SubscriptionTypeEnum;
 use App\Notifications\PasswordResetNotification;
 use App\Notifications\VerifyEmailNotification;
 use Carbon\Carbon;
@@ -35,6 +36,9 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
         'email_verified_at',
         'password',
         'language',
+        'subscription_expires_at',
+        'subscription_created_at',
+        'subscription_type',
         ''
     ];
 
@@ -100,11 +104,21 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
         return "{$this->email}";
     }
 
-    public function subscriptionAvailable() {
-        if(is_null($this->subscription_expires_at)) {
+    public function subscriptionAvailable()
+    {
+        if (is_null($this->subscription_expires_at)) {
             return false;
         }
 
         return Carbon::now() < Carbon::parse($this->subscription_expires_at);
+    }
+
+    public function setSubscriptionTypeAttribute($value)
+    {
+        if (!in_array($value, SubscriptionTypeEnum::allValues())) {
+            throw new \InvalidArgumentException('Invalid subscription type');
+        }
+
+        $this->attributes['type'] = $value;
     }
 }
