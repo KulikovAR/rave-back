@@ -20,8 +20,8 @@ class UserResource extends JsonResource
             'email_verified'          => $this->email_verified_at,
             'subscription_available'  => $this->subscriptionAvailable(),
             'subscription_expires_at' => $this->subscription_expires_at,
-            'subscription_created_at' => $this->subscription_expires_at,
-            'subscription_type'       => $this->subscription_expires_at,
+            'subscription_created_at' => $this->subscription_created_at,
+            'subscription_type'       => $this->subscription_type,
             'profile'                 => new UserProfileResource($this->userProfile),
         ];
     }
