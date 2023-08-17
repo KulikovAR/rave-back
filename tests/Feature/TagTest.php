@@ -33,6 +33,7 @@ class TagTest extends TestCase
             'data' => [
                 [
                     'name',
+                    'slug',
                     'image'
                 ]
             ]

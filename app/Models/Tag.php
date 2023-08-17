@@ -13,7 +13,8 @@ class Tag extends Model
 
     protected $fillable = [
         'name',
-        'image'
+        'image',
+        'slug'
     ];
 
     public function lessons(): BelongsToMany

@@ -40,6 +40,18 @@ class Tag
 
     /**
      * @OA\Property(
+     *     title="name",
+     *     description="Название тега",
+     *     format="string",
+     *     example="Графический дизайн"
+     * )
+     *
+     * @var string
+     */
+    private $slug;
+
+    /**
+     * @OA\Property(
      *     title="image",
      *     description="Иконка",
      *     format="string",
