@@ -119,6 +119,6 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
             throw new \InvalidArgumentException('Invalid subscription type');
         }
 
-        $this->attributes['type'] = $value;
+        $this->attributes['subscription_type'] = $value;
     }
 }

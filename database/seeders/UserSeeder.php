@@ -43,7 +43,7 @@ class UserSeeder extends Seeder
                 'email'                   => self::USER_EMAIL,
                 'subscription_expires_at' => Carbon::now()->addMonths(2),
                 'subscription_created_at' => Carbon::now()->subMonth(),
-                'subscription_type'       => SubscriptionTypeEnum::THREE_MOTHS
+                'subscription_type'       => SubscriptionTypeEnum::THREE_MOTHS->value
             ],
         );
         $user->assignRole(Role::ROLE_USER);
