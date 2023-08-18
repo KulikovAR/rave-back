@@ -22,7 +22,9 @@ class ShortSeeder extends Seeder
         $shorts = Short::factory()->count(20)->create();
 
         foreach($shorts as $short) {
-            $short->slides()->create((new SlideFactory())->definition());
+            for ($i=0; $i < rand(2,5); $i++) { 
+                $short->slides()->create((new SlideFactory())->definition());
+            }
         }
     }
 }
