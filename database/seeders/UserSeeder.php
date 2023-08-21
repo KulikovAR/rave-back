@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Enums\EnvironmentTypeEnum;
+use App\Enums\SubscriptionTypeEnum;
 use App\Models\Role;
 use App\Models\User;
 use Carbon\Carbon;
@@ -40,7 +41,9 @@ class UserSeeder extends Seeder
             [
                 'password'                => Hash::make(self::USER_PASSWORD),
                 'email'                   => self::USER_EMAIL,
-                'subscription_expires_at' => Carbon::now()->addMonths(5)
+                'subscription_expires_at' => Carbon::now()->addMonths(2),
+                'subscription_created_at' => Carbon::now()->subMonth(),
+                'subscription_type'       => SubscriptionTypeEnum::THREE_MOTHS->value
             ],
         );
         $user->assignRole(Role::ROLE_USER);
