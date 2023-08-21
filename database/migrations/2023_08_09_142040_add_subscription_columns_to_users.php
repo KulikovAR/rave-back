@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->timestamp('subscription_expires_at')->nullable();
+            $table->timestamp('subscription_created_at')->nullable();
+            $table->string('subscription_type')->nullable();
         });
     }
 
@@ -23,6 +25,8 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('subscription_expires_at');
+            $table->dropColumn('subscription_created_at');
+            $table->dropColumn('subscription_type');
         });
     }
 };
