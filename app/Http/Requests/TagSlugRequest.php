@@ -16,7 +16,7 @@ class TagSlugRequest extends FormRequest
 
     protected function prepareForValidation()
     {
-        $this->merge(['tag_slug' => $this->route('tag_slug')]);
+        $this->merge(['slug' => $this->route('slug')]);
     }
 
     /**
@@ -27,7 +27,7 @@ class TagSlugRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'tag_slug' => 'string|exists:tags,slug'
+            'slug' => 'string|exists:tags,slug'
         ];
     }
 }

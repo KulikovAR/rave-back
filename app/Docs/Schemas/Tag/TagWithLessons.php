@@ -4,15 +4,15 @@ namespace App\Docs\Schemas\Tag;
 
 /**
  * @OA\Schema(
- *     title="Tag",
- *     description="Tag model",
+ *     title="TagWithLessons",
+ *     description="TagWithLessons model",
  *     @OA\Xml(
- *         name="Tag"
+ *         name="TagWithLessons"
  *     )
  * )
  */
 
-class Tag
+class TagWithLessons
 {
     /**
      * @OA\Property(
@@ -55,10 +55,41 @@ class Tag
      *     title="image",
      *     description="Иконка",
      *     format="string",
-     *     example="https://trueschool/tags/tag1.png"
+     *     example="https://trueschool/TagWithLessonss/TagWithLessons1.png"
      * )
      *
      * @var string
      */
     private $image;
+
+    /**
+     * @OA\Property(
+     *     title="lessons",
+     *     description="Уроки",
+     *     type="array",
+     *     @OA\Items(
+     *         @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                  @OA\Items(
+     *                      ref="#/components/schemas/Lesson"
+     *          ),
+     *          @OA\Property(
+     *                 property="meta",
+     *                 type="object",
+     *                 ref="#/components/schemas/Meta"
+     *          ),
+     *          @OA\Property(
+     *                 property="links",
+     *                 type="object",
+     *                 ref="#/components/schemas/Links"
+     *          )
+     *      )
+     *     )
+     * )
+     *
+     * @var string
+     */
+
+    private $lessons;
 }

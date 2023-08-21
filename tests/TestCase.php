@@ -60,14 +60,12 @@ abstract class TestCase extends BaseTestCase
 
     protected function getPaginationResponse() {
         return [
-            'message',
-            'status',
             'data',
             'links' => [
-                "first_page_url",
-                "prev_page_url",
-                "next_page_url",
-                "last_page_url",
+                "first",
+                "prev",
+                "next",
+                "last",
             ],
             'meta'  => [
                 "current_page",

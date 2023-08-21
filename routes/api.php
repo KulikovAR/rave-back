@@ -48,12 +48,12 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::middleware('subscription')->group(function () {
             Route::prefix('lessons')->group(function () {
                 Route::get('/', [LessonController::class, 'index'])->name('lesson.index');
-                Route::get('/{tag_slug}', [LessonController::class, 'getByTagSlug'])->name('lesson.get_by_tag_slug');
             });
 
 
             Route::prefix('tags')->group(function () {
                 Route::get('/', [TagController::class, 'index'])->name('tag.index');
+                Route::get('/{slug}', [TagController::class, 'show'])->name('tag.show');
             });
 
             Route::prefix('shorts')->group(function () {
