@@ -53,6 +53,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
             Route::prefix('tags')->group(function () {
                 Route::get('/', [TagController::class, 'index'])->name('tag.index');
+                Route::get('/{slug}', [TagController::class, 'show'])->name('tag.show');
             });
 
             Route::prefix('shorts')->group(function () {
