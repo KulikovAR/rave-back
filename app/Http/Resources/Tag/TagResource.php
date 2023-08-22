@@ -15,9 +15,12 @@ class TagResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'name'  => $this->name,
-            'slug'  => $this->slug,
-            'image' => $this->image
+            'name'          => $this->name,
+            'slug'          => $this->slug,
+            'image'         => $this->image,
+            'lessons_count' => $request->user()->lessons()->whereHas('tags', function ($q) {
+                $q->where('slug', $this->slug);
+            })->count()
         ];
     }
 }

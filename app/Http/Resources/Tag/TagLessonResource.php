@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Resources\Tag;
+
 use App\Http\Resources\Lesson\LessonPaginationCollection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -18,7 +19,9 @@ class TagLessonResource extends JsonResource
             'name'          => $this->name,
             'slug'          => $this->slug,
             'image'         => $this->image,
-            'lessons_count' => $this->lessons->count(),
+            'lessons_count' => $request->user()->lessons()->whereHas('tags', function ($q) {
+                $q->where('slug', $this->slug);
+            })->count(),
             'lessons'       => new LessonPaginationCollection(
                 $this->lessons()->paginate(config('pagination.per_page'), ['*'], 'lesson_page')
             )
