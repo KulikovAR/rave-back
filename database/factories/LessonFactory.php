@@ -19,8 +19,8 @@ class LessonFactory extends Factory
         return [
             'title'        => $this->faker->realText(100),
             'description'  => $this->faker->realText(),
-            'video_path'   => url('videos/video1.mp4'),
-            'preview_path' => url('previews/test_preview.webm'),
+            'video_path'   => url('videos/video1.webm'),
+            'preview_path' => url('previews/test_preview.png'),
             'announc_date' => $this->faker->date()
         ];
     }
