@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\SubscriptionTypeEnum;
 use App\Notifications\PasswordResetNotification;
 use App\Notifications\VerifyEmailNotification;
 use Carbon\Carbon;
@@ -18,6 +19,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements MustVerifyEmail, HasLocalePreference, FilamentUser, HasName
@@ -35,6 +37,9 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
         'email_verified_at',
         'password',
         'language',
+        'subscription_expires_at',
+        'subscription_created_at',
+        'subscription_type',
         ''
     ];
 
@@ -70,6 +75,11 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
         return $this->hasMany(Order::class);
     }
 
+    public function tags(): HasMany
+    {
+        return $this->hasMany(Tag::class);
+    }
+
     public function lessons(): BelongsToMany
     {
         return $this->BelongsToMany(Lesson::class);
@@ -100,11 +110,20 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
         return "{$this->email}";
     }
 
-    public function subscriptionAvailable() {
-        if(is_null($this->subscription_expires_at)) {
+    public function subscriptionAvailable()
+    {
+        if (is_null($this->subscription_expires_at)) {
             return false;
         }
 
         return Carbon::now() < Carbon::parse($this->subscription_expires_at);
+    }
+    public function setSubscriptionTypeAttribute($value)
+    {
+        if (!in_array($value, SubscriptionTypeEnum::allValues())) {
+            throw new \InvalidArgumentException('Invalid subscription type');
+        }
+
+        $this->attributes['subscription_type'] = $value;
     }
 }

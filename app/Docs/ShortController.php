@@ -26,8 +26,7 @@ class ShortController
      *          in="query",
      *          description="model id",
      *          @OA\Schema(
-     *              type="string",
-     *              example="99cf5f65-ad91-4b43-9cb7-88088e92ea68"
+     *              type="string"
      *          )
      *     ),
      *     @OA\Response(

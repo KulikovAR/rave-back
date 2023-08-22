@@ -24,7 +24,7 @@ class LessonSeeder extends Seeder
 
         $lessons = Lesson::factory()
             ->hasAttached(
-                Tag::factory()->count(3)->create(),
+                Tag::all()->random(rand(1,3)),
             )
             ->count(10)->create();
 

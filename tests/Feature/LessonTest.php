@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Http\Resources\Lesson\LessonResource;
 use App\Models\Lesson;
+use App\Models\Tag;
 use App\Models\User;
 use Carbon\Carbon;
 use Tests\TestCase;
@@ -46,7 +47,7 @@ class LessonTest extends TestCase
     }
 
     public function test_index(): void
-    {    
+    {
         $response = $this->json(
             'get',
             route('lesson.index'),

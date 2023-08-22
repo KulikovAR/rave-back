@@ -18,6 +18,7 @@ class TagFactory extends Factory
     {
         return [
             'name'  => $this->faker->realText(10),
+            'slug'  => $this->faker->text(10),
             'image' => url('tag/tag1.jpg')
         ];
     }
