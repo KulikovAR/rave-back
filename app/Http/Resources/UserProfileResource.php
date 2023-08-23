@@ -13,15 +13,8 @@ class UserProfileResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'phone_prefix'     => trim($this->phone_prefix),
-            'phone'            => $this->phone,
-            'country'          => $this->country,
             'firstname'        => $this->firstname,
             'lastname'         => $this->lastname,
-            'birthday'         => $this->formatDateForOutput($this->birthday),
-            'gender'           => $this->gender,
-            'document_number'  => $this->document_number,
-            'document_expires' => $this->formatDateForOutput($this->document_expires),
         ];
     }
 }

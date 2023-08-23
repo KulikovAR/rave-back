@@ -17,14 +17,6 @@ return new class extends MigrationService {
             $table->uuid('id');
             $table->text('firstname');
             $table->text('lastname');
-            $table->string('patronymic')->nullable();
-            $table->string('country');
-            $table->enum('gender', [UserProfile::MALE, UserProfile::FEMALE]);
-            $table->text('document_number');
-            $table->text('document_expires')->nullable();
-            $table->text('birthday');
-            $table->char('phone_prefix', 10);
-            $table->text('phone');
 
             $table->uuid('user_id');
             $table->foreign('user_id')

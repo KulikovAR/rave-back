@@ -15,23 +15,27 @@ class RegistrationTest extends TestCase
     {
         Notification::fake();
 
-        $pass  = $this->faker->password(8, 10);
-        $email = $this->faker->email;
+        $pass      = $this->faker->password(8, 10);
+        $email     = $this->faker->email;
+        $firstname = $this->faker->text(10);
+        $lastname  = $this->faker->text(10);
 
         $response = $this->json('post', route('registration'), [
             'email'                 => $email,
             'accept_terms'          => 1,
             'password'              => $pass,
             'password_confirmation' => $pass,
+            'firstname'             => $firstname,
+            'lastname'              => $lastname
         ]);
 
         $response->assertStatus(200);
 
         $response->assertJsonStructure([
-                                           'status',
-                                           'message',
-                                           'data' => ['user', 'token']
-                                       ]);
+            'status',
+            'message',
+            'data' => ['user', 'token']
+        ]);
 
         $this->assertSame(__('registration.verify_email'), $response->json(['message']));
 
@@ -48,14 +52,16 @@ class RegistrationTest extends TestCase
             'accept_terms'          => 0,
             'password'              => 'small',
             'password_confirmation' => 'not_same',
+            'firstname'             => null,
+            'lastname'              => null
         ]);
 
         $response->assertStatus(422);
 
         $response->assertJsonStructure([
-                                           'message',
-                                           'errors' => ['email', 'password']
-                                       ]);
+            'message',
+            'errors' => ['email', 'password', 'firstname', 'lastname']
+        ]);
 
         $this->assertGuest();
     }

@@ -27,15 +27,8 @@ class UserProfileController
      *                                  @OA\Property(property="email", type="string", example="test@test.ru"),
      *                              ),
      *                              @OA\Property(property="profile", type="object",
-     *                                  @OA\Property(property="phone_prefix", type="string", example="+7"),
-     *                                  @OA\Property(property="phone", type="string", example="123456789"),
-     *                                  @OA\Property(property="country", type="string", example="RU"),
      *                                  @OA\Property(property="firstname", type="string", example="firstname"),
      *                                  @OA\Property(property="lastname", type="string", example="lastname"),
-     *                                  @OA\Property(property="birthday", type="string", example="25.10.1922"),
-     *                                  @OA\Property(property="gender", type="string", example="male"),
-     *                                  @OA\Property(property="document_number", type="string", example="34343aaa4343"),
-     *                                  @OA\Property(property="document_expires", type="string", example="25.10.2087"),
      *                              ),
      *                ),
      *             ),
@@ -64,34 +57,6 @@ class UserProfileController
      *     summary="Create or update profile",
      *     security={{"api": {}}},
      *     @OA\Parameter(
-     *          name="phone_prefix",
-     *          in="query",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="string",
-     *              example="+7"
-     *          )
-     *     ),
-     *     @OA\Parameter(
-     *          name="phone",
-     *          in="query",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="number",
-     *              example=123456789
-     *          )
-     *     ),
-     *     @OA\Parameter(
-     *          name="country",
-     *          in="query",
-     *          required=true,
-     *          description = "Input country code: RU / US / GB",
-     *          @OA\Schema(
-     *              type="string",
-     *              example="RU"
-     *          )
-     *     ),
-     *     @OA\Parameter(
      *          name="firstname",
      *          in="query",
      *          required=true,
@@ -107,42 +72,6 @@ class UserProfileController
      *          @OA\Schema(
      *              type="string",
      *              example="lastname"
-     *          )
-     *     ),
-     *     @OA\Parameter(
-     *          name="birthday",
-     *          in="query",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="string",
-     *              example="25.10.1922"
-     *          )
-     *     ),
-     *     @OA\Parameter(
-     *          name="gender",
-     *          in="query",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="string",
-     *              enum={"male","female"}
-     *          )
-     *     ),
-     *     @OA\Parameter(
-     *          name="document_number",
-     *          in="query",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="string",
-     *              example="34343aaa4343"
-     *          )
-     *     ),
-     *     @OA\Parameter(
-     *          name="document_expires",
-     *          in="query",
-     *          required=false,
-     *          @OA\Schema(
-     *              type="string",
-     *              example="25.10.2087"
      *          )
      *     ),
      *     @OA\Response(
