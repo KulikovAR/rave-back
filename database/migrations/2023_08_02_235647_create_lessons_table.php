@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('preview_path');
             $table->string('video_path');
             $table->timestamp('announc_date');
+            $table->float('rating')->nullable();
             $table->timestamps();
             $table->primary('id');
         });

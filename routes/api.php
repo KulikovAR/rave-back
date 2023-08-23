@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\RegistrationController;
 use App\Http\Controllers\Auth\VerificationContactController;
 use App\Http\Controllers\LessonController;
+use App\Http\Controllers\LessonRatingController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ShortsController;
 use App\Http\Controllers\TagController;
@@ -48,6 +49,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::middleware('subscription')->group(function () {
             Route::prefix('lessons')->group(function () {
                 Route::get('/', [LessonController::class, 'index'])->name('lesson.index');
+                
+                Route::post('/rating', [LessonRatingController::class, 'store'])->name('lesson.rating.store');
+                Route::get('/rating/{lesson_id}', [LessonRatingController::class, 'show'])->name('lesson.rating.show');
             });
 
 

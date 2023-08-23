@@ -25,6 +25,7 @@ class LessonResource extends JsonResource
             'video_path'      => $this->video_path,
             'preview_path'    => $this->preview_path,
             'announc_date'    => $this->formatDateForOutput($this->announc_date),
+            'rating'          => (float)$this->getRating(),
             'tags'            => new TagCollection($this->tags),
             'additional_data' => new LessonAdditionalDataCollection($this->lesson_additional_data)
         ];
