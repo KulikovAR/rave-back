@@ -13,7 +13,7 @@ class LessonRatingTest extends TestCase
     public function test_store_rating(): void
     {
         $lesson = Lesson::factory()->create();
-        $rating = 5;
+        $rating = (float)5;
 
         $this->getTestUser()->lessons()->sync($lesson);
 
@@ -48,8 +48,8 @@ class LessonRatingTest extends TestCase
 
     public function test_admin_rating(): void
     {
-        $admin_rating = 5;
-        $rating = 4;
+        $admin_rating = (float)5;
+        $rating = (float)4;
 
         $lesson = Lesson::factory()->create([
             'rating' => $admin_rating
