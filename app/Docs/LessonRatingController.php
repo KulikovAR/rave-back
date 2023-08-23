@@ -10,7 +10,7 @@ class LessonRatingController
      *     path="/lessons/rating/{lesson_id}",
      *     tags={"Lesson"},
      *     operationId="show_lesson_rating",
-     *     summary="Получить все уроки",
+     *     summary="Получить рейтинг урока",
      *     security={{"api": {}}},
      *      @OA\Parameter(
      *          name="lesson_id",
@@ -63,7 +63,7 @@ class LessonRatingController
      *     path="/lessons/rating",
      *     tags={"Lesson"},
      *     operationId="store_lessons_rating",
-     *     summary="Получить все уроки",
+     *     summary="Создать рейтинг для урока",
      *     security={{"api": {}}},
      *      @OA\Parameter(
      *          name="lesson_id",

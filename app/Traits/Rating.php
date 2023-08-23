@@ -3,7 +3,7 @@
 namespace App\Traits;
 trait Rating
 {
-    public function getRating()
+    public function getRating(): ?float
     {
         if(!is_null($this->rating)) {
             return $this->rating;
