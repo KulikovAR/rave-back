@@ -6,6 +6,59 @@ class LessonRatingController
 {
     /**
      *
+     * @OA\Get(
+     *     path="/lessons/rating/{lesson_id}",
+     *     tags={"Lesson"},
+     *     operationId="show_lesson_rating",
+     *     summary="Получить все уроки",
+     *     security={{"api": {}}},
+     *      @OA\Parameter(
+     *          name="lesson_id",
+     *          in="path",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response="200",
+     *          description="Success",
+     *          @OA\MediaType(
+     *             mediaType="application/json",
+     *              @OA\Schema(
+     *                @OA\Property(property="status", type="string", example="OK"),
+     *                @OA\Property(property="message", type="string", example=""),
+     *                @OA\Property(property="data", type="object",
+     *                   @OA\Property(property="rating", type="integer", example=5),
+     *                ),
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *          response="404",
+     *          ref="#/components/responses/404"
+     *      ),
+     *      @OA\Response(
+     *          response="403",
+     *          ref="#/components/responses/403"
+     *      ),
+     *      @OA\Response(
+     *          response="422",
+     *          ref="#/components/responses/422"
+     *      ),
+     *     @OA\Response(
+     *          response="401",
+     *          ref="#/components/responses/401"
+     *      ),
+     * )
+     */
+    public function show()
+    {
+
+    }
+
+    /**
+     *
      * @OA\Post(
      *     path="/lessons/rating",
      *     tags={"Lesson"},
@@ -36,7 +89,9 @@ class LessonRatingController
      *              @OA\Schema(
      *                @OA\Property(property="status", type="string", example="OK"),
      *                @OA\Property(property="message", type="string", example=""),
-     *                @OA\Property(property="data", type="object", example={}),
+     *                @OA\Property(property="data", type="object",
+     *                   @OA\Property(property="rating", type="integer", example=5),
+     *                ),
      *             )
      *         )
      *     ),

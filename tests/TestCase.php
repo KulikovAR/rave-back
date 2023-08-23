@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use App\Models\Lesson;
 use App\Models\User;
 use Database\Seeders\UserSeeder;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
@@ -39,6 +40,28 @@ abstract class TestCase extends BaseTestCase
         return User::where(["email" => UserSeeder::USER_EMAIL])->firstOrFail();
     }
 
+    protected function getTestLesson(): Lesson
+    {
+        $lesson = Lesson::firstOrFail();
+
+        $this->getTestUser()->lessons()->sync($lesson);
+
+        return $lesson;
+    }
+
+    protected function createTestLessonWithUser($params = []): Lesson
+    {
+        if(!empty($params)) {
+            $lesson = Lesson::factory()->create($params);
+        } else {
+            $lesson = Lesson::factory()->create();
+        }
+
+        $this->getTestUser()->lessons()->sync($lesson);
+
+        return $lesson;
+    }
+
     protected function getHeadersForUser(User $user = null): array
     {
         $token = ($user ?? $this->getTestUser())
@@ -58,7 +81,8 @@ abstract class TestCase extends BaseTestCase
         $this->assertNotSame(json_decode($resource->toJson(), true), $responseArray);
     }
 
-    protected function getPaginationResponse() {
+    protected function getPaginationResponse()
+    {
         return [
             'data',
             'links' => [

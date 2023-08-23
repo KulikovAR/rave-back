@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Lesson\LessonRatingRequest;
+use App\Http\Requests\UuidRequest;
 use App\Http\Responses\ApiJsonResponse;
 use App\Models\LessonRating;
 use Illuminate\Http\Request;
@@ -23,22 +24,34 @@ class LessonRatingController extends Controller
     public function store(LessonRatingRequest $request)
     {
         $lesson = $request->user()->lessons()->findOrFail($request->lesson_id);
-        
-        LessonRating::create([
-            'rating'    => $request->rating,
-            'lesson_id' => $lesson->id,
-            'user_id'   => $request->user()->id
-        ]);
 
-        return new ApiJsonResponse();
+        $lesson_rating = LessonRating::updateOrCreate(
+            [
+                'lesson_id' => $lesson->id,
+                'user_id'   => $request->user()->id
+            ],
+            [
+                'rating'    => $request->rating,
+                'lesson_id' => $lesson->id,
+                'user_id'   => $request->user()->id
+            ]
+        );
+
+        return new ApiJsonResponse(data: [
+            'rating' => $lesson->getRating()
+        ]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(UuidRequest $request)
     {
-        //
+        $lesson = $request->user()->lessons()->findOrFail($request->lesson_id);
+
+        return new ApiJsonResponse(data: [
+            'rating' => $lesson->getRating()
+        ]);
     }
 
     /**

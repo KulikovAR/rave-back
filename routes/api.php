@@ -49,7 +49,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::middleware('subscription')->group(function () {
             Route::prefix('lessons')->group(function () {
                 Route::get('/', [LessonController::class, 'index'])->name('lesson.index');
+                
                 Route::post('/rating', [LessonRatingController::class, 'store'])->name('lesson.rating.store');
+                Route::get('/rating/{lesson_id}', [LessonRatingController::class, 'show'])->name('lesson.rating.show');
             });
 
 
