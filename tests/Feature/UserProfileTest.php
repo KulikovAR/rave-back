@@ -18,9 +18,10 @@ class UserProfileTest extends TestCase
         $user = User::factory()->create(['email_verified_at' => null]);
 
         $response = $this->json(
-                     'post',
-                     route('user_profile.store'),
-            headers: $this->getHeadersForUser($user));
+            'post',
+            route('user_profile.store'),
+            headers: $this->getHeadersForUser($user)
+        );
 
         $response->assertStatus(403);
     }
@@ -28,20 +29,24 @@ class UserProfileTest extends TestCase
     public function test_get_user_profile(): void
     {
         $user = User::factory()
-                    ->has(UserProfile::factory(), 'userProfile')
-                    ->create();
+            ->has(UserProfile::factory(), 'userProfile')
+            ->create();
 
         $response = $this->json(
-                     'get',
-                     route('user_profile.index'),
-            headers: $this->getHeadersForUser($user));
+            'get',
+            route('user_profile.index'),
+            headers: $this->getHeadersForUser($user)
+        );
 
         $response->assertStatus(200);
 
         $response->assertJsonStructure(
             [
-                'status', 'message', 'data' => ['id', "profile" => ['firstname']]
-            ]);
+                'status',
+                'message',
+                'data' => ['id', "profile" => ['firstname']]
+            ]
+        );
     }
 
     public function test_store_profile(): void
@@ -54,7 +59,8 @@ class UserProfileTest extends TestCase
             'post',
             route('user_profile.store'),
             $inputData,
-            $this->getHeadersForUser($user));
+            $this->getHeadersForUser($user)
+        );
 
         $response->assertStatus(200);
 
@@ -72,37 +78,27 @@ class UserProfileTest extends TestCase
         $user = User::factory()->create();
 
         $inputData = [
-            "phone_prefix"     => "-4",
-            "phone"            => 'aswd88989454',
-            "country"          => 'gdfg',
-            "firstname"        => 'Марина',
-            "lastname"         => 'Апыва',
-            "birthday"         => '300218882',
-            "gender"           => 'none',
-            "document_number"  => '',
-            "document_expires" => 'asd',
+            "firstname" => 1,
+            "lastname"  => null,
         ];
         $response  = $this->json(
             'post',
             route('user_profile.store'),
             $inputData,
-            $this->getHeadersForUser($user));
+            $this->getHeadersForUser($user)
+        );
 
         $response->assertStatus(422);
 
         $response->assertJsonStructure(
             [
-                'message', 'errors' => [
-                "phone_prefix",
-                "phone",
-                "country",
-                "firstname",
-                "lastname",
-                "birthday",
-                'gender',
-                "document_number",
-                "document_expires",]
-            ]);
+                'message',
+                'errors' => [
+                    "firstname",
+                    "lastname",
+                ]
+            ]
+        );
     }
 
     public function test_update_profile(): void
@@ -118,7 +114,8 @@ class UserProfileTest extends TestCase
             'post',
             route('user_profile.store'),
             $inputData,
-            $this->getHeadersForUser($user));
+            $this->getHeadersForUser($user)
+        );
 
         $response->assertStatus(200);
 
@@ -136,62 +133,6 @@ class UserProfileTest extends TestCase
 
         $this->assertNotSame($rawUserProfile->firstname, $user->userProfile->firstname);
         $this->assertNotSame($rawUserProfile->lastname, $user->userProfile->lastname);
-        $this->assertNotSame($rawUserProfile->document_number, $user->userProfile->document_number);
-        $this->assertNotSame($rawUserProfile->document_expires, $user->userProfile->document_expires);
-        $this->assertNotSame($rawUserProfile->birthday, $user->userProfile->birthday);
-        $this->assertNotSame($rawUserProfile->phone, $user->userProfile->phone);
-        $this->assertSame($rawUserProfile->gender, $user->userProfile->gender);
-    }
-
-    public function test_birthday_date_formatted(): void
-    {
-        $user = User::factory()->create();
-
-        $inputData = (new UserProfileFactory())->definitionRequest();
-
-        $response = $this->json(
-            'post',
-            route('user_profile.store'),
-            $inputData,
-            $this->getHeadersForUser($user)
-        );
-
-        $response->assertStatus(200);
-
-        $this->assertSame($response->json('data')['birthday'], $inputData['birthday']);
-        $this->assertNotSame($response->json('data')['birthday'], $user->userProfile->birthday);
-    }
-
-    public function test_date_validation(): void
-    {
-        $user      = User::factory()->create();
-        $inputData = [
-            "phone_prefix"     => "+4",
-            "phone"            => '7897978',
-            "country"          => 'Rus',
-            "firstname"        => 'dddsa',
-            "lastname"         => 'fdfdf',
-            "birthday"         => '30.10.2050',
-            "gender"           => 'male',
-            "document_number"  => '12332312',
-            "document_expires" => '30.10.2000',
-        ];
-
-        $response = $this->json(
-            'post',
-            route('user_profile.store'),
-            $inputData,
-            $this->getHeadersForUser($user)
-        );
-
-        $response->assertStatus(422);
-
-        $response->assertJsonStructure(
-            [
-                'message', 'errors' => [
-                "birthday",
-                "document_expires"]
-            ]);
     }
 
     public function test_user_profile_is_shown_after_login(): void
@@ -206,14 +147,15 @@ class UserProfileTest extends TestCase
             [
                 'email'    => $user->email,
                 'password' => UserSeeder::USER_PASSWORD,
-            ]);
+            ]
+        );
 
         $response->assertStatus(200);
         $response->assertJsonStructure([
-                                           'status',
-                                           'message',
-                                           'data' => ['user' => ['profile'], 'token']
-                                       ]);
+            'status',
+            'message',
+            'data' => ['user' => ['profile'], 'token']
+        ]);
 
         $this->assertSameResource(new UserResource($user), $response->json(['data'])['user']);
 

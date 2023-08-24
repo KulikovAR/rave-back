@@ -79,11 +79,15 @@ class EmailVerifyTest extends TestCase
 
         $pass  = $this->faker->password(8, 10);
         $email = $this->faker->email;
+        $firstname = $this->faker->text(10);
+        $lastname  = $this->faker->text(10);
 
         $response = $this->json('post', route('registration'), [
             'email'                 => $email,
             'password'              => $pass,
             'password_confirmation' => $pass,
+            'firstname'             => $firstname,
+            'lastname'              => $lastname
         ]);
 
         $response->assertStatus(200);
@@ -114,11 +118,15 @@ class EmailVerifyTest extends TestCase
 
         $pass  = $this->faker->password(8, 10);
         $email = $this->faker->email;
+        $firstname = $this->faker->text(10);
+        $lastname  = $this->faker->text(10);
 
         $response = $this->json('post', route('registration'), [
             'email'                 => $email,
             'password'              => $pass,
             'password_confirmation' => $pass,
+            'firstname'             => $firstname,
+            'lastname'              => $lastname
         ]);
 
         $response->assertStatus(200);

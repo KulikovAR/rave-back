@@ -30,31 +30,7 @@ class UserProfileRelationManager extends RelationManager
                                                    ->maxLength(255),
                          Forms\Components\TextInput::make('lastname')
                                                    ->required()
-                                                   ->maxLength(255),
-                         Forms\Components\TextInput::make('country')
-                                                   ->required()
-                                                   ->maxLength(2),
-                         Forms\Components\Select::make('gender')
-                                                ->options([
-                                                              UserProfile::MALE   => MenuTitles::MALE,
-                                                              UserProfile::FEMALE => MenuTitles::FEMALE,
-                                                          ])
-                                                ->required(),
-                         Forms\Components\TextInput::make('document_number')
-                                                   ->required()
-                                                   ->maxLength(9),
-                         Forms\Components\DateTimePicker::make('document_expires')
-                                                        ->required(),
-                         Forms\Components\DateTimePicker::make('birthday')
-                                                        ->required(),
-                         Forms\Components\TextInput::make('phone_prefix')
-                                                   ->tel()
-                                                   ->required()
-                                                   ->maxLength(5),
-                         Forms\Components\TextInput::make('phone')
-                                                   ->tel()
-                                                   ->required()
-                                                   ->maxLength(50),
+                                                   ->maxLength(255)
                      ]);
     }
 
@@ -64,12 +40,6 @@ class UserProfileRelationManager extends RelationManager
             ->columns([
                           Tables\Columns\TextColumn::make('firstname'),
                           Tables\Columns\TextColumn::make('lastname'),
-                          Tables\Columns\TextColumn::make('country'),
-                          Tables\Columns\TextColumn::make('gender'),
-                          Tables\Columns\TextColumn::make('document_number'),
-                          Tables\Columns\TextColumn::make('document_expires'),
-                          Tables\Columns\TextColumn::make('birthday'),
-                          Tables\Columns\TextColumn::make('phone_prefix'),
                           Tables\Columns\TextColumn::make('phone'),
                           Tables\Columns\TextColumn::make('created_at')
                                                    ->dateTime(),

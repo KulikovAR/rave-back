@@ -23,11 +23,20 @@ class RegistrationController extends Controller
     public function emailRegistration(RegistrationEmailRequest $request): ApiJsonResponse
     {
         $user = User::create([
-                                 'email'    => Str::lower($request->email),
-                                 'password' => $this->hashMake($request->password),
-                             ]);
+            'email'    => Str::lower($request->email),
+            'password' => $this->hashMake($request->password),
+        ]);
 
         $user->assignRole(Role::ROLE_USER);
+
+        $userProfile = $user->userProfile()
+            ->updateOrCreate(
+                ['user_id' => $user->id],
+                [
+                    'firstname' => $request->firstname,
+                    'lastname'  => $request->lastname
+                ]
+            );
 
         $bearerToken = $this->createAuthToken($user, $request->device_name);
 
@@ -35,14 +44,16 @@ class RegistrationController extends Controller
 
         Auth::login($user); //session login
 
+
+
         return new ApiJsonResponse(
-                  200,
-                  StatusEnum::OK,
-                  __('registration.verify_email'),
+            200,
+            StatusEnum::OK,
+            __('registration.verify_email'),
             data: [
-                      'user'  => new UserResource($user),
-                      'token' => $bearerToken,
-                  ]
+                'user'  => new UserResource($user),
+                'token' => $bearerToken,
+            ]
         );
     }
 }

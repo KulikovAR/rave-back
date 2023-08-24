@@ -17,8 +17,10 @@ class RegistrationEmailRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email'    => $this->emailCreationRules(),
-            'password' => $this->passwordCreationRules(),
+            "firstname" => "string|required",
+            "lastname"  => "string|required",
+            'email'     => $this->emailCreationRules(),
+            'password'  => $this->passwordCreationRules(),
         ];
     }
 }
