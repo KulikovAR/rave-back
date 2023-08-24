@@ -9,4 +9,11 @@ use Illuminate\Database\Eloquent\Model;
 class Quiz extends Model
 {
     use HasFactory, HasUuids;
+
+    protected $fillable = [
+        'lesson_id',
+        'data',
+        'title',
+        'description'
+    ];
 }

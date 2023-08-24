@@ -30,7 +30,7 @@ class LessonSeeder extends Seeder
 
         foreach ($lessons as $lesson) {
             $lesson->lesson_additional_data()->create((new LessonAdditionalDataFactory())->definition());
-            $lesson->quiz()->create((new QuizFactory())->definition());
+            $lesson->quizzes()->create((new QuizFactory())->definition());
         }
         
         User::where('email', UserSeeder::USER_EMAIL)

@@ -71,6 +71,7 @@ Route::middleware('auth:sanctum')->group(function () {
             });
 
             Route::prefix('quiz_results')->group(function () {
+                Route::get('/{quiz_id}', [QuizResultController::class, 'show'])->name('quiz_results.show');
                 Route::post('/', [QuizResultController::class, 'store'])->name('quiz_results.store');
             });
         });

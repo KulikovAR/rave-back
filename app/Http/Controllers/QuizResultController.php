@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\StatusEnum;
 use App\Http\Requests\Quiz\QuizResultRequest;
+use App\Http\Requests\UuidRequest;
+use App\Http\Resources\QuizResult\QuizResultCollection;
+use App\Http\Resources\QuizResult\QuizResultRecource;
 use App\Http\Responses\ApiJsonResponse;
 use App\Models\QuizResult;
 use Illuminate\Http\Request;
@@ -22,6 +26,17 @@ class QuizResultController extends Controller
      */
     public function store(QuizResultRequest $request)
     {
+        if($request->user()->quiz_results()->where([
+            'quiz_id' => $request->quiz_id,
+            'user_id' => $request->user()->id
+        ])->first()) {
+            return new ApiJsonResponse(
+                422,
+                StatusEnum::ERR,
+                'quiz result already exists'
+            );
+        }
+
         $quiz_result = QuizResult::create([
             'quiz_id' => $request->quiz_id,
             'user_id' => $request->user()->id,
@@ -29,16 +44,22 @@ class QuizResultController extends Controller
         ]);
 
         return new ApiJsonResponse(
-            data: $quiz_result
+            data: new QuizResultRecource($quiz_result)
         );
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(UuidRequest $request)
     {
-        //
+        return new ApiJsonResponse(
+            data: new QuizResultRecource(
+                $request->user()->quiz_results()->whereHas('quiz', function($quiz) use ($request) {
+                    $quiz->where('id', $request->quiz_id);
+                })->firstOrFail()
+            )
+        );
     }
 
     /**
