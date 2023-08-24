@@ -15,12 +15,7 @@ class QuizResultsTest extends TestCase
      */
     public function test_store_quiz_results_with_valid_data(): void
     {
-
-        $lesson  = $this->getTestLesson();
-
-        $quiz = Quiz::factory()->create([
-            'lesson_id' => $lesson->id
-        ]);
+        $quiz = $this->createTestQuiz();
 
         $response = $this->json(
             'post',
@@ -72,7 +67,7 @@ class QuizResultsTest extends TestCase
 
     public function test_show_quiz_result(): void
     {
-        $quiz = Quiz::firstOrFail();
+        $quiz = $this->getTestQuiz();
 
         $response = $this->json(
             'get',
