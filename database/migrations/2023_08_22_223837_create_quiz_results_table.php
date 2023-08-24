@@ -4,24 +4,31 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('quizzes', function (Blueprint $table) {
+        Schema::create('quiz_results', function (Blueprint $table) {
             $table->uuid('id');
-            $table->string('title');
-            $table->text('description');
-            $table->uuid('lesson_id');
-            $table->foreign('lesson_id')
+            $table->uuid('user_id');
+            $table->uuid('quiz_id');
+
+            $table->foreign('user_id')
                 ->references('id')
-                ->on('lessons')
+                ->on('users')
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
+
+            $table->foreign('quiz_id')
+                ->references('id')
+                ->on('quizzes')
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
+
             $table->json('data');
+            $table->boolean('checked')->default(false);
             $table->primary('id');
             $table->timestamps();
         });
@@ -32,6 +39,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('quizzes');
+        Schema::dropIfExists('quiz_results');
     }
 };

@@ -30,7 +30,7 @@ class Lesson extends Model
         return $this->hasMany(LessonAdditionalData::class);
     }
 
-    public function quiz(): HasMany
+    public function quizzes(): HasMany
     {
         return $this->hasMany(Quiz::class);
     }

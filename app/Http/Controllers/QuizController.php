@@ -14,32 +14,27 @@ class QuizController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(UuidRequest $request)
+    public function index(Request $request)
     {
 
-        if ($request->has('id')) {
-            return new ApiJsonResponse(data: new QuizResource($request->user()->lessons()->findOrFail($request->id)));
-        }
-
-        return new ApiJsonPaginationResponse(
-            data: new QuizCollection(
-                $request->user()->lessons()->orderBy('updated_at', 'desc')->paginate(config('pagination.per_page'))
-            )
-        );
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(UuidRequest $request)
+    {
+       $lesson = $request->user()->lessons()->findOrFail($request->lesson_id);
+
+       return new ApiJsonResponse(
+            data: new QuizCollection($lesson->quizzes)
+       );
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(UuidRequest $request)
     {
         //
     }

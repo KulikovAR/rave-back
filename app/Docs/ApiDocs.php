@@ -36,6 +36,10 @@ namespace App\Docs;
  *      description="Короткие видео"
  * )
  * @OA\Tag(
+ *      name="Quiz",
+ *      description="Тесты"
+ * )
+ * @OA\Tag(
  *      name="Tag",
  *      description="Теги"
  * )

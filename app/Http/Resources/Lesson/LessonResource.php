@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Lesson;
 
 use App\Http\Resources\LessonAdditionalData\LessonAdditionalDataCollection;
+use App\Http\Resources\Quiz\QuizLessonCollection;
 use App\Http\Resources\Tag\TagCollection;
 use App\Traits\DateFormats;
 use Illuminate\Http\Request;
@@ -27,7 +28,7 @@ class LessonResource extends JsonResource
             'announc_date'    => $this->formatDateForOutput($this->announc_date),
             'tags'            => new TagCollection($this->tags),
             'additional_data' => new LessonAdditionalDataCollection($this->lesson_additional_data),
-            'quiz'            => $this->quiz
+            'quiz'            => new QuizLessonCollection($this->quizzes)
         ];
     }
 }

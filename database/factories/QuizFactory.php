@@ -17,16 +17,22 @@ class QuizFactory extends Factory
     public function definition(): array
     {
         $quiz = [];
-        
+
         for ($i = 0; $i < rand(0, 5); $i++) {
             $quiz[] = [
                 'question' => $this->faker->realText(200),
-                'answer'   => $this->faker->realText(200),
+                'answers'   => [
+                    $this->faker->realText(200),
+                    $this->faker->realText(200),
+                    $this->faker->realText(200),
+                ],
             ];
         }
 
         return [
-            'data' => json_encode($quiz),
+            'title'       => $this->faker->realText(20),
+            'description' => $this->faker->realText(),
+            'data'        => json_encode($quiz),
         ];
     }
 }
