@@ -29,6 +29,15 @@ class AuthTokenController
      *              example="test@test.ru"
      *          )
      *     ),
+     *      @OA\Parameter(
+     *          name="device_name",
+     *          in="query",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="string",
+     *              example="Macintosh 128K"
+     *          )
+     *     ),
      *     @OA\Response(
      *          response="200",
      *          description="Success",

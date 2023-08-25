@@ -26,7 +26,7 @@ class AuthTokenController extends Controller
         $request->authenticate($passwordCheckCallable);
 
         $user        = User::where('email', Str::lower($request->email))->first();
-        $bearerToken = $this->createAuthToken($user, $request->device_name);
+        $bearerToken = $this->createOrGetAuthToken($user, $request->device_name);
 
         return new ApiJsonResponse(
             data: [

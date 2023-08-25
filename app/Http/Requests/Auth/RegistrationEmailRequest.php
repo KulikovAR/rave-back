@@ -17,10 +17,11 @@ class RegistrationEmailRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "firstname" => "string|required",
-            "lastname"  => "string|required",
-            'email'     => $this->emailCreationRules(),
-            'password'  => $this->passwordCreationRules(),
+            "firstname"   => "string|required|max:255",
+            "lastname"    => "string|required|max:255",
+            'email'       => $this->emailCreationRules(),
+            'password'    => $this->passwordCreationRules(),
+            'device_name' => "string|required|max:255"
         ];
     }
 }

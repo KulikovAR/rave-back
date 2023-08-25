@@ -29,7 +29,7 @@ class RegistrationController extends Controller
 
         $user->assignRole(Role::ROLE_USER);
 
-        $userProfile = $user->userProfile()
+        $user->userProfile()
             ->updateOrCreate(
                 ['user_id' => $user->id],
                 [
@@ -38,13 +38,11 @@ class RegistrationController extends Controller
                 ]
             );
 
-        $bearerToken = $this->createAuthToken($user, $request->device_name);
+        $bearerToken = $this->createOrGetAuthToken($user, $request->device_name);
 
         event(new RegisteredUserEvent($user));
 
         Auth::login($user); //session login
-
-
 
         return new ApiJsonResponse(
             200,

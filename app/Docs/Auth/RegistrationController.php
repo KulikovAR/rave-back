@@ -13,6 +13,24 @@ class RegistrationController
      *     tags={"Registration"},
      *     summary="Register account with email",
      *     @OA\Parameter(
+     *          name="firstname",
+     *          in="query",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="string",
+     *              example="Test"
+     *          )
+     *     ),
+     *     @OA\Parameter(
+     *          name="lastname",
+     *          in="query",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="string",
+     *              example="User"
+     *          )
+     *     ),
+     *     @OA\Parameter(
      *          name="email",
      *          in="query",
      *          required=true,
@@ -28,6 +46,15 @@ class RegistrationController
      *          @OA\Schema(
      *              type="string",
      *              example="www12345"
+     *          )
+     *     ),
+     *      @OA\Parameter(
+     *          name="device_name",
+     *          in="query",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="string",
+     *              example="Macintosh 128K"
      *          )
      *     ),
      *     @OA\Parameter(
