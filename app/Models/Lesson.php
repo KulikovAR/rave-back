@@ -32,8 +32,15 @@ class Lesson extends Model
         return $this->hasMany(LessonAdditionalData::class);
     }
 
+
+    public function quizzes(): HasMany
+    {
+        return $this->hasMany(Quiz::class);
+    }
+    
     public function ratings(): HasMany
     {
         return $this->hasMany(LessonRating::class);
+
     }
 }

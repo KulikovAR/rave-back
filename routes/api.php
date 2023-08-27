@@ -9,6 +9,8 @@ use App\Http\Controllers\Auth\VerificationContactController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\LessonRatingController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\QuizController;
+use App\Http\Controllers\QuizResultController;
 use App\Http\Controllers\ShortsController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserProfileController;
@@ -62,6 +64,15 @@ Route::middleware('auth:sanctum')->group(function () {
 
             Route::prefix('shorts')->group(function () {
                 Route::get('/', [ShortsController::class, 'index'])->name('short.index');
+            });
+
+            Route::prefix('quiz')->group(function () {
+                Route::get('/{lesson_id}', [QuizController::class, 'show'])->name('quiz.show');
+            });
+
+            Route::prefix('quiz_results')->group(function () {
+                Route::get('/{quiz_id}', [QuizResultController::class, 'show'])->name('quiz_results.show');
+                Route::post('/', [QuizResultController::class, 'store'])->name('quiz_results.store');
             });
         });
     });

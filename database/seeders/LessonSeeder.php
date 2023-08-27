@@ -7,6 +7,7 @@ use App\Models\Lesson;
 use App\Models\Tag;
 use App\Models\User;
 use Database\Factories\LessonAdditionalDataFactory;
+use Database\Factories\QuizFactory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\App;
 
@@ -29,6 +30,7 @@ class LessonSeeder extends Seeder
 
         foreach ($lessons as $lesson) {
             $lesson->lesson_additional_data()->create((new LessonAdditionalDataFactory())->definition());
+            $lesson->quizzes()->create((new QuizFactory())->definition());
         }
         
         User::where('email', UserSeeder::USER_EMAIL)

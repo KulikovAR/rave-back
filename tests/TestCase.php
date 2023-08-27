@@ -3,6 +3,7 @@
 namespace Tests;
 
 use App\Models\Lesson;
+use App\Models\Quiz;
 use App\Models\User;
 use Database\Seeders\UserSeeder;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
@@ -60,6 +61,21 @@ abstract class TestCase extends BaseTestCase
         $this->getTestUser()->lessons()->sync($lesson);
 
         return $lesson;
+    }
+
+    protected function createTestQuiz() {
+        $lesson = $this->getTestLesson();
+
+        $quiz = Quiz::factory()->create([
+            'lesson_id' => $lesson->id
+        ]);
+
+        return $quiz;
+    }
+
+    protected function getTestQuiz()
+    {
+        return Quiz::where(['lesson_id' => $this->getTestLesson()->id])->orderBy('id','desc')->firstOrFail();
     }
 
     protected function getHeadersForUser(User $user = null): array
