@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Enums\StatusEnum;
-use App\Http\Requests\Quiz\QuizResultRequest;
+use App\Http\Requests\Quiz\StoreQuizResultRequest;
 use App\Http\Requests\UuidRequest;
-use App\Http\Resources\QuizResult\QuizResultCollection;
-use App\Http\Resources\QuizResult\QuizResultRecource;
+use App\Http\Resources\QuizResult\QuizResultResource;
 use App\Http\Responses\ApiJsonResponse;
 use App\Models\QuizResult;
 use Illuminate\Http\Request;
@@ -24,12 +23,14 @@ class QuizResultController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(QuizResultRequest $request)
+    public function store(StoreQuizResultRequest $request)
     {
-        if($request->user()->quiz_results()->where([
-            'quiz_id' => $request->quiz_id,
-            'user_id' => $request->user()->id
-        ])->first()) {
+        if (
+            $request->user()->quiz_results()->where([
+                'quiz_id' => $request->quiz_id,
+                'user_id' => $request->user()->id
+            ])->first()
+        ) {
             return new ApiJsonResponse(
                 422,
                 StatusEnum::ERR,
@@ -44,7 +45,7 @@ class QuizResultController extends Controller
         ]);
 
         return new ApiJsonResponse(
-            data: new QuizResultRecource($quiz_result)
+            data: new QuizResultResource($quiz_result)
         );
     }
 
@@ -53,11 +54,13 @@ class QuizResultController extends Controller
      */
     public function show(UuidRequest $request)
     {
+        $quizResultModel = $request->user()->quiz_results()->whereHas('quiz', function ($quiz) use ($request) {
+            $quiz->where('id', $request->quiz_id);
+        })->firstOrFail();
+
         return new ApiJsonResponse(
-            data: new QuizResultRecource(
-                $request->user()->quiz_results()->whereHas('quiz', function($quiz) use ($request) {
-                    $quiz->where('id', $request->quiz_id);
-                })->firstOrFail()
+            data: new QuizResultResource(
+                $quizResultModel
             )
         );
     }

@@ -25,10 +25,11 @@ class QuizTest extends TestCase
         );
 
         $response->assertStatus(200);
-
+        
         $response->assertJsonStructure([
             'data' => [
                 [
+                    'id',
                     'title',
                     'description',
                     'data' => [

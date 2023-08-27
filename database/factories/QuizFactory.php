@@ -18,7 +18,7 @@ class QuizFactory extends Factory
     {
         $quiz = [];
 
-        for ($i = 0; $i < rand(0, 5); $i++) {
+        for ($i = 0; $i < rand(1, 5); $i++) {
             $quiz[] = [
                 'question' => $this->faker->realText(200),
                 'answers'   => [
