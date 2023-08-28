@@ -48,15 +48,6 @@ class RegistrationController
      *              example="www12345"
      *          )
      *     ),
-     *      @OA\Parameter(
-     *          name="device_name",
-     *          in="query",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="string",
-     *              example="Macintosh 128K"
-     *          )
-     *     ),
      *     @OA\Parameter(
      *          name="password_confirmation",
      *          in="query",
