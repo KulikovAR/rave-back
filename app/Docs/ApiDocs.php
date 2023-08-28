@@ -52,6 +52,10 @@ namespace App\Docs;
  *      description="Данные для UI"
  * )
  * @OA\Tag(
+ *      name="Device",
+ *      description="Девайсы"
+ * )
+ * @OA\Tag(
  *      name="CSRF",
  *      description="session auth with CSRF protection"
  * )

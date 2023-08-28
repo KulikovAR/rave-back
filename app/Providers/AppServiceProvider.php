@@ -4,7 +4,9 @@ namespace App\Providers;
 
 use App\Enums\EnvironmentTypeEnum;
 use App\Models\PersonalAccessTokens;
+use App\Services\UserDeviceService;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Sanctum\Sanctum;
 

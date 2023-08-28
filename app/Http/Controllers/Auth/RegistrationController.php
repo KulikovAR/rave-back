@@ -12,6 +12,7 @@ use App\Models\Role;
 use App\Models\User;
 use App\Traits\BearerTokenTrait;
 use App\Traits\PasswordHash;
+use hisorange\BrowserDetect\Parser as Browser;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
@@ -37,10 +38,10 @@ class RegistrationController extends Controller
                     'lastname'  => $request->lastname
                 ]
             );
+   
+        $bearerToken = $this->createOrGetAuthToken($user, Browser::platformName());
 
-        $bearerToken = $this->createOrGetAuthToken($user, $request->device_name);
-
-        event(new RegisteredUserEvent($user));
+        // event(new RegisteredUserEvent($user));
 
         Auth::login($user); //session login
 

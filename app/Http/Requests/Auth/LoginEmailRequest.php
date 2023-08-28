@@ -31,7 +31,7 @@ class LoginEmailRequest extends FormRequest
         return [
             'email'    => $this->emailInputRules(),
             'password' => ['required', 'string', 'max:50'],
-            'device_name' => "required|string|max:255"
+            // 'device_name' => "required|string|max:255"
         ];
     }
 

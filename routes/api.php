@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\AuthTokenController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\RegistrationController;
 use App\Http\Controllers\Auth\VerificationContactController;
+use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\LessonRatingController;
 use App\Http\Controllers\PaymentController;
@@ -41,6 +42,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::patch('/password', [PasswordController::class, 'update'])->name('password.update');
     Route::delete('/logout', [AuthTokenController::class, 'destroy'])->name('logout.stateless');
+
+    Route::get('/device', [DeviceController::class, 'index'])->name('device.index');
+    Route::delete('/device', [DeviceController::class, 'destroy'])->name('device.delete');
 
     Route::middleware('verified')->group(function () {
         Route::get('/user_profile', [UserProfileController::class, 'index'])->name('user_profile.index');
