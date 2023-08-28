@@ -54,6 +54,7 @@ Route::middleware('auth:sanctum')->group(function () {
                 
                 Route::post('/rating', [LessonRatingController::class, 'store'])->name('lesson.rating.store');
                 Route::get('/rating/{lesson_id}', [LessonRatingController::class, 'show'])->name('lesson.rating.show');
+                Route::delete('/rating/{lesson_id}', [LessonRatingController::class, 'destroy'])->name('lesson.rating.destroy');
             });
 
 
