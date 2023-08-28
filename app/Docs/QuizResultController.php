@@ -2,6 +2,30 @@
 
 namespace App\Docs;
 
+/**
+ * @OA\Schema(
+ *   schema="QuizResult",
+ *   required={"data"},
+ *      @OA\Property(
+ *       property="data",
+ *       type="array",
+ *       @OA\Items(
+ *           @OA\Property(property="answers", type="array",
+ *              @OA\Items(
+ *                  
+ *              )
+ *          ),
+ *           @OA\Property(property="question", type="string", example="Однако ж это обидно! что же твой приятель не едет?» "),
+ *       ),
+ *       @OA\Property(
+ *          property="quiz_id",
+ *          type="string",
+ *          example="99f649a7-5b10-4b2f-9dc9-2c226ad7dd70"
+ *      )
+ *   )
+ * )
+ */
+
 class QuizResultController
 {
     /**
@@ -12,9 +36,30 @@ class QuizResultController
      *     operationId="store_quiz_results",
      *     summary="Сформировать ответ для квиза",
      *     security={{"api": {}}},
+     *     @OA\Parameter(
+     *          name="quiz_id",
+     *          in="path",
+     *          description="quiz model id",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *     ),
+     *     @OA\Parameter(
+     *          name="quiz_id",
+     *          in="path",
+     *          description="quiz model id",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *     ),
      *     @OA\RequestBody(
-     *          required=true,
-     *          @OA\JsonContent(ref="#/components/requestBodies/QuizResults")
+     *      request="QuizResult",
+     *      required=true,
+     *      description="QuizResult",
+     *      @OA\MediaType(
+     *      mediaType="application/json",
+     *          @OA\Schema(ref="#/components/schemas/QuizResult")
+     *          )
      *      ),
      *      @OA\Response(
      *          response=201,
