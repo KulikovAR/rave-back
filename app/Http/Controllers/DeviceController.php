@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Device\DeviceRequest;
+use App\Http\Responses\ApiJsonResponse;
 use App\Services\UserDeviceService;
 use Illuminate\Http\Request;
 
@@ -48,6 +49,6 @@ class DeviceController extends Controller
     public function destroy(DeviceRequest $request)
     {
         $userDeviceService = new UserDeviceService($request->user());
-        return $userDeviceService->deleteDeviceByName($request->name);
+        return new ApiJsonResponse();
     }
 }
