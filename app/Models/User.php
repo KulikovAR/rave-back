@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\SubscriptionTypeEnum;
 use App\Notifications\PasswordResetNotification;
 use App\Notifications\VerifyEmailNotification;
+use App\Traits\ApiTokensWithDevice;
 use Carbon\Carbon;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasName;
@@ -24,7 +25,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements MustVerifyEmail, HasLocalePreference, FilamentUser, HasName
 {
-    use HasApiTokens, HasFactory, Notifiable, HasUuids, SoftDeletes, HasRoles;
+    use HasApiTokens, HasFactory, Notifiable, HasUuids, SoftDeletes, HasRoles, ApiTokensWithDevice;
 
     /**
      * The attributes that are mass assignable.

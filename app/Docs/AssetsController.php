@@ -11,6 +11,7 @@ class AssetsController
      *     tags={"Assets"},
      *     operationId="index_assets",
      *     summary="Tel codes, flags, countries, etc",
+     *     security={{"api": {}}},
      *     @OA\Parameter(
      *          name="locale",
      *          in="path",

@@ -17,7 +17,7 @@ class AuthSessionTest extends TestCase
 
         $response = $this->postJson(route('login.stateful'), [
             'email'    => $user->email,
-            'password' => UserSeeder::USER_PASSWORD,
+            'password' => UserSeeder::USER_PASSWORD
         ]);
 
         $response->assertStatus(200);

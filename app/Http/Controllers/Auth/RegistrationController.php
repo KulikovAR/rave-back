@@ -12,6 +12,7 @@ use App\Models\Role;
 use App\Models\User;
 use App\Traits\BearerTokenTrait;
 use App\Traits\PasswordHash;
+use hisorange\BrowserDetect\Parser as Browser;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
@@ -29,7 +30,7 @@ class RegistrationController extends Controller
 
         $user->assignRole(Role::ROLE_USER);
 
-        $userProfile = $user->userProfile()
+        $user->userProfile()
             ->updateOrCreate(
                 ['user_id' => $user->id],
                 [
@@ -37,14 +38,12 @@ class RegistrationController extends Controller
                     'lastname'  => $request->lastname
                 ]
             );
-
-        $bearerToken = $this->createAuthToken($user, $request->device_name);
+   
+        $bearerToken = $this->createOrGetAuthToken($user, Browser::platformName());
 
         event(new RegisteredUserEvent($user));
 
         Auth::login($user); //session login
-
-
 
         return new ApiJsonResponse(
             200,

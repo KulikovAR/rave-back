@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enums\StatusEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginEmailRequest;
 use App\Http\Resources\UserResource;
 use App\Http\Responses\ApiJsonResponse;
 use App\Models\User;
+use App\Services\UserDeviceService;
 use App\Traits\BearerTokenTrait;
+use hisorange\BrowserDetect\Parser as Browser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -25,14 +28,23 @@ class AuthTokenController extends Controller
 
         $request->authenticate($passwordCheckCallable);
 
-        $user        = User::where('email', Str::lower($request->email))->first();
-        $bearerToken = $this->createAuthToken($user, $request->device_name);
+        $user              = User::where('email', Str::lower($request->email))->first();
+        $userDeviceService = new UserDeviceService($user);
 
+        if ($userDeviceService->checkTooManyDevices(Browser::platformName())) {
+            return new ApiJsonResponse(
+                status: StatusEnum::ERR,
+                data: $userDeviceService->getDevices()
+            );
+        }
+
+        $bearerToken = $this->createOrGetAuthToken($user, Browser::platformName());
         return new ApiJsonResponse(
             data: [
-                      'user'  => new UserResource($user),
-                      'token' => $bearerToken,
-                  ]);
+                'user'  => new UserResource($user),
+                'token' => $bearerToken,
+            ]
+        );
     }
 
     public function destroy(Request $request): ApiJsonResponse
