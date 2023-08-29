@@ -67,7 +67,7 @@ Route::middleware('auth:sanctum')->group(function () {
             });
 
             Route::prefix('quiz')->group(function () {
-                Route::get('/{lesson_id}', [QuizController::class, 'show'])->name('quiz.show');
+                Route::get('/{id}', [QuizController::class, 'show'])->name('quiz.show');
             });
 
             Route::prefix('quiz_results')->group(function () {

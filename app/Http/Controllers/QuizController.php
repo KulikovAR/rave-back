@@ -7,6 +7,7 @@ use App\Http\Resources\Quiz\QuizCollection;
 use App\Http\Resources\Quiz\QuizResource;
 use App\Http\Responses\ApiJsonPaginationResponse;
 use App\Http\Responses\ApiJsonResponse;
+use App\Models\Quiz;
 use Illuminate\Http\Request;
 
 class QuizController extends Controller
@@ -24,10 +25,14 @@ class QuizController extends Controller
      */
     public function show(UuidRequest $request)
     {
-       $lesson = $request->user()->lessons()->findOrFail($request->lesson_id);
+       $quiz = Quiz::whereHas('lessons', function($lesson) use ($request) {
+            $lesson->whereHas('users', function($user) use ($request) {
+                $user->where('users.id', $request->user()->id);
+            });
+       })->where('id', $request->id)->firstOrFail();
 
        return new ApiJsonResponse(
-            data: new QuizCollection($lesson->quizzes)
+            data: new QuizResource($quiz)
        );
     }
 

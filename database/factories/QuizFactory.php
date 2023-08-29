@@ -32,6 +32,7 @@ class QuizFactory extends Factory
         return [
             'title'       => $this->faker->realText(20),
             'description' => $this->faker->realText(),
+            'duration'    => rand(15, 30),
             'data'        => json_encode($quiz),
         ];
     }

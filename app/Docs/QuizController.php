@@ -7,15 +7,15 @@ class QuizController
     /**
      *
      * @OA\Get(
-     *     path="/quiz/{lesson_id}",
+     *     path="/quiz/{id}",
      *     tags={"Quiz"},
      *     operationId="index_quizzes",
      *     summary="Получить квизы для урока",
      *     security={{"api": {}}},
      *     @OA\Parameter(
-     *          name="lesson_id",
+     *          name="id",
      *          in="path",
-     *          description="lesson model id",
+     *          description="quiz model id",
      *          @OA\Schema(
      *              type="string"
      *          )
