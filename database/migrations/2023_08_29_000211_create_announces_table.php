@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('preview_path');
             $table->string('video_path');
             $table->timestamp('release_at');
+            $table->boolean('main')->default(false);
             $table->primary('id');
             $table->timestamps();
         });

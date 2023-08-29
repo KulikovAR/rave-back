@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnnounceController;
 use App\Http\Controllers\AssetsController;
 use App\Http\Controllers\Auth\AuthProviderController;
 use App\Http\Controllers\Auth\AuthTokenController;
@@ -54,6 +55,10 @@ Route::middleware('auth:sanctum')->group(function () {
                 
                 Route::post('/rating', [LessonRatingController::class, 'store'])->name('lesson.rating.store');
                 Route::get('/rating/{lesson_id}', [LessonRatingController::class, 'show'])->name('lesson.rating.show');
+            });
+
+            Route::prefix('announce')->group(function () {
+                Route::get('/', [AnnounceController::class, 'index'])->name('announce.index');
             });
 
 

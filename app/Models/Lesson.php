@@ -41,6 +41,5 @@ class Lesson extends Model
     public function ratings(): HasMany
     {
         return $this->hasMany(LessonRating::class);
-
     }
 }
