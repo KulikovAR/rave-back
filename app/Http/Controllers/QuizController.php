@@ -31,6 +31,10 @@ class QuizController extends Controller
             });
        })->where('id', $request->id)->firstOrFail();
 
+        $quiz->setRelation('quiz_results', $quiz->quiz_results()->whereHas('user', function ($user) use ($request) {
+            $user->where('id', $request->user()->id);
+        }));
+
        return new ApiJsonResponse(
             data: new QuizResource($quiz)
        );
