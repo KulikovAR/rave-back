@@ -39,7 +39,7 @@ class RegistrationController extends Controller
                 ]
             );
    
-        $bearerToken = $this->createOrGetAuthToken($user, Browser::platformName());
+        $bearerToken = $this->createOrGetAuthToken($user, Browser::userAgent());
 
         event(new RegisteredUserEvent($user));
 

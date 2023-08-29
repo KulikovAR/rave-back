@@ -31,14 +31,14 @@ class AuthTokenController extends Controller
         $user              = User::where('email', Str::lower($request->email))->first();
         $userDeviceService = new UserDeviceService($user);
 
-        if ($userDeviceService->checkTooManyDevices(Browser::platformName())) {
+        if ($userDeviceService->checkTooManyDevices(Browser::userAgent())) {
             return new ApiJsonResponse(
                 status: StatusEnum::ERR,
                 data: $userDeviceService->getDevices()
             );
         }
 
-        $bearerToken = $this->createOrGetAuthToken($user, Browser::platformName());
+        $bearerToken = $this->createOrGetAuthToken($user, Browser::userAgent());
         return new ApiJsonResponse(
             data: [
                 'user'  => new UserResource($user),
