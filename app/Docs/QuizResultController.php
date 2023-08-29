@@ -38,15 +38,7 @@ class QuizResultController
      *     security={{"api": {}}},
      *     @OA\Parameter(
      *          name="quiz_id",
-     *          in="path",
-     *          description="quiz model id",
-     *          @OA\Schema(
-     *              type="string"
-     *          )
-     *     ),
-     *     @OA\Parameter(
-     *          name="quiz_id",
-     *          in="path",
+     *          in="query",
      *          description="quiz model id",
      *          @OA\Schema(
      *              type="string"
