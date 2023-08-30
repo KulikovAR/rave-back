@@ -1,18 +1,19 @@
-<?php 
+<?php
 
-namespace App\Docs\Schemas\Lesson;
+namespace App\Docs\Schemas\Quiz;
 
 /**
  * @OA\Schema(
- *     title="Lesson",
- *     description="Lesson model",
+ *     title="Quiz",
+ *     description="Quiz model",
  *     @OA\Xml(
- *         name="Lesson"
+ *         name="Quiz"
  *     )
  * )
  */
 
-class Lesson {
+class Quiz
+{
     /**
      * @OA\Property(
      *     title="id",
@@ -28,7 +29,7 @@ class Lesson {
     /**
      * @OA\Property(
      *     title="title",
-     *     description="Название урока",
+     *     description="Название квиза",
      *     format="string",
      *     example="Новый урок"
      * )
@@ -40,7 +41,7 @@ class Lesson {
     /**
      * @OA\Property(
      *     title="description",
-     *     description="Описание урока",
+     *     description="Описание квиза",
      *     format="string",
      *     example="В этом уроке мы рассмотрим графический дизайн, который включает создание логотипов, иллюстраций, макетов и других графических элементов. Вы узнаете о принципах композиции, цветовой теории и использовании графических инструментов."
      * )
@@ -49,40 +50,25 @@ class Lesson {
      */
     private $description;
 
-
     /**
      * @OA\Property(
-     *     title="description",
-     *     description="Пусть к видео урока",
-     *     format="string",
-     *     example="https://trueschool/video/design.mp4"
+     *     title="duration",
+     *     description="Время квиза в минутах",
+     *     format="int64",
+     *     example=15
      * )
      *
      * @var string
      */
-    private $video_path;
+    private $duration;
+
 
     /**
-     * @OA\Property(
-     *     title="description",
-     *     description="Пусть к видео урока",
-     *     format="string",
-     *     example="https://trueschool/previes/design.png"
-     * )
+     *  @OA\Property(property="data", type="object", example={}
+     *   )
      *
      * @var string
      */
-    private $preview_path;
+    private $data;
 
-    /**
-     * @OA\Property(
-     *     title="description",
-     *     description="Дата анонса",
-     *     format="string",
-     *     example="05.04.2023"
-     * )
-     *
-     * @var string
-     */
-    private $announc_date;
 }

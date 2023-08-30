@@ -76,14 +76,19 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
         return $this->hasMany(Order::class);
     }
 
-    public function tags(): HasMany
+    public function quiz_results(): HasMany
     {
-        return $this->hasMany(Tag::class);
+        return $this->hasMany(QuizResult::class);
     }
 
     public function lessons(): BelongsToMany
     {
         return $this->BelongsToMany(Lesson::class);
+    }
+
+    public function lesson_rating(): hasMany
+    {
+        return $this->hasMany(LessonRating::class);
     }
 
     public function preferredLocale()
