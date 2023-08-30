@@ -25,7 +25,7 @@ class LessonRatingController extends Controller
     {
         $lesson = $request->user()->lessons()->findOrFail($request->lesson_id);
 
-        $lesson_rating = LessonRating::updateOrCreate(
+        LessonRating::updateOrCreate(
             [
                 'lesson_id' => $lesson->id,
                 'user_id'   => $request->user()->id
@@ -65,8 +65,12 @@ class LessonRatingController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(UuidRequest $request)
     {
-        //
+        $lesson_rating = $request->user()->lesson_rating()->where('lesson_id', $request->lesson_id)->firstOrFail();
+        
+        $lesson_rating->delete();
+
+        return new ApiJsonResponse();
     }
 }

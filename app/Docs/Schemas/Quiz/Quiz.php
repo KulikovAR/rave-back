@@ -50,6 +50,17 @@ class Quiz
      */
     private $description;
 
+    /**
+     * @OA\Property(
+     *     title="duration",
+     *     description="Время квиза в минутах",
+     *     format="int64",
+     *     example=15
+     * )
+     *
+     * @var string
+     */
+    private $duration;
 
 
     /**

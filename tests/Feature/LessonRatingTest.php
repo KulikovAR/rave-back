@@ -93,4 +93,19 @@ class LessonRatingTest extends TestCase
         ]);
     }
 
+
+    public function test_delete_rating_by_lesson_id()
+    {
+        $lesson = $this->getTestLesson();
+
+        $response = $this->json(
+            'delete',
+            route('lesson.rating.show', [
+                'lesson_id' => $lesson->id
+            ]),
+            headers: $this->getHeadersForUser()
+        );
+
+        $response->assertStatus(200);
+    }
 }

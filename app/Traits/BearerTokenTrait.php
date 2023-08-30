@@ -29,5 +29,13 @@ trait BearerTokenTrait
         }
         return $user->createToken($tokenName, expiresAt: $expiresAt)->plainTextToken;
     }
+
+    protected function createOrGetAuthToken(User $user, ?string $tokenName = null, \DateTime $expiresAt = null): string
+    {
+        if (empty($tokenName)) {
+            $tokenName = 'spa';
+        }
+        return $user->createOrGetToken($tokenName, expiresAt: $expiresAt)->plainTextToken;
+    }
 }
 

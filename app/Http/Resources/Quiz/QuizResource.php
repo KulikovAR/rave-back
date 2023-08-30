@@ -18,7 +18,9 @@ class QuizResource extends JsonResource
             'id'          => $this->id,
             'title'       => $this->title,
             'description' => $this->description,
-            'data'        => $this->data ? json_decode($this->data) : []
+            'duration'    => $this->duration,
+            'data'        => $this->data ? json_decode($this->data) : [],
+            'quiz_result' => $this->quiz_results()->count()
         ];
     }
 }

@@ -64,6 +64,10 @@ namespace App\Docs;
  *      description="Данные для UI"
  * )
  * @OA\Tag(
+ *      name="Device",
+ *      description="Девайсы"
+ * )
+ * @OA\Tag(
  *      name="CSRF",
  *      description="session auth with CSRF protection"
  * )
@@ -82,7 +86,6 @@ namespace App\Docs;
  *        example = "QuizResults",
  *        value = {
  *           "quiz_id": "99f649a7-5b10-4b2f-9dc9-2c226ad7dd70",
- *           "description": "Дома он говорил про себя: «И ты, однако ж, остановил, впрочем, — они увидели, точно, границу, состоявшую из деревянного столбика и узенького рва. — Вот тебе на, будто не помнишь! — Нет, барин, не.",
  *           "data": {
  *               {
  *                   "answers": {

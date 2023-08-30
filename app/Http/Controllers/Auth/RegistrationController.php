@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enums\EnvironmentTypeEnum;
 use App\Enums\StatusEnum;
 use App\Events\RegisteredUserEvent;
 use App\Http\Controllers\Controller;
@@ -12,6 +13,9 @@ use App\Models\Role;
 use App\Models\User;
 use App\Traits\BearerTokenTrait;
 use App\Traits\PasswordHash;
+use Carbon\Carbon;
+use hisorange\BrowserDetect\Parser as Browser;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
@@ -29,7 +33,7 @@ class RegistrationController extends Controller
 
         $user->assignRole(Role::ROLE_USER);
 
-        $userProfile = $user->userProfile()
+        $user->userProfile()
             ->updateOrCreate(
                 ['user_id' => $user->id],
                 [
@@ -37,14 +41,18 @@ class RegistrationController extends Controller
                     'lastname'  => $request->lastname
                 ]
             );
-
-        $bearerToken = $this->createAuthToken($user, $request->device_name);
+   
+        $bearerToken = $this->createOrGetAuthToken($user, Browser::userAgent());
 
         event(new RegisteredUserEvent($user));
 
         Auth::login($user); //session login
 
-
+        if (!App::environment(EnvironmentTypeEnum::productEnv())) {
+           $user->update([
+                'subscription_expires_at' => Carbon::now()->addMonth()
+           ]); 
+        }
 
         return new ApiJsonResponse(
             200,

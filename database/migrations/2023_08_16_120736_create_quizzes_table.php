@@ -15,6 +15,7 @@ return new class extends Migration
             $table->uuid('id');
             $table->string('title');
             $table->text('description');
+            $table->text('duration');
             $table->uuid('lesson_id');
             $table->foreign('lesson_id')
                 ->references('id')

@@ -42,4 +42,9 @@ class Lesson extends Model
     {
         return $this->hasMany(LessonRating::class);
     }
+
+    public function users(): BelongsToMany
+    {
+        return $this->BelongsToMany(User::class);
+    }
 }

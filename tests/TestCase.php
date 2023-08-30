@@ -81,7 +81,7 @@ abstract class TestCase extends BaseTestCase
     protected function getHeadersForUser(User $user = null): array
     {
         $token = ($user ?? $this->getTestUser())
-            ->createToken('spa')
+            ->createOrGetToken('spa')
             ->plainTextToken;
 
         return ['Authorization' => "Bearer $token"];
