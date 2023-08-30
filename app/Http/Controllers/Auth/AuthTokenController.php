@@ -29,16 +29,20 @@ class AuthTokenController extends Controller
         $request->authenticate($passwordCheckCallable);
 
         $user              = User::where('email', Str::lower($request->email))->first();
-        $userDeviceService = new UserDeviceService($user);
+        $bearerToken       = $this->createOrGetAuthToken($user, Browser::userAgent());
 
+        $userDeviceService = new UserDeviceService($user);
         if ($userDeviceService->checkTooManyDevices(Browser::userAgent())) {
             return new ApiJsonResponse(
                 status: StatusEnum::ERR,
-                data: $userDeviceService->getDevices()
+                data: [
+                    'devices' => $userDeviceService->getDevices(),
+                    'user'    => new UserResource($user),
+                    'token'   => $bearerToken,
+                ]
             );
         }
 
-        $bearerToken = $this->createOrGetAuthToken($user, Browser::userAgent());
         return new ApiJsonResponse(
             data: [
                 'user'  => new UserResource($user),
