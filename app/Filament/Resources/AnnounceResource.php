@@ -29,8 +29,8 @@ class AnnounceResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
     protected static ?string $navigationGroup = MenuTitles::CATEGORY_APP;
-    protected static ?string $pluralModelLabel = MenuTitles::MENU_ANNOUNCES;
-    protected static ?string $modelLabel = MenuTitles::MENU_ANNOUNCE;
+    protected static ?string $pluralModelLabel = 'Анонсы';
+    protected static ?string $modelLabel = 'Анонс';
 
     public static function form(Form $form): Form
     {
@@ -56,22 +56,29 @@ class AnnounceResource extends Resource
             ->columns([
                 TextColumn::make('title'),
                 TextColumn::make('description'),
-                TextColumn::make('video_path'),
+                TextColumn::make('video_path')
+                    ->tooltip(fn($record) => $record->video_path)
+                    ->limit(15),
                 ImageColumn::make('preview_path'),
-                TextColumn::make('tags'),
+                // TextColumn::make('tags'),
                 IconColumn::make('main')
                     ->boolean()
-                    ->trueIcon('heroicon-o-check')
-                    ->falseIcon('heroicon-o-check'),
+                    ->trueIcon('heroicon-o-ban')
+                    ->trueColor('danger')
+                    ->falseIcon('heroicon-o-check-circle')
+                    ->falseColor('success')
+                    ->alignCenter(),
                 TextColumn::make('release_at')
                     ->dateTime()
                     ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
                     ->dateTime()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //

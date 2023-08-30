@@ -17,7 +17,8 @@ class AnnounceController extends Controller
     public function index(UuidRequest $request)
     {
         if ($request->has('id')) {
-            return new ApiJsonResponse(data: new AnnounceResource(Announce::findOrFail($request->id)));
+            $announce = Announce::findOrFail($request->id);
+            return new ApiJsonResponse(data: new AnnounceResource($announce));
         }
 
         return new AnnounceCollection(Announce::paginate(config('pagination.per_page')));
