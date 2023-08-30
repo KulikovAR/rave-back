@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnnounceController;
 use App\Http\Controllers\AssetsController;
 use App\Http\Controllers\Auth\AuthProviderController;
 use App\Http\Controllers\Auth\AuthTokenController;
@@ -46,6 +47,11 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::middleware('device')->group(function () {
         Route::post('/verification/email', [VerificationContactController::class, 'sendEmailVerification'])->name('verification.email.send');
+
+            Route::prefix('announce')->group(function () {
+                Route::get('/', [AnnounceController::class, 'index'])->name('announce.index');
+                Route::get('/main', [AnnounceController::class, 'getMain'])->name('announce.main');
+            });
 
 
         Route::patch('/password', [PasswordController::class, 'update'])->name('password.update');

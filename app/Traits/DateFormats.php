@@ -25,6 +25,15 @@ trait DateFormats
         return date('d.m.Y', strtotime($date));
     }
 
+    private function formatDateTimeForOutput(?string $date): ?string
+    {
+        if (empty($date)) {
+            return null;
+        }
+
+        return date('d.m.Y H:i:s', strtotime($date));
+    }
+
     private function formatWithTimezone(?string $date): string
     {
         return Carbon::parse($date)->toISOString();
