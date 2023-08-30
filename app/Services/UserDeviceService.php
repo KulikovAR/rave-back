@@ -28,7 +28,6 @@ class UserDeviceService
 
         return $this->user->tokens()->count() >= config('tokens.devices_available_quantity');
     }
-
     public function getDevices()
     {
         return new DevicesCollection($this->user->tokens);

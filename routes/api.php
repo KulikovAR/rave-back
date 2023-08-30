@@ -40,35 +40,38 @@ Route::middleware(['guest'])->group(function () {
 
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/verification/email', [VerificationContactController::class, 'sendEmailVerification'])->name('verification.email.send');
-
-    Route::patch('/password', [PasswordController::class, 'update'])->name('password.update');
-    Route::delete('/logout', [AuthTokenController::class, 'destroy'])->name('logout.stateless');
-
+    
     Route::get('/device', [DeviceController::class, 'index'])->name('device.index');
     Route::delete('/device', [DeviceController::class, 'destroy'])->name('device.delete');
 
-    Route::middleware('verified')->group(function () {
-        Route::get('/user_profile', [UserProfileController::class, 'index'])->name('user_profile.index');
-        Route::post('/user_profile', [UserProfileController::class, 'store'])->name('user_profile.store');
-
-        Route::middleware('subscription')->group(function () {
-            Route::prefix('lessons')->group(function () {
-                Route::get('/', [LessonController::class, 'index'])->name('lesson.index');
-                
-                Route::post('/rating', [LessonRatingController::class, 'store'])->name('lesson.rating.store');
-                Route::get('/rating/{lesson_id}', [LessonRatingController::class, 'show'])->name('lesson.rating.show');
-                Route::delete('/rating/{lesson_id}', [LessonRatingController::class, 'destroy'])->name('lesson.rating.destroy');
-            });
+    Route::middleware('device')->group(function () {
+        Route::post('/verification/email', [VerificationContactController::class, 'sendEmailVerification'])->name('verification.email.send');
 
 
-            Route::prefix('tags')->group(function () {
-                Route::get('/', [TagController::class, 'index'])->name('tag.index');
-                Route::get('/{slug}', [TagController::class, 'show'])->name('tag.show');
-            });
+        Route::patch('/password', [PasswordController::class, 'update'])->name('password.update');
+        Route::delete('/logout', [AuthTokenController::class, 'destroy'])->name('logout.stateless');
+      
+        Route::middleware('verified')->group(function () {
+            Route::get('/user_profile', [UserProfileController::class, 'index'])->name('user_profile.index');
+            Route::post('/user_profile', [UserProfileController::class, 'store'])->name('user_profile.store');
 
-            Route::prefix('shorts')->group(function () {
-                Route::get('/', [ShortsController::class, 'index'])->name('short.index');
+            Route::middleware('subscription')->group(function () {
+                Route::prefix('lessons')->group(function () {
+                    Route::get('/', [LessonController::class, 'index'])->name('lesson.index');
+
+                    Route::post('/rating', [LessonRatingController::class, 'store'])->name('lesson.rating.store');
+                    Route::get('/rating/{lesson_id}', [LessonRatingController::class, 'show'])->name('lesson.rating.show');
+                });
+
+
+                Route::prefix('tags')->group(function () {
+                    Route::get('/', [TagController::class, 'index'])->name('tag.index');
+                    Route::get('/{slug}', [TagController::class, 'show'])->name('tag.show');
+                });
+
+                Route::prefix('shorts')->group(function () {
+                    Route::get('/', [ShortsController::class, 'index'])->name('short.index');
+                });
             });
 
             Route::prefix('quiz')->group(function () {
