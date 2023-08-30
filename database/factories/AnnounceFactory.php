@@ -21,7 +21,8 @@ class AnnounceFactory extends Factory
             'description'  => $this->faker->realText(),
             'video_path'   => url('videos/video1.webm'),
             'preview_path' => url('previews/test_preview.png'),
-            'release_at' => $this->faker->date()
+            'release_at'   => $this->faker->date(),
+            'main'         => false
         ];
     }
 }

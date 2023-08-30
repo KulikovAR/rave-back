@@ -59,6 +59,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
             Route::prefix('announce')->group(function () {
                 Route::get('/', [AnnounceController::class, 'index'])->name('announce.index');
+                Route::get('/main', [AnnounceController::class, 'getMain'])->name('announce.main');
             });
 
 
