@@ -100,7 +100,7 @@ class LessonRatingTest extends TestCase
 
         $response = $this->json(
             'delete',
-            route('lesson.rating.show', [
+            route('lesson.rating.delete', [
                 'lesson_id' => $lesson->id
             ]),
             headers: $this->getHeadersForUser()
