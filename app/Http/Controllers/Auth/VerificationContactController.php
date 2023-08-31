@@ -61,10 +61,11 @@ class VerificationContactController extends Controller
 
         if ($user?->markEmailAsVerified()) {
 
-            $token       = $this->createTemporaryAuthToken($user);
-            $cookieToken = $this->createBearerCookie($token);
+            // $token       = $this->createTemporaryAuthToken($user);
+            // $cookieToken = $this->createBearerCookie($token);
 
-            return redirect(config('front-end.email_verified'))->withCookie($cookieToken);
+            // return redirect(config('front-end.email_verified'))->withCookie($cookieToken);
+            return redirect(config('front-end.email_verified'));
         }
 
         return redirect(config('front-end.email_verified_error'));
