@@ -17,7 +17,8 @@ class Device
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $userDeviceService = new UserDeviceService($request->user());
-        return $userDeviceService->checkTooManyDevices(Browser::userAgent()) ? response(null, 403) : $next($request);
+        // $userDeviceService = new UserDeviceService($request->user());
+        // return $userDeviceService->checkTooManyDevices(Browser::userAgent()) ? response(null, 403) : $next($request);
+        return $next($request);
     }
 }
