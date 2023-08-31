@@ -49,6 +49,7 @@ class DeviceController extends Controller
     public function destroy(DeviceRequest $request)
     {
         $userDeviceService = new UserDeviceService($request->user());
+        $userDeviceService->deleteDeviceByName($request->name);
         return new ApiJsonResponse();
     }
 }
