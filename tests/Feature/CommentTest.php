@@ -47,10 +47,7 @@ class CommentTest extends TestCase
                 [
                     'id',
                     'body',
-                    'user' => [
-                        'firstname',
-                        'lastname'
-                    ]
+                    'user'
                 ]
             ],
             'links', 
