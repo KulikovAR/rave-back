@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\AuthTokenController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\RegistrationController;
 use App\Http\Controllers\Auth\VerificationContactController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\LessonRatingController;
@@ -70,6 +71,11 @@ Route::middleware('auth:sanctum')->group(function () {
                     Route::delete('/rating/{lesson_id}', [LessonRatingController::class, 'destroy'])->name('lesson.rating.destroy');
                 });
 
+                Route::prefix('comment')->group(function () {
+                    Route::get('/{lesson_id}', [CommentController::class, 'index'])->name('comment.index');
+                    Route::post('/', [CommentController::class, 'store'])->name('comment.store');
+                    Route::delete('/{id}', [CommentController::class, 'destroy'])->name('comment.destroy');
+                });
 
                 Route::prefix('tags')->group(function () {
                     Route::get('/', [TagController::class, 'index'])->name('tag.index');

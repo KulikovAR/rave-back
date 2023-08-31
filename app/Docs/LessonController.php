@@ -22,6 +22,15 @@ class LessonController
      *          )
      *     ),
      *     @OA\Parameter(
+     *          name="comment_page",
+     *          in="query",
+     *          description="comment pagination page",
+     *          @OA\Schema(
+     *              type="int64",
+     *              example=1
+     *          )
+     *     ),
+     *     @OA\Parameter(
      *          name="id",
      *          in="query",
      *          description="model id",

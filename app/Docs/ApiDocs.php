@@ -28,6 +28,10 @@ namespace App\Docs;
  *      description="Видеоуроки"
  * )
  * @OA\Tag(
+ *      name="Comment",
+ *      description="Комментарии"
+ * )
+ * @OA\Tag(
  *      name="Announce",
  *      description="Анонс"
  * )
