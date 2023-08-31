@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Http\Resources\Lesson\LessonResource;
+use App\Http\Resources\Lesson\LessonShowResource;
 use App\Models\Lesson;
 use App\Models\Tag;
 use App\Models\User;
@@ -43,7 +44,7 @@ class LessonTest extends TestCase
             'data'
         ]);
 
-        $this->assertSameResource(new LessonResource($lesson), $response->json('data'));
+        $this->assertSameResource(new LessonShowResource($lesson), $response->json('data'));
     }
 
     public function test_index(): void

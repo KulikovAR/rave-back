@@ -11,9 +11,6 @@ class MenuTitles
     const MENU_USERS = 'Юзеры';
     const MENU_USER  = 'Юзера';
 
-    const MENU_ANNOUNCES = 'Анонсы';
-    const MENU_ANNOUNCE = 'Анонс';
-
     const MENU_ORDERS = 'Заказы';
     const MENU_ORDER  = 'Заказа';
 

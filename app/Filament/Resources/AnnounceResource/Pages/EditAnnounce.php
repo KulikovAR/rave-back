@@ -2,11 +2,11 @@
 
 namespace App\Filament\Resources\AnnounceResource\Pages;
 
+use App\Filament\BaseEditAction;
 use App\Filament\Resources\AnnounceResource;
 use Filament\Pages\Actions;
-use Filament\Resources\Pages\EditRecord;
 
-class EditAnnounce extends EditRecord
+class EditAnnounce extends BaseEditAction
 {
     protected static string $resource = AnnounceResource::class;
 
