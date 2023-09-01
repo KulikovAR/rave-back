@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Comment;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Validator;
 
 class StoreCommentLessonRequest extends FormRequest
 {
@@ -22,8 +23,23 @@ class StoreCommentLessonRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'lesson_id' => 'uuid|required|exists:lessons,id',
-            'body'      => 'string|required'
+            'lesson_id'  => 'uuid|nullable|exists:lessons,id',
+            'comment_id' => 'uuid|nullable|exists:comments,id',
+            'body'       => 'string|required'
+        ];
+    }
+
+    public function after(): array
+    {
+        return [
+            function (Validator $validator) {
+                if (is_null($this->input('comment_id')) && is_null($this->input('lesson_id'))) {
+                    $validator->errors()->add(
+                        'id',
+                        __('The lesson_id and comment_id fields cannot be null at the same time', ['attribute' => 'id'])
+                    );
+                }
+            }
         ];
     }
 }

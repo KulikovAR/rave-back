@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\StatusEnum;
 use App\Http\Requests\Comment\StoreCommentLessonRequest;
 use App\Http\Requests\StoreCommentRequest;
 use App\Http\Requests\UpdateCommentRequest;
@@ -39,14 +40,25 @@ class CommentController extends Controller
      */
     public function store(StoreCommentLessonRequest $request)
     {
-        $lesson = $request->user()->lessons()->findOrFail($request->lesson_id);
 
         $comment = new Comment([
             'body'    => $request->body,
             'user_id' => $request->user()->id
         ]);
 
-        $lesson->comments()->save($comment);
+        if ($request->has('lesson_id')) {
+
+            $lesson = $request->user()->lessons()->findOrFail($request->lesson_id);
+            $lesson->comments()->save($comment);
+
+        } elseif ($request->has('comment_id')) {
+            $parent_comment = Comment::findOrFail($request->comment_id);
+
+            $parent_comment->children()->save($comment);
+
+        } else {
+            return new ApiJsonResponse(400, StatusEnum::ERR);
+        }
 
         return new ApiJsonResponse();
     }
@@ -82,7 +94,7 @@ class CommentController extends Controller
     {
         $comment = Comment::where([
             'user_id' => $request->user()->id,
-            'id' => $request->id
+            'id'      => $request->id
         ])->firstOrFail();
 
         $comment->delete();

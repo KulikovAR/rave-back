@@ -89,6 +89,15 @@ class CommentController
      *          )
      *     ),
      *     @OA\Parameter(
+     *          name="comment_id",
+     *          in="query",
+     *          description="comment id",
+     *          @OA\Schema(
+     *              type="string",
+     *              example=""
+     *          )
+     *     ),
+     *     @OA\Parameter(
      *          name="body",
      *          in="query",
      *          description="comment body",
