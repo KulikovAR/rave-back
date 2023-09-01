@@ -13,8 +13,9 @@ class UserProfileResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'firstname'        => $this->firstname,
-            'lastname'         => $this->lastname,
+            'firstname' => $this->firstname,
+            'lastname'  => $this->lastname,
+            'avatar'    => url($this->avatar)
         ];
     }
 }

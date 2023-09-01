@@ -90,7 +90,24 @@ class CommentTest extends TestCase
         $response->assertStatus(422);
     }
 
+    public function test_add_nesting_comment(): void
+    {
+        $lesson = $this->getTestLesson();
 
+        $comment = $lesson->comments()->first();
+
+        $response = $this->json(
+            'post',
+            route('comment.store'),
+            [
+                'comment_id' => $comment->id,
+                'body'      => 'Test Nesting Comment'
+            ],
+            headers: $this->getHeadersForUser()
+        );
+
+        $response->assertStatus(200);
+    }
 
     public function test_delete_comment(): void
     {
@@ -108,4 +125,7 @@ class CommentTest extends TestCase
 
         $response->assertStatus(200);
     }
+
+
+
 }
