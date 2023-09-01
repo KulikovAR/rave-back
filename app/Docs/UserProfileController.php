@@ -46,7 +46,9 @@ class UserProfileController
      *
      *
      */
-    public function index() {}
+    public function index()
+    {
+    }
 
     /**
      *
@@ -72,6 +74,15 @@ class UserProfileController
      *          @OA\Schema(
      *              type="string",
      *              example="lastname"
+     *          )
+     *     ),
+     *      @OA\Parameter(
+     *          name="avatar",
+     *          in="query",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="string",
+     *              format="binary",
      *          )
      *     ),
      *     @OA\Response(
@@ -112,5 +123,7 @@ class UserProfileController
      *
      *
      */
-    public function store() {}
+    public function store()
+    {
+    }
 }
