@@ -5,7 +5,7 @@ namespace App\Http\Resources\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class CommentChildrenCollection extends ResourceCollection
+class CommentNestingCommentsCollection extends ResourceCollection
 {
     public $collects = CommentResource::class;
     

@@ -30,7 +30,7 @@ class Comment extends Model
         return $this->morphTo();
     }
 
-    public function children(): MorphMany
+    public function nesting_comments(): MorphMany
     {
         return $this->morphMany(Comment::class, 'commentable');
     }

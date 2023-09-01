@@ -19,7 +19,7 @@ class CommentResource extends JsonResource
             'id'       => $this->id,
             'body'     => $this->body,
             'user'     => new UserProfileResource($this->user->userProfile),
-            'children' => new CommentChildrenCollection($this->children)
+            'nesting_comments' => new CommentNestingCommentsCollection($this->nesting_comments)
         ];
     }
 }

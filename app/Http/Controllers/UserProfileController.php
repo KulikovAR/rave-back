@@ -37,4 +37,29 @@ class UserProfileController extends Controller
             new UserProfileResource($userProfile)
         );
     }
+
+    public function avatar(UserProfileRequest $request)
+    {
+        $user        = $request->user();
+
+        
+        $userProfile = $user->userProfile()
+            ->update(
+                ['user_id' => $user->id],
+                [
+                    'file'
+                ]
+            );
+
+        $imageName = time() . '.' . $request->image->extension();
+
+        $request->image->move(public_path('images'), $imageName);
+
+        return new ApiJsonResponse(
+            200,
+            StatusEnum::OK,
+            __("user-profile.created"),
+            new UserProfileResource($userProfile)
+        );
+    }
 }

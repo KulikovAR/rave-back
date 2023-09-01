@@ -47,20 +47,20 @@ class CommentController extends Controller
         ]);
 
         if ($request->has('lesson_id')) {
-
             $lesson = $request->user()->lessons()->findOrFail($request->lesson_id);
             $lesson->comments()->save($comment);
 
-        } elseif ($request->has('comment_id')) {
-            $parent_comment = Comment::findOrFail($request->comment_id);
+            return new ApiJsonResponse();
+        } 
+        
+        if ($request->has('comment_id')) {
+            $parentComment = Comment::findOrFail($request->comment_id);
+            $parentComment->nesting_comments()->save($comment);
 
-            $parent_comment->children()->save($comment);
+            return new ApiJsonResponse();
+        } 
 
-        } else {
-            return new ApiJsonResponse(400, StatusEnum::ERR);
-        }
-
-        return new ApiJsonResponse();
+        return new ApiJsonResponse(400, StatusEnum::ERR);
     }
 
     /**

@@ -17,6 +17,7 @@ return new class extends MigrationService {
             $table->uuid('id');
             $table->text('firstname');
             $table->text('lastname');
+            $table->string('avatar')->nullable();
 
             $table->uuid('user_id');
             $table->foreign('user_id')
