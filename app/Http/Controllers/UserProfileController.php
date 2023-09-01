@@ -9,6 +9,7 @@ use App\Http\Resources\UserProfileResource;
 use App\Http\Resources\UserResource;
 use App\Http\Responses\ApiJsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class UserProfileController extends Controller
 {
@@ -24,36 +25,23 @@ class UserProfileController extends Controller
     public function store(UserProfileRequest $request)
     {
         $user        = $request->user();
+
+        $data = $request->validated();
+
+        if($request->has('avatar')) {
+    
+            if (!is_null($user->userProfile->avatar)) {
+                Storage::delete($user->userProfile->avatar);
+            }
+
+            $data['avatar'] = $request->file('avatar')->store('avatars', 'public');
+        }
+
         $userProfile = $user->userProfile()
-                            ->updateOrCreate(
-                                ['user_id' => $user->id],
-                                $request->validated()
-                            );
-
-        return new ApiJsonResponse(
-            200,
-            StatusEnum::OK,
-            __("user-profile.created"),
-            new UserProfileResource($userProfile)
-        );
-    }
-
-    public function avatar(UserProfileRequest $request)
-    {
-        $user        = $request->user();
-
-        
-        $userProfile = $user->userProfile()
-            ->update(
+            ->updateOrCreate(
                 ['user_id' => $user->id],
-                [
-                    'file'
-                ]
+                $data
             );
-
-        $imageName = time() . '.' . $request->image->extension();
-
-        $request->image->move(public_path('images'), $imageName);
 
         return new ApiJsonResponse(
             200,
