@@ -23,8 +23,6 @@ class SubscriptionTest extends TestCase
             headers: $this->getHeadersForUser($user)
         );
 
-        $response->assertStatus(302);
-
-        $response->assertRedirect(config('front-end.subscription_expired'));
+        $response->assertStatus(402);
     }
 }

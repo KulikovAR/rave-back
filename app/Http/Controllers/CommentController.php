@@ -8,6 +8,7 @@ use App\Http\Requests\StoreCommentRequest;
 use App\Http\Requests\UpdateCommentRequest;
 use App\Http\Requests\UuidRequest;
 use App\Http\Resources\Comment\CommentCollection;
+use App\Http\Resources\Comment\CommentResource;
 use App\Http\Responses\ApiJsonResponse;
 use App\Models\Comment;
 use App\Models\Lesson;
@@ -50,14 +51,18 @@ class CommentController extends Controller
             $lesson = $request->user()->lessons()->findOrFail($request->lesson_id);
             $lesson->comments()->save($comment);
 
-            return new ApiJsonResponse();
+            return new ApiJsonResponse(
+                data: new CommentResource($comment)
+            );
         } 
         
         if ($request->has('comment_id')) {
             $parentComment = Comment::findOrFail($request->comment_id);
             $parentComment->nesting_comments()->save($comment);
 
-            return new ApiJsonResponse();
+            return new ApiJsonResponse(
+                data: new CommentResource($comment)
+            );
         } 
 
         return new ApiJsonResponse(400, StatusEnum::ERR);

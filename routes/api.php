@@ -12,6 +12,7 @@ use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\LessonRatingController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\ProposalController;
 use App\Http\Controllers\QuizController;
 use App\Http\Controllers\QuizResultController;
 use App\Http\Controllers\ShortsController;
@@ -63,6 +64,11 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::post('/user_profile', [UserProfileController::class, 'store'])->name('user_profile.store');
 
             Route::middleware('subscription')->group(function () {
+
+                Route::prefix('proposal')->group(function () {
+                    Route::post('/', [ProposalController::class, 'store'])->name('proposal.store');
+                });
+
                 Route::prefix('lessons')->group(function () {
                     Route::get('/', [LessonController::class, 'index'])->name('lesson.index');
 
