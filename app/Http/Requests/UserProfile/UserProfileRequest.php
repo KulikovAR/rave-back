@@ -16,7 +16,7 @@ class UserProfileRequest extends FormRequest
         return [
             "firstname" => "string|required",
             "lastname"  => "string|required",
-            'image'     => 'required|image|mimes:png,jpg,jpeg|max:2048'
+            'image'     => 'image|mimes:png,jpg,jpeg|max:2048'
         ];
     }
 }
