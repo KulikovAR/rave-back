@@ -55,6 +55,10 @@ namespace App\Docs;
  *      name="Tag",
  *      description="Теги"
  * )
+ * @OA\Proposal(
+ *      name="Proposal",
+ *      description="Предложения"
+ * )
  * @OA\Tag(
  *      name="UserProfile",
  *      description="Настройки пользователя"
