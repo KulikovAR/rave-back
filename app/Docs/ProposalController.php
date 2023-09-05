@@ -21,13 +21,20 @@ class ProposalController
      *              example="Новая идея для видеоролика"
      *          )
      *     ),
-     *      @OA\Parameter(
-     *          name="file",
-     *          in="query",
-     *          @OA\Schema(
-     *              type="string",
-     *              format="binary",
-     *          )
+     *      @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="multipart/form-data",
+     *             @OA\Schema(
+     *                 @OA\Property(
+     *                     description="file to upload",
+     *                     property="file",
+     *                     type="string",
+     *                     format="binary",
+     *                 ),
+     *                 required={"file"}
+     *             )
+     *         )
      *     ),
      *     @OA\Response(
      *          response="200",
