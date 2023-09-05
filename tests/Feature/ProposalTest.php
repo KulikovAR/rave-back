@@ -11,7 +11,7 @@ class ProposalTest extends TestCase
     /**
      * A basic feature test example.
      */
-    public function test_example(): void
+    public function test_store_proposal(): void
     {
         $response = $this->json(
             'post',
