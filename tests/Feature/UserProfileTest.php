@@ -8,7 +8,9 @@ use App\Models\User;
 use App\Models\UserProfile;
 use Database\Factories\UserProfileFactory;
 use Database\Seeders\UserSeeder;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class UserProfileTest extends TestCase
@@ -47,6 +49,26 @@ class UserProfileTest extends TestCase
                 'data' => ['id', "profile" => ['firstname']]
             ]
         );
+    }
+    public function test_store_avatar_user_profile(): void
+    {
+        $user     = User::factory()
+            ->has(UserProfile::factory(), 'userProfile')
+            ->create();
+
+        $response = $this->json(
+            'post',
+            route('user_profile.store.avatar'),
+            [
+                'avatar' => UploadedFile::fake()->image('test.png')
+            ],
+            $this->getHeadersForUser($user)
+        );
+
+
+        Storage::disk('public')->assertExists(str_replace(config('app.url'), '', $response->json()['data']['avatar']));
+
+        $response->assertStatus(200);
     }
 
     public function test_store_profile(): void
@@ -161,5 +183,4 @@ class UserProfileTest extends TestCase
 
         $user->userProfile()->delete();
     }
-
 }

@@ -62,6 +62,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::middleware('verified')->group(function () {
             Route::get('/user_profile', [UserProfileController::class, 'index'])->name('user_profile.index');
             Route::post('/user_profile', [UserProfileController::class, 'store'])->name('user_profile.store');
+            Route::post('/user_profile/avatar', [UserProfileController::class, 'storeAvatar'])->name('user_profile.store.avatar');
 
             Route::middleware('subscription')->group(function () {
 
