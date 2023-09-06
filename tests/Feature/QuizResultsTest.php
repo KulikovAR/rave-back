@@ -2,7 +2,10 @@
 
 namespace Tests\Feature;
 
+use App\Enums\QuizResultStatusEnum;
+use App\Models\Lesson;
 use App\Models\Quiz;
+use App\Models\QuizResult;
 use Database\Factories\QuizFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -91,6 +94,91 @@ class QuizResultsTest extends TestCase
             ],
             'message',
             'status'
+        ]);
+    }
+
+
+    public function test_lesson_have_not_passed_status_of_quiz_result(): void
+    {
+        $lesson = $this->createTestLessonWithUser();
+
+        $lesson->quizzes()->create((new QuizFactory())->definition());
+
+        $response = $this->json(
+            'get',
+            route('lesson.index'),
+            [
+                'id' => $lesson->id
+            ],
+            headers: $this->getHeadersForUser()
+        );
+
+        $response->assertStatus(200);
+
+        $response->assertJsonFragment([
+            'quiz_result_status' => QuizResultStatusEnum::NOT_PASSED->value
+        ]);
+    }
+
+
+    public function test_lesson_have_status_on_processing_of_quiz_result(): void
+    {
+        $lesson = $this->createTestLessonWithUser();
+
+        $lesson->quizzes()->create((new QuizFactory())->definition());
+
+        $user = $this->getTestUser();
+
+        QuizResult::factory()->create([
+            'verify'  => false,
+            'user_id' => $user->id,
+            'quiz_id' => $lesson->quiz->id
+        ]);
+
+        $response = $this->json(
+            'get',
+            route('lesson.index'),
+            [
+                'id' => $lesson->id
+            ],
+            headers: $this->getHeadersForUser()
+        );
+
+        $response->assertStatus(200);
+
+        $response->assertJsonFragment([
+            'quiz_result_status' => QuizResultStatusEnum::IS_PROCESSING->value
+        ]);
+    }
+
+
+    public function test_lesson_have_status_vefiry_of_quiz_result(): void
+    {
+        $lesson = $this->createTestLessonWithUser();
+
+        $lesson->quizzes()->create((new QuizFactory())->definition());
+
+        $user = $this->getTestUser();
+
+        QuizResult::factory()->create([
+            'verify'  => true,
+            'user_id' => $user->id,
+            'quiz_id' => $lesson->quiz->id
+        ]);
+
+        $response = $this->json(
+            'get',
+            route('lesson.index'),
+            [
+                'id' => $lesson->id
+            ],
+            headers: $this->getHeadersForUser()
+        );
+
+        $response->assertStatus(200);
+
+        $response->assertJsonFragment([
+            'quiz_result_status' => QuizResultStatusEnum::VERIFIED->value
         ]);
     }
 }

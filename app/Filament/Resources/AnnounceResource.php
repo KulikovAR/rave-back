@@ -63,10 +63,10 @@ class AnnounceResource extends Resource
                 // TextColumn::make('tags'),
                 IconColumn::make('main')
                     ->boolean()
-                    ->trueIcon('heroicon-o-ban')
-                    ->trueColor('danger')
-                    ->falseIcon('heroicon-o-check-circle')
-                    ->falseColor('success')
+                    ->trueIcon('heroicon-o-check-circle')
+                    ->trueColor('success')
+                    ->falseIcon('heroicon-o-ban')
+                    ->falseColor('danger')
                     ->alignCenter(),
                 TextColumn::make('release_at')
                     ->dateTime()

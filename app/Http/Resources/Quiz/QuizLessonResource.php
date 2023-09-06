@@ -2,11 +2,13 @@
 
 namespace App\Http\Resources\Quiz;
 
+use App\Traits\QuizResultStatus;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class QuizLessonResource extends JsonResource
 {
+    use QuizResultStatus;
     /**
      * Transform the resource into an array.
      *
@@ -15,11 +17,11 @@ class QuizLessonResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'          => $this->id,
-            'title'       => $this->title,
-            'description' => $this->description,
-            'duration'    => $this->duration,
-            'quiz_result' => $this->quiz_results()->count()
+            'id'                 => $this->id,
+            'title'              => $this->title,
+            'description'        => $this->description,
+            'duration'           => $this->duration,
+            'quiz_result_status' => $this->getQuizResultStatus()
         ];
     }
 }

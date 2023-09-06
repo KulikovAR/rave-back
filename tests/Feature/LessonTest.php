@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Http\Resources\Lesson\LessonResource;
 use App\Http\Resources\Lesson\LessonShowResource;
 use App\Models\Lesson;
+use App\Models\QuizResult;
 use App\Models\Tag;
 use App\Models\User;
 use Carbon\Carbon;

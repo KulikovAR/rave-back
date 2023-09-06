@@ -43,12 +43,12 @@ Route::middleware(['guest'])->group(function () {
 
 
 Route::middleware('auth:sanctum')->group(function () {
-    
-    Route::get('/device', [DeviceController::class, 'index'])->name('device.index');
-    Route::delete('/device', [DeviceController::class, 'destroy'])->name('device.delete');
+    Route::middleware('user_blocked')->group(function () {
+        Route::get('/device', [DeviceController::class, 'index'])->name('device.index');
+        Route::delete('/device', [DeviceController::class, 'destroy'])->name('device.delete');
 
-    Route::middleware('device')->group(function () {
-        Route::post('/verification/email', [VerificationContactController::class, 'sendEmailVerification'])->name('verification.email.send');
+        Route::middleware('device')->group(function () {
+            Route::post('/verification/email', [VerificationContactController::class, 'sendEmailVerification'])->name('verification.email.send');
 
             Route::prefix('announce')->group(function () {
                 Route::get('/', [AnnounceController::class, 'index'])->name('announce.index');
@@ -56,51 +56,52 @@ Route::middleware('auth:sanctum')->group(function () {
             });
 
 
-        Route::patch('/password', [PasswordController::class, 'update'])->name('password.update');
-        Route::delete('/logout', [AuthTokenController::class, 'destroy'])->name('logout.stateless');
-      
-        Route::middleware('verified')->group(function () {
-            Route::get('/user_profile', [UserProfileController::class, 'index'])->name('user_profile.index');
-            Route::post('/user_profile', [UserProfileController::class, 'store'])->name('user_profile.store');
-            Route::post('/user_profile/avatar', [UserProfileController::class, 'storeAvatar'])->name('user_profile.store.avatar');
+            Route::patch('/password', [PasswordController::class, 'update'])->name('password.update');
+            Route::delete('/logout', [AuthTokenController::class, 'destroy'])->name('logout.stateless');
 
-            Route::middleware('subscription')->group(function () {
+            Route::middleware('verified')->group(function () {
+                Route::get('/user_profile', [UserProfileController::class, 'index'])->name('user_profile.index');
+                Route::post('/user_profile', [UserProfileController::class, 'store'])->name('user_profile.store');
+                Route::post('/user_profile/avatar', [UserProfileController::class, 'storeAvatar'])->name('user_profile.store.avatar');
 
-                Route::prefix('proposal')->group(function () {
-                    Route::post('/', [ProposalController::class, 'store'])->name('proposal.store');
+                Route::middleware('subscription')->group(function () {
+
+                    Route::prefix('proposal')->group(function () {
+                        Route::post('/', [ProposalController::class, 'store'])->name('proposal.store');
+                    });
+
+                    Route::prefix('lessons')->group(function () {
+                        Route::get('/', [LessonController::class, 'index'])->name('lesson.index');
+
+                        Route::post('/rating', [LessonRatingController::class, 'store'])->name('lesson.rating.store');
+                        Route::get('/rating/{lesson_id}', [LessonRatingController::class, 'show'])->name('lesson.rating.show');
+                        Route::delete('/rating/{lesson_id}', [LessonRatingController::class, 'destroy'])->name('lesson.rating.destroy');
+                    });
+
+                    Route::prefix('comment')->group(function () {
+                        Route::get('/{lesson_id}', [CommentController::class, 'index'])->name('comment.index');
+                        Route::post('/', [CommentController::class, 'store'])->name('comment.store');
+                        Route::delete('/{id}', [CommentController::class, 'destroy'])->name('comment.destroy');
+                    });
+
+                    Route::prefix('tags')->group(function () {
+                        Route::get('/', [TagController::class, 'index'])->name('tag.index');
+                        Route::get('/{slug}', [TagController::class, 'show'])->name('tag.show');
+                    });
+
+                    Route::prefix('shorts')->group(function () {
+                        Route::get('/', [ShortsController::class, 'index'])->name('short.index');
+                    });
                 });
 
-                Route::prefix('lessons')->group(function () {
-                    Route::get('/', [LessonController::class, 'index'])->name('lesson.index');
-
-                    Route::post('/rating', [LessonRatingController::class, 'store'])->name('lesson.rating.store');
-                    Route::get('/rating/{lesson_id}', [LessonRatingController::class, 'show'])->name('lesson.rating.show');
-                    Route::delete('/rating/{lesson_id}', [LessonRatingController::class, 'destroy'])->name('lesson.rating.destroy');
+                Route::prefix('quiz')->group(function () {
+                    Route::get('/{id}', [QuizController::class, 'show'])->name('quiz.show');
                 });
 
-                Route::prefix('comment')->group(function () {
-                    Route::get('/{lesson_id}', [CommentController::class, 'index'])->name('comment.index');
-                    Route::post('/', [CommentController::class, 'store'])->name('comment.store');
-                    Route::delete('/{id}', [CommentController::class, 'destroy'])->name('comment.destroy');
+                Route::prefix('quiz_results')->group(function () {
+                    Route::get('/{quiz_id}', [QuizResultController::class, 'show'])->name('quiz_results.show');
+                    Route::post('/', [QuizResultController::class, 'store'])->name('quiz_results.store');
                 });
-
-                Route::prefix('tags')->group(function () {
-                    Route::get('/', [TagController::class, 'index'])->name('tag.index');
-                    Route::get('/{slug}', [TagController::class, 'show'])->name('tag.show');
-                });
-
-                Route::prefix('shorts')->group(function () {
-                    Route::get('/', [ShortsController::class, 'index'])->name('short.index');
-                });
-            });
-
-            Route::prefix('quiz')->group(function () {
-                Route::get('/{id}', [QuizController::class, 'show'])->name('quiz.show');
-            });
-
-            Route::prefix('quiz_results')->group(function () {
-                Route::get('/{quiz_id}', [QuizResultController::class, 'show'])->name('quiz_results.show');
-                Route::post('/', [QuizResultController::class, 'store'])->name('quiz_results.store');
             });
         });
     });

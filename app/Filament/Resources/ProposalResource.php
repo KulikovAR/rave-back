@@ -74,5 +74,10 @@ class ProposalResource extends Resource
             // 'create' => Pages\CreateProposal::route('/create'),
             // 'edit' => Pages\EditProposal::route('/{record}/edit'),
         ];
-    }    
+    }
+
+    public static function canCreate(): bool
+    {
+        return false;
+    }
 }
