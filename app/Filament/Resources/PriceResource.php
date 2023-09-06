@@ -31,13 +31,22 @@ class PriceResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('price')
+                TextInput::make('price_normal')
                     ->integer()
                     ->required(),
                 TextInput::make('price_vip')
                     ->integer()
                     ->required(),
-                TextInput::make('price_hotel')
+                TextInput::make('price_premium')
+                    ->integer()
+                    ->required(),
+                TextInput::make('duration_normal')
+                    ->integer()
+                    ->required(),
+                TextInput::make('duration_vip')
+                    ->integer()
+                    ->required(),
+                TextInput::make('duration_premium')
                     ->integer()
                     ->required(),
                 TextInput::make('value')
@@ -51,9 +60,13 @@ class PriceResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('price'),
+                TextColumn::make('price_normal'),
                 TextColumn::make('price_vip'),
-                TextColumn::make('price_hotel'),
+                TextColumn::make('price_premium'),
+                TextColumn::make('price_premium'),
+                TextColumn::make('duration_normal'),
+                TextColumn::make('duration_vip'),
+                TextColumn::make('duration_premium'),
                 TextColumn::make('value'),
                 TextColumn::make('locale')
             ])
