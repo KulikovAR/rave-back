@@ -3,7 +3,7 @@
 return [
     'email_support' => ['email_support' => env('MAIL_FROM_ADDRESS')],
 
-    'prices_ru' => [
+    'prices_ru'     => [
         'prices' => [
             'price'       => 999,
             'price_vip'   => 1499,
@@ -11,12 +11,16 @@ return [
             'value'       => '₽'
         ]
     ],
-    'prices_us' => [
+    'prices_us'     => [
         'prices' => [
             'price'       => 10,
             'price_vip'   => 20,
             'price_hotel' => 10,
             'value'       => '$'
         ]
+    ],
+    'locales'       => [
+        'en',
+        'ru'
     ]
 ];
