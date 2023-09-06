@@ -11,9 +11,12 @@ class Price extends Model
     use HasFactory;
 
     protected $fillable = [
-        'price',
+        'price_normal',
         'price_vip',
-        'price_hotel',
+        'price_premium',
+        'duration_normal',
+        'duration_vip',
+        'duration_premium',
         'value'
     ];
 
@@ -26,7 +29,7 @@ class Price extends Model
     {
         parent::boot();
         static::creating(function () {
-            if(static::get()->count() > 1) {
+            if (static::get()->count() > 1) {
                 throw new Exception("Price model can have only two record");
             }
         });

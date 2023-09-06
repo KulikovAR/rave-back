@@ -13,9 +13,12 @@ return new class extends Migration
     {
         Schema::create('prices', function (Blueprint $table) {
             $table->id();
-            $table->integer('price');
+            $table->integer('price_normal');
             $table->integer('price_vip');
-            $table->integer('price_hotel');
+            $table->integer('price_premium');
+            $table->integer('duration_normal');
+            $table->integer('duration_vip');
+            $table->integer('duration_premium');
             $table->string('value');
             $table->string('locale');
             $table->timestamps();

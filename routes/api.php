@@ -11,6 +11,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\LessonRatingController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProposalController;
 use App\Http\Controllers\QuizController;
@@ -55,6 +56,9 @@ Route::middleware('auth:sanctum')->group(function () {
                 Route::get('/main', [AnnounceController::class, 'getMain'])->name('announce.main');
             });
 
+            Route::prefix('notification')->group(function () {
+                Route::get('/', [NotificationController::class, 'index'])->name('notification.index');
+            });
 
             Route::patch('/password', [PasswordController::class, 'update'])->name('password.update');
             Route::delete('/logout', [AuthTokenController::class, 'destroy'])->name('logout.stateless');
