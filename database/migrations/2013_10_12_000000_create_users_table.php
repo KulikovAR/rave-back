@@ -21,6 +21,7 @@ return new class extends MigrationService {
             $table->char('salt', 60)->nullable();
             $table->string('password')->nullable();
             $table->char('language', 2)->nullable();
+            $table->boolean('is_blocked')->default(false);
 
             $table->softDeletes();
             $table->timestamps();

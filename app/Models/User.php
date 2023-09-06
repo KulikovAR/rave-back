@@ -41,6 +41,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
         'subscription_expires_at',
         'subscription_created_at',
         'subscription_type',
+        'is_blocked',
         ''
     ];
 

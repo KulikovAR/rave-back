@@ -67,5 +67,6 @@ class Kernel extends HttpKernel
         'verified'         => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'subscription'     => \App\Http\Middleware\Subscription::class,
         'device'           => \App\Http\Middleware\Device::class,
+        'user_blocked'     => \App\Http\Middleware\BlockedUser::class
     ];
 }

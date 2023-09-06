@@ -14,6 +14,7 @@ use App\Models\Order;
 use App\Models\Role;
 use App\Models\TakeOut;
 use App\Models\User;
+use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -73,6 +74,7 @@ class UserResource extends Resource
                                ->preload(),
                          TextInput::make('language')
                                   ->maxLength(2),
+                         Checkbox::make('is_blocked'),
                          DateTimePicker::make('created_at')->disabled(),
                          DateTimePicker::make('updated_at')->disabled(),
                          DateTimePicker::make('deleted_at')->disabled(),
@@ -90,6 +92,13 @@ class UserResource extends Resource
                                     ->boolean()
                                     ->trueIcon('heroicon-o-mail-open')
                                     ->falseIcon('heroicon-o-mail'),
+                          IconColumn::make('is_blocked')
+                                    ->boolean()
+                                    ->trueIcon('heroicon-o-check-circle')
+                                    ->trueColor('success')
+                                    ->falseIcon('heroicon-o-ban')
+                                    ->falseColor('danger')
+                                    ->alignCenter(),
                           TextColumn::make('roles.name'),
                           //TextColumn::make('salt'),
                           TextColumn::make('language'),
