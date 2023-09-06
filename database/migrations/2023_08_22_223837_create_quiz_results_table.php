@@ -28,7 +28,7 @@ return new class extends Migration {
                 ->cascadeOnUpdate();
 
             $table->json('data');
-            $table->boolean('checked')->default(false);
+            $table->boolean('verify')->default(false);
             $table->primary('id');
             $table->timestamps();
         });
