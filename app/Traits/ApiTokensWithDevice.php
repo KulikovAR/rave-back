@@ -29,30 +29,21 @@ trait ApiTokensWithDevice
 
 
     /**
-     * Create a new temp personal access token for the user.
+     * Create a new temp access token for the user.
      *
-     * @param  string  $name
+     * с@param  string  $name
      * @param  array  $abilities
      * @param  \DateTimeInterface|null  $expiresAt
      * @return \Laravel\Sanctum\NewAccessToken
      */
-    public function createTempToken(string $name, array $abilities = ['*'], DateTimeInterface $expiresAt = null)
+    public function createTempToken(string $tokenName, array $abilities = ['*'], DateTimeInterface $expiresAt = null)
     {
-        $plainTextToken = sprintf(
-            '%s%s%s',
-            config('sanctum.token_prefix', ''),
-            $tokenEntropy = Str::random(40),
-            hash('CRC32', $tokenEntropy)
-        );
+        $token = $this->createToken($tokenName, expiresAt: $expiresAt);
 
-        $token = $this->tokens()->create([
-            'name'       => $name,
-            'token'      => hash('sha256', $plainTextToken),
-            'abilities'  => $abilities,
-            'expires_at' => $expiresAt,
-            'temp'       => true
+        $this->tokens()->where('name', $tokenName)->update([
+            'temp' => true
         ]);
 
-        return new NewAccessToken($token, $token->getKey() . '|' . $plainTextToken);
+        return $token;
     }
 }
