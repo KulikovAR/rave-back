@@ -66,7 +66,7 @@ class UserProfileTest extends TestCase
         );
 
 
-        Storage::disk('public')->assertExists(str_replace(config('app.url').'/storage', '', $response->json()['data']['avatar']));
+        Storage::disk('public')->assertExists(str_replace(env('APP_URL').'/storage', '', $response->json()['data']['avatar']));
 
         $response->assertStatus(200);
     }
