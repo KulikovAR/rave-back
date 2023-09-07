@@ -38,7 +38,10 @@ class PaymentController extends Controller
         list($paymentUrl, $paymentId) = $this->paymentService->getPaymentUrl($order);
 
         if (empty($paymentId)) {
-            Log::alert('OrderId:' . $order->id . ' No payment url. Check payment provider');
+            $message = 'OrderId:' . $order->id . ' No payment url. Check payment provider';
+            Log::alert($message);
+            NotificationService::notifyAdmin($message);
+
             return redirect($paymentUrl);
         }
 
@@ -76,6 +79,7 @@ class PaymentController extends Controller
 
 
         $user                          = $order->user;
+        $user->subscription_type       = $order->order_type;
         $user->subscription_created_at = now();
         $user->subscription_expires_at = Carbon::parse($user->subscription_expires_at ?? now())->addDays($duration)->format('Y-m-d H:i:s');
         $user->save();
