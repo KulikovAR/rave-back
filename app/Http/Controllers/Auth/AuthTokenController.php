@@ -29,15 +29,15 @@ class AuthTokenController extends Controller
         $request->authenticate($passwordCheckCallable);
 
         $user              = User::where('email', Str::lower($request->email))->first();
-        $userDeviceService = new UserDeviceService($user);
+        $userDeviceService = new UserDeviceService($user, Browser::userAgent());
 
-        if ($userDeviceService->checkTooManyDevices(Browser::userAgent())) {
+        if ($userDeviceService->checkTooManyDevices()) {
             return new ApiJsonResponse(
                 status: StatusEnum::ERR,
                 data: [
                     'devices' => $userDeviceService->getDevices(),
                     'user'    => new UserResource($user),
-                    'token'   => $this->createOrGetAuthToken($user, Browser::userAgent()),
+                    'token'   => $this->createTemporaryAuthToken($user, Browser::userAgent()),
                 ]
             );
         }

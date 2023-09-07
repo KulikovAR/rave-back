@@ -52,7 +52,8 @@ class PersonalAccessTokens extends PersonalAccessTokenAlias
         'name',
         'token',
         'abilities',
-        'device_name'
+        'device_name',
+        'temp'
     ];
 
     protected $casts = [
