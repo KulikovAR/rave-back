@@ -38,7 +38,10 @@ class PaymentController extends Controller
         list($paymentUrl, $paymentId) = $this->paymentService->getPaymentUrl($order);
 
         if (empty($paymentId)) {
-            Log::alert('OrderId:' . $order->id . ' No payment url. Check payment provider');
+            $message = 'OrderId:' . $order->id . ' No payment url. Check payment provider';
+            Log::alert($message);
+            NotificationService::notifyAdmin($message);
+
             return redirect($paymentUrl);
         }
 
