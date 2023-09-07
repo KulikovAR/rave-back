@@ -58,6 +58,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
             Route::prefix('notification')->group(function () {
                 Route::get('/', [NotificationController::class, 'index'])->name('notification.index');
+                Route::post('/{id}', [NotificationController::class, 'edit'])->name('notification.edit');
             });
 
             Route::patch('/password', [PasswordController::class, 'update'])->name('password.update');
