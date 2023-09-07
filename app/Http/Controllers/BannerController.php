@@ -3,25 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\UuidRequest;
+use App\Http\Resources\Banner\BannerCollection;
+use App\Http\Resources\Banner\BannerShowResource;
 use App\Http\Responses\ApiJsonResponse;
+use App\Models\Banner;
 
 class BannerController extends Controller
 {
     public function index(Request $request) {
 
-        
-        return new ApiJsonResponse(data: ['test' => 'test']);
-
-        if ($request->has('id')) {
-            $lesson = $request->user()->lessons()->findOrFail($request->id);
-            if($lesson->quiz) {
-                $lesson->quiz->setRelation('quiz_result', $lesson->quiz->quiz_results()->where('user_id', $request->user()->id)->first());
-            }
-    
-            return new ApiJsonResponse(data: new LessonShowResource($lesson));
+        if ($request->has('action_url')) {
+            $banner = Banner::where('action_url', $request->action_url)->firstOrFail();
+            return new ApiJsonResponse(data: new BannerShowResource($banner));
         }
 
-        return new LessonCollection($request->user()->lessons()->orderBy('updated_at', 'desc')->paginate(config('pagination.per_page')));
+        return new BannerCollection(Banner::paginate(config('pagination.per_page')));
     }
 }
