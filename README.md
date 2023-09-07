@@ -8,6 +8,7 @@
 
 - make .env and fill it
 - run `composer app-dev-install`
+- run `php artisan serve`
 
 ## Tests
 
