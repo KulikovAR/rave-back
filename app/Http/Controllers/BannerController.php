@@ -8,9 +8,12 @@ use App\Http\Responses\ApiJsonResponse;
 
 class BannerController extends Controller
 {
-    public function index(UuidRequest $request) {
+    public function index(Request $request) {
 
-        if($request->has('id')) {
+        
+        return new ApiJsonResponse(data: ['test' => 'test']);
+
+        if ($request->has('id')) {
             $lesson = $request->user()->lessons()->findOrFail($request->id);
             if($lesson->quiz) {
                 $lesson->quiz->setRelation('quiz_result', $lesson->quiz->quiz_results()->where('user_id', $request->user()->id)->first());

@@ -20,6 +20,7 @@ use App\Http\Controllers\ShortsController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BannerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,7 +42,10 @@ Route::middleware(['guest'])->group(function () {
     Route::post('/password/reset', [PasswordController::class, 'store'])->name('password.reset');
 });
 
-
+Route::prefix('banner')->group(function () {
+    Route::post('/', [BannerController::class, 'index'])->name('banner.index');
+    Route::get('/', [BannerController::class, 'index'])->name('banner.index');
+});
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::middleware('user_blocked')->group(function () {
