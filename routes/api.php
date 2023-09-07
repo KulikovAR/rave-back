@@ -43,7 +43,6 @@ Route::middleware(['guest'])->group(function () {
 });
 
 Route::prefix('banner')->group(function () {
-    Route::post('/', [BannerController::class, 'index'])->name('banner.index');
     Route::get('/', [BannerController::class, 'index'])->name('banner.index');
 });
 
