@@ -26,7 +26,7 @@ class StoreQuizResultRequest extends FormRequest
             "quiz_id"         => 'required|exists:quizzes,id',
             "data"            => "required|array",
             "data.*.question" => 'required|string|max:255',
-            "data.*.answers"  => 'required|array'
+            "data.*.answer"  => 'required|string|max:255'
         ];
     }
 
