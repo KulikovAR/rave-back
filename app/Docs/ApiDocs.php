@@ -55,6 +55,10 @@ namespace App\Docs;
  *      name="Tag",
  *      description="Теги"
  * )
+ * @OA\Tag(
+ *      name="Notification",
+ *      description="Уведомления"
+ * )
  * @OA\Proposal(
  *      name="Proposal",
  *      description="Предложения"
