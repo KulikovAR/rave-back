@@ -17,9 +17,9 @@ class BannerFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => $this->faker->realText(100),
+            'title' => $this->faker->word(),
             'img'   => 'previews/test_preview.jpg',
-            'action_url'  => $this->faker->url(10),
+            'action_url'  => $this->faker->slug(),
         ];
     }
 }
