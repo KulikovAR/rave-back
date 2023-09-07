@@ -65,8 +65,9 @@ class UserProfileTest extends TestCase
             $this->getHeadersForUser($user)
         );
 
+        $path = substr($response->json()['data']['avatar'], strpos($response->json()['data']['avatar'], '/avatars'));
 
-        Storage::disk('public')->assertExists(str_replace(env('APP_URL').'/storage', '', $response->json()['data']['avatar']));
+        Storage::disk('public')->assertExists($path);
 
         $response->assertStatus(200);
     }
