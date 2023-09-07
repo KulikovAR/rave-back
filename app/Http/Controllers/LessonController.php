@@ -20,7 +20,7 @@ class LessonController extends Controller
     
             return new ApiJsonResponse(data: new LessonShowResource($lesson));
         }
-        
+
         return new LessonCollection($request->user()->lessons()->orderBy('updated_at', 'desc')->paginate(config('pagination.per_page')));
     }
 }

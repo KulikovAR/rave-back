@@ -5,9 +5,9 @@ return [
 
     'prices_ru'     => [
         'prices' => [
-            'price_normal'     => 999,
-            'price_vip'        => 1499,
-            'price_premium'    => 999,
+            'price_normal'     => 300,
+            'price_vip'        => 1500,
+            'price_premium'    => 2900,
             'duration_normal'  => 30,
             'duration_vip'     => 180,
             'duration_premium' => 365,

@@ -29,6 +29,7 @@ return new class extends Migration {
 
             $table->json('data');
             $table->boolean('verify')->default(false);
+            $table->text('curator_comment')->nullable();
             $table->primary('id');
             $table->timestamps();
         });

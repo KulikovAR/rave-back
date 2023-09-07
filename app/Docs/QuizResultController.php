@@ -10,11 +10,7 @@ namespace App\Docs;
  *       property="data",
  *       type="array",
  *       @OA\Items(
- *           @OA\Property(property="answers", type="array",
- *              @OA\Items(
- *                  
- *              )
- *          ),
+ *           @OA\Property(property="answer", type="string", example="Однако ж это обидно! что же твой приятель не едет?» "),
  *           @OA\Property(property="question", type="string", example="Однако ж это обидно! что же твой приятель не едет?» "),
  *       ),
  *       @OA\Property(

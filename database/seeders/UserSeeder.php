@@ -6,6 +6,7 @@ use App\Enums\EnvironmentTypeEnum;
 use App\Enums\SubscriptionTypeEnum;
 use App\Models\Role;
 use App\Models\User;
+use App\Notifications\UserAppNotification;
 use Carbon\Carbon;
 use Database\Factories\UserProfileFactory;
 use Illuminate\Database\Seeder;
@@ -49,5 +50,7 @@ class UserSeeder extends Seeder
         $user->assignRole(Role::ROLE_USER);
 
         $user->userProfile()->create((new UserProfileFactory())->definition());
+
+        $user->notify(new UserAppNotification(__('notifications.qiuz_verifed')));
     }
 }

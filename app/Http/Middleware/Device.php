@@ -17,7 +17,9 @@ class Device
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $userDeviceService = new UserDeviceService($request->user());
-        return $userDeviceService->checkTooManyDevices(Browser::userAgent()) ? response(null, 403) : $next($request);
+        $userDeviceService = new UserDeviceService($request->user(), Browser::userAgent());
+
+
+        return $userDeviceService->checkTempToken() || $userDeviceService->checkTooManyDevices() ? response(null, 403) : $next($request);
     }
 }

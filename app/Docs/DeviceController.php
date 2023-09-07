@@ -41,7 +41,7 @@ class DeviceController
      *     path="/device",
      *     tags={"Device"},
      *     operationId="delete_devices",
-     *     summary="Получить девайсы юзера",
+     *     summary="Удалить девайс юзера",
      *     security={{"api": {}}},
      *     @OA\Parameter(
      *          name="name",
@@ -49,7 +49,7 @@ class DeviceController
      *          description="Device name",
      *          @OA\Schema(
      *              type="string",
-     *              example="Lenovo Thinkpad"
+     *              example=""
      *          )
      *     ),
      *     @OA\Response(

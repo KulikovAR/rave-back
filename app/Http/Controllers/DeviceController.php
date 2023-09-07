@@ -6,6 +6,8 @@ use App\Http\Requests\Device\DeviceRequest;
 use App\Http\Responses\ApiJsonResponse;
 use App\Services\UserDeviceService;
 use Illuminate\Http\Request;
+use hisorange\BrowserDetect\Parser as Browser;
+
 
 class DeviceController extends Controller
 {
@@ -48,7 +50,7 @@ class DeviceController extends Controller
      */
     public function destroy(DeviceRequest $request)
     {
-        $userDeviceService = new UserDeviceService($request->user());
+        $userDeviceService = new UserDeviceService($request->user(), Browser::userAgent());
         $userDeviceService->deleteDeviceByName($request->name);
         return new ApiJsonResponse();
     }

@@ -19,7 +19,7 @@ trait BearerTokenTrait
             $expiresAt = Carbon::now()->addMinutes(15)->toDateTime();
         }
 
-        return $this->createAuthToken($user, $tokenName, $expiresAt);
+        return $user->createTempToken($tokenName, expiresAt: $expiresAt)->plainTextToken;
     }
 
     protected function createAuthToken(User $user, ?string $tokenName = null, \DateTime $expiresAt = null): string
