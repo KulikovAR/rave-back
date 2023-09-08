@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\MenuTitles;
 use App\Filament\Resources\LessonResource\Pages;
 use App\Filament\Resources\LessonResource\RelationManagers;
+use App\Filament\Resources\LessonResource\RelationManagers\CommentsRelationManager;
 use App\Models\Lesson;
 use App\Models\Tag;
 use Filament\Forms;
@@ -88,14 +89,15 @@ class LessonResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
+
+
     public static function getRelations(): array
     {
         return [
-            //
+            CommentsRelationManager::class,
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
