@@ -22,7 +22,9 @@ return new class extends MigrationService {
             $table->string('password')->nullable();
             $table->char('language', 2)->nullable();
             $table->boolean('is_blocked')->default(false);
-
+            $table->timestamp('subscription_expires_at')->nullable();
+            $table->timestamp('subscription_created_at')->nullable();
+            $table->string('subscription_type')->nullable();
             $table->softDeletes();
             $table->timestamps();
             $table->rememberToken();

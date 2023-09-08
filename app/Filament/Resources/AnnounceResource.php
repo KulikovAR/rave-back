@@ -28,9 +28,9 @@ class AnnounceResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
-    protected static ?string $navigationGroup = MenuTitles::CATEGORY_APP;
+    protected static ?string $navigationGroup  = MenuTitles::CATEGORY_APP;
     protected static ?string $pluralModelLabel = 'Анонсы';
-    protected static ?string $modelLabel = 'Анонс';
+    protected static ?string $modelLabel       = 'Анонс';
 
     public static function form(Form $form): Form
     {
@@ -55,43 +55,47 @@ class AnnounceResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('title'),
-                TextColumn::make('description'),
-                TextColumn::make('video_path')
-                    ->tooltip(fn($record) => $record->video_path)
-                    ->limit(15),
-                ImageColumn::make('preview_path'),
-                // TextColumn::make('tags'),
-                IconColumn::make('main')
-                    ->boolean()
-                    ->trueIcon('heroicon-o-check-circle')
-                    ->trueColor('success')
-                    ->falseIcon('heroicon-o-ban')
-                    ->falseColor('danger')
-                    ->alignCenter(),
-                TextColumn::make('release_at')
-                    ->dateTime()
-                    ->sortable(),
-                TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-            ])
+                          TextColumn::make('title')
+                                    ->tooltip(fn($record) => $record->title)
+                                    ->limit(15),
+                          TextColumn::make('description')
+                                    ->tooltip(fn($record) => $record->description)
+                                    ->limit(15),
+                          TextColumn::make('video_path')
+                                    ->tooltip(fn($record) => $record->video_path)
+                                    ->limit(15),
+                          ImageColumn::make('preview_path'),
+                          // TextColumn::make('tags'),
+                          IconColumn::make('main')
+                                    ->boolean()
+                                    ->trueIcon('heroicon-o-check-circle')
+                                    ->trueColor('success')
+                                    ->falseIcon('heroicon-o-ban')
+                                    ->falseColor('danger')
+                                    ->alignCenter(),
+                          TextColumn::make('release_at')
+                                    ->dateTime()
+                                    ->sortable(),
+                          TextColumn::make('created_at')
+                                    ->dateTime()
+                                    ->sortable()
+                                    ->toggleable(isToggledHiddenByDefault: true),
+                          TextColumn::make('updated_at')
+                                    ->dateTime()
+                                    ->sortable()
+                                    ->toggleable(isToggledHiddenByDefault: true),
+                      ])
             ->filters([
-                //
-            ])
+                          //
+                      ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\DeleteAction::make(),
-            ])
+                          Tables\Actions\EditAction::make(),
+                          Tables\Actions\ViewAction::make(),
+                          Tables\Actions\DeleteAction::make(),
+                      ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
-            ]);
+                              Tables\Actions\DeleteBulkAction::make(),
+                          ]);
     }
 
     public static function getRelations(): array

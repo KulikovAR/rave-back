@@ -16,7 +16,7 @@ class TinkoffPaymentService implements PaymentServiceInterface
 
     public function getPaymentUrl(Order $order): array
     {
-        $priceTotal = ($order->price - $order->discount) * 100;
+        $priceTotal = $order->price * 100;
 
         $requestData = [
             "TerminalKey" => config('tinkoff-payment.terminal'),
@@ -24,18 +24,18 @@ class TinkoffPaymentService implements PaymentServiceInterface
             "FailURL"     => route('payment.failed', ['id' => $order->id]),
             "Amount"      => $priceTotal,
             "OrderId"     => $order->id,
-            "Description" => "Бронирование через airsurfer",
+            "Description" => "Оплата подписки на TrueSchool",
             "DATA"        => [
                 "DefaultCard" => "none"
             ],
             "Receipt"     => [
-                "Email"        => $order->email,
-                "Phone"        => trim($order->phone_prefix) . trim($order->phone),
+                "Email"        => config('site-values.email_support.email_support'),
+                "Phone"        => config('site-values.phone_support.phone_support'),
                 "EmailCompany" => config('site-values.email_support.email_support'),
                 "Taxation"     => "usn_income",
                 "Items"        => [
                     [
-                        "Name"          => "Бронирование через airsurfer",
+                        "Name"          => "Оплата подписки на TrueSchool",
                         "Price"         => $priceTotal,
                         "Quantity"      => 1.00,
                         "Amount"        => $priceTotal * 1,

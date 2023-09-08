@@ -30,7 +30,8 @@ class UserAppNotificationTest extends TestCase
                     'id',
                     'data' => [
                         'message'
-                    ]
+                    ],
+                    'created_at'
                 ]
             ]
         ]);
