@@ -45,7 +45,7 @@ class BannerResource extends Resource
             ->columns([
                 TextColumn::make('title'),
                 TextColumn::make('action_url'),
-                ImageColumn::make('img'),
+                ImageColumn::make('img')->size(180),
                 TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
