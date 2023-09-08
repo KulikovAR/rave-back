@@ -37,7 +37,8 @@ class AnnounceResource extends Resource
         return $form
             ->schema([
                 TextInput::make('title')
-                    ->maxLength(255)->translateLabel(),
+                    ->maxLength(255)
+                    ->translateLabel(),
                 Textarea::make('description'),
                 TextInput::make('video_path')
                     ->maxLength(255),
@@ -46,7 +47,8 @@ class AnnounceResource extends Resource
                     ->multiple()
                     ->relationship('tags', 'name')
                     ->searchable(),
-                DateTimePicker::make('release_at')->minDate(now()),
+                DateTimePicker::make('release_at')
+                    ->minDate(now()),
                 Checkbox::make('main')
             ]);
     }

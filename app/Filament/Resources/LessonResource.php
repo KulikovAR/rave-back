@@ -68,7 +68,6 @@ class LessonResource extends Resource
                     ->tooltip(fn($record) => $record->video_path)
                     ->limit(15),
                 ImageColumn::make('preview_path'),
-                TextColumn::make('tags')->avg('tags', 'name'),
                 TextColumn::make('rating'),
                 TextColumn::make('created_at')
                     ->dateTime()

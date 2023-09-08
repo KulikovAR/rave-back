@@ -31,7 +31,6 @@ class CommentsRelationManager extends RelationManager
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('body'),
-                Tables\Columns\TextColumn::make('user.id'),
             ])
             ->filters([
                 //
