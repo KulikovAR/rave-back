@@ -130,10 +130,11 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
 
         return Carbon::now() < Carbon::parse($this->subscription_expires_at);
     }
+
     public function setSubscriptionTypeAttribute($value)
     {
         if (!in_array($value, SubscriptionTypeEnum::allValues())) {
-            throw new \InvalidArgumentException('Invalid subscription type');
+            throw new \InvalidArgumentException('Invalid subscription type. Avaliable: ' . print_r(SubscriptionTypeEnum::allValues(), true));
         }
 
         $this->attributes['subscription_type'] = $value;
