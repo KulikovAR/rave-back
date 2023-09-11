@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\LessonResource\RelationManagers;
+namespace App\Filament\Resources\CommentResource\RelationManagers;
 
 use App\Filament\Resources\CommentResource;
 use App\Models\Comment;
@@ -9,11 +9,13 @@ use Filament\Resources\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Auth;
 
 class CommentsRelationManager extends RelationManager
 {
-    protected static string $relationship = 'comments';
+    protected static string $relationship = 'nesting_comments';
 
     protected static ?string $recordTitleAttribute = 'body';
 
@@ -52,7 +54,7 @@ class CommentsRelationManager extends RelationManager
                 Tables\Actions\Action::make('edit')->url(
                     fn(Comment $record): string => CommentResource::getUrl('edit', $record)
                 )
-                ->openUrlInNewTab(),
+                    ->openUrlInNewTab(),
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([

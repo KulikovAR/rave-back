@@ -15,7 +15,7 @@ class UserProfileResource extends JsonResource
         return [
             'firstname' => $this->firstname,
             'lastname'  => $this->lastname,
-            'avatar'    => url('storage/'.$this->avatar)
+            'avatar'    => $this->avatar ? url('storage/'.$this->avatar) : null
         ];
     }
 }
