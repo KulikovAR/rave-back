@@ -88,7 +88,7 @@ class PaymentTest extends TestCase
     public function test_payments_request()
     {
 
-        $this->markTestSkipped();
+        this->markTestSkipped();
 
         $requestData = [
             "TerminalKey" => config('tinkoff-payment.terminal'),
@@ -96,6 +96,8 @@ class PaymentTest extends TestCase
             "FailURL"     => config('front-end.payment_failed'),
             "Amount"      => 1499 * 100,
             "OrderId"     => "21050",
+            "Recurrent"   => "Y",
+            "CustomerKey" => "dsds",
             "Description" => "Бронирование airsurfer+",
             "DATA"        => [
                 "DefaultCard" => "none"
@@ -125,6 +127,26 @@ class PaymentTest extends TestCase
 
         dd($response->json());
     }
+
+    public function test_get_payment_status_request()
+    {
+
+        $this->markTestSkipped();
+
+        $requestData = [
+            "TerminalKey" => config('tinkoff-payment.terminal'),
+            "PaymentId"   => "3231008477",
+            "IP"          => "127.0.0.1",
+        ];
+
+        $tokenArr = ["Token" => $this->genToken($requestData)];
+
+        $response = Http::withBody(json_encode($requestData + $tokenArr), 'application/json')
+                        ->post(TinkoffPaymentService::URL_PAYMENT_STATE);
+
+        dd($response->json());
+    }
+
 
     private function genToken($args)
     {

@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Services\NotificationService;
 use App\Services\TinkoffPaymentService;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Log;
 
 class PaymentController extends Controller
@@ -110,5 +111,10 @@ class PaymentController extends Controller
             . config('front-end.payment_status_failed')
             . __('order.payment_error')
         );
+    }
+
+    public function paymentStatus(Request $request)
+    {
+        Log::info(print_r($request, true));
     }
 }

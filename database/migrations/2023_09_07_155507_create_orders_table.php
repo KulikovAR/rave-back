@@ -22,6 +22,7 @@ return new class extends Migration {
             $table->string('order_type')->default(Order::NORMAL);
 
             $table->string('payment_id')->nullable();
+            $table->string('rebill_id')->nullable();
 
 
             $table->foreign('user_id')

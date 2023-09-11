@@ -42,7 +42,6 @@ Route::middleware(['guest'])->group(function () {
 });
 
 
-
 Route::middleware('auth:sanctum')->group(function () {
     Route::middleware('user_blocked')->group(function () {
         Route::get('/device', [DeviceController::class, 'index'])->name('device.index');
@@ -123,5 +122,5 @@ Route::prefix('payments')->group(function () {
     Route::get('/redirect', [PaymentController::class, 'redirect'])->name('payment.redirect');
     Route::get('/success', [PaymentController::class, 'success'])->name('payment.success');
     Route::get('/failed', [PaymentController::class, 'failed'])->name('payment.failed');
-
+    Route::get('/status', [PaymentController::class, 'paymentStatus'])->name('payment.status');
 });
