@@ -49,11 +49,47 @@ class PaymentController extends Controller
         }
 
 
-        $order->user()->associate($user);
         $order->payment_id = $paymentId;
         $order->save();
 
         return redirect($paymentUrl);
+    }
+
+    public function charge(string $orderId)
+    {
+        $order = Order::findOrFail($orderId);
+
+        list($paymentUrl, $paymentId) = $this->paymentService->getPaymentUrl($order);
+
+        if (empty($paymentId)) {
+            $message = 'Charging OrderId:' . $order->id . ' No payment url. Check payment provider';
+            Log::alert($message);
+            NotificationService::notifyAdmin($message);
+            return;
+        }
+
+        $order->payment_id = $paymentId;
+        $order->save();
+
+        list($paymentSuccessState, $paymentAmount) = $this->paymentService->updateSubscription($order);
+
+        if ($paymentSuccessState !== true || $order->price < $paymentAmount) {
+            $message = 'OrderId: ' . $order->id . ' Charging status failed or small payed amount. Payment/Amount: ' . $paymentSuccessState . ' / ' . $paymentAmount;
+            Log::alert($message);
+            NotificationService::notifyAdmin($message);
+            return;
+        }
+
+        $duration = Price::where(['locale' => 'ru'])->first()?->{'duration_' . $order->order_type} ?? 1;
+
+        $user                          = $order->user;
+        $user->subscription_type       = $order->order_type;
+        $user->subscription_created_at = now();
+        $user->subscription_expires_at = Carbon::parse($user->subscriptionAvailable() ? $user->subscription_expires_at : now())->addDays($duration)->format('Y-m-d H:i:s');
+        $user->save();
+
+        $order->order_status = Order::PAYED;
+        $order->save();
     }
 
     public function success(UuidRequest $request)
@@ -119,7 +155,8 @@ class PaymentController extends Controller
     {
         Log::info(print_r($request->all(), true));
 
-        $orderId          = $request->OrderId;
+        $orderId = $request->OrderId;
+
         $order            = Order::find($orderId);
         $order->rebill_id = $request->RebillId;
         $order->save();
