@@ -19,18 +19,19 @@ class TinkoffPaymentService implements PaymentServiceInterface
         $priceTotal = $order->price * 100;
 
         $requestData = [
-            "TerminalKey" => config('tinkoff-payment.terminal'),
-            "SuccessURL"  => route('payment.success', ['id' => $order->id]),
-            "FailURL"     => route('payment.failed', ['id' => $order->id]),
-            "Amount"      => $priceTotal,
-            "OrderId"     => $order->id,
-            "Recurrent"   => "Y",
-            "CustomerKey" => $order->user->id,
-            "Description" => "Оплата подписки на TrueSchool",
-            "DATA"        => [
+            "TerminalKey"     => config('tinkoff-payment.terminal'),
+            "NotificationURL" => route('payment.status'),
+            "SuccessURL"      => route('payment.success', ['id' => $order->id]),
+            "FailURL"         => route('payment.failed', ['id' => $order->id]),
+            "Amount"          => $priceTotal,
+            "OrderId"         => $order->id,
+            "Recurrent"       => "Y",
+            "CustomerKey"     => $order->user->id,
+            "Description"     => "Оплата подписки на TrueSchool",
+            "DATA"            => [
                 "DefaultCard" => "none"
             ],
-            "Receipt"     => [
+            "Receipt"         => [
                 "Email"        => config('site-values.email_support.email_support'),
                 "Phone"        => config('site-values.phone_support.phone_support'),
                 "EmailCompany" => config('site-values.email_support.email_support'),
