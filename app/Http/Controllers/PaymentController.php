@@ -37,7 +37,7 @@ class PaymentController extends Controller
                                ]);
         $order->user()->associate($user);
         $order->save();
-        
+
         list($paymentUrl, $paymentId) = $this->paymentService->getPaymentUrl($order);
 
         if (empty($paymentId)) {
@@ -118,5 +118,6 @@ class PaymentController extends Controller
     public function paymentStatus(Request $request)
     {
         Log::info(print_r($request, true));
+        return response("OK", 200);
     }
 }
