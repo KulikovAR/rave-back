@@ -73,7 +73,10 @@ class PaymentController extends Controller
 
         list($paymentSuccessState, $paymentAmount) = $this->paymentService->updateSubscription($order);
 
-        if ($paymentSuccessState !== true || $order->price < $paymentAmount) {
+        $cents      = 100;
+        $priceTotal = $order->price * $cents;
+
+        if ($paymentSuccessState !== true || $priceTotal < $paymentAmount) {
             $message = 'OrderId: ' . $order->id . ' Charging status failed or small payed amount. Payment/Amount: ' . $paymentSuccessState . ' / ' . $paymentAmount;
             Log::alert($message);
             NotificationService::notifyAdmin($message);

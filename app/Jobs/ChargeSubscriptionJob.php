@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Http\Controllers\PaymentController;
+use App\Models\Order;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -40,7 +41,9 @@ class ChargeSubscriptionJob implements ShouldQueue
         Log::info(print_r($users, true));
 
         foreach ($users as $user) {
-            !$user->order ?: (new PaymentController())->charge($user->order);
+            $order = $user->order()->where(['order_status' => Order::PAYED])->first();
+
+            $order ?: (new PaymentController())->charge($order);
         }
 
     }
