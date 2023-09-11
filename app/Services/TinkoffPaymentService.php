@@ -24,6 +24,8 @@ class TinkoffPaymentService implements PaymentServiceInterface
             "FailURL"     => route('payment.failed', ['id' => $order->id]),
             "Amount"      => $priceTotal,
             "OrderId"     => $order->id,
+            "Recurrent"   => "Y",
+            "CustomerKey" => $order->user->id,
             "Description" => "Оплата подписки на TrueSchool",
             "DATA"        => [
                 "DefaultCard" => "none"
