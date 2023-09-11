@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\SubscriptionTypeEnum;
 use App\Http\Requests\UuidRequest;
 use App\Interfaces\PaymentServiceInterface;
 use App\Models\Order;
@@ -77,11 +78,17 @@ class PaymentController extends Controller
 
         $duration = Price::where(['locale' => 'ru'])->first()?->{'duration_' . $order->order_type} ?? 1;
 
+        $orderType = match ($order->order_type) {
+            "normal"  => SubscriptionTypeEnum::MONTH->value,
+            "vip"     => SubscriptionTypeEnum::THREE_MOTHS->value,
+            "premium" => SubscriptionTypeEnum::YEAR->value,
+            default   => SubscriptionTypeEnum::MONTH->value
+        };
 
         $user                          = $order->user;
-        $user->subscription_type       = $order->order_type;
+        $user->subscription_type       = $orderType;
         $user->subscription_created_at = now();
-        $user->subscription_expires_at = Carbon::parse($user->subscription_expires_at ?? now())->addDays($duration)->format('Y-m-d H:i:s');
+        $user->subscription_expires_at = Carbon::parse($user->subscriptionAvailable() ? $user->subscription_expires_at : now())->addDays($duration)->format('Y-m-d H:i:s');
         $user->save();
 
         $order->order_status = Order::PAYED;
