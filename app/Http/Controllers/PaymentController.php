@@ -12,7 +12,6 @@ use App\Services\NotificationService;
 use App\Services\TinkoffPaymentService;
 use Carbon\Carbon;
 use Log;
-use Illuminate\Http\Request;
 
 class PaymentController extends Controller
 {
@@ -70,7 +69,6 @@ class PaymentController extends Controller
 
             return redirect(
                 config('front-end.payment_failed')
-                . $order->id
                 . config('front-end.payment_status_failed')
                 . __('order.payment_failed')
             );
@@ -94,7 +92,7 @@ class PaymentController extends Controller
         $order->order_status = Order::PAYED;
         $order->save();
 
-        return redirect(config('front-end.payment_success') . $order->id);
+        return redirect(config('front-end.payment_success') . config('front-end.payment_status_success'));
     }
 
     public function failed(UuidRequest $request)
@@ -109,7 +107,6 @@ class PaymentController extends Controller
 
         return redirect(
             config('front-end.payment_failed')
-            . $order->id
             . config('front-end.payment_status_failed')
             . __('order.payment_error')
         );
