@@ -118,6 +118,12 @@ class PaymentController extends Controller
     public function paymentStatus(Request $request)
     {
         Log::info(print_r($request->all(), true));
+
+        $orderId          = $request->OrderId;
+        $order            = Order::find($orderId);
+        $order->rebill_id = $request->RebillId;
+        $order->save();
+
         return response("OK", 200);
     }
 }

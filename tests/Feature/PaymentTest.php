@@ -146,6 +146,23 @@ class PaymentTest extends TestCase
         dd($response->json());
     }
 
+    public function test_payment_status_webhook()
+    {
+        $inputData = [
+            "TerminalKey" => "1688458884133DEMO",
+            "OrderId"     => "9a1bf3f8-7a52-4775-85a4-57a1b5344b6e",
+            "Success"     => 1,
+            "Status"      => "CONFIRMED",
+            "PaymentId"   => 3231391205,
+            "ErrorCode"   => 0,
+            "Amount"      => 150000,
+            "CardId"      => 330622349,
+            "Pan"         => "430000******0777",
+            "ExpDate"     => 1122,
+            "RebillId"    => 1694447045829,
+            "Token"       => "b9af0485d694fa057c386474e3ced9e6aea00c3ca85a507f7f7a546256a803a3"
+        ];
+    }
 
     private function genToken($args)
     {
