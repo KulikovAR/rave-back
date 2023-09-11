@@ -12,6 +12,7 @@ use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
 use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -62,35 +63,40 @@ class OrderResource extends Resource
     {
         return $table
             ->columns([
-                          Tables\Columns\TextColumn::make('id')
-                                                   ->searchable()
-                                                   ->toggleable(isToggledHiddenByDefault: true),
-                          Tables\Columns\TextColumn::make('user.email')
-                                                   ->searchable()
-                                                   ->toggledHiddenByDefault(false),
-                          Tables\Columns\TextColumn::make('price')
-                                                   ->sortable()
-                                                   ->toggleable(isToggledHiddenByDefault: false),
-                          Tables\Columns\TextColumn::make('order_status')
-                                                   ->sortable()
-                                                   ->toggleable(isToggledHiddenByDefault: false),
-                          Tables\Columns\TextColumn::make('order_type')
-                                                   ->sortable()
-                                                   ->toggleable(isToggledHiddenByDefault: false),
-                          Tables\Columns\TextColumn::make('duration')
-                                                   ->sortable()
-                                                   ->toggleable(isToggledHiddenByDefault: false),
-                          Tables\Columns\TextColumn::make('payment_id')
-                                                   ->sortable()
-                                                   ->toggleable(isToggledHiddenByDefault: true),
-                          Tables\Columns\TextColumn::make('deleted_at')
-                                                   ->toggleable(isToggledHiddenByDefault: true)
-                                                   ->dateTime(),
-                          Tables\Columns\TextColumn::make('created_at')
-                                                   ->toggleable(isToggledHiddenByDefault: true)
-                                                   ->dateTime(),
-                          Tables\Columns\TextColumn::make('updated_at')
-                                                   ->dateTime(),
+                          TextColumn::make('id')
+                                    ->searchable()
+                                    ->toggleable(isToggledHiddenByDefault: true),
+                          TextColumn::make('user.email')
+                                    ->searchable()
+                                    ->toggledHiddenByDefault(false),
+                          TextColumn::make('price')
+                                    ->sortable()
+                                    ->toggleable(isToggledHiddenByDefault: false),
+                          TextColumn::make('order_status')
+                                    ->sortable()
+                                    ->toggleable(isToggledHiddenByDefault: false),
+                          TextColumn::make('order_type')
+                                    ->sortable()
+                                    ->toggleable(isToggledHiddenByDefault: false),
+                          TextColumn::make('duration')
+                                    ->sortable()
+                                    ->toggleable(isToggledHiddenByDefault: false),
+                          TextColumn::make('payment_id')
+                                    ->searchable()
+                                    ->toggleable(isToggledHiddenByDefault: true),
+
+                          TextColumn::make('rebill_id')
+                                    ->searchable()
+                                    ->toggleable(isToggledHiddenByDefault: true),
+
+                          TextColumn::make('deleted_at')
+                                    ->toggleable(isToggledHiddenByDefault: true)
+                                    ->dateTime(),
+                          TextColumn::make('created_at')
+                                    ->toggleable(isToggledHiddenByDefault: true)
+                                    ->dateTime(),
+                          TextColumn::make('updated_at')
+                                    ->dateTime(),
                       ])
             ->defaultSort('updated_at', 'desc')
             ->filters([
@@ -135,13 +141,13 @@ class OrderResource extends Resource
         return __('admin-panel.orders');
     }
 
-    protected static function getNavigationGroup(): string
-    {
-        return __('admin-panel.app');
-    }
-
     public static function canCreate(): bool
     {
         return false;
+    }
+
+    protected static function getNavigationGroup(): string
+    {
+        return __('admin-panel.app');
     }
 }
