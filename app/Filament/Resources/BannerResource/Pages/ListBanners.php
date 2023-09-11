@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Filament\Resources\CommentResource\Pages;
+namespace App\Filament\Resources\BannerResource\Pages;
 
-use App\Filament\Resources\CommentResource;
+use App\Filament\Resources\BannerResource;
 use Filament\Pages\Actions;
 use Filament\Resources\Pages\ListRecords;
 
-class ListComments extends ListRecords
+class ListBanners extends ListRecords
 {
-    protected static string $resource = CommentResource::class;
+    protected static string $resource = BannerResource::class;
+
     protected function getActions(): array
     {
         return [

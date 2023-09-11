@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\CommentResource\Pages;
 use App\Filament\Resources\CommentResource\RelationManagers;
+use App\Filament\Resources\CommentResource\RelationManagers\CommentsRelationManager;
 use App\Models\Comment;
 use Filament\Forms;
 use Filament\Forms\Components\TextInput;
@@ -17,7 +18,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class CommentResource extends Resource
 {
-    protected static ?string $model = UserProfile::class;
+    protected static ?string $model = Comment::class;
 
     protected static bool $shouldRegisterNavigation = false;
 
@@ -35,8 +36,11 @@ class CommentResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('user.id'),
+                Tables\Columns\TextColumn::make('user.userProfile.firstname'),
+                Tables\Columns\TextColumn::make('user.userProfile.lastname'),
+                Tables\Columns\TextColumn::make('nesting_comments_count')->counts('nesting_comments'),
                 TextColumn::make('body'),
-                TextColumn::make('name')
             ])
             ->filters([
                 //
@@ -52,7 +56,7 @@ class CommentResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            CommentsRelationManager::class
         ];
     }
     
