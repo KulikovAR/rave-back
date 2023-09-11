@@ -31,11 +31,16 @@ class BannerTest extends TestCase
         );
 
         $response->assertStatus(200);
-
+ 
         $response->assertJsonStructure([
-            'status',
             'message',
-            'data',
+            'status',
+            'data' => [
+                'id',
+                'title',
+                'action_url',
+                'img'
+            ]
         ]);
     }
 }

@@ -33,9 +33,9 @@ class BannerResource extends Resource
         return $form
             ->schema([
                 TextInput::make('title')
-                    ->maxLength(255)->translateLabel(),
-                TextInput::make('action_url'),
-                FileUpload::make('img'),
+                    ->maxLength(255)->translateLabel()->required(),
+                TextInput::make('action_url')->required(),
+                FileUpload::make('img')->required(),
             ]);
     }
 

@@ -2,11 +2,11 @@
 
 namespace App\Filament\Resources\BannerResource\Pages;
 
-use App\Filament\Resources\BannerResource;
 use Filament\Pages\Actions;
-use Filament\Resources\Pages\EditRecord;
+use App\Filament\BaseEditAction;
+use App\Filament\Resources\BannerResource;
 
-class EditBanner extends EditRecord
+class EditBanner extends BaseEditAction
 {
     protected static string $resource = BannerResource::class;
 
