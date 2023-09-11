@@ -1,16 +1,18 @@
 <?php
 
-namespace App\Filament\Resources\LessonResource\RelationManagers;
+namespace App\Filament\Resources\CommentResource\RelationManagers;
 
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class CommentsRelationManager extends RelationManager
 {
-    protected static string $relationship = 'comments';
+    protected static string $relationship = 'nesting_comments';
 
     protected static ?string $recordTitleAttribute = 'body';
 
@@ -28,9 +30,6 @@ class CommentsRelationManager extends RelationManager
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user.id'),
-                Tables\Columns\TextColumn::make('user.userProfile.firstname'),
-                Tables\Columns\TextColumn::make('user.userProfile.lastname'),
                 Tables\Columns\TextColumn::make('body'),
             ])
             ->filters([
@@ -46,5 +45,5 @@ class CommentsRelationManager extends RelationManager
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
-    }
+    }    
 }
