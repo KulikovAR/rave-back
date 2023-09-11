@@ -127,5 +127,5 @@ Route::prefix('payments')->group(function () {
     Route::get('/redirect', [PaymentController::class, 'redirect'])->name('payment.redirect');
     Route::get('/success', [PaymentController::class, 'success'])->name('payment.success');
     Route::get('/failed', [PaymentController::class, 'failed'])->name('payment.failed');
-    Route::get('/status', [PaymentController::class, 'paymentStatus'])->name('payment.status');
+    Route::post('/status', [PaymentController::class, 'paymentStatus'])->name('payment.status');
 });
