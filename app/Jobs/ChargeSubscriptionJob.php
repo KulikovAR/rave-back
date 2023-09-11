@@ -2,15 +2,18 @@
 
 namespace App\Jobs;
 
+use App\Http\Controllers\PaymentController;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 
-class LogJob implements ShouldQueue
+class ChargeSubscriptionJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -27,6 +30,18 @@ class LogJob implements ShouldQueue
      */
     public function handle(): void
     {
-        Log::info('Log...');
+        Log::info('Subscription charging job...');
+
+        $users = User::inRandomOrder()
+                     ->where('subscription_expires_at', '<=', Carbon::now())
+                     ->limit(50)
+                     ->get();
+
+        Log::info(print_r($users, true));
+
+        foreach ($users as $user) {
+            !$user->order ?: (new PaymentController())->charge($user->order);
+        }
+
     }
 }
