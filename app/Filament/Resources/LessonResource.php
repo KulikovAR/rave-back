@@ -2,26 +2,28 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\MenuTitles;
-use App\Filament\Resources\LessonResource\Pages;
-use App\Filament\Resources\LessonResource\RelationManagers;
-use App\Filament\Resources\LessonResource\RelationManagers\CommentsRelationManager;
-use App\Models\Lesson;
 use App\Models\Tag;
 use Filament\Forms;
-use Filament\Forms\Components\FileUpload;
+use Filament\Tables;
+use App\Models\Lesson;
+use App\Filament\MenuTitles;
+use Filament\Resources\Form;
+use Filament\Resources\Table;
+use Filament\Resources\Resource;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\TextInput;
-use Filament\Resources\Form;
-use Filament\Resources\Resource;
-use Filament\Resources\Table;
-use Filament\Tables;
 use Filament\Tables\Columns\IconColumn;
-use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ViewColumn;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Forms\Components\FileUpload;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Forms\Components\DateTimePicker;
+use App\Filament\Resources\LessonResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\LessonResource\RelationManagers;
+use App\Filament\Resources\LessonResource\RelationManagers\CommentsRelationManager;
 
 class LessonResource extends Resource
 {
@@ -46,6 +48,7 @@ class LessonResource extends Resource
                 TextInput::make('video_path')
                     ->maxLength(255),
                 FileUpload::make('preview_path'),
+                FileUpload::make('video'),
                 Select::make('tags')
                     ->multiple()
                     ->relationship('tags', 'name')
@@ -55,6 +58,7 @@ class LessonResource extends Resource
                     ->minValue(1)
                     ->maxValue(5)
                     ->maxLength(255),
+                DateTimePicker::make('announc_date'),
             ]);
     }
 
@@ -77,6 +81,7 @@ class LessonResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+                ViewColumn::make('video')->view('filament.tables.columns.lessons-video'),
             ])
             ->filters([
                 //
