@@ -41,9 +41,9 @@ class ChargeSubscriptionJob implements ShouldQueue
         Log::info(print_r($users, true));
 
         foreach ($users as $user) {
-            $order = $user->order()->where(['order_status' => Order::PAYED])->first();
+            $order = $user->orders()->where(['order_status' => Order::PAYED])->first();
 
-            $order ?: (new PaymentController())->charge($order);
+            !$order ?: (new PaymentController())->charge($order);
         }
 
     }
