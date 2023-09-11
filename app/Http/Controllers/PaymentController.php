@@ -35,7 +35,9 @@ class PaymentController extends Controller
                                    'price'        => Price::where(['locale' => 'ru'])->first()?->{'price_' . $request->order_type} ?? 9999,
                                    'duration'     => Price::where(['locale' => 'ru'])->first()?->{'duration_' . $request->order_type} ?? 1
                                ]);
-
+        $order->user()->associate($user);
+        $order->save();
+        
         list($paymentUrl, $paymentId) = $this->paymentService->getPaymentUrl($order);
 
         if (empty($paymentId)) {

@@ -28,8 +28,7 @@ class PaymentTest extends TestCase
 
         $user = $this->getTestUser();
         $user->orders()->delete();
-        $userId    = $user->id;
-        $orderType = Order::NORMAL;
+        $userId = $user->id;
 
         $mock = Mockery::mock(TinkoffPaymentService::class)->makePartial();
         $mock->shouldAllowMockingProtectedMethods();
@@ -38,7 +37,7 @@ class PaymentTest extends TestCase
 
         $response = $this->json('get',
                                 route('payment.redirect', [
-                                    'id' => $userId, 'order_type' => $orderType
+                                    'id' => $userId, 'order_type' => Order::NORMAL
                                 ])
         );
 
@@ -88,7 +87,7 @@ class PaymentTest extends TestCase
     public function test_payments_request()
     {
 
-        this->markTestSkipped();
+        $this->markTestSkipped();
 
         $requestData = [
             "TerminalKey" => config('tinkoff-payment.terminal'),
