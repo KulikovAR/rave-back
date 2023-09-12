@@ -1,89 +1,92 @@
 <?php
 return [
-    'settings'        => 'Настройки',
-    'app'             => 'Приложение',
+    'settings' => 'Настройки',
+    'app' => 'Приложение',
     'partner_program' => 'Партнёрка',
 
     'users' => 'Юзеры',
-    'user'  => 'Юзера',
+    'user' => 'Юзера',
 
     'orders' => 'Заказы',
-    'order'  => 'Заказа',
+    'order' => 'Заказа',
+
+    'tokens' => 'Токены',
+    'token' => 'Токен',
 
     'roles' => 'Роли',
-    'role'  => 'Роли',
+    'role' => 'Роли',
 
     'permissions' => 'Разрешения',
-    'permission'  => 'Разрешение',
+    'permission' => 'Разрешение',
 
-    'male'   => 'м',
+    'male' => 'м',
     'female' => 'ж',
 
-    'promocode'  => 'Промо код',
+    'promocode' => 'Промо код',
     'promocodes' => 'Промо коды',
 
     'requests' => 'Партнёрка',
 
     'partners' => 'Партнёры',
-    'partner'  => 'Партнёра',
+    'partner' => 'Партнёра',
 
     'takeouts' => 'Вывод средств',
-    'takeout'  => 'Вывод средств',
+    'takeout' => 'Вывод средств',
 
     'balances' => 'Бaлансы',
-    'balance'  => 'Баланс',
+    'balance' => 'Баланс',
 
     'blocked_airlines' => 'ЧС Авиалинии',
-    'blocked_airline'  => 'Перевозчика',
+    'blocked_airline' => 'Перевозчика',
 
     'airlines' => 'Авиалинии',
-    'airline'  => 'Авиалинии',
+    'airline' => 'Авиалинии',
 
     'airports' => 'Аеропорты',
-    'airport'  => 'Аеропорт',
+    'airport' => 'Аеропорт',
 
     'send' => 'Отправить',
 
-    'email'      => 'Почта',
-    'phone'      => 'Тел',
+    'email' => 'Почта',
+    'phone' => 'Тел',
     'updated_at' => 'Обновлён',
     'created_at' => 'Создан',
     'deleted_at' => 'Удалён',
 
     'promo_code' => 'Промо',
     'commission' => 'Комиссия',
-    'discount'   => 'Скидка',
+    'discount' => 'Скидка',
 
-    'order_status'   => [
-        'created'    => 'создан',
-        'payed'      => 'оплачен',
-        'expired'    => 'просрочен',
+    'order_status' => [
+        'created' => 'создан',
+        'payed' => 'оплачен',
+        'expired' => 'просрочен',
         'processing' => 'оформляется',
-        'canceled'   => 'отменён',
-        'finished'   => 'закончен',
+        'canceled' => 'отменён',
+        'finished' => 'закончен',
     ],
-    'order_type'     => [
+    'order_type' => [
         'normal' => 'стандарт',
-        'vip'    => 'премиум',
+        'vip' => 'премиум',
     ],
     'order_resource' => [
-        'billing_plan'        => 'тариф',
-        'price'               => 'Цена',
-        'order_type'          => 'Тип',
-        'order_number'        => 'Номер',
+        'billing_plan' => 'тариф',
+        'price' => 'Цена',
+        'order_type' => 'Тип',
+        'order_number' => 'Номер',
         'order_start_booking' => 'Начало',
-        'order_status'        => 'Статус',
-        'hotel_city'          => 'Город',
-        'hotel_booking_file'  => 'Отель',
+        'order_status' => 'Статус',
+        'hotel_city' => 'Город',
+        'hotel_booking_file' => 'Отель',
         'flight_booking_file' => 'Перелёт',
 
     ],
-    'user_resource'  => [
+    'user_resource' => [
         'email_verified_at' => 'Подтверждён',
-        'name'              => 'Имя',
-        'is_partner'        => 'Партнёр',
-        'partner_takeout'   => 'Вывод',
-        'salt'              => 'Хэш',
-        'language'          => 'Язык'
+        'name' => 'Имя',
+        'is_partner' => 'Партнёр',
+        'partner_takeout' => 'Вывод',
+        'salt' => 'Хэш',
+        'language' => 'Язык'
     ]
 ];
