@@ -20,7 +20,7 @@ class PersonalAccessTokensResource extends Resource
 {
     protected static ?string $model = PersonalAccessTokens::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-lock-open';
 
     public static function form(Form $form): Form
     {
@@ -58,24 +58,29 @@ class PersonalAccessTokensResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: false)
                     ->tooltip(fn($record) => $record->tokenable_id)
                     ->limit(15)
+                    ->sortable()
                     ->searchable(),
                 TextColumn::make('name')
                     ->tooltip(fn($record) => $record->name)
                     ->limit(15)
                     ->toggleable(isToggledHiddenByDefault: false),
                 IconColumn::make('temp')
+                    ->sortable()
                     ->toggleable(isToggledHiddenByDefault: false)
                     ->boolean(),
                 TextColumn::make('token')->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('abilities')->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('last_used_at')
+                    ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->dateTime(),
                 TextColumn::make('expires_at')
+                    ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->dateTime(),
                 TextColumn::make('created_at')
-                    ->toggleable(isToggledHiddenByDefault: false)
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true)
                     ->dateTime(),
                 TextColumn::make('updated_at')
                     ->dateTime(),
@@ -86,6 +91,13 @@ class PersonalAccessTokensResource extends Resource
             ])
             ->actions([
                 Tables\Actions\DeleteAction::make(),
+            ])
+            ->prependActions([
+                Tables\Actions\Action::make('View user')
+                    ->label('Юзер')
+                    ->color('success')
+                    ->icon('heroicon-s-user-circle')
+                    ->url(fn($record): string => UserResource::getUrl('view', ['record' => $record->tokenable_id])),
             ]);
     }
 
@@ -100,7 +112,7 @@ class PersonalAccessTokensResource extends Resource
     {
         return [
             'index' => Pages\ListPersonalAccessTokens::route('/'),
-            'create' => Pages\CreatePersonalAccessTokens::route('/create'),
+            //'create' => Pages\CreatePersonalAccessTokens::route('/create'),
             'view' => Pages\ViewPersonalAccessTokens::route('/{record}'),
             //'edit' => Pages\EditPersonalAccessTokens::route('/{record}/edit'),
         ];
@@ -128,6 +140,6 @@ class PersonalAccessTokensResource extends Resource
 
     protected static function getNavigationGroup(): string
     {
-        return __('admin-panel.app');
+        return __('admin-panel.settings');
     }
 }
