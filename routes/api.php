@@ -20,6 +20,7 @@ use App\Http\Controllers\ShortsController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BannerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,6 +43,9 @@ Route::middleware(['guest'])->group(function () {
 });
 
 
+Route::prefix('banner')->group(function () {
+    Route::get('/', [BannerController::class, 'index'])->name('banner.index');
+});
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::middleware('user_blocked')->group(function () {
@@ -123,5 +127,5 @@ Route::prefix('payments')->group(function () {
     Route::get('/redirect', [PaymentController::class, 'redirect'])->name('payment.redirect');
     Route::get('/success', [PaymentController::class, 'success'])->name('payment.success');
     Route::get('/failed', [PaymentController::class, 'failed'])->name('payment.failed');
-
+    Route::post('/status', [PaymentController::class, 'paymentStatus'])->name('payment.status');
 });
