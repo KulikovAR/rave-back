@@ -74,8 +74,6 @@ class UserResource extends Resource
                                ->preload(),
                          TextInput::make('language')
                                   ->maxLength(2),
-                         TextInput::make('available_lessons_count')
-                            ->integer(),
                          Checkbox::make('is_blocked'),
                          DateTimePicker::make('created_at')->disabled(),
                          DateTimePicker::make('updated_at')->disabled(),
@@ -101,7 +99,6 @@ class UserResource extends Resource
                                     ->falseIcon('heroicon-o-ban')
                                     ->falseColor('danger')
                                     ->alignCenter(),
-                          TextColumn::make('available_lessons_count'),
                           TextColumn::make('roles.name'),
                           //TextColumn::make('salt'),
                           TextColumn::make('language'),

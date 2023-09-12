@@ -10,14 +10,12 @@ trait SheduleLessons
     {
         $lesson_order = $this->lessons()->count();
 
-        if ($lesson_order < $this->available_lessons_count) {
-            $lesson = Lesson::orderBy('order_in_display', 'asc')->skip($lesson_order)->take(1)->get()->first();
+        $lesson = Lesson::orderBy('order_in_display', 'asc')->skip($lesson_order)->take(1)->get()->first();
 
-            $this->lessons()->sync($lesson);
+        $this->lessons()->attach($lesson);
 
-            $this->update([
-                'last_video_added_at' => now()
-            ]);
-        }
+        $this->update([
+            'last_video_added_at' => now()
+        ]);
     }
 }

@@ -44,7 +44,6 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
         'subscription_type',
         'is_blocked',
         'last_video_added_at',
-        'available_lessons_count',
         '',
     ];
 

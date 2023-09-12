@@ -82,12 +82,12 @@ abstract class TestCase extends BaseTestCase
         return $quiz;
     }
 
-    protected function createTestUserWithSubscription()
+    protected function createTestUserWithSubscription(): User
     {
         $user = User::factory()->create(
             [
                 'password'                => Hash::make(self::USER_PASSWORD),
-                'email'                   => self::USER_EMAIL,
+                'email'                   => self::USER_EMAIL. $this->faker->unique()->word(),
                 'subscription_expires_at' => Carbon::now()->addMonths(2),
                 'subscription_created_at' => Carbon::now()->subMonth(),
                 'subscription_type'       => SubscriptionTypeEnum::THREE_MOTHS->value
@@ -97,6 +97,8 @@ abstract class TestCase extends BaseTestCase
         $user->assignRole(Role::ROLE_USER);
 
         $user->userProfile()->create((new UserProfileFactory())->definition());
+
+        return $user;
     }
 
     protected function getTestQuiz()

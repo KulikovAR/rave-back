@@ -28,8 +28,7 @@ class UserFactory extends Factory
             'salt'                    => Hash::make(Str::random(10)),
             'password'                => Hash::make('test'),
             'language'                => config('app.locale'),
-            'remember_token'          => Str::random(10),
-            'available_lessons_count' => 5
+            'remember_token'          => Str::random(10)
         ];
     }
 

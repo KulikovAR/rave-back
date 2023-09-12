@@ -32,7 +32,7 @@ class UserAddLessons implements ShouldQueue
         $users = User::where('last_video_added_at', '<', Carbon::now()->subWeek())
             ->orWhere('last_video_added_at', null)
             ->get();
-
+            
         foreach ($users as $user) {
             $user->addSheduleLesson();
         }
