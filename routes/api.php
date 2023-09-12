@@ -42,6 +42,7 @@ Route::middleware(['guest'])->group(function () {
     Route::post('/password/reset', [PasswordController::class, 'store'])->name('password.reset');
 });
 
+
 Route::prefix('banner')->group(function () {
     Route::get('/', [BannerController::class, 'index'])->name('banner.index');
 });
@@ -126,5 +127,5 @@ Route::prefix('payments')->group(function () {
     Route::get('/redirect', [PaymentController::class, 'redirect'])->name('payment.redirect');
     Route::get('/success', [PaymentController::class, 'success'])->name('payment.success');
     Route::get('/failed', [PaymentController::class, 'failed'])->name('payment.failed');
-
+    Route::post('/status', [PaymentController::class, 'paymentStatus'])->name('payment.status');
 });
