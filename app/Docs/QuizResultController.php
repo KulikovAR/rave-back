@@ -93,10 +93,6 @@ class QuizResultController
      *              type="string"
      *          )
      *     ),
-     *     @OA\RequestBody(
-     *          required=true,
-     *          @OA\JsonContent(ref="#/components/requestBodies/QuizResults")
-     *      ),
      *      @OA\Response(
      *          response=201,
      *          description="Successful operation",
