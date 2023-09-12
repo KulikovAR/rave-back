@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Quiz;
 
+use App\Enums\QuizResultStatusEnum;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -20,7 +21,7 @@ class QuizResource extends JsonResource
             'description' => $this->description,
             'duration'    => $this->duration,
             'data'        => $this->data ? json_decode($this->data) : [],
-            'quiz_result' => $this->quiz_results()->count()
+            'quiz_result' => $this->quiz_result ? $this->quiz_result->getQuizResultStatus() : QuizResultStatusEnum::NOT_PASSED->value
         ];
     }
 }
