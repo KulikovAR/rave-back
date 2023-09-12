@@ -37,7 +37,9 @@ class ProposalResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('body'),
+                TextColumn::make('body')
+                    ->tooltip(fn($record) => $record->body)
+                    ->limit(15),
                 ImageColumn::make('file'),
                 TextColumn::make('created_at')
                     ->dateTime()
@@ -59,14 +61,14 @@ class ProposalResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [

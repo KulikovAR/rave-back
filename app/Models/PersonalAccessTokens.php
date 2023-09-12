@@ -7,6 +7,7 @@ use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
+use Laravel\Sanctum\PersonalAccessToken;
 use Laravel\Sanctum\PersonalAccessToken as PersonalAccessTokenAlias;
 
 /**
@@ -57,9 +58,9 @@ class PersonalAccessTokens extends PersonalAccessTokenAlias
     ];
 
     protected $casts = [
-        'abilities'    => 'json',
+        'abilities' => 'json',
         'last_used_at' => 'datetime',
-        'device_name'  => 'string'
+        'device_name' => 'string'
     ];
 
 }
