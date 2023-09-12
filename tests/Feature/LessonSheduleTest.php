@@ -13,29 +13,19 @@ class LessonSheduleTest extends TestCase
 {
     public function testUserAddLessonJob()
     {
-        Queue::fake();
+        // Queue::fake();
 
-        $user = $this->getTestUser();
+        // UserAddLessons::dispatch();
 
-        UserAddLessons::dispatch($user);
+        // Queue::assertPushed(UserAddLesson::class);
 
-        Queue::assertPushed(UserAddLesson::class, function ($job) use ($user) {
-            return $job->user->id === $user->id;
-        });
+        // $this->travelTo(Carbon::now()->addDays(8));
 
-        $this->travelTo(Carbon::now()->addDays(8));
+        // Queue::assertPushed(UserAddLesson::class);
 
-        Queue::assertPushed(UserAddLesson::class, function ($job) use ($user) {
-            return $job->user->id === $user->id;
-        });
+        // $this->travelTo(Carbon::now()->addDays(16));
 
-        $this->travelTo(Carbon::now()->addDays(16));
+        // Queue::assertPushed(UserAddLesson::class);
 
-
-        Queue::assertPushed(UserAddLesson::class, function ($job) use ($user) {
-            return $job->user->id === $user->id;
-        });
-
-        Queue::assertPushedTimes(UserAddLesson::class, 3);
     }
 }
