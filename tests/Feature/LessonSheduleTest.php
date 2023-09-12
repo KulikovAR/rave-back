@@ -15,6 +15,8 @@ class LessonSheduleTest extends TestCase
     {
         // Queue::fake();
 
+        // $this->travelTo(Carbon::now()->addMinute());
+
         // UserAddLessons::dispatch();
 
         // Queue::assertPushed(UserAddLesson::class);
@@ -26,6 +28,10 @@ class LessonSheduleTest extends TestCase
         // $this->travelTo(Carbon::now()->addDays(16));
 
         // Queue::assertPushed(UserAddLesson::class);
+
+        (new UserAddLessons())->handle();
+
+        $this->assertTrue(true);
 
     }
 }

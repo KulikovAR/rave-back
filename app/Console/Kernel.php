@@ -14,7 +14,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->job(UserAddLessons::class)->everyMinute();
+        $schedule->job(new UserAddLessons())->everyMinute();
         $schedule->job(new ChargeSubscriptionJob())->everyMinute();
     }
 

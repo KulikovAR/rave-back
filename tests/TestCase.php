@@ -2,13 +2,18 @@
 
 namespace Tests;
 
+use App\Enums\SubscriptionTypeEnum;
 use App\Models\Lesson;
 use App\Models\Quiz;
+use App\Models\Role;
 use App\Models\User;
+use Carbon\Carbon;
+use Database\Factories\UserProfileFactory;
 use Database\Seeders\UserSeeder;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Hash;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -17,6 +22,9 @@ abstract class TestCase extends BaseTestCase
     public \Faker\Generator $faker;
 
     public array $userBearerHeaders;
+
+    const USER_PASSWORD = 'test@mail';
+    const USER_EMAIL = 'test@mail';
 
     public function __construct(string $name)
     {
@@ -52,7 +60,7 @@ abstract class TestCase extends BaseTestCase
 
     protected function createTestLessonWithUser($params = []): Lesson
     {
-        if(!empty($params)) {
+        if (!empty($params)) {
             $lesson = Lesson::factory()->create($params);
         } else {
             $lesson = Lesson::factory()->create();
@@ -63,7 +71,8 @@ abstract class TestCase extends BaseTestCase
         return $lesson;
     }
 
-    protected function createTestQuiz() {
+    protected function createTestQuiz()
+    {
         $lesson = $this->getTestLesson();
 
         $quiz = Quiz::factory()->create([
@@ -73,9 +82,26 @@ abstract class TestCase extends BaseTestCase
         return $quiz;
     }
 
+    protected function createTestUserWithSubscription()
+    {
+        $user = User::factory()->create(
+            [
+                'password'                => Hash::make(self::USER_PASSWORD),
+                'email'                   => self::USER_EMAIL,
+                'subscription_expires_at' => Carbon::now()->addMonths(2),
+                'subscription_created_at' => Carbon::now()->subMonth(),
+                'subscription_type'       => SubscriptionTypeEnum::THREE_MOTHS->value
+            ],
+        );
+
+        $user->assignRole(Role::ROLE_USER);
+
+        $user->userProfile()->create((new UserProfileFactory())->definition());
+    }
+
     protected function getTestQuiz()
     {
-        return Quiz::where(['lesson_id' => $this->getTestLesson()->id])->orderBy('id','desc')->firstOrFail();
+        return Quiz::where(['lesson_id' => $this->getTestLesson()->id])->orderBy('id', 'desc')->firstOrFail();
     }
 
     protected function getHeadersForUser(User $user = null): array
