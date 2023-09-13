@@ -11,6 +11,7 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
@@ -37,10 +38,18 @@ class ProposalResource extends Resource
     {
         return $table
             ->columns([
+
                 TextColumn::make('body')
                     ->tooltip(fn($record) => $record->body)
                     ->limit(15),
                 ImageColumn::make('file'),
+                IconColumn::make('unread')
+                    ->boolean()
+                    ->trueIcon('heroicon-o-ban')
+                    ->trueColor('danger')
+                    ->falseIcon('heroicon-o-check-circle')
+                    ->falseColor('success')
+                    ->alignCenter(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -54,8 +63,15 @@ class ProposalResource extends Resource
                 //
             ])
             ->actions([
+                Tables\Actions\Action::make('read')
+                ->action(fn (Proposal $record) => $record->update(['unread' => false])),
+                Tables\Actions\Action::make('user')->url(
+                    fn(Proposal $record): string => UserResource::getUrl('edit', ['record' => $record->user])
+                )
+                    ->openUrlInNewTab(),
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\DeleteAction::make(),
+                
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),

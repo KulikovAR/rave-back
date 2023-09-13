@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\PriceResource\Pages;
+namespace App\Filament\Resources\SettingResource\Pages;
 
-use App\Filament\Resources\PriceResource;
+use App\Filament\Resources\SettingResource;
 use Filament\Pages\Actions;
 use Filament\Resources\Pages\ListRecords;
 
-class ListPrices extends ListRecords
+class ListSettings extends ListRecords
 {
-    protected static string $resource = PriceResource::class;
+    protected static string $resource = SettingResource::class;
 
     protected function getActions(): array
     {

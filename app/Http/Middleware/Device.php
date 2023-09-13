@@ -19,7 +19,6 @@ class Device
     {
         $userDeviceService = new UserDeviceService($request->user(), Browser::userAgent());
 
-
         return $userDeviceService->checkTempToken() || $userDeviceService->checkTooManyDevices() ? response(null, 403) : $next($request);
     }
 }

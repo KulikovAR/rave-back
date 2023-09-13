@@ -26,7 +26,7 @@ class ProposalController extends Controller
         $proposal = Proposal::create([
             'user_id' => $request->user()->id,
             'body'    => $request->body,
-            'file'    => $request->file('file')->store('proposals', 'public')
+            'file'    => $request->has('file') ? $request->file('file')->store('proposals', 'public') : null
         ]);
 
         return new ApiJsonResponse(

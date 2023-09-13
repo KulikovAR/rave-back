@@ -6,6 +6,7 @@ use App\Enums\SubscriptionTypeEnum;
 use App\Notifications\PasswordResetNotification;
 use App\Notifications\VerifyEmailNotification;
 use App\Traits\ApiTokensWithDevice;
+use App\Traits\SheduleLessons;
 use Carbon\Carbon;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasName;
@@ -25,8 +26,9 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements MustVerifyEmail, HasLocalePreference, FilamentUser, HasName
 {
-    use HasApiTokens, HasFactory, Notifiable, HasUuids, SoftDeletes, HasRoles, ApiTokensWithDevice, Notifiable;
 
+    use HasApiTokens, HasFactory, Notifiable, HasUuids, SoftDeletes, HasRoles, ApiTokensWithDevice, SheduleLessons;
+  
     /**
      * The attributes that are mass assignable.
      *
@@ -42,7 +44,8 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
         'subscription_created_at',
         'subscription_type',
         'is_blocked',
-        ''
+        'last_video_added_at',
+        '',
     ];
 
     /**
