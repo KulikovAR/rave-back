@@ -85,9 +85,15 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                          TextColumn::make('id'),
-                          TextColumn::make('name'),
-                          TextColumn::make('email')->searchable(),
+                          TextColumn::make('id')
+                                    ->searchable()
+                                    ->toggleable(isToggledHiddenByDefault: true),
+                          TextColumn::make('name')
+                                    ->searchable()
+                                    ->toggleable(isToggledHiddenByDefault: true),
+                          TextColumn::make('email')
+                                    ->toggleable(isToggledHiddenByDefault: false)
+                                    ->searchable(),
                           IconColumn::make('email_verified_at')
                                     ->boolean()
                                     ->trueIcon('heroicon-o-mail-open')
@@ -99,19 +105,29 @@ class UserResource extends Resource
                                     ->falseIcon('heroicon-o-ban')
                                     ->falseColor('danger')
                                     ->alignCenter(),
-                          TextColumn::make('roles.name'),
+                          TextColumn::make('roles.name')
+                                    ->sortable()
+                                    ->toggleable(isToggledHiddenByDefault: false),
                           //TextColumn::make('salt'),
-                          TextColumn::make('language'),
+                          TextColumn::make('language')
+                                    ->sortable()
+                                    ->toggleable(isToggledHiddenByDefault: true),
+                          TextColumn::make('auto_subscription')
+                                    ->sortable()
+                                    ->toggleable(isToggledHiddenByDefault: false),
                           TextColumn::make('created_at')
                                     ->dateTime()
-                                    ->sortable(),
+                                    ->sortable()
+                                    ->toggleable(isToggledHiddenByDefault: true),
                           TextColumn::make('updated_at')
                                     ->dateTime()
-                                    ->sortable(),
+                                    ->sortable()
+                                    ->toggleable(isToggledHiddenByDefault: false),
                           IconColumn::make('deleted_at')
                                     ->boolean()
                                     ->trueIcon('heroicon-o-ban')
-                                    ->trueColor('danger'),
+                                    ->trueColor('danger')
+                                    ->toggleable(isToggledHiddenByDefault: true),
                       ])
             ->defaultSort('updated_at', 'desc')
             ->filters([

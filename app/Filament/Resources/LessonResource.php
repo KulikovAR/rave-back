@@ -65,14 +65,20 @@ class LessonResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('title'),
+                TextColumn::make('title')
+                    ->searchable()
+                    ->tooltip(fn($record) => $record->title)
+                    ->limit(15),
                 // TextColumn::make('description'),
                 TextColumn::make('video_path')
                     ->tooltip(fn($record) => $record->video_path)
                     ->limit(15),
-                ImageColumn::make('preview_path'),
                 TextColumn::make('order_in_display'),
-                TextColumn::make('rating'),
+                ImageColumn::make('preview_path')
+                    ->tooltip(fn($record) => $record->preview_path)
+                    ->limit(15),
+                TextColumn::make('rating')
+                    ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -82,6 +88,7 @@ class LessonResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->defaultSort('updated_at', 'desc')
             ->filters([
                 //
             ])

@@ -22,6 +22,7 @@ class UserResource extends JsonResource
             'subscription_expires_at' => $this->subscription_expires_at,
             'subscription_created_at' => $this->subscription_created_at,
             'subscription_type'       => $this->subscription_type,
+            'auto_subscription'       => $this->auto_subscription,
             'profile'                 => new UserProfileResource($this->userProfile),
         ];
     }

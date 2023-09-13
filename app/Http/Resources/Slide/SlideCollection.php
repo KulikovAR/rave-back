@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources\Banner;
+namespace App\Http\Resources\Slide;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class BannerCollection extends ResourceCollection
+class SlideCollection extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.
