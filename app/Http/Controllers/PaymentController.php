@@ -185,7 +185,7 @@ class PaymentController extends Controller
 
         $user->orders()->delete();
 
-        $user->auto_subscription = false;
+        $user->auto_subscription = 0;
         $user->save();
 
         return new ApiJsonResponse();
