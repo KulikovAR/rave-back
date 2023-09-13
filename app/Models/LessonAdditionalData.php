@@ -10,9 +10,14 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class LessonAdditionalData extends Model
 {
     use HasFactory, HasUuids;
+    
+    protected $fillable = [
+        'title',
+        'file'
+    ];
 
     public function lessons(): HasMany
     {
-        return $this->hasMany(Slide::class);
+        return $this->hasMany(Lesson::class);
     }
 }

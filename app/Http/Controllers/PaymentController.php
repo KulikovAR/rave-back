@@ -6,7 +6,7 @@ use App\Enums\SubscriptionTypeEnum;
 use App\Http\Requests\UuidRequest;
 use App\Interfaces\PaymentServiceInterface;
 use App\Models\Order;
-use App\Models\Price;
+use App\Models\Setting;
 use App\Models\User;
 use App\Services\NotificationService;
 use App\Services\TinkoffPaymentService;
@@ -30,11 +30,11 @@ class PaymentController extends Controller
 
         //TODO Transaction
         $order = Order::create([
-                                   'order_status' => Order::CREATED,
-                                   'order_type'   => $request->order_type,
-                                   'price'        => Price::where(['locale' => 'ru'])->first()?->{'price_' . $request->order_type} ?? 9999,
-                                   'duration'     => Price::where(['locale' => 'ru'])->first()?->{'duration_' . $request->order_type} ?? 1
-                               ]);
+                                    'order_status' => Order::CREATED,
+                                    'order_type'   => $request->order_type,
+                                    'price'        => Setting::getValueFromFieldName('price_' . $request->order_type) ?? 9999,
+                                    'duration'     => Setting::getValueFromFieldName('duration_' . $request->order_type) ?? 1
+                                ]);
         $order->user()->associate($user);
         $order->save();
 
@@ -91,7 +91,7 @@ class PaymentController extends Controller
             return;
         }
 
-        $duration = Price::where(['locale' => 'ru'])->first()?->{'duration_' . $order->order_type} ?? 1;
+        $duration = Setting::getValueFromFieldName('duration_' . $request->order_type) ?? 1;
 
         $user                          = $order->user;
         $user->subscription_type       = $order->order_type;
@@ -124,13 +124,13 @@ class PaymentController extends Controller
             );
         }
 
-        $duration = Price::where(['locale' => 'ru'])->first()?->{'duration_' . $order->order_type} ?? 1;
+        $duration = Setting::getValueFromFieldName('duration_' . $request->order_type) ?? 1;
 
         $orderType = match ($order->order_type) {
-            "normal"  => SubscriptionTypeEnum::MONTH->value,
-            "vip"     => SubscriptionTypeEnum::THREE_MOTHS->value,
+            "normal" => SubscriptionTypeEnum::MONTH->value,
+            "vip" => SubscriptionTypeEnum::THREE_MOTHS->value,
             "premium" => SubscriptionTypeEnum::YEAR->value,
-            default   => SubscriptionTypeEnum::MONTH->value
+            default => SubscriptionTypeEnum::MONTH->value
         };
 
         $user                          = $order->user;

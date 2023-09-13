@@ -6,6 +6,7 @@ use App\Filament\MenuTitles;
 use App\Filament\Resources\LessonResource\Pages;
 use App\Filament\Resources\LessonResource\RelationManagers;
 use App\Filament\Resources\LessonResource\RelationManagers\CommentsRelationManager;
+use App\Filament\Resources\LessonResource\RelationManagers\LessonAdditionalDataRelationManager;
 use App\Models\Lesson;
 use App\Models\Tag;
 use Filament\Forms;
@@ -54,6 +55,9 @@ class LessonResource extends Resource
                     ->minValue(1)
                     ->maxValue(5)
                     ->maxLength(255),
+                TextInput::make('order_in_display')
+                    ->integer()
+                    ->unique()
             ]);
     }
 
@@ -67,6 +71,7 @@ class LessonResource extends Resource
                     ->tooltip(fn($record) => $record->video_path)
                     ->limit(15),
                 ImageColumn::make('preview_path'),
+                TextColumn::make('order_in_display'),
                 TextColumn::make('rating'),
                 TextColumn::make('created_at')
                     ->dateTime()
@@ -93,6 +98,7 @@ class LessonResource extends Resource
     {
         return [
             CommentsRelationManager::class,
+            LessonAdditionalDataRelationManager::class
         ];
     }
 
