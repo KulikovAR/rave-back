@@ -28,7 +28,6 @@ use App\Filament\Resources\LessonResource\RelationManagers\CommentsRelationManag
 class LessonResource extends Resource
 {
     protected static ?string $model = Lesson::class;
-
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
     protected static ?string $navigationGroup = MenuTitles::CATEGORY_APP;

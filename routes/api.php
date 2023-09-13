@@ -19,6 +19,9 @@ use App\Http\Controllers\QuizResultController;
 use App\Http\Controllers\ShortsController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserProfileController;
+use App\Models\User;
+use App\Notifications\PasswordResetNotification;
+use Database\Seeders\UserSeeder;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BannerController;
 
@@ -41,6 +44,7 @@ Route::middleware(['guest'])->group(function () {
     Route::post('/password/send', [PasswordController::class, 'sendPasswordLink'])->middleware(['throttle:6,1'])->name('password.send');
     Route::post('/password/reset', [PasswordController::class, 'store'])->name('password.reset');
 });
+
 
 Route::prefix('banner')->group(function () {
     Route::get('/', [BannerController::class, 'index'])->name('banner.index');
@@ -126,5 +130,17 @@ Route::prefix('payments')->group(function () {
     Route::get('/redirect', [PaymentController::class, 'redirect'])->name('payment.redirect');
     Route::get('/success', [PaymentController::class, 'success'])->name('payment.success');
     Route::get('/failed', [PaymentController::class, 'failed'])->name('payment.failed');
+    Route::post('/status', [PaymentController::class, 'paymentStatus'])->name('payment.status');
+});
 
+Route::get('/mail', function () {
+    $notification = new PasswordResetNotification('Order');
+
+    $user = User::where('email', UserSeeder::USER_EMAIL)->first(); // Model with Notifiable trait
+
+    $message = $notification->toMail($user);
+
+    $markdown = new \Illuminate\Mail\Markdown(view(), config('mail.markdown'));
+
+    return $markdown->render('vendor.notifications.email', $message->toArray());
 });

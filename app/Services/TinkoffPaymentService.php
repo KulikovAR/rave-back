@@ -12,6 +12,7 @@ use Log;
 class TinkoffPaymentService implements PaymentServiceInterface
 {
     const URL_PAYMENT       = 'https://securepay.tinkoff.ru/v2/Init';
+    const UPD_SUBSCRIPTION  = 'https://securepay.tinkoff.ru/v2/Charge';
     const URL_PAYMENT_STATE = 'https://securepay.tinkoff.ru/v2/GetState';
 
     public function getPaymentUrl(Order $order): array
@@ -19,16 +20,19 @@ class TinkoffPaymentService implements PaymentServiceInterface
         $priceTotal = $order->price * 100;
 
         $requestData = [
-            "TerminalKey" => config('tinkoff-payment.terminal'),
-            "SuccessURL"  => route('payment.success', ['id' => $order->id]),
-            "FailURL"     => route('payment.failed', ['id' => $order->id]),
-            "Amount"      => $priceTotal,
-            "OrderId"     => $order->id,
-            "Description" => "Оплата подписки на TrueSchool",
-            "DATA"        => [
+            "TerminalKey"     => config('tinkoff-payment.terminal'),
+            "NotificationURL" => route('payment.status'),
+            "SuccessURL"      => route('payment.success', ['id' => $order->id]),
+            "FailURL"         => route('payment.failed', ['id' => $order->id]),
+            "Amount"          => $priceTotal,
+            "OrderId"         => $order->id,
+            "Recurrent"       => "Y",
+            "CustomerKey"     => $order->user->id,
+            "Description"     => "Оплата подписки на TrueSchool",
+            "DATA"            => [
                 "DefaultCard" => "none"
             ],
-            "Receipt"     => [
+            "Receipt"         => [
                 "Email"        => config('site-values.email_support.email_support'),
                 "Phone"        => config('site-values.phone_support.phone_support'),
                 "EmailCompany" => config('site-values.email_support.email_support'),
@@ -69,6 +73,24 @@ class TinkoffPaymentService implements PaymentServiceInterface
         ];
 
         $responseArr = $this->makeRequest($requestData, self::URL_PAYMENT_STATE);
+
+        $paymentSuccessState = $responseArr['Success'];
+        $paymentAmount       = $responseArr['Amount'] ?? null;
+
+        return [$paymentSuccessState, $paymentAmount];
+    }
+
+    public function updateSubscription(Order $order): array
+    {
+        $requestData = [
+            "TerminalKey" => config('tinkoff-payment.terminal'),
+            "PaymentId"   => $order->payment_id,
+            "RebillId"    => $order->rebill_id,
+            "SendEmail"   => true,
+            "InfoEmail"   => $order->user->email,
+        ];
+
+        $responseArr = $this->makeRequest($requestData, self::UPD_SUBSCRIPTION);
 
         $paymentSuccessState = $responseArr['Success'];
         $paymentAmount       = $responseArr['Amount'] ?? null;
