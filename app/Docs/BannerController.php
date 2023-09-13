@@ -11,7 +11,6 @@ class BannerController
      *     tags={"Banner"},
      *     operationId="index_banners",
      *     summary="Получить баннеры",
-     *     security={{"api": {}}},
      *     @OA\Response(
      *          response="200",
      *          description="Success",

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\SubscriptionTypeEnum;
 use App\Http\Requests\UuidRequest;
+use App\Http\Responses\ApiJsonResponse;
 use App\Interfaces\PaymentServiceInterface;
 use App\Models\Order;
 use App\Models\Price;
@@ -18,7 +19,9 @@ class PaymentController extends Controller
 {
     public function __construct(
         public PaymentServiceInterface $paymentService = new TinkoffPaymentService(),
-    ) {}
+    )
+    {
+    }
 
     public function redirect(UuidRequest $request)
     {
@@ -30,11 +33,11 @@ class PaymentController extends Controller
 
         //TODO Transaction
         $order = Order::create([
-                                   'order_status' => Order::CREATED,
-                                   'order_type'   => $request->order_type,
-                                   'price'        => Price::where(['locale' => 'ru'])->first()?->{'price_' . $request->order_type} ?? 9999,
-                                   'duration'     => Price::where(['locale' => 'ru'])->first()?->{'duration_' . $request->order_type} ?? 1
-                               ]);
+            'order_status' => Order::CREATED,
+            'order_type' => $request->order_type,
+            'price' => Price::where(['locale' => 'ru'])->first()?->{'price_' . $request->order_type} ?? 9999,
+            'duration' => Price::where(['locale' => 'ru'])->first()?->{'duration_' . $request->order_type} ?? 1
+        ]);
         $order->user()->associate($user);
         $order->save();
 
@@ -77,7 +80,7 @@ class PaymentController extends Controller
 
         list($paymentSuccessState, $paymentAmount) = $this->paymentService->updateSubscription($order);
 
-        $cents      = 100;
+        $cents = 100;
         $priceTotal = $order->price * $cents;
 
         if ($paymentSuccessState !== true || $priceTotal < $paymentAmount) {
@@ -93,8 +96,8 @@ class PaymentController extends Controller
 
         $duration = Price::where(['locale' => 'ru'])->first()?->{'duration_' . $order->order_type} ?? 1;
 
-        $user                          = $order->user;
-        $user->subscription_type       = $order->order_type;
+        $user = $order->user;
+        $user->subscription_type = $order->order_type;
         $user->subscription_created_at = now();
         $user->subscription_expires_at = Carbon::parse($user->subscriptionAvailable() ? $user->subscription_expires_at : now())->addDays($duration)->format('Y-m-d H:i:s');
         $user->save();
@@ -109,7 +112,7 @@ class PaymentController extends Controller
 
         list($paymentSuccess, $paymentAmount) = $this->paymentService->getPaymentState($order);
 
-        $cents      = 100;
+        $cents = 100;
         $priceTotal = $order->price * $cents;
 
         if ($paymentSuccess !== true || $priceTotal < $paymentAmount) {
@@ -127,14 +130,14 @@ class PaymentController extends Controller
         $duration = Price::where(['locale' => 'ru'])->first()?->{'duration_' . $order->order_type} ?? 1;
 
         $orderType = match ($order->order_type) {
-            "normal"  => SubscriptionTypeEnum::MONTH->value,
-            "vip"     => SubscriptionTypeEnum::THREE_MOTHS->value,
+            "normal" => SubscriptionTypeEnum::MONTH->value,
+            "vip" => SubscriptionTypeEnum::THREE_MOTHS->value,
             "premium" => SubscriptionTypeEnum::YEAR->value,
-            default   => SubscriptionTypeEnum::MONTH->value
+            default => SubscriptionTypeEnum::MONTH->value
         };
 
-        $user                          = $order->user;
-        $user->subscription_type       = $orderType;
+        $user = $order->user;
+        $user->subscription_type = $orderType;
         $user->subscription_created_at = now();
         $user->subscription_expires_at = Carbon::parse($user->subscriptionAvailable() ? $user->subscription_expires_at : now())->addDays($duration)->format('Y-m-d H:i:s');
         $user->save();
@@ -147,7 +150,7 @@ class PaymentController extends Controller
 
     public function failed(UuidRequest $request)
     {
-        $order               = Order::where(['order_status' => Order::CREATED])->findOrFail($request->id);
+        $order = Order::where(['order_status' => Order::CREATED])->findOrFail($request->id);
         $order->order_status = Order::CANCELED;
         $order->save();
 
@@ -168,10 +171,19 @@ class PaymentController extends Controller
 
         $orderId = $request->OrderId;
 
-        $order            = Order::find($orderId);
+        $order = Order::find($orderId);
         $order->rebill_id = $request->RebillId;
         $order->save();
 
         return response("OK", 200);
+    }
+
+    public function unsubscribe(Request $request)
+    {
+        $user = $request->user();
+
+        $user->orders()->delete();
+
+        return new ApiJsonResponse();
     }
 }

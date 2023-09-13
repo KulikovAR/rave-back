@@ -11,7 +11,6 @@ class PaymentsController
      *     tags={"Orders"},
      *     operationId="redirect",
      *     summary="redirect to payments",
-     *     security={{"api": {}}},
      *     @OA\Parameter(
      *          name="id",
      *          in="query",
@@ -57,7 +56,9 @@ class PaymentsController
      *
      *
      */
-    public function redirect() {}
+    public function redirect()
+    {
+    }
 
     /**
      *
@@ -66,7 +67,6 @@ class PaymentsController
      *     tags={"Orders"},
      *     operationId="success",
      *     summary="callback from success payments",
-     *     security={{"api": {}}},
      *     @OA\Parameter(
      *          name="id",
      *          in="query",
@@ -103,7 +103,9 @@ class PaymentsController
      *
      *
      */
-    public function success() {}
+    public function success()
+    {
+    }
 
     /**
      *
@@ -112,7 +114,6 @@ class PaymentsController
      *     tags={"Orders"},
      *     operationId="failed",
      *     summary="callback from failed payments",
-     *     security={{"api": {}}},
      *     @OA\Parameter(
      *          name="id",
      *          in="query",
@@ -149,5 +150,37 @@ class PaymentsController
      *
      *
      */
-    public function failed() {}
+    public function failed()
+    {
+    }
+
+    /**
+     *
+     * @OA\Delete(
+     *     path="/payments/unsubscribe",
+     *     operationId="unsubscribe",
+     *     tags={"Orders"},
+     *     summary="unsubscribe",
+     *     security={{"api": {}}},
+     *     @OA\Response(
+     *          response="200",
+     *          description="Success",
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *              @OA\Schema(
+     *                @OA\Property(property="status", type="string", example="OK"),
+     *                @OA\Property(property="message", type="string", example=""),
+     *                @OA\Property(property="data", example="[]"),
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *          response="401",
+     *          ref="#/components/responses/401"
+     *      ),
+     *)
+     */
+    public function unsubscribe()
+    {
+    }
 }

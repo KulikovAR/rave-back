@@ -114,6 +114,11 @@ Route::middleware('auth:sanctum')->group(function () {
                     Route::get('/{quiz_id}', [QuizResultController::class, 'show'])->name('quiz_results.show');
                     Route::post('/', [QuizResultController::class, 'store'])->name('quiz_results.store');
                 });
+
+                Route::prefix('payments')->group(function () {
+                    Route::delete('/unsubscribe', [PaymentController::class, 'unsubscribe'])
+                        ->name('payment.unsubscribe');
+                });
             });
         });
     });
