@@ -13,7 +13,7 @@ class ChunkedFileUpload extends Component
     use WithFileUploads;
 
     // Chunks info
-    public $chunkSize = 10000000; // 10M
+    public $chunkSize = 2000000; // 2M
     public $fileChunk;
 
     // Final file 
@@ -25,6 +25,8 @@ class ChunkedFileUpload extends Component
 
     public function updatedFileChunk()
     {
+
+        #todo - переделать на сбор всех чанков и запись их последовательно
         $chunkFileName = $this->fileChunk->getFileName();
         $finalPath = Storage::path('/livewire-tmp/'.$this->fileName);
         $tmpPath   = Storage::path('/livewire-tmp/'.$chunkFileName);
@@ -37,12 +39,13 @@ class ChunkedFileUpload extends Component
         fclose($final);
         unlink($tmpPath);
 
-        $curSize = Storage::size('/livewire-tmp/'.$this->fileName);
-        if( $curSize == $this->fileSize ){
+        $curSize = Storage::size('/livewire-tmp/' . $this->fileName);
+        if ( $curSize == $this->fileSize ){
             $this->finalFile = TemporaryUploadedFile::createFromLivewire('/'.$this->fileName);
             // dd($this->finalFile);
             $path = Storage::put('public/file.jpg', file_get_contents($finalPath));
             Storage::move($finalPath, 'public/fileMEW.jpg');
+            // dd($path);
         }
 
 
