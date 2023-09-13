@@ -48,9 +48,9 @@ class BannerResource extends Resource
                 ImageColumn::make('img')->size(180),
                 TextColumn::make('updated_at')
                     ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->sortable(),
             ])
+            ->defaultSort('updated_at', 'desc')
             ->filters([
                 //
             ])
