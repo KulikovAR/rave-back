@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Responses\ApiJsonResponse;
-use App\Models\Price;
+use App\Models\Setting;
 use App\Services\LocalizationService;
 use Illuminate\Support\Facades\App;
 
@@ -17,10 +17,12 @@ class AssetsController extends Controller
 
         App::setLocale($locale);
 
-        $prices = Price::where('locale', $locale)->first();
+        $data = __('translations');
+
+        $data['prices'] = Setting::getPrices($locale);
 
         return new ApiJsonResponse(
-            data: __('translations') + ['prices' => $prices]
+            data: $data
         );
     }
 }

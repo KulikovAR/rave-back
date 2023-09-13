@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\Lesson;
+use App\Models\Setting;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
@@ -16,6 +17,7 @@ class UserAddLessons implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    const DEFAULT_DURATION = 7;
     /**
      * Create a new job instance.
      */
@@ -29,7 +31,11 @@ class UserAddLessons implements ShouldQueue
      */
     public function handle(): void
     {
-        $users = User::where('last_video_added_at', '<', Carbon::now()->subWeek())
+        $setting_lesson_shedule_duration = Setting::getValueFromFieldName('lesson_shedule_duration');
+
+        $lesson_shedule_duration = $setting_lesson_shedule_duration ? $setting_lesson_shedule_duration : self::DEFAULT_DURATION;
+        
+        $users = User::where('last_video_added_at', '<', Carbon::now()->subDays($lesson_shedule_duration))
             ->orWhere('last_video_added_at', null)
             ->get();
             
