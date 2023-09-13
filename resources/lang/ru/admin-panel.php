@@ -10,6 +10,9 @@ return [
     'orders' => 'Заказы',
     'order' => 'Заказа',
 
+    'shorts' => 'Shorts',
+    'short' => 'Short',
+
     'tokens' => 'Токены',
     'token' => 'Токен',
 

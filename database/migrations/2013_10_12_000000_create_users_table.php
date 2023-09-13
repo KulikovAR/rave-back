@@ -25,6 +25,7 @@ return new class extends MigrationService {
             $table->timestamp('subscription_expires_at')->nullable();
             $table->timestamp('subscription_created_at')->nullable();
             $table->string('subscription_type')->nullable();
+            $table->boolean('auto_subscription')->default(true);
             $table->timestamp('last_video_added_at')->nullable();
             $table->softDeletes();
             $table->timestamps();
