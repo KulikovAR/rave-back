@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Proposal extends Model
 {
@@ -13,6 +14,12 @@ class Proposal extends Model
     protected $fillable = [
         'user_id',
         'body',
-        'file'
+        'file',
+        'unread'
     ];
+
+    public function user(): BelongsTo
+    {
+        return $this->BelongsTo(User::class)->with('userProfile');
+    }
 }
