@@ -16,7 +16,7 @@
     </form>
 
     <script>
-        let chnkStarts = [];
+        let chunksName = [];
 
         function uploadChunks() {
             const file = document.querySelector('#myFile').files[0];
@@ -49,29 +49,38 @@
         }
 
         function uploadFile(file, chunks) {
-            counter = 1;
+            counter = 0;
             chunks.forEach((item) => {
                 let start = item[0];
                 let end = item[1];
                 let chunk = file.slice(start, end);
 
                 console.log('uploadFile: ' + start + ' ' + end);
+                @this.set('uploads.'+counter+'.fileName', file.name );
+                @this.set('uploads.'+counter+'.fileSize', file.size );
+                @this.set('uploads.'+counter+'.progress', 0 );
+                @this.set('uploads.'+counter+'.counter', counter );
 
-                let _time = Math.floor((Math.random() * 2000) + 1);
-                console.log('counter: ' + counter + ' _time: ' + _time);
-                setTimeout(tryToUploadChunk, _time, chunk, counter);
+                let name = tryToUploadChunk(chunk, counter);
+                console.log('name: ' + name);
                 counter++;
             });
+
+            console.log('chunks: ' + chunksName);
         }
 
         function tryToUploadChunk(chunk, counter) {
             @this.upload('fileChunk', chunk, (uploadedFilename) => {
+                @this.set('uploads.'+counter+'.chunkName', uploadedFilename );
                 console.log('uploadedFilename: ' + uploadedFilename + ' counter: ' + counter);
+                chunksName.push(uploadedFilename);
             }, () => {
                 console.log('error');
+                let _time = Math.floor((Math.random() * 20000) + 1);
+                setTimeout(tryToUploadChunk, _time, chunk, counter);
             }, (event) => {
                 if (event.detail.progress == 100) {
-                    console.log('progress: ' + event.detail.progress);
+                    @this.set('uploads.'+counter+'.progress', event.detail.progress );
                 }
             });
         }
