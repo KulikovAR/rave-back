@@ -32,20 +32,22 @@ class AppServiceProvider extends ServiceProvider
         Field::macro("tooltip", function (string $tooltip) {
             return $this->hintAction(
                 Action::make('help')
-                    ->icon('heroicon-o-question-mark-circle')
-                    ->tooltip($tooltip)
+                      ->icon('heroicon-o-question-mark-circle')
+                      ->tooltip($tooltip)
             );
         });
+
         Filament::serving(function () {
+            Filament::registerViteTheme('resources/css/filament.css');
             Filament::registerNavigationGroups([
-                NavigationGroup::make()
-                    ->label(__('admin-panel.app'),)
-                    ->icon('heroicon-o-sparkles'),
-                NavigationGroup::make()
-                    ->label(__('admin-panel.settings'))
-                    ->icon('heroicon-o-cog')
-                    ->collapsed(),
-            ]);
+                                                   NavigationGroup::make()
+                                                                  ->label(__('admin-panel.app'),)
+                                                                  ->icon('heroicon-o-sparkles'),
+                                                   NavigationGroup::make()
+                                                                  ->label(__('admin-panel.settings'))
+                                                                  ->icon('heroicon-o-cog')
+                                                                  ->collapsed(),
+                                               ]);
         });
         Sanctum::usePersonalAccessTokenModel(PersonalAccessTokens::class);
     }
