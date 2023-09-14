@@ -99,6 +99,10 @@ class NotificationResource extends Resource
         return __('admin-panel.notifications');
     }
 
+    public static function canCreate(): bool
+    {
+        return false;
+    }
 
     protected static function getNavigationGroup(): string
     {
