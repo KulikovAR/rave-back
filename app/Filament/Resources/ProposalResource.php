@@ -38,8 +38,11 @@ class ProposalResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('body'),
-                TextColumn::make('file'),
+
+                TextColumn::make('body')
+                    ->tooltip(fn($record) => $record->body)
+                    ->limit(15),
+                ImageColumn::make('file'),
                 IconColumn::make('unread')
                     ->boolean()
                     ->trueIcon('heroicon-o-ban')
