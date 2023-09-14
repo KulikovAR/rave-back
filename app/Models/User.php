@@ -28,7 +28,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
 {
 
     use HasApiTokens, HasFactory, Notifiable, HasUuids, SoftDeletes, HasRoles, ApiTokensWithDevice, SheduleLessons;
-  
+
     /**
      * The attributes that are mass assignable.
      *
@@ -45,7 +45,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
         'subscription_type',
         'is_blocked',
         'last_video_added_at',
-        '',
+        'auto_subscription',
     ];
 
     /**
@@ -68,6 +68,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
         'phone_verified_at' => 'datetime',
         'deleted_at'        => 'datetime',
         'password'          => 'hashed',
+        'auto_subscription' => 'boolean',
     ];
 
     public function userProfile(): HasOne

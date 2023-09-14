@@ -95,34 +95,50 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('id'),
-                TextColumn::make('name'),
-                TextColumn::make('email')->searchable(),
-                IconColumn::make('email_verified_at')
-                    ->boolean()
-                    ->trueIcon('heroicon-o-mail-open')
-                    ->falseIcon('heroicon-o-mail'),
-                IconColumn::make('is_blocked')
-                    ->boolean()
-                    ->trueIcon('heroicon-o-check-circle')
-                    ->trueColor('success')
-                    ->falseIcon('heroicon-o-ban')
-                    ->falseColor('danger')
-                    ->alignCenter(),
-                TextColumn::make('roles.name'),
-                //TextColumn::make('salt'),
-                TextColumn::make('language'),
-                TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable(),
-                TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable(),
-                IconColumn::make('deleted_at')
-                    ->boolean()
-                    ->trueIcon('heroicon-o-ban')
-                    ->trueColor('danger'),
-            ])
+                          TextColumn::make('id')
+                                    ->searchable()
+                                    ->toggleable(isToggledHiddenByDefault: true),
+                          TextColumn::make('name')
+                                    ->searchable()
+                                    ->toggleable(isToggledHiddenByDefault: true),
+                          TextColumn::make('email')
+                                    ->toggleable(isToggledHiddenByDefault: false)
+                                    ->searchable(),
+                          IconColumn::make('email_verified_at')
+                                    ->boolean()
+                                    ->trueIcon('heroicon-o-mail-open')
+                                    ->falseIcon('heroicon-o-mail'),
+                          IconColumn::make('is_blocked')
+                                    ->boolean()
+                                    ->trueIcon('heroicon-o-check-circle')
+                                    ->trueColor('success')
+                                    ->falseIcon('heroicon-o-ban')
+                                    ->falseColor('danger')
+                                    ->alignCenter(),
+                          TextColumn::make('roles.name')
+                                    ->sortable()
+                                    ->toggleable(isToggledHiddenByDefault: false),
+                          //TextColumn::make('salt'),
+                          TextColumn::make('language')
+                                    ->sortable()
+                                    ->toggleable(isToggledHiddenByDefault: true),
+                          TextColumn::make('auto_subscription')
+                                    ->sortable()
+                                    ->toggleable(isToggledHiddenByDefault: false),
+                          TextColumn::make('created_at')
+                                    ->dateTime()
+                                    ->sortable()
+                                    ->toggleable(isToggledHiddenByDefault: true),
+                          TextColumn::make('updated_at')
+                                    ->dateTime()
+                                    ->sortable()
+                                    ->toggleable(isToggledHiddenByDefault: false),
+                          IconColumn::make('deleted_at')
+                                    ->boolean()
+                                    ->trueIcon('heroicon-o-ban')
+                                    ->trueColor('danger')
+                                    ->toggleable(isToggledHiddenByDefault: true),
+                      ])
             ->defaultSort('updated_at', 'desc')
             ->filters([
                 TrashedFilter::make(),

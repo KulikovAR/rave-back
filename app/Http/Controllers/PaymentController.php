@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\SubscriptionTypeEnum;
 use App\Http\Requests\UuidRequest;
+use App\Http\Responses\ApiJsonResponse;
 use App\Interfaces\PaymentServiceInterface;
 use App\Models\Order;
 use App\Models\Setting;
@@ -30,11 +31,13 @@ class PaymentController extends Controller
 
         //TODO Transaction
         $order = Order::create([
-                                    'order_status' => Order::CREATED,
-                                    'order_type'   => $request->order_type,
-                                    'price'        => Setting::getValueFromFieldName('price_' . $request->order_type) ?? 9999,
-                                    'duration'     => Setting::getValueFromFieldName('duration_' . $request->order_type) ?? 1
-                                ]);
+
+                                   'order_status' => Order::CREATED,
+                                   'order_type'   => $request->order_type,
+                                   'price'        => Setting::getValueFromFieldName('price_' . $request->order_type) ?? 9999,
+                                   'duration'     => Setting::getValueFromFieldName('duration_' . $request->order_type) ?? 1
+                               ]);
+
         $order->user()->associate($user);
         $order->save();
 
@@ -127,13 +130,14 @@ class PaymentController extends Controller
         $duration = Setting::getValueFromFieldName('duration_' . $request->order_type) ?? 1;
 
         $orderType = match ($order->order_type) {
-            "normal" => SubscriptionTypeEnum::MONTH->value,
-            "vip" => SubscriptionTypeEnum::THREE_MOTHS->value,
+            "normal"  => SubscriptionTypeEnum::MONTH->value,
+            "vip"     => SubscriptionTypeEnum::THREE_MOTHS->value,
             "premium" => SubscriptionTypeEnum::YEAR->value,
-            default => SubscriptionTypeEnum::MONTH->value
+            default   => SubscriptionTypeEnum::MONTH->value
         };
 
         $user                          = $order->user;
+        $user->auto_subscription       = true;
         $user->subscription_type       = $orderType;
         $user->subscription_created_at = now();
         $user->subscription_expires_at = Carbon::parse($user->subscriptionAvailable() ? $user->subscription_expires_at : now())->addDays($duration)->format('Y-m-d H:i:s');
@@ -174,4 +178,17 @@ class PaymentController extends Controller
 
         return response("OK", 200);
     }
+
+    public function unsubscribe(Request $request)
+    {
+        $user = $request->user();
+
+        $user->orders()->delete();
+
+        $user->auto_subscription = 0;
+        $user->save();
+
+        return new ApiJsonResponse();
+    }
 }
+
