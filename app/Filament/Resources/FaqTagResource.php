@@ -40,6 +40,7 @@ class FaqTagResource extends Resource
         return $table
             ->columns([
                           TextColumn::make('name')
+                                    ->searchable()
                       ])
             ->filters([
                           //
