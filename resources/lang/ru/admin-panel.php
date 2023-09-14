@@ -13,6 +13,9 @@ return [
     'shorts' => 'Shorts',
     'short' => 'Short',
 
+    'notifications' => 'Уведомления',
+    'notification' => 'Уведомления',
+
     'tokens' => 'Токены',
     'token' => 'Токен',
 

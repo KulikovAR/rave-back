@@ -74,9 +74,7 @@ class LessonResource extends Resource
                     ->tooltip(fn($record) => $record->video_path)
                     ->limit(15),
                 TextColumn::make('order_in_display'),
-                ImageColumn::make('preview_path')
-                    ->tooltip(fn($record) => $record->preview_path)
-                    ->limit(15),
+                ImageColumn::make('preview_path'),
                 TextColumn::make('rating')
                     ->sortable(),
                 TextColumn::make('created_at')
@@ -116,5 +114,5 @@ class LessonResource extends Resource
             'create' => Pages\CreateLesson::route('/create'),
             'edit' => Pages\EditLesson::route('/{record}/edit'),
         ];
-    }    
+    }
 }

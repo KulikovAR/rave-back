@@ -40,7 +40,7 @@ class FaqResource extends Resource
                 Select::make('faqTag')
                     ->relationship('faqTag', 'name')
                     ->searchable()
-                    ->required(),     
+                    ->required(),
             ]);
     }
 
@@ -48,8 +48,12 @@ class FaqResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('question'),
+                TextColumn::make('question')
+                    ->tooltip(fn($record) => $record->question)
+                    ->limit(15),
                 TextColumn::make('answer')
+                    ->tooltip(fn($record) => $record->answer)
+                    ->limit(15)
             ])
             ->filters([
                 //
@@ -61,14 +65,14 @@ class FaqResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -76,5 +80,5 @@ class FaqResource extends Resource
             'create' => Pages\CreateFaq::route('/create'),
             'edit' => Pages\EditFaq::route('/{record}/edit'),
         ];
-    }    
+    }
 }

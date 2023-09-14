@@ -28,44 +28,45 @@ class CommentResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('body')
-            ]);
+                         TextInput::make('body')
+                     ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user.id'),
-                Tables\Columns\TextColumn::make('user.userProfile.firstname'),
-                Tables\Columns\TextColumn::make('user.userProfile.lastname'),
-                Tables\Columns\TextColumn::make('nesting_comments_count')->counts('nesting_comments'),
-                TextColumn::make('body'),
-            ])
+                          Tables\Columns\TextColumn::make('user.id'),
+                          Tables\Columns\TextColumn::make('user.userProfile.firstname'),
+                          Tables\Columns\TextColumn::make('user.userProfile.lastname'),
+                          Tables\Columns\TextColumn::make('nesting_comments_count')->counts('nesting_comments'),
+                          TextColumn::make('body'),
+                      ])
+            ->defaultSort('updated_at', 'desc')
             ->filters([
-                //
-            ])
+                          //
+                      ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-            ])
+                          Tables\Actions\EditAction::make(),
+                      ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
-            ]);
+                              Tables\Actions\DeleteBulkAction::make(),
+                          ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             CommentsRelationManager::class
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListComments::route('/'),
+            'index'  => Pages\ListComments::route('/'),
             'create' => Pages\CreateComment::route('/create'),
-            'edit' => Pages\EditComment::route('/{record}/edit'),
+            'edit'   => Pages\EditComment::route('/{record}/edit'),
         ];
-    }    
+    }
 }
