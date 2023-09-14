@@ -23,44 +23,50 @@ class BannerResource extends Resource
 {
     protected static ?string $model = Banner::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
-    protected static ?string $navigationGroup = MenuTitles::CATEGORY_APP;
+    protected static ?string $navigationIcon   = 'heroicon-o-collection';
+    protected static ?string $navigationGroup  = MenuTitles::CATEGORY_APP;
     protected static ?string $pluralModelLabel = 'Баннеры';
-    protected static ?string $modelLabel = 'Баннер';
+    protected static ?string $modelLabel       = 'Баннер';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                TextInput::make('title')
-                    ->maxLength(255)->translateLabel()->required(),
-                TextInput::make('action_url')->required(),
-                FileUpload::make('img')->required(),
-            ]);
+                         TextInput::make('title')
+                                  ->maxLength(255)->translateLabel()->required(),
+                         TextInput::make('action_url')->required(),
+                         FileUpload::make('img')->required(),
+                     ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                TextColumn::make('title'),
-                TextColumn::make('action_url'),
-                ImageColumn::make('img')->size(180),
-                TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable(),
-            ])
+                          TextColumn::make('title')
+                                    ->toggleable(isToggledHiddenByDefault: false),
+                          ImageColumn::make('img')->size(180)
+                                     ->toggleable(isToggledHiddenByDefault: false),
+                          TextColumn::make('action_url')
+                                    ->tooltip(fn($record) => $record->action_url)
+                                    ->limit(15)
+                                    ->toggleable(isToggledHiddenByDefault: false),
+                          TextColumn::make('updated_at')
+                                    ->toggleable(isToggledHiddenByDefault: true)
+                                    ->dateTime()
+                                    ->sortable(),
+                      ])
             ->defaultSort('updated_at', 'desc')
             ->filters([
-                //
-            ])
+                          //
+                      ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-            ])
+                          Tables\Actions\EditAction::make(),
+                          Tables\Actions\DeleteAction::make(),
+                      ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
-            ]);
+                              Tables\Actions\DeleteBulkAction::make(),
+                          ]);
     }
 
     public static function getRelations(): array
@@ -69,13 +75,13 @@ class BannerResource extends Resource
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListBanners::route('/'),
+            'index'  => Pages\ListBanners::route('/'),
             'create' => Pages\CreateBanner::route('/create'),
-            'edit' => Pages\EditBanner::route('/{record}/edit'),
+            'edit'   => Pages\EditBanner::route('/{record}/edit'),
         ];
-    }    
+    }
 }
