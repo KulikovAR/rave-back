@@ -19,7 +19,9 @@ use App\Http\Controllers\QuizResultController;
 use App\Http\Controllers\ShortsController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserProfileController;
+use App\Models\Role;
 use App\Models\User;
+use App\Notifications\AdminNotification;
 use App\Notifications\PasswordResetNotification;
 use Database\Seeders\UserSeeder;
 use Illuminate\Support\Facades\Route;
@@ -150,6 +152,9 @@ Route::prefix('payments')->group(function () {
 });
 
 Route::get('/mail', function () {
+    $admin = User::role(Role::ROLE_ADMIN)->get()->first();
+    $admin->notify(new AdminNotification('$message'));
+
     $notification = new PasswordResetNotification('Order');
 
     $user = User::where('email', UserSeeder::USER_EMAIL)->first(); // Model with Notifiable trait
