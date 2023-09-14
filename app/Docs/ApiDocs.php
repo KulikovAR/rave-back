@@ -52,16 +52,20 @@ namespace App\Docs;
  *      description="Результаты тестов"
  * )
  * @OA\Tag(
- *      name="Tag",
- *      description="Теги"
- * )
- * @OA\Tag(
  *      name="Notification",
  *      description="Уведомления"
  * )
  * @OA\Proposal(
  *      name="Proposal",
  *      description="Предложения"
+ * )
+ * OA\Tag(
+ *      name="FaqTag",
+ *      description="Faq Тэги"
+ * )
+ * OA\Tag(
+ *      name="Faq",
+ *      description="Faq"
  * )
  * @OA\Tag(
  *      name="UserProfile",

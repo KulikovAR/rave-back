@@ -24,6 +24,8 @@ use App\Notifications\PasswordResetNotification;
 use Database\Seeders\UserSeeder;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BannerController;
+use App\Http\Controllers\FaqController;
+use App\Http\Controllers\FaqTagController;
 
 /*
 |--------------------------------------------------------------------------
@@ -57,6 +59,15 @@ Route::middleware('auth:sanctum')->group(function () {
 
         Route::middleware('device')->group(function () {
             Route::post('/verification/email', [VerificationContactController::class, 'sendEmailVerification'])->name('verification.email.send');
+
+            Route::prefix('faq')->group(function () {
+                Route::get('/', [FaqController::class, 'index'])->name('faq.index');
+            });
+
+            Route::prefix('faq_tag')->group(function () {
+                Route::get('/', [FaqTagController::class, 'index'])->name('faq_tag.index');
+                Route::get('/{id}', [FaqTagController::class, 'show'])->name('faq_tag.show');
+            });
 
             Route::prefix('announce')->group(function () {
                 Route::get('/', [AnnounceController::class, 'index'])->name('announce.index');
