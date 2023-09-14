@@ -20,12 +20,18 @@ class QuizFactory extends Factory
 
         for ($i = 0; $i < rand(1, 5); $i++) {
             $quiz[] = [
-                'question' => $this->faker->realText(200),
                 'answers'   => [
-                    $this->faker->realText(200),
-                    $this->faker->realText(200),
-                    $this->faker->realText(200),
+                    [
+                        'answer' => $this->faker->realText(200)
+                    ],
+                    [
+                        'answer' => $this->faker->realText(200)
+                    ],
+                    [
+                        'answer' => $this->faker->realText(200)
+                    ]
                 ],
+                'question' => $this->faker->realText(200),
             ];
         }
 
@@ -33,7 +39,7 @@ class QuizFactory extends Factory
             'title'       => $this->faker->realText(20),
             'description' => $this->faker->realText(),
             'duration'    => rand(15, 30),
-            'data'        => json_encode($quiz),
+            'data'        => $quiz,
         ];
     }
 }

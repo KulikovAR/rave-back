@@ -42,7 +42,7 @@ class QuizResultController extends Controller
         $quiz_result = QuizResult::create([
             'quiz_id' => $request->quiz_id,
             'user_id' => $request->user()->id,
-            'data' => json_encode($request->data)
+            'data' => $request->data
         ]);
 
         $request->user()->notify(new UserAppNotification('Вы прошли тест'));

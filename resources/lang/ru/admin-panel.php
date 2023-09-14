@@ -16,6 +16,9 @@ return [
     'quiz_result' => 'Quiz проверка',
     'quiz_results' => 'Quiz проверка',
 
+    'quiz'      => 'Quiz',
+    'quizzes'     => 'Quizzes',
+
     'notifications' => 'Уведомления',
     'notification' => 'Уведомления',
 
