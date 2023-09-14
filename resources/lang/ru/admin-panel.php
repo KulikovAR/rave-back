@@ -13,6 +13,9 @@ return [
     'shorts' => 'Shorts',
     'short' => 'Short',
 
+    'quiz_result' => 'Quiz проверка',
+    'quiz_results' => 'Quiz проверка',
+
     'notifications' => 'Уведомления',
     'notification' => 'Уведомления',
 
