@@ -24,7 +24,7 @@ class AdminNotification extends BaseNotification
      */
     public function via(object $notifiable): array
     {
-        return ['mail'];
+        return ['mail', 'database'];
     }
 
     /**
@@ -46,7 +46,7 @@ class AdminNotification extends BaseNotification
     public function toArray(object $notifiable): array
     {
         return [
-            //
+            'message' => $this->message
         ];
     }
 }
