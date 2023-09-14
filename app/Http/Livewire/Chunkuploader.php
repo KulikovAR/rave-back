@@ -8,7 +8,7 @@ use Livewire\WithFileUploads;
 use Livewire\TemporaryUploadedFile;
 use Illuminate\Support\Facades\Storage;
 
-class ChunkedFileUpload extends Component
+class Chunkuploader extends Component
 {
     use WithFileUploads;
 

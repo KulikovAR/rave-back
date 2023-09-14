@@ -24,6 +24,7 @@ use App\Filament\Resources\LessonResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\LessonResource\RelationManagers;
 use App\Filament\Resources\LessonResource\RelationManagers\CommentsRelationManager;
+use Filament\Forms\Components\ViewField;
 
 class LessonResource extends Resource
 {
@@ -58,6 +59,7 @@ class LessonResource extends Resource
                     ->maxValue(5)
                     ->maxLength(255),
                 DateTimePicker::make('announc_date'),
+                ViewField::make('video')->view('livewire.chunkuploader')
             ]);
     }
 
@@ -80,7 +82,6 @@ class LessonResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                ViewColumn::make('video')->view('filament.tables.columns.lessons-video'),
             ])
             ->filters([
                 //
