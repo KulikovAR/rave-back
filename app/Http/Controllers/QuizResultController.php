@@ -8,6 +8,7 @@ use App\Http\Requests\UuidRequest;
 use App\Http\Resources\QuizResult\QuizResultResource;
 use App\Http\Responses\ApiJsonResponse;
 use App\Models\QuizResult;
+use App\Notifications\UserAppNotification;
 use Illuminate\Http\Request;
 
 class QuizResultController extends Controller
@@ -41,8 +42,10 @@ class QuizResultController extends Controller
         $quiz_result = QuizResult::create([
             'quiz_id' => $request->quiz_id,
             'user_id' => $request->user()->id,
-            'data'    => json_encode($request->data)
+            'data' => json_encode($request->data)
         ]);
+
+        $request->user()->notify(new UserAppNotification('Вы прошли тест'));
 
         return new ApiJsonResponse(
             data: new QuizResultResource($quiz_result)
