@@ -87,7 +87,7 @@ abstract class TestCase extends BaseTestCase
         $user = User::factory()->create(
             [
                 'password'                => Hash::make(self::USER_PASSWORD),
-                'email'                   => self::USER_EMAIL. $this->faker->unique()->word(),
+                'email'                   => self::USER_EMAIL . $this->faker->unique()->word(),
                 'subscription_expires_at' => Carbon::now()->addMonths(2),
                 'subscription_created_at' => Carbon::now()->subMonth(),
                 'subscription_type'       => SubscriptionTypeEnum::THREE_MOTHS->value
@@ -125,9 +125,9 @@ abstract class TestCase extends BaseTestCase
         $this->assertNotSame(json_decode($resource->toJson(), true), $responseArray);
     }
 
-    protected function getPaginationResponse()
+    protected function getPaginationResponse(array $data = [])
     {
-        return [
+        $data_with_pagination = [
             'data',
             'links' => [
                 "first",
@@ -143,5 +143,11 @@ abstract class TestCase extends BaseTestCase
                 "path"
             ],
         ];
+
+        if(!empty($data)) {
+            $data_with_pagination['data'] = $data;
+        }
+
+        return $data_with_pagination;
     }
 }
