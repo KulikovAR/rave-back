@@ -94,6 +94,9 @@ class QuizResultResource extends Resource
                         ->requiresConfirmation(),
                     Action::make('finished')
                         ->action(function (QuizResult $record) {
+                            $record->verify = 1;
+                            $record->save();
+
                             $record->user->notify(new UserAppNotification('Ваш тест проверен'));
                         })
                         ->label('Выполнено')
@@ -117,13 +120,13 @@ class QuizResultResource extends Resource
                     ->label('Quiz')
                     ->color('default')
                     ->icon('heroicon-s-user-circle')
-                    ->url(fn($record): string => QuizResource::getUrl('view', ['record' => $record->quiz->id])),
+                    ->url(fn($record): string => QuizResource::getUrl('edit', ['record' => $record->quiz])),
 
                 Tables\Actions\Action::make('View user')
                     ->label('Юзер')
                     ->color('success')
                     ->icon('heroicon-s-user-circle')
-                    ->url(fn($record): string => UserResource::getUrl('view', ['record' => $record->user->id])),
+                    ->url(fn($record): string => UserResource::getUrl('edit', ['record' => $record->user])),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
