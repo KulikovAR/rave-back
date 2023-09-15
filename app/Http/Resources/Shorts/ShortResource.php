@@ -19,7 +19,7 @@ class ShortResource extends JsonResource
             'title' => $this->title,
             'slide_count' => $this->slides()->count(),
             'view_count' => $this->view_count,
-            'thumbnail' => $this->thumbnail,
+            'thumbnail' => config('app.url') . '/storage/' . $this->thumbnail,
             'slide' => new SlideCollection($this->slides)
         ];
     }
