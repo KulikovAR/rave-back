@@ -1,8 +1,3 @@
-<livewire:chunkuploader />
-
-{{-- <div>
-    {{ $attributes }}
-</div>
 <x-dynamic-component
     :component="$getFieldWrapperView()"
     :id="$getId()"
@@ -16,19 +11,6 @@
     :required="$isRequired()"
     :state-path="$getStatePath()"
 >
-    <div x-data="{ state: $wire.entangle('{{ $getStatePath() }}').defer }">
-        {{ $getFieldWrapperView()}} <br>
-        {{ $getId()}} <br>
-        {{ $getLabel()}} <br>
-        {{ $isLabelHidden()}} <br>
-        {{ $getLabel()}} <br>
-        {{ $isRequired()}} <br>
-        {{ $getStatePath()}} <br>
-        {{ $getHintIcon()}} <br>
-        {{ $getHintAction()}} <br>
-        {{ $getHint()}} <br>
-        Interact with the `state` property in Alpine.js -->
-    </div>
-    
-    
-</x-dynamic-component> --}}
+    <input wire:model.defer="{{ $getStatePath() }}" id="{{ $getStatePath() }}" disabled/>
+    @livewire('chunkuploader', ['inputId' => $getStatePath()])
+</x-dynamic-component>

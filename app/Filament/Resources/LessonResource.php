@@ -2,12 +2,6 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\MenuTitles;
-use App\Filament\Resources\LessonResource\Pages;
-use App\Filament\Resources\LessonResource\RelationManagers;
-use App\Filament\Resources\LessonResource\RelationManagers\CommentsRelationManager;
-use App\Filament\Resources\LessonResource\RelationManagers\LessonAdditionalDataRelationManager;
-use App\Models\Lesson;
 use App\Models\Tag;
 use Filament\Forms;
 use Filament\Tables;
@@ -23,6 +17,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ViewColumn;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\ImageColumn;
+use Filament\Forms\Components\ViewField;
 use Filament\Forms\Components\FileUpload;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\DateTimePicker;
@@ -30,7 +25,7 @@ use App\Filament\Resources\LessonResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\LessonResource\RelationManagers;
 use App\Filament\Resources\LessonResource\RelationManagers\CommentsRelationManager;
-use Filament\Forms\Components\ViewField;
+use App\Filament\Resources\LessonResource\RelationManagers\LessonAdditionalDataRelationManager;
 
 class LessonResource extends Resource
 {
@@ -64,14 +59,11 @@ class LessonResource extends Resource
                     ->maxValue(5)
                     ->maxLength(255),
                 DateTimePicker::make('announc_date'),
-                TextInput::make('video')
-                    // ->disabled(true)
-                    ,
-                ViewField::make('videoUploader')
-                    ->view('livewire.chunkuploader'),
                 TextInput::make('order_in_display')
                     ->integer()
-                    ->unique()
+                    ->unique(),
+                ViewField::make('video')
+                    ->view('livewire.chunkuploader'),
             ]);
     }
 

@@ -2,14 +2,24 @@
     @if ($finalFile)
     <script>
         console.log('finalFile: ' + '{{ $finalFile->getFilename() }}');
-        document.getElementById('data.video').value = '{{ $finalFile->getFilename() }}';
+        let inputId = '{{ $inputId }}';
+        if (inputId == '') {
+            inputId = 'data.video';
+        }
+
+        document.getElementById(inputId).dispatchEvent(new Event("input"));
+        document.getElementById(inputId).value = '{{ $finalFile->getFilename() }}';
+        document.getElementById(inputId).setAttribute("value", '{{ $finalFile->getFilename() }}');
     </script>
     finalFile: {{ $finalFile->getFilename() }}
+    @endif
 
-    
-@endif
     <input type="file" id="videoFile" />
     <button type="button" id="submit" onclick="uploadChunks()">Submit</button>
+
+    @if( $progressPercentage  )
+        <progress max="100" wire:model="progressPercentage" /></progress>
+    @endif
     <script>
         let chunksName = [];
 
@@ -21,6 +31,7 @@
 
             @this.set('fileName', file.name, true);
             @this.set('fileSize', file.size, true);
+            @this.set('progressPercentage', 0);
 
             $chunks = getAllChunks(file);
             if ($chunks.length === 0) {
@@ -44,70 +55,30 @@
         }
 
         function uploadFile(file, chunks) {
-            counter = 0;
+            let lengthChunks = chunks.length;
+            let counter = 1;
+
             chunks.forEach((item) => {
                 let start = item[0];
                 let end = item[1];
                 let chunk = file.slice(start, end);
 
-                tryToUploadChunk(chunk, counter);
+                tryToUploadChunk(chunk, counter, lengthChunks);
                 counter++;
             });
 
             console.log('chunks: ' + chunksName);
         }
 
-        function tryToUploadChunk(chunk, counter) {
+        function tryToUploadChunk(chunk, counter, lengthChunks) {
             @this.upload('fileChunk', chunk, (uploadedFilename) => {
-                @this.set('uploads.'+counter+'.chunkName', uploadedFilename );
-                console.log('uploadedFilename: ' + uploadedFilename + ' counter: ' + counter);
+                console.log('uploadedFilename: ' + uploadedFilename + ' counter: ' + counter + '/' + lengthChunks);
+                @this.set('progressPercentage', Math.round((counter / lengthChunks) * 100));
             }, () => {
                 console.log('error');
                 let _time = Math.floor((Math.random() * 20000) + 1);
                 setTimeout(tryToUploadChunk, _time, chunk, counter);
             }, (event) => {
-            });
-        }
-
-
-
-
-
-
-
-        function livewireUploadChunk(file, start) {
-            console.log('livewireUploadChunk: ' + start);
-            // Get chunk from start
-            const chunkEnd = Math.min(start + @js($chunkSize), file.size);
-            if (chunkEnd >= file.size) {
-                console.log('chunkEnd > file.size');
-                setTimeout(() => {
-                    console.log(file.size + ' done');
-                }, 300000000000);
-            }
-
-            console.log('chunkEnd: ' + chunkEnd);
-            const chunk = file.slice(start, chunkEnd);
-
-            @this.upload('fileChunk', chunk, (uName) => {}, () => {}, (event) => {
-                console.log('progress: ' + event.detail.progress);
-                if (event.detail.progress == 100) {
-                    // We recursively call livewireUploadChunk from within itself
-                    start = chunkEnd;
-                    console.log('start: ' + start + ' file.size: ' + file.size);
-                    if (start == file.size) {
-                        console.log('start == file.size');
-                        return;
-                    }
-
-                    if (start < file.size) {
-                        console.log(start + ' < ' + file.size + ' calling livewireUploadChunk');
-                        let _time = Math.floor((Math.random() * 20000) + 1);
-                        setTimeout(livewireUploadChunk, _time, file, start);
-
-                        livewireUploadChunk(file, start);
-                    }
-                }
             });
         }
     </script>

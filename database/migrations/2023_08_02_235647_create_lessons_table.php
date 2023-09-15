@@ -15,7 +15,7 @@ return new class extends Migration
             $table->uuid('id');
             $table->string('title');
             $table->text('description');
-            $table->string('video')->default('');
+            $table->string('video')->nullable()->default(null);
             $table->string('preview_path');
             $table->string('video_path');
             $table->timestamp('announc_date');
