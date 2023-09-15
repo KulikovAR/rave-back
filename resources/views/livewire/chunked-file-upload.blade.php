@@ -1,25 +1,26 @@
 <div>
     @if ($finalFile)
-    <script>
-        console.log('finalFile: ' + '{{ $finalFile->getFilename() }}');
-        let inputId = '{{ $inputId }}';
-        if (inputId == '') {
-            inputId = 'data.video';
-        }
+        <script>
+            console.log('finalFile: ' + '{{ $finalFile->getFilename() }}');
+            let inputId = '{{ $inputId }}';
+            if (inputId == '') {
+                inputId = 'data.video';
+            }
 
-        document.getElementById(inputId).dispatchEvent(new Event("input"));
-        document.getElementById(inputId).value = '{{ $finalFile->getFilename() }}';
-        document.getElementById(inputId).setAttribute("value", '{{ $finalFile->getFilename() }}');
-    </script>
-    finalFile: {{ $finalFile->getFilename() }}
+            document.getElementById(inputId).dispatchEvent(new Event("input"));
+            document.getElementById(inputId).value = '{{ $finalFile->getFilename() }}';
+            document.getElementById(inputId).setAttribute("value", '{{ $finalFile->getFilename() }}');
+        </script>
+        finalFile: {{ $finalFile->getFilename() }}
     @endif
 
     <input type="file" id="videoFile" />
     <button type="button" id="submit" onclick="uploadChunks()">Submit</button>
 
-    @if( $progressPercentage  )
+    @if ($progressPercentage)
         <progress max="100" wire:model="progressPercentage" /></progress>
     @endif
+
     <script>
         let chunksName = [];
 
@@ -78,8 +79,7 @@
                 console.log('error');
                 let _time = Math.floor((Math.random() * 20000) + 1);
                 setTimeout(tryToUploadChunk, _time, chunk, counter);
-            }, (event) => {
-            });
+            }, (event) => {});
         }
     </script>
 </div>
