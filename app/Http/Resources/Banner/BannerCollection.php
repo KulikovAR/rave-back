@@ -14,11 +14,6 @@ class BannerCollection extends ResourceCollection
      */
     public function toArray(Request $request): array
     {
-        $data = parent::toArray($request);
-        foreach ($data as $key => $item) {
-            $data[$key]['img'] = env('APP_URL') . '/storage/' . $item['img'];
-        }
-
-        return $data;
+        return parent::toArray($request);
     }
 }
