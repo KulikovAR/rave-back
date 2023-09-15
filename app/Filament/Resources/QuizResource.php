@@ -68,6 +68,7 @@ class QuizResource extends Resource
                                     ->searchable(),
                           TextColumn::make('duration')->sortable(),
                       ])
+            ->defaultSort('updated_at', 'desc')
             ->filters([
                           //
                       ])
