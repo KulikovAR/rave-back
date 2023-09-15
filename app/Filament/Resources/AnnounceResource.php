@@ -42,7 +42,8 @@ class AnnounceResource extends Resource
                          Textarea::make('description'),
                          TextInput::make('video_path')
                                   ->maxLength(255),
-                         FileUpload::make('preview_path'),
+                         FileUpload::make('preview_path')
+                                    ->maxSize(25000),
                          Select::make('tags')
                                ->multiple()
                                ->relationship('tags', 'name')
