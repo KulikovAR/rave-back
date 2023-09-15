@@ -35,7 +35,9 @@ class BannerResource extends Resource
                          TextInput::make('title')
                                   ->maxLength(255)->translateLabel()->required(),
                          TextInput::make('action_url')->required(),
-                         FileUpload::make('img')->required(),
+                         FileUpload::make('img')
+                                  ->maxSize(25000)
+                                  ->required(),
                      ]);
     }
 

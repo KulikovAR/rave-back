@@ -24,7 +24,8 @@ class LessonAdditionalDataRelationManager extends RelationManager
                 Forms\Components\TextInput::make('title')
                     ->required()
                     ->maxLength(255),
-                FileUpload::make('file'),
+                FileUpload::make('file')
+                    ->maxSize(25000),
             ]);
     }
 
