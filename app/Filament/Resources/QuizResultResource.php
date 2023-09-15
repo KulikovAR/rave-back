@@ -26,7 +26,7 @@ class QuizResultResource extends Resource
 {
     protected static ?string $model = QuizResult::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-archive';
 
     public static function form(Form $form): Form
     {
@@ -69,6 +69,9 @@ class QuizResultResource extends Resource
                     ->boolean(),
                 Tables\Columns\TextColumn::make('curator_comment')
                     ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('manager_id')
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->sortable()

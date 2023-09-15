@@ -22,10 +22,11 @@ class SettingResource extends Resource
 {
     protected static ?string $model = Setting::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
-    protected static ?string $navigationGroup = MenuTitles::CATEGORY_APP;
+    protected static ?string $navigationIcon = 'heroicon-o-cog';
+    protected static ?string $navigationGroup = MenuTitles::CATEGORY_SETTINGS;
     protected static ?string $pluralModelLabel = 'Настройки';
     protected static ?string $modelLabel = 'Настройка';
+
     public static function form(Form $form): Form
     {
         return $form
@@ -65,9 +66,9 @@ class SettingResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index'  => Pages\ListSettings::route('/'),
+            'index' => Pages\ListSettings::route('/'),
             'create' => Pages\CreateSetting::route('/create'),
-            'edit'   => Pages\EditSetting::route('/{record}/edit'),
+            'edit' => Pages\EditSetting::route('/{record}/edit'),
         ];
     }
 
