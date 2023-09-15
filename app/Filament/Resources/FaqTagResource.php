@@ -20,37 +20,37 @@ class FaqTagResource extends Resource
 {
     protected static ?string $model = FaqTag::class;
 
-    protected static ?string $navigationIcon   = 'heroicon-o-collection';
-    protected static ?string $navigationGroup  = MenuTitles::CATEGORY_APP;
+    protected static ?string $navigationIcon = 'heroicon-o-tag';
+    protected static ?string $navigationGroup = MenuTitles::CATEGORY_APP;
     protected static ?string $pluralModelLabel = 'FAQ Тэги';
-    protected static ?string $modelLabel       = 'FAQ Тэг';
+    protected static ?string $modelLabel = 'FAQ Тэг';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                         TextInput::make('name')
-                                  ->maxLength(255)
-                                  ->required()
-                     ]);
+                TextInput::make('name')
+                    ->maxLength(255)
+                    ->required()
+            ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                          TextColumn::make('name')
-                                    ->searchable()
-                      ])
+                TextColumn::make('name')
+                    ->searchable()
+            ])
             ->filters([
-                          //
-                      ])
+                //
+            ])
             ->actions([
-                          Tables\Actions\EditAction::make(),
-                      ])
+                Tables\Actions\EditAction::make(),
+            ])
             ->bulkActions([
-                              Tables\Actions\DeleteBulkAction::make(),
-                          ]);
+                Tables\Actions\DeleteBulkAction::make(),
+            ]);
     }
 
     public static function getRelations(): array
@@ -63,9 +63,9 @@ class FaqTagResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index'  => Pages\ListFaqTags::route('/'),
+            'index' => Pages\ListFaqTags::route('/'),
             'create' => Pages\CreateFaqTag::route('/create'),
-            'edit'   => Pages\EditFaqTag::route('/{record}/edit'),
+            'edit' => Pages\EditFaqTag::route('/{record}/edit'),
         ];
     }
 }

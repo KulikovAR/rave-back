@@ -16,20 +16,28 @@ return new class extends Migration {
             $table->uuid('quiz_id');
 
             $table->foreign('user_id')
-                ->references('id')
-                ->on('users')
-                ->cascadeOnDelete()
-                ->cascadeOnUpdate();
+                  ->references('id')
+                  ->on('users')
+                  ->cascadeOnDelete()
+                  ->cascadeOnUpdate();
 
             $table->foreign('quiz_id')
-                ->references('id')
-                ->on('quizzes')
-                ->cascadeOnDelete()
-                ->cascadeOnUpdate();
+                  ->references('id')
+                  ->on('quizzes')
+                  ->cascadeOnDelete()
+                  ->cascadeOnUpdate();
 
             $table->json('data');
             $table->boolean('verify')->default(false);
             $table->text('curator_comment')->nullable();
+
+            $table->uuid('manager_id')->nullable();
+            $table->foreign('manager_id')
+                  ->references('id')
+                  ->on('users')
+                  ->onDelete('set null')
+                  ->onUpdate('cascade');
+
             $table->primary('id');
             $table->timestamps();
         });

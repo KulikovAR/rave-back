@@ -147,8 +147,5 @@ class OrderResource extends Resource
         return false;
     }
 
-    protected static function getNavigationGroup(): string
-    {
-        return __('admin-panel.app');
-    }
+
 }
