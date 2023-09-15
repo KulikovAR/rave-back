@@ -13,6 +13,8 @@ class QuizResult extends Model
 {
     use HasFactory, HasUuids, QuizResultStatus;
 
+    protected $casts = ['data' => 'array'];
+
     protected $fillable = [
         'user_id',
         'quiz_id',

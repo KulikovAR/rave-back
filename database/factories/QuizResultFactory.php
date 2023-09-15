@@ -27,7 +27,7 @@ class QuizResultFactory extends Factory
         }
 
         return [
-            'data' => json_encode($quiz_result),
+            'data' => $quiz_result,
             'curator_comment' => $this->faker->realText(200)
         ];
     }

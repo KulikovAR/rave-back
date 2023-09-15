@@ -6,6 +6,10 @@ use App\Filament\Resources\QuizResultResource\Pages;
 use App\Filament\Resources\QuizResultResource\RelationManagers;
 use App\Models\QuizResult;
 use Filament\Forms;
+use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
@@ -30,8 +34,13 @@ class QuizResultResource extends Resource
                          Forms\Components\Toggle::make('verify')
                                                 ->required(),
 
-                         Forms\Components\Textarea::make('data')
-                                                  ->required(),
+                         Repeater::make('data')->schema([
+                                                        Textarea::make('question')
+                                                                ->maxLength(65535),
+                                                        Textarea::make('answer')
+                                                                ->maxLength(65535),
+                                                        Checkbox::make('correct')
+                                                        ]),
 
                          Forms\Components\Textarea::make('curator_comment')
                                                   ->maxLength(65535),
@@ -48,10 +57,6 @@ class QuizResultResource extends Resource
                                                    ->toggleable(isToggledHiddenByDefault: false),
                           Tables\Columns\TextColumn::make('quiz.title')
                                                    ->toggleable(isToggledHiddenByDefault: false),
-                          Tables\Columns\TextColumn::make('data')
-                                                   ->tooltip(fn($record) => $record->data)
-                                                   ->limit(15)
-                                                   ->toggleable(isToggledHiddenByDefault: false),
                           Tables\Columns\IconColumn::make('verify')
                                                    ->boolean(),
                           Tables\Columns\TextColumn::make('curator_comment')
@@ -67,6 +72,12 @@ class QuizResultResource extends Resource
                           //
                       ])
             ->actions([
+                          Tables\Actions\Action::make('quiz')->url(
+                                    fn(QuizResult $record): string => QuizResource::getUrl('edit', ['record' => $record->quiz])
+                          ),
+                          Tables\Actions\Action::make('user')->url(
+                                    fn(QuizResult $record): string => UserResource::getUrl('edit', ['record' => $record->user])
+                          ),
                           Tables\Actions\EditAction::make(),
                       ])
             ->bulkActions([
