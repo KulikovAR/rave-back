@@ -1,25 +1,20 @@
 <div>
-    <form wire:submit.prevent="save">
-        @if ($finalFile)
-            Photo Preview:
-            {{ $finalFile->getFilename() }}
-            <pre>
-                @php
-                    print_r($finalFile);
-                @endphp
-            </pre>
+    @if ($finalFile)
+    <script>
+        console.log('finalFile: ' + '{{ $finalFile->getFilename() }}');
+        document.getElementById('data.video').value = '{{ $finalFile->getFilename() }}';
+    </script>
+    finalFile: {{ $finalFile->getFilename() }}
 
-            {{-- <img src="{{ $finalFile->temporaryUrl() }}"> --}}
-        @endif
-        <input type="file" id="myFile" />
-        <button type="button" id="submit" onclick="uploadChunks()">Submit</button>
-    </form>
-
+    
+@endif
+    <input type="file" id="videoFile" />
+    <button type="button" id="submit" onclick="uploadChunks()">Submit</button>
     <script>
         let chunksName = [];
 
         function uploadChunks() {
-            const file = document.querySelector('#myFile').files[0];
+            const file = document.querySelector('#videoFile').files[0];
             if (!file) {
                 return;
             }

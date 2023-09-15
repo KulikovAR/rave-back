@@ -48,7 +48,6 @@ class LessonResource extends Resource
                 TextInput::make('video_path')
                     ->maxLength(255),
                 FileUpload::make('preview_path'),
-                FileUpload::make('video'),
                 Select::make('tags')
                     ->multiple()
                     ->relationship('tags', 'name')
@@ -59,7 +58,11 @@ class LessonResource extends Resource
                     ->maxValue(5)
                     ->maxLength(255),
                 DateTimePicker::make('announc_date'),
-                ViewField::make('video')->view('livewire.chunkuploader')
+                TextInput::make('video')
+                    // ->disabled(true)
+                    ,
+                ViewField::make('videoUploader')
+                    ->view('livewire.chunkuploader'),
             ]);
     }
 
