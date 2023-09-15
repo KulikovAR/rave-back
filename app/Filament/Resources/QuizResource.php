@@ -30,51 +30,58 @@ class QuizResource extends Resource
     {
         return $form
             ->schema([
-                Select::make('lesson_id')
-                    ->relationship('lessons', 'title')
-                    ->searchable()
-                    ->required(),
-                TextInput::make('title')
-                    ->maxLength(255)
-                    ->required(),
-                Textarea::make('description')
-                    ->required()
-                    ->maxLength(65535),
-                TextInput::make('duration')
-                    ->integer()
-                    ->required(),
-                Repeater::make('data')->schema([
-                    Textarea::make('question')
-                            ->maxLength(65535),
-                    Repeater::make('answers')->schema([
-                        Textarea::make('answer')
-                            ->maxLength(65535)
-                    ])
-                ])
-            ]);
+                         Select::make('lesson_id')
+                               ->relationship('lessons', 'title')
+                               ->searchable()
+                               ->required(),
+                         TextInput::make('title')
+                                  ->maxLength(255)
+                                  ->required(),
+                         Textarea::make('description')
+                                 ->required()
+                                 ->maxLength(65535),
+                         TextInput::make('duration')
+                                  ->integer()
+                                  ->required(),
+                         Repeater::make('data')->schema([
+                                                            Textarea::make('question')
+                                                                    ->maxLength(65535),
+                                                            Repeater::make('answers')->schema([
+                                                                                                  Textarea::make('answer')
+                                                                                                          ->maxLength(65535)
+                                                                                              ])
+                                                        ])
+                     ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                TextColumn::make('lessons.title'),
-                TextColumn::make('title'),
-                TextColumn::make('duration'),
-            ])
+                          TextColumn::make('lessons.title')
+                                    ->tooltip(fn($record) => $record->lessons->title)
+                                    ->limit(15)
+                                    ->searchable(),
+                          TextColumn::make('title')
+                                    ->tooltip(fn($record) => $record->title)
+                                    ->limit(15)
+                                    ->searchable(),
+                          TextColumn::make('duration')->sortable(),
+                      ])
             ->filters([
-                //
-            ])
+                          //
+                      ])
             ->actions([
-                Tables\Actions\Action::make('lesson')->url(
-                    fn(Quiz $record): string => LessonResource::getUrl('edit', ['record' => $record->lessons])
-                )
-                    ->openUrlInNewTab(),
-                Tables\Actions\EditAction::make(),
-            ])
+                          Tables\Actions\Action::make('lesson')->url(
+                              fn(Quiz $record): string => LessonResource::getUrl('edit', ['record' => $record->lessons])
+                          )
+                                               ->openUrlInNewTab()
+                                               ->color("success"),
+                          Tables\Actions\EditAction::make(),
+                      ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
-            ]);
+                              Tables\Actions\DeleteBulkAction::make(),
+                          ]);
     }
 
     public static function getRelations(): array
