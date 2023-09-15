@@ -2,6 +2,12 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\MenuTitles;
+use App\Filament\Resources\LessonResource\Pages;
+use App\Filament\Resources\LessonResource\RelationManagers;
+use App\Filament\Resources\LessonResource\RelationManagers\CommentsRelationManager;
+use App\Filament\Resources\LessonResource\RelationManagers\LessonAdditionalDataRelationManager;
+use App\Models\Lesson;
 use App\Models\Tag;
 use Filament\Forms;
 use Filament\Tables;
@@ -63,6 +69,9 @@ class LessonResource extends Resource
                     ,
                 ViewField::make('videoUploader')
                     ->view('livewire.chunkuploader'),
+                TextInput::make('order_in_display')
+                    ->integer()
+                    ->unique()
             ]);
     }
 
@@ -70,13 +79,18 @@ class LessonResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('title'),
+                TextColumn::make('title')
+                    ->searchable()
+                    ->tooltip(fn($record) => $record->title)
+                    ->limit(15),
                 // TextColumn::make('description'),
                 TextColumn::make('video_path')
                     ->tooltip(fn($record) => $record->video_path)
                     ->limit(15),
+                TextColumn::make('order_in_display'),
                 ImageColumn::make('preview_path'),
-                TextColumn::make('rating'),
+                TextColumn::make('rating')
+                    ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -86,6 +100,7 @@ class LessonResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->defaultSort('updated_at', 'desc')
             ->filters([
                 //
             ])
@@ -102,6 +117,7 @@ class LessonResource extends Resource
     {
         return [
             CommentsRelationManager::class,
+            LessonAdditionalDataRelationManager::class
         ];
     }
 
@@ -112,5 +128,5 @@ class LessonResource extends Resource
             'create' => Pages\CreateLesson::route('/create'),
             'edit' => Pages\EditLesson::route('/{record}/edit'),
         ];
-    }    
+    }
 }

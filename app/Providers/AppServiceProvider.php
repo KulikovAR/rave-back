@@ -4,11 +4,13 @@ namespace App\Providers;
 
 use App\Enums\EnvironmentTypeEnum;
 use App\Models\PersonalAccessTokens;
-use App\Services\UserDeviceService;
+use Filament\Facades\Filament;
+use Filament\Forms\Components\Field;
+use Filament\Navigation\NavigationGroup;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Sanctum\Sanctum;
+use Filament\Forms\Components\Actions\Action;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -27,6 +29,26 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Field::macro("tooltip", function (string $tooltip) {
+            return $this->hintAction(
+                Action::make('help')
+                      ->icon('heroicon-o-question-mark-circle')
+                      ->tooltip($tooltip)
+            );
+        });
+
+        Filament::serving(function () {
+            Filament::registerViteTheme('resources/css/filament.css');
+            Filament::registerNavigationGroups([
+                                                   NavigationGroup::make()
+                                                                  ->label(__('admin-panel.app'),)
+                                                                  ->icon('heroicon-o-sparkles'),
+                                                   NavigationGroup::make()
+                                                                  ->label(__('admin-panel.settings'))
+                                                                  ->icon('heroicon-o-cog')
+                                                                  ->collapsed(),
+                                               ]);
+        });
         Sanctum::usePersonalAccessTokenModel(PersonalAccessTokens::class);
     }
 }

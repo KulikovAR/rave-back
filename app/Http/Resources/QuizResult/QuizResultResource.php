@@ -19,7 +19,7 @@ class QuizResultResource extends JsonResource
     {
         return [
             'quiz'               => new QuizResource($this->quiz),
-            'data'               => $this->data ? json_decode($this->data) : [],
+            'data'               => $this->data ? $this->data : [],
             'curator_comment'    => $this->curator_comment,
             'quiz_result_status' => $this->getQuizResultStatus()
         ];

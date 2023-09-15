@@ -84,6 +84,28 @@ class PaymentTest extends TestCase
 
     }
 
+    public function test_payments_unsubscribe()
+    {
+        $this->getTestUser()
+             ->orders()
+             ->create([
+                          'price'        => 1,
+                          'duration'     => 1,
+                          'order_status' => Order::PAYED,
+                          'order_type'   => Order::NORMAL,
+                      ]);
+        $this->assertNotEmpty($this->getTestUser()->orders);
+
+        $response = $this->json('delete',
+                                route('payment.unsubscribe'), headers: $this->getHeadersForUser()
+        );
+
+        $response->assertStatus(200);
+
+        $this->assertEmpty($this->getTestUser()->orders);
+        $this->assertSame($this->getTestUser()->auto_subscription, false);
+    }
+
     public function test_payments_request()
     {
 

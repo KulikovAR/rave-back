@@ -36,21 +36,21 @@ class AnnounceResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('title')
-                    ->maxLength(255)
-                    ->translateLabel(),
-                Textarea::make('description'),
-                TextInput::make('video_path')
-                    ->maxLength(255),
-                FileUpload::make('preview_path'),
-                Select::make('tags')
-                    ->multiple()
-                    ->relationship('tags', 'name')
-                    ->searchable(),
-                DateTimePicker::make('release_at')
-                    ->minDate(now()),
-                Checkbox::make('main')
-            ]);
+                         TextInput::make('title')
+                                  ->maxLength(255)
+                                  ->translateLabel(),
+                         Textarea::make('description'),
+                         TextInput::make('video_path')
+                                  ->maxLength(255),
+                         FileUpload::make('preview_path'),
+                         Select::make('tags')
+                               ->multiple()
+                               ->relationship('tags', 'name')
+                               ->searchable(),
+                         DateTimePicker::make('release_at')
+                                       ->minDate(now()),
+                         Checkbox::make('main')
+                     ]);
     }
 
     public static function table(Table $table): Table
@@ -87,6 +87,7 @@ class AnnounceResource extends Resource
                                     ->sortable()
                                     ->toggleable(isToggledHiddenByDefault: true),
                       ])
+            ->defaultSort('updated_at', 'desc')
             ->filters([
                           //
                       ])

@@ -18,10 +18,12 @@ return new class extends Migration
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users');
+
+            $table->boolean('unread')->default(true);
                 
             $table->primary('id');
             $table->string('body');
-            $table->string('file');
+            $table->string('file')->nullable();
             $table->timestamps();
         });
     }

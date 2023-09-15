@@ -10,6 +10,18 @@ return [
     'orders' => 'Заказы',
     'order' => 'Заказа',
 
+    'shorts' => 'Shorts',
+    'short' => 'Short',
+
+    'quiz_result' => 'Quiz проверка',
+    'quiz_results' => 'Quiz проверка',
+
+    'quiz'      => 'Quiz',
+    'quizzes'     => 'Quizzes',
+
+    'notifications' => 'Уведомления',
+    'notification' => 'Уведомления',
+
     'tokens' => 'Токены',
     'token' => 'Токен',
 

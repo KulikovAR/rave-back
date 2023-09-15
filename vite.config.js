@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite';
+import {defineConfig} from 'vite';
 import svgr from "vite-plugin-svgr";
 import laravel from 'laravel-vite-plugin';
 import react from '@vitejs/plugin-react';
@@ -16,10 +16,11 @@ export default defineConfig({
     },
     plugins: [
         svgr(),
-        viteJSX([], { jsxInject: true }),
+        viteJSX([], {jsxInject: true}),
         laravel({
             input: [
-                'src/index.js'
+                'resources/css/filament.css',
+                // 'src/index.js'
             ],
             refresh: true,
         }),

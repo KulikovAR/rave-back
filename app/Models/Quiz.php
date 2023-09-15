@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\QuizFormat;
 use App\Traits\QuizResultStatus;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,7 +14,9 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Quiz extends Model
 {
-    use HasFactory, HasUuids, QuizResultStatus;
+    use HasFactory, HasUuids, QuizResultStatus, QuizFormat;
+
+    protected $casts = ['data' => 'array'];
 
     protected $fillable = [
         'lesson_id',

@@ -16,4 +16,13 @@ enum SubscriptionTypeEnum: string
             self::YEAR->value
         ];
     }
+
+    public static function allValuesWithDescription(): array
+    {
+        return [
+            self::MONTH->value => 'Месяц',
+            self::THREE_MOTHS->value => 'Три месяца',
+            self::YEAR->value => 'Год',
+        ];
+    }
 }

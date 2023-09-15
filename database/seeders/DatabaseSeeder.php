@@ -18,7 +18,8 @@ class DatabaseSeeder extends Seeder
         $this->call(LessonSeeder::class);
         $this->call(ShortSeeder::class);
         $this->call(AnnounceSeeder::class);
-        $this->call(PriceSeeder::class);
         $this->call(BannerSeeder::class);
+        $this->call(SettingSeeder::class);
+        $this->call(FaqSeeder::class);
     }
 }

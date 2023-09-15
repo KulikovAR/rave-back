@@ -19,11 +19,15 @@ use App\Http\Controllers\QuizResultController;
 use App\Http\Controllers\ShortsController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserProfileController;
+use App\Models\Role;
 use App\Models\User;
+use App\Notifications\AdminNotification;
 use App\Notifications\PasswordResetNotification;
 use Database\Seeders\UserSeeder;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BannerController;
+use App\Http\Controllers\FaqController;
+use App\Http\Controllers\FaqTagController;
 
 /*
 |--------------------------------------------------------------------------
@@ -57,6 +61,15 @@ Route::middleware('auth:sanctum')->group(function () {
 
         Route::middleware('device')->group(function () {
             Route::post('/verification/email', [VerificationContactController::class, 'sendEmailVerification'])->name('verification.email.send');
+
+            Route::prefix('faq')->group(function () {
+                Route::get('/', [FaqController::class, 'index'])->name('faq.index');
+            });
+
+            Route::prefix('faq_tag')->group(function () {
+                Route::get('/', [FaqTagController::class, 'index'])->name('faq_tag.index');
+                Route::get('/{id}', [FaqTagController::class, 'show'])->name('faq_tag.show');
+            });
 
             Route::prefix('announce')->group(function () {
                 Route::get('/', [AnnounceController::class, 'index'])->name('announce.index');
@@ -114,6 +127,11 @@ Route::middleware('auth:sanctum')->group(function () {
                     Route::get('/{quiz_id}', [QuizResultController::class, 'show'])->name('quiz_results.show');
                     Route::post('/', [QuizResultController::class, 'store'])->name('quiz_results.store');
                 });
+
+                Route::prefix('payments')->group(function () {
+                    Route::delete('/unsubscribe', [PaymentController::class, 'unsubscribe'])
+                        ->name('payment.unsubscribe');
+                });
             });
         });
     });
@@ -134,6 +152,9 @@ Route::prefix('payments')->group(function () {
 });
 
 Route::get('/mail', function () {
+    $admin = User::role(Role::ROLE_ADMIN)->get()->first();
+    $admin->notify(new AdminNotification('$message'));
+
     $notification = new PasswordResetNotification('Order');
 
     $user = User::where('email', UserSeeder::USER_EMAIL)->first(); // Model with Notifiable trait
