@@ -10,6 +10,9 @@
             document.getElementById(inputId).dispatchEvent(new Event("input"));
             document.getElementById(inputId).value = '{{ $finalFile->getFilename() }}';
             document.getElementById(inputId).setAttribute("value", '{{ $finalFile->getFilename() }}');
+
+            document.getElementById(inputId).style.border = '1px solid #1da1f2';
+            @this.set('finalFile', '', true);
         </script>
     @endif
 
@@ -145,12 +148,6 @@
             let fileName = fileInput.files[0].name;
             let nameFileSpan = document.querySelector('#fileNameVideo');
             nameFileSpan.innerText = fileName;
-
-            let reader = new FileReader();
-            reader.onload = function(e) {
-                document.getElementById('previewPosterImg').setAttribute('src', e.target.result);
-            };
-            reader.readAsDataURL(fileInput.files[0]);
         }
     </script>
 </div>
