@@ -26,20 +26,10 @@ class QuizResultController extends Controller
      */
     public function store(StoreQuizResultRequest $request)
     {
-        if (
-            $request->user()->quiz_results()->where([
-                'quiz_id' => $request->quiz_id,
-                'user_id' => $request->user()->id
-            ])->first()
-        ) {
-            return new ApiJsonResponse(
-                422,
-                StatusEnum::ERR,
-                'quiz result already exists'
-            );
-        }
-
-        $quiz_result = QuizResult::create([
+        $quiz_result = QuizResult::updateOrCreate([
+            'quiz_id' => $request->quiz_id,
+            'user_id' => $request->user()->id
+        ],[
             'quiz_id' => $request->quiz_id,
             'user_id' => $request->user()->id,
             'data' => $request->data

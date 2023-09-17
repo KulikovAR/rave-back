@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'class_namespace' => 'App\\Http\\Livewire',
+    'class_namespace'       => 'App\\Http\\Livewire',
 
     /*
     |--------------------------------------------------------------------------
@@ -27,7 +27,7 @@ return [
     |
     */
 
-    'view_path' => resource_path('views/livewire'),
+    'view_path'             => resource_path('views/livewire'),
 
     /*
     |--------------------------------------------------------------------------
@@ -54,7 +54,7 @@ return [
     |
     */
 
-    'asset_url' => null,
+    'asset_url'             => null,
 
     /*
     |--------------------------------------------------------------------------
@@ -68,7 +68,7 @@ return [
     |
     */
 
-    'app_url' => null,
+    'app_url'               => null,
 
     /*
     |--------------------------------------------------------------------------
@@ -81,7 +81,7 @@ return [
     |
     */
 
-    'middleware_group' => 'web',
+    'middleware_group'      => 'web',
 
     /*
     |--------------------------------------------------------------------------
@@ -105,7 +105,8 @@ return [
             'mov', 'avi', 'wmv', 'mp3', 'm4a',
             'jpg', 'jpeg', 'mpga', 'webp', 'wma',
         ],
-        'max_upload_time' => 5, // Max duration (in minutes) before an upload gets invalidated.
+        'max_upload_time' => 5,
+        // Max duration (in minutes) before an upload gets invalidated.
     ],
 
     /*
@@ -122,7 +123,7 @@ return [
     |
     */
 
-    'manifest_path' => null,
+    'manifest_path'         => null,
 
     /*
     |--------------------------------------------------------------------------
@@ -138,7 +139,7 @@ return [
     |
     */
 
-    'back_button_cache' => false,
+    'back_button_cache'     => false,
 
     /*
     |--------------------------------------------------------------------------
@@ -153,6 +154,6 @@ return [
     |
     */
 
-    'render_on_redirect' => false,
+    'render_on_redirect'    => false,
 
 ];

@@ -30,7 +30,7 @@ use App\Filament\Resources\LessonResource\RelationManagers\LessonAdditionalDataR
 class LessonResource extends Resource
 {
     protected static ?string $model = Lesson::class;
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-briefcase';
 
     protected static ?string $navigationGroup = MenuTitles::CATEGORY_APP;
 
@@ -48,7 +48,9 @@ class LessonResource extends Resource
                 Textarea::make('description'),
                 TextInput::make('video_path')
                     ->maxLength(255),
-                FileUpload::make('preview_path'),
+                FileUpload::make('preview_path')
+                    ->maxSize(25000)
+                    ->required(),
                 Select::make('tags')
                     ->multiple()
                     ->relationship('tags', 'name')

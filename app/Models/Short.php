@@ -12,9 +12,10 @@ class Short extends Model
     use HasFactory, HasUuids;
 
     protected $fillable = [
-        'title', 
+        'title',
         'slide_count',
-        'view_count'
+        'view_count',
+        'thumbnail'
     ];
 
     public function slides(): HasMany
