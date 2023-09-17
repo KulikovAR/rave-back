@@ -47,10 +47,34 @@ class Chunkuploader extends Component
         $path            = $this->tempFolder . $this->fileName;
         $newPath         = $this->finalFolder . $this->fileName;
         Storage::move($path, $newPath);
+
+        $this->garbageCollector();
     }
 
     public function render()
     {
         return view('livewire.chunked-file-upload');
+    }
+
+    private function garbageCollector(): void
+    {
+        $files = Storage::files($this->tempFolder);
+        if (empty($files)) {
+            return;
+        }
+
+        foreach ($files as $file) {
+            if (Storage::exists($file) === false) {
+                continue;
+            }
+
+            $creationTime = Storage::lastModified($file);
+            $currentTime  = time();
+            if (($currentTime - $creationTime) < 3600) {
+                continue;
+            }
+
+            Storage::delete($file);
+        }
     }
 }
