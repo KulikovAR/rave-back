@@ -27,11 +27,11 @@ class UserProfileResource extends Resource
         return $form
             ->schema([
                          Select::make('user_id')
-                                                ->relationship('user', 'email')
-                                                ->required(),
+                               ->relationship('user', 'email')
+                               ->required(),
                          TextInput::make('firstname')
-                                                   ->required()
-                                                   ->maxLength(255),
+                                  ->required()
+                                  ->maxLength(255),
 
                          TextInput::make('firstname')
                                   ->required()
@@ -48,14 +48,27 @@ class UserProfileResource extends Resource
     {
         return $table
             ->columns([
-                          Tables\Columns\TextColumn::make('id'),
-                          Tables\Columns\TextColumn::make('user.name'),
-                          Tables\Columns\TextColumn::make('firstname'),
-                          Tables\Columns\TextColumn::make('lastname'),
-                          Tables\Columns\TextColumn::make('avatar'),
+                          Tables\Columns\TextColumn::make('id')
+                                                   ->toggleable(isToggledHiddenByDefault: true)
+                                                   ->searchable(),
+                          Tables\Columns\TextColumn::make('user.email')
+                                                   ->toggleable(isToggledHiddenByDefault: false)
+                                                   ->searchable(),
+                          Tables\Columns\TextColumn::make('firstname')
+                                                   ->toggleable(isToggledHiddenByDefault: true)
+                                                   ->searchable(),
+                          Tables\Columns\TextColumn::make('lastname')
+                                                   ->toggleable(isToggledHiddenByDefault: true)
+                                                   ->searchable(),
+                          Tables\Columns\TextColumn::make('avatar')
+                                                   ->toggleable(isToggledHiddenByDefault: true),
                           Tables\Columns\TextColumn::make('created_at')
+                                                   ->toggleable(isToggledHiddenByDefault: true)
+                                                   ->sortable()
                                                    ->dateTime(),
                           Tables\Columns\TextColumn::make('updated_at')
+                                                   ->toggleable(isToggledHiddenByDefault: false)
+                                                   ->sortable()
                                                    ->dateTime(),
                       ])
             ->filters([
