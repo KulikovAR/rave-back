@@ -16,7 +16,9 @@ return new class extends Migration
             $table->uuid('short_id');
             $table->foreign('short_id')
                 ->references('id')
-                ->on('shorts');
+                ->on('shorts')
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
             $table->string('file');
             $table->timestamps();
             $table->primary('id');
