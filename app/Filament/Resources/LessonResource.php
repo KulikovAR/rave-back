@@ -54,7 +54,7 @@ class LessonResource extends Resource
                     ->enableDownload()
                     ->enableOpen()
                     ->columnSpanFull()
-                    ->maxSize(25000)
+                    ->maxSize(100000)
                     ->required(),
                 Select::make('tags')
                     ->multiple()

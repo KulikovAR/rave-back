@@ -47,7 +47,7 @@ class AnnounceResource extends Resource
                                    ->enableDownload()
                                    ->enableOpen()
                                    ->columnSpanFull()
-                                   ->maxSize(25000),
+                                   ->maxSize(100000),
                          Select::make('tags')
                                ->multiple()
                                ->relationship('tags', 'name')
