@@ -11,7 +11,7 @@ class Chunkuploader extends Component
 {
     use WithFileUploads;
 
-    public int $chunkSize = 2000000; // 2Mb #todo - заменить на актуальный размер
+    public int $chunkSize = 1000000; // 2Mb #todo - заменить на актуальный размер
     public $fileChunk;
 
     private string $tempFolder = '/livewire-tmp/';
