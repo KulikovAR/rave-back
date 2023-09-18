@@ -19,7 +19,7 @@ class NotificationController extends Controller
     public function index(Request $request)
     {
         return new NotificationCollection(
-            $request->user()->unreadNotifications()
+            $request->user()->notifications()
                 ->paginate(config('pagination.per_page'))
         );
     }
