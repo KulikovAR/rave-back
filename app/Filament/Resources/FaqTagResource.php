@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\MenuTitles;
 use App\Filament\Resources\FaqTagResource\Pages;
 use App\Filament\Resources\FaqTagResource\RelationManagers;
+use App\Filament\Resources\FaqTagResource\RelationManagers\FaqsRelationManager;
 use App\Models\FaqTag;
 use Filament\Forms;
 use Filament\Forms\Components\TextInput;
@@ -56,7 +57,7 @@ class FaqTagResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            FaqsRelationManager::class
         ];
     }
 
