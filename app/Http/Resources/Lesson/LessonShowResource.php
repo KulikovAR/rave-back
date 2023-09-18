@@ -14,6 +14,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class LessonShowResource extends JsonResource
 {
     use DateFormats;
+
     /**
      * Transform the resource into an array.
      *
@@ -22,17 +23,17 @@ class LessonShowResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'              => $this->id,
-            'title'           => $this->title,
-            'description'     => $this->description,
-            'video_path'      => $this->video_path,
-            'preview_path'    => $this->preview_path,
-            'announc_date'    => $this->formatDateForOutput($this->announc_date),
-            'rating'          => (float) $this->getRating(),
-            'tags'            => new TagCollection($this->tags),
+            'id' => $this->id,
+            'title' => $this->title,
+            'description' => $this->description,
+            'video_path' => $this->video_path,
+            'preview_path' => config('app.url') . '/storage/' . $this->preview_path,
+            'announc_date' => $this->formatDateForOutput($this->announc_date),
+            'rating' => (float)$this->getRating(),
+            'tags' => new TagCollection($this->tags),
             'additional_data' => new LessonAdditionalDataCollection($this->lesson_additional_data),
-            'quiz'            => new QuizLessonResource($this->quiz),
-            'comments'        => new CommentCollection($this->comments()->paginate(config('pagination.per_page'), ['*'], 'comment_page'))
+            'quiz' => new QuizLessonResource($this->quiz),
+            'comments' => new CommentCollection($this->comments()->paginate(config('pagination.per_page'), ['*'], 'comment_page'))
         ];
     }
 }
