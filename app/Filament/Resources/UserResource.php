@@ -66,6 +66,9 @@ class UserResource extends Resource
                     ->searchable(),
 
                 Select::make('subscription_type')->options(SubscriptionTypeEnum::allValuesWithDescription()),
+                DateTimePicker::make('subscription_expires_at'),
+                DateTimePicker::make('subscription_created_at'),
+                DateTimePicker::make('last_video_added_at'),
 
                 TextInput::make('password')
                     ->password()
@@ -84,6 +87,8 @@ class UserResource extends Resource
                 TextInput::make('language')
                     ->maxLength(2),
                 Checkbox::make('is_blocked'),
+
+                DateTimePicker::make('email_verified_at'),
                 DateTimePicker::make('created_at')->disabled(),
                 DateTimePicker::make('updated_at')->disabled(),
                 DateTimePicker::make('deleted_at')->disabled(),
@@ -124,10 +129,34 @@ class UserResource extends Resource
                 TextColumn::make('auto_subscription')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: false),
+                          TextColumn::make('subscription_type')
+                                    ->sortable()
+                                    ->toggleable(isToggledHiddenByDefault: false),
+                          TextColumn::make('subscription_expires_at')
+                                    ->dateTime()
+                                    ->sortable()
+                                    ->toggleable(isToggledHiddenByDefault: true),
+
+                          TextColumn::make('subscription_created_at')
+                                    ->dateTime()
+                                    ->sortable()
+                                    ->toggleable(isToggledHiddenByDefault: true),
+
+                          TextColumn::make('last_video_added_at')
+                                    ->dateTime()
+                                    ->sortable()
+                                    ->toggleable(isToggledHiddenByDefault: true),
+
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+
+                          TextColumn::make('created_at')
+                                    ->dateTime()
+                                    ->sortable()
+                                    ->toggleable(isToggledHiddenByDefault: false),
+
                 TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
