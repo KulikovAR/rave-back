@@ -87,7 +87,8 @@ class LessonResource extends Resource
                 TextColumn::make('video_path')
                     ->tooltip(fn($record) => $record->video_path)
                     ->limit(15),
-                TextColumn::make('order_in_display'),
+                TextColumn::make('order_in_display')
+                    ->sortable(),
                 ImageColumn::make('preview_path'),
                 TextColumn::make('rating')
                     ->sortable(),
@@ -105,7 +106,10 @@ class LessonResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\ActionGroup::make([
+                                                     Tables\Actions\EditAction::make(),
+                                                     Tables\Actions\DeleteAction::make(),
+                                                 ])
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
