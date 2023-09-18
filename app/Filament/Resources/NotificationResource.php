@@ -26,48 +26,50 @@ class NotificationResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\DateTimePicker::make('read_at'),
-            ]);
+                         Forms\Components\DateTimePicker::make('read_at'),
+                     ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                TextColumn::make('id')
-                    ->toggleable(isToggledHiddenByDefault: true)
-                    ->searchable(),
-                TextColumn::make('type')
-                    ->toggleable(isToggledHiddenByDefault: true)
-                    ->sortable(),
-                TextColumn::make('notifiable')
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('data'),
-                TextColumn::make('read_at')
-                    ->dateTime()
-                    ->sortable(),
-                TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable(),
-            ])
+                          TextColumn::make('id')
+                                    ->toggleable(isToggledHiddenByDefault: true)
+                                    ->searchable(),
+                          TextColumn::make('type')
+                                    ->toggleable(isToggledHiddenByDefault: true)
+                                    ->sortable(),
+                          TextColumn::make('notifiable')
+                                    ->toggleable(isToggledHiddenByDefault: true),
+                          TextColumn::make('data'),
+                          TextColumn::make('read_at')
+                                    ->dateTime()
+                                    ->sortable(),
+                          TextColumn::make('updated_at')
+                                    ->dateTime()
+                                    ->sortable(),
+                      ])
             ->defaultSort('updated_at', 'desc')
             ->filters([
-                //
-            ])
+                          //
+                      ])
             ->actions([
-                Tables\Actions\DeleteAction::make(),
-                Tables\Actions\EditAction::make(),
-            ])
+                          Tables\Actions\ActionGroup::make([
+                                                               Tables\Actions\DeleteAction::make(),
+                                                               Tables\Actions\EditAction::make(),
+                                                           ])
+                      ])
             ->prependActions([
-                Tables\Actions\Action::make('View user')
-                    ->label('Юзер')
-                    ->color(fn($record) => $record->notifiable->hasRole(Role::ROLE_ADMIN) ? 'success' : 'default')
-                    ->icon('heroicon-s-user-circle')
-                    ->url(fn($record): string => UserResource::getUrl('view', ['record' => $record->notifiable->id])),
-            ])
+                                 Tables\Actions\Action::make('View user')
+                                                      ->label('Юзер')
+                                                      ->color(fn($record) => $record->notifiable->hasRole(Role::ROLE_ADMIN) ? 'success' : 'default')
+                                                      ->icon('heroicon-s-user-circle')
+                                                      ->url(fn($record): string => UserResource::getUrl('view', ['record' => $record->notifiable->id])),
+                             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
-            ]);
+                              Tables\Actions\DeleteBulkAction::make(),
+                          ]);
     }
 
     public static function getRelations(): array
@@ -81,10 +83,10 @@ class NotificationResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListNotifications::route('/'),
+            'index'  => Pages\ListNotifications::route('/'),
             'create' => Pages\CreateNotification::route('/create'),
-            'view' => Pages\ViewNotification::route('/{record}'),
-            'edit' => Pages\EditNotification::route('/{record}/edit'),
+            'view'   => Pages\ViewNotification::route('/{record}'),
+            'edit'   => Pages\EditNotification::route('/{record}/edit'),
         ];
     }
 
