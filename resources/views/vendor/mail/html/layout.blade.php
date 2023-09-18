@@ -33,8 +33,6 @@ background-color: #F7F8FA !important;
 <div style=" max-width: 700px; margin: 0 auto; background-color: #F7F8FA; padding: 40px 50px;">
 {{ $header ?? '' }}
 <div style="filter: 'drop-shadow(0px 2px 8px rgba(0, 0, 0, 0.05)'; border-radius: 16px; background-color: #FFFFFF">
-<img src="{{asset('assets/mailPlane.png')}}" alt="plane"
- style=" width: 100%; border-top-left-radius: 16px; border-top-right-radius: 16px;"/>
 <div style="padding: 28px">
 {{ Illuminate\Mail\Markdown::parse($slot) }}
 
