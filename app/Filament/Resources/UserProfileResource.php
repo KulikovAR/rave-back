@@ -13,6 +13,7 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 
 class UserProfileResource extends Resource
 {
@@ -48,25 +49,31 @@ class UserProfileResource extends Resource
     {
         return $table
             ->columns([
-                          Tables\Columns\TextColumn::make('id')
+                          TextColumn::make('id')
                                                    ->toggleable(isToggledHiddenByDefault: true)
                                                    ->searchable(),
-                          Tables\Columns\TextColumn::make('user.email')
+
+                          TextColumn::make('user.email')
                                                    ->toggleable(isToggledHiddenByDefault: true)
                                                    ->searchable(),
-                          Tables\Columns\TextColumn::make('firstname')
+
+                          TextColumn::make('firstname')
                                                    ->toggleable(isToggledHiddenByDefault: false)
                                                    ->searchable(),
-                          Tables\Columns\TextColumn::make('lastname')
+
+                          TextColumn::make('lastname')
                                                    ->toggleable(isToggledHiddenByDefault: false)
                                                    ->searchable(),
-                          Tables\Columns\TextColumn::make('avatar')
+
+                          TextColumn::make('avatar')
                                                    ->toggleable(isToggledHiddenByDefault: true),
-                          Tables\Columns\TextColumn::make('created_at')
+
+                          TextColumn::make('created_at')
                                                    ->toggleable(isToggledHiddenByDefault: true)
                                                    ->sortable()
                                                    ->dateTime(),
-                          Tables\Columns\TextColumn::make('updated_at')
+
+                          TextColumn::make('updated_at')
                                                    ->toggleable(isToggledHiddenByDefault: false)
                                                    ->sortable()
                                                    ->dateTime(),
