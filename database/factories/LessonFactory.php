@@ -17,11 +17,12 @@ class LessonFactory extends Factory
     public function definition(): array
     {
         return [
-            'title'        => $this->faker->realText(100),
-            'description'  => $this->faker->realText(),
-            'video_path'   => url('videos/video1.webm'),
-            'preview_path' => url('previews/test_preview.png'),
-            'announc_date' => $this->faker->date()
+            'title'            => $this->faker->realText(100),
+            'description'      => $this->faker->realText(),
+            'video_path'       => url('videos/video1.webm'),
+            'preview_path'     => url('previews/test_preview.png'),
+            'announc_date'     => $this->faker->date(),
+            'order_in_display' => $this->faker->unique()->numberBetween(1, 10)
         ];
     }
 }
