@@ -59,7 +59,7 @@ class LessonResource extends Resource
                     ->maxLength(255),
                 TextInput::make('order_in_display')
                     ->integer()
-                    ->unique()
+                    ->unique(ignoreRecord: true)
             ]);
     }
 
