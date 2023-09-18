@@ -64,7 +64,7 @@ class LessonResource extends Resource
                 TextInput::make('order_in_display')
                     ->integer()
 
-                    ->unique(ignoreRecord: true)
+                    ->unique(ignoreRecord: true),
                 ViewField::make('video')
                     ->view('livewire.chunkuploader'),
             ]);
