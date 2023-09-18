@@ -45,7 +45,6 @@ class UserResource extends Resource
     protected static ?string $model = User::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-user-circle';
-    protected static ?string $navigationGroup = MenuTitles::CATEGORY_APP;
     protected static ?string $pluralModelLabel = MenuTitles::MENU_USERS;
     protected static ?string $modelLabel = MenuTitles::MENU_USER;
 
@@ -65,7 +64,7 @@ class UserResource extends Resource
                     ->multiple()
                     ->relationship('lessons', 'title')
                     ->searchable(),
-                
+
                 Select::make('subscription_type')->options(SubscriptionTypeEnum::allValuesWithDescription()),
 
                 TextInput::make('password')
@@ -95,50 +94,50 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                          TextColumn::make('id')
-                                    ->searchable()
-                                    ->toggleable(isToggledHiddenByDefault: true),
-                          TextColumn::make('name')
-                                    ->searchable()
-                                    ->toggleable(isToggledHiddenByDefault: true),
-                          TextColumn::make('email')
-                                    ->toggleable(isToggledHiddenByDefault: false)
-                                    ->searchable(),
-                          IconColumn::make('email_verified_at')
-                                    ->boolean()
-                                    ->trueIcon('heroicon-o-mail-open')
-                                    ->falseIcon('heroicon-o-mail'),
-                          IconColumn::make('is_blocked')
-                                    ->boolean()
-                                    ->trueIcon('heroicon-o-check-circle')
-                                    ->trueColor('success')
-                                    ->falseIcon('heroicon-o-ban')
-                                    ->falseColor('danger')
-                                    ->alignCenter(),
-                          TextColumn::make('roles.name')
-                                    ->sortable()
-                                    ->toggleable(isToggledHiddenByDefault: false),
-                          //TextColumn::make('salt'),
-                          TextColumn::make('language')
-                                    ->sortable()
-                                    ->toggleable(isToggledHiddenByDefault: true),
-                          TextColumn::make('auto_subscription')
-                                    ->sortable()
-                                    ->toggleable(isToggledHiddenByDefault: false),
-                          TextColumn::make('created_at')
-                                    ->dateTime()
-                                    ->sortable()
-                                    ->toggleable(isToggledHiddenByDefault: true),
-                          TextColumn::make('updated_at')
-                                    ->dateTime()
-                                    ->sortable()
-                                    ->toggleable(isToggledHiddenByDefault: false),
-                          IconColumn::make('deleted_at')
-                                    ->boolean()
-                                    ->trueIcon('heroicon-o-ban')
-                                    ->trueColor('danger')
-                                    ->toggleable(isToggledHiddenByDefault: true),
-                      ])
+                TextColumn::make('id')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('name')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('email')
+                    ->toggleable(isToggledHiddenByDefault: false)
+                    ->searchable(),
+                IconColumn::make('email_verified_at')
+                    ->boolean()
+                    ->trueIcon('heroicon-o-mail-open')
+                    ->falseIcon('heroicon-o-mail'),
+                IconColumn::make('is_blocked')
+                    ->boolean()
+                    ->trueIcon('heroicon-o-check-circle')
+                    ->trueColor('success')
+                    ->falseIcon('heroicon-o-ban')
+                    ->falseColor('danger')
+                    ->alignCenter(),
+                TextColumn::make('roles.name')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: false),
+                //TextColumn::make('salt'),
+                TextColumn::make('language')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('auto_subscription')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: false),
+                TextColumn::make('created_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('updated_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: false),
+                IconColumn::make('deleted_at')
+                    ->boolean()
+                    ->trueIcon('heroicon-o-ban')
+                    ->trueColor('danger')
+                    ->toggleable(isToggledHiddenByDefault: true),
+            ])
             ->defaultSort('updated_at', 'desc')
             ->filters([
                 TrashedFilter::make(),
@@ -167,10 +166,10 @@ class UserResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index'  => ListUsers::route('/'),
+            'index' => ListUsers::route('/'),
             'create' => CreateUser::route('/create'),
-            'view'   => ViewUser::route('/{record}'),
-            'edit'   => EditUser::route('/{record}/edit'),
+            'view' => ViewUser::route('/{record}'),
+            'edit' => EditUser::route('/{record}/edit'),
         ];
     }
 
