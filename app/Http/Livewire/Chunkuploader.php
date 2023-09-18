@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use Livewire\Component;
+use Illuminate\Support\Str;
 use Livewire\WithFileUploads;
 use Livewire\TemporaryUploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -44,9 +45,17 @@ class Chunkuploader extends Component
         }
 
         $this->finalFile = TemporaryUploadedFile::createFromLivewire('/' . $this->fileName);
-        $path            = $this->tempFolder . $this->fileName;
-        $newPath         = $this->finalFolder . $this->fileName;
-        Storage::move($path, $newPath);
+       
+        $newName = Str::slug($this->fileName) . '_' . $this->finalFile->hashName();
+
+        $extension = $this->finalFile->extension();
+        if (empty($extension)) {
+            $extension = $this->getExtension($this->fileName);
+            $newName .= '.' . $extension;
+        }
+
+        $this->finalFile->storeAs($this->finalFolder, $newName);
+        Storage::delete($this->tempFolder . $this->fileName);
 
         $this->garbageCollector();
     }
@@ -54,6 +63,17 @@ class Chunkuploader extends Component
     public function render()
     {
         return view('livewire.chunked-file-upload');
+    }
+
+    private function getExtension(string $fileName): string
+    {
+        $extension = '';
+        if (preg_match('/\.(\w+)$/u', (string) $fileName, $matches)) {
+            $extension = $matches[1];
+            return $extension;
+        }
+
+        return $extension;
     }
 
     private function garbageCollector(): void
