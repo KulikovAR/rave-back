@@ -7,10 +7,13 @@ use App\Filament\Resources\UserProfileResource\RelationManagers;
 use App\Models\UserProfile;
 use Filament\Forms;
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 
 class UserProfileResource extends Resource
 {
@@ -24,15 +27,18 @@ class UserProfileResource extends Resource
     {
         return $form
             ->schema([
-                         Forms\Components\Select::make('user_id')
-                                                ->relationship('user', 'email')
-                                                ->required(),
-                         Forms\Components\TextInput::make('firstname')
-                                                   ->required()
-                                                   ->maxLength(255),
-                         Forms\Components\TextInput::make('lastname')
-                                                   ->required()
-                                                   ->maxLength(255),
+                         Select::make('user_id')
+                               ->relationship('user', 'email')
+                               ->required(),
+                         TextInput::make('firstname')
+                                  ->required()
+                                  ->maxLength(255),
+
+                         TextInput::make('firstname')
+                                  ->required()
+                                  ->maxLength(255),
+
+                         TextInput::make('avatar'),
 
                          DateTimePicker::make('created_at')->default(now()),
                          DateTimePicker::make('updated_at')->default(now()),
@@ -43,13 +49,33 @@ class UserProfileResource extends Resource
     {
         return $table
             ->columns([
-                          Tables\Columns\TextColumn::make('id'),
-                          Tables\Columns\TextColumn::make('user.name'),
-                          Tables\Columns\TextColumn::make('firstname'),
-                          Tables\Columns\TextColumn::make('lastname'),
-                          Tables\Columns\TextColumn::make('created_at')
+                          TextColumn::make('id')
+                                                   ->toggleable(isToggledHiddenByDefault: true)
+                                                   ->searchable(),
+
+                          TextColumn::make('user.email')
+                                                   ->toggleable(isToggledHiddenByDefault: true)
+                                                   ->searchable(),
+
+                          TextColumn::make('firstname')
+                                                   ->toggleable(isToggledHiddenByDefault: false)
+                                                   ->searchable(),
+
+                          TextColumn::make('lastname')
+                                                   ->toggleable(isToggledHiddenByDefault: false)
+                                                   ->searchable(),
+
+                          TextColumn::make('avatar')
+                                                   ->toggleable(isToggledHiddenByDefault: true),
+
+                          TextColumn::make('created_at')
+                                                   ->toggleable(isToggledHiddenByDefault: true)
+                                                   ->sortable()
                                                    ->dateTime(),
-                          Tables\Columns\TextColumn::make('updated_at')
+
+                          TextColumn::make('updated_at')
+                                                   ->toggleable(isToggledHiddenByDefault: false)
+                                                   ->sortable()
                                                    ->dateTime(),
                       ])
             ->filters([

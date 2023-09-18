@@ -38,6 +38,7 @@ class AnnounceResource extends Resource
         return $form
             ->schema([
 
+
                 TextInput::make('title')
                     ->maxLength(255)
                     ->translateLabel(),
