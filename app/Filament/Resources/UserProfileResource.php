@@ -52,13 +52,13 @@ class UserProfileResource extends Resource
                                                    ->toggleable(isToggledHiddenByDefault: true)
                                                    ->searchable(),
                           Tables\Columns\TextColumn::make('user.email')
-                                                   ->toggleable(isToggledHiddenByDefault: false)
+                                                   ->toggleable(isToggledHiddenByDefault: true)
                                                    ->searchable(),
                           Tables\Columns\TextColumn::make('firstname')
-                                                   ->toggleable(isToggledHiddenByDefault: true)
+                                                   ->toggleable(isToggledHiddenByDefault: false)
                                                    ->searchable(),
                           Tables\Columns\TextColumn::make('lastname')
-                                                   ->toggleable(isToggledHiddenByDefault: true)
+                                                   ->toggleable(isToggledHiddenByDefault: false)
                                                    ->searchable(),
                           Tables\Columns\TextColumn::make('avatar')
                                                    ->toggleable(isToggledHiddenByDefault: true),
