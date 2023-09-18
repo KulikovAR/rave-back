@@ -37,7 +37,7 @@ class FaqResource extends Resource
                     ->required(),
                 Textarea::make('answer')
                     ->required(),
-                Select::make('faqTag')
+                Select::make('faq_tag_id')
                     ->relationship('faqTag', 'name')
                     ->searchable()
                     ->required(),
