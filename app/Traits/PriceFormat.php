@@ -24,10 +24,16 @@ trait PriceFormat
 
     protected static function getValueFromFieldName(string $field_name, $locale = 'ru')
     {
+        return self::where('field_name', $field_name)->first()?->data;
+    }
+
+    protected static function getPriceValueFromFieldName(string $field_name, $locale = 'ru')
+    {
         $price_tag = $locale == 'ru' ? SettingTagEnum::PRICE->value : SettingTagEnum::PRICE_US->value;
 
         return self::where('tag', $price_tag)->where('field_name', $field_name)->first()?->data;
     }
+
 
     private static function getValuesWithFieldNameAsKey($settings, array $field_names, bool $int_values = false): array
     {

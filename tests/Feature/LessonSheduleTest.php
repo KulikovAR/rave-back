@@ -22,7 +22,6 @@ class LessonSheduleTest extends TestCase
         $setting_lesson_shedule_duration = Setting::getValueFromFieldName('lesson_shedule_duration');
 
         $lesson_shedule_duration = $setting_lesson_shedule_duration ? $setting_lesson_shedule_duration : UserAddLessons::DEFAULT_DURATION;
-
         
         (new UserAddLessons())->handle();
 
