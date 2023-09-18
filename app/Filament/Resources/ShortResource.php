@@ -46,7 +46,7 @@ class ShortResource extends Resource
                                    ->label('Заставка')
                                    ->enableDownload()
                                    ->enableOpen()
-                                   ->maxSize(12288)
+                                   ->maxSize(100000)
                                    ->columnSpanFull(),
                         ViewField::make('video_path')
                                   ->view('livewire.chunkuploader'),

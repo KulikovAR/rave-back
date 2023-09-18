@@ -40,7 +40,7 @@ class BannerResource extends Resource
                                    ->enableDownload()
                                    ->enableOpen()
                                    ->columnSpanFull()
-                                   ->maxSize(25000)
+                                   ->maxSize(100000)
                                    ->required(),
                      ]);
     }
