@@ -2,23 +2,26 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Forms;
-use Filament\Tables;
-use App\Models\Short;
-use Filament\Resources\Form;
-use Filament\Resources\Table;
-use Filament\Resources\Resource;
-use Filament\Tables\Actions\EditAction;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\ViewField;
-use Filament\Tables\Actions\ActionGroup;
-use Filament\Forms\Components\FileUpload;
-use Filament\Tables\Actions\DeleteAction;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\ShortResource\Pages;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\ShortResource\RelationManagers;
 use App\Filament\Resources\ShortResource\RelationManagers\SlidesRelationManager;
+use App\Models\Short;
+use Filament\Forms;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\TextInput;
+use Filament\Resources\Form;
+use Filament\Resources\Resource;
+use Filament\Resources\Table;
+use Filament\Tables;
+use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\TextColumn;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ShortResource extends Resource
 {
@@ -34,8 +37,10 @@ class ShortResource extends Resource
                                   ->required()
                                   ->maxLength(255),
 
-                        TextInput::make('view_count')
-                                  ->regex('/^[0-9]+$/'),
+                         TextInput::make('view_count')
+                                  ->placeholder(0)
+                                  ->default(0)
+                                  ->regex("/^[0-9]+$/"),
 
                         FileUpload::make('thumbnail')
                                    ->tooltip('Загрузите...')
@@ -53,33 +58,36 @@ class ShortResource extends Resource
     {
         return $table
             ->columns([
-                        Tables\Columns\TextColumn::make('id')
-                                                  ->toggleable(isToggledHiddenByDefault: true)
-                                                   ->searchable(),
-                        Tables\Columns\TextColumn::make('title')
-                                                  ->toggleable(isToggledHiddenByDefault: false)
-                                                   ->searchable()
-                                                   ->tooltip(fn($record) => $record->title)
-                                                   ->limit(15),
-                        Tables\Columns\TextColumn::make('thumbnail')
-                                                  ->toggleable(isToggledHiddenByDefault: false)
-                                                   ->searchable()
-                                                   ->tooltip(fn($record) => $record->title)
-                                                   ->limit(15),
-                        Tables\Columns\TextColumn::make('view_count')
-                                                  ->toggleable(isToggledHiddenByDefault: true)
-                                                   ->sortable(),
-                        Tables\Columns\TextColumn::make('created_at')
-                                                  ->toggleable(isToggledHiddenByDefault: true)
-                                                   ->sortable()
-                                                   ->dateTime(),
-                        Tables\Columns\TextColumn::make('updated_at')
-                                                  ->toggleable(isToggledHiddenByDefault: false)
-                                                   ->sortable()
-                                                   ->dateTime(),
-                        Tables\Columns\TextColumn::make('video_path')
-                                                  ->tooltip(fn($record) => $record->video_path)
-                                                  ->limit(15),
+                          TextColumn::make('id')
+                                    ->toggleable(isToggledHiddenByDefault: true)
+                                    ->searchable(),
+
+                          TextColumn::make('title')
+                                    ->toggleable(isToggledHiddenByDefault: false)
+                                    ->searchable()
+                                    ->tooltip(fn($record) => $record->title)
+                                    ->limit(15),
+
+                          ImageColumn::make('thumbnail')->size(180)
+                                     ->tooltip(fn($record) => $record->thumbnail)
+                                     ->toggleable(isToggledHiddenByDefault: false),
+
+                          TextColumn::make('view_count')
+                                    ->toggleable(isToggledHiddenByDefault: true)
+                                    ->sortable(),
+
+                          TextColumn::make('created_at')
+                                    ->toggleable(isToggledHiddenByDefault: true)
+                                    ->sortable()
+                                    ->dateTime(),
+
+                          TextColumn::make('updated_at')
+                                    ->toggleable(isToggledHiddenByDefault: false)
+                                    ->sortable()
+                                    ->dateTime(),
+                          TextColumn::make('video_path')
+                                    ->tooltip(fn($record) => $record->video_path)
+                                    ->limit(15),
                       ])
             ->filters([
                           //

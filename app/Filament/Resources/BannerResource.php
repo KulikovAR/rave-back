@@ -36,8 +36,12 @@ class BannerResource extends Resource
                                   ->maxLength(255)->translateLabel()->required(),
                          TextInput::make('action_url')->required(),
                          FileUpload::make('img')
-                                  ->maxSize(25000)
-                                  ->required(),
+                                   ->tooltip('Загрузите...')
+                                   ->enableDownload()
+                                   ->enableOpen()
+                                   ->columnSpanFull()
+                                   ->maxSize(25000)
+                                   ->required(),
                      ]);
     }
 
@@ -48,6 +52,7 @@ class BannerResource extends Resource
                           TextColumn::make('title')
                                     ->toggleable(isToggledHiddenByDefault: false),
                           ImageColumn::make('img')->size(180)
+                                     ->tooltip(fn($record) => $record->thumbnail)
                                      ->toggleable(isToggledHiddenByDefault: false),
                           TextColumn::make('action_url')
                                     ->tooltip(fn($record) => $record->action_url)

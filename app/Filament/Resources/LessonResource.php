@@ -50,6 +50,10 @@ class LessonResource extends Resource
                     ->maxLength(255)->translateLabel(),
                 Textarea::make('description'),
                 FileUpload::make('preview_path')
+                    ->tooltip('Загрузите...')
+                    ->enableDownload()
+                    ->enableOpen()
+                    ->columnSpanFull()
                     ->maxSize(25000)
                     ->required(),
                 Select::make('tags')
