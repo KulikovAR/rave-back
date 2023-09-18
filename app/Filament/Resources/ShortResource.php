@@ -20,6 +20,7 @@ use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Forms\Components\ViewField;
 
 class ShortResource extends Resource
 {
@@ -31,7 +32,7 @@ class ShortResource extends Resource
     {
         return $form
             ->schema([
-                         TextInput::make('title')
+                        TextInput::make('title')
                                   ->required()
                                   ->maxLength(255),
 
@@ -40,13 +41,15 @@ class ShortResource extends Resource
                                   ->default(0)
                                   ->regex("/^[0-9]+$/"),
 
-                         FileUpload::make('thumbnail')
+                        FileUpload::make('thumbnail')
                                    ->tooltip('Загрузите...')
                                    ->label('Заставка')
                                    ->enableDownload()
                                    ->enableOpen()
                                    ->maxSize(100000)
                                    ->columnSpanFull(),
+                        ViewField::make('video_path')
+                                  ->view('livewire.chunkuploader'),
                      ]);
     }
 
@@ -81,6 +84,9 @@ class ShortResource extends Resource
                                     ->toggleable(isToggledHiddenByDefault: false)
                                     ->sortable()
                                     ->dateTime(),
+                          TextColumn::make('video_path')
+                                    ->tooltip(fn($record) => $record->video_path)
+                                    ->limit(15),
                       ])
             ->filters([
                           //
