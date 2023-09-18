@@ -21,6 +21,7 @@ class Chunkuploader extends Component
     public string $fileName;
     public string $fileSize;
     public $finalFile;
+    public string $finalFileName;
 
     public string $inputId;
     public int $progressPercentage;
@@ -57,6 +58,7 @@ class Chunkuploader extends Component
         $this->finalFile->storeAs($this->finalFolder, $newName);
         Storage::delete($this->tempFolder . $this->fileName);
 
+        $this->finalFileName = $newName;
         $this->garbageCollector();
     }
 
