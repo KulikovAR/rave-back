@@ -7,6 +7,9 @@ use App\Filament\Resources\ProposalResource\Pages;
 use App\Filament\Resources\ProposalResource\RelationManagers;
 use App\Models\Proposal;
 use Filament\Forms;
+use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Textarea;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
@@ -16,13 +19,14 @@ use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Storage;
 
 class ProposalResource extends Resource
 {
     protected static ?string $model = Proposal::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-annotation';
-    protected static ?string $navigationGroup = MenuTitles::CATEGORY_APP;
+    protected static ?string $navigationIcon   = 'heroicon-o-collection';
+    protected static ?string $navigationGroup  = MenuTitles::CATEGORY_APP;
     protected static ?string $pluralModelLabel = 'Предложения';
     protected static ?string $modelLabel = 'Предложения';
 
@@ -30,8 +34,8 @@ class ProposalResource extends Resource
     {
         return $form
             ->schema([
-                //
-            ]);
+                         //
+                     ]);
     }
 
     public static function table(Table $table): Table
@@ -64,14 +68,14 @@ class ProposalResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\Action::make('read')
-                    ->action(fn(Proposal $record) => $record->update(['unread' => false])),
-                Tables\Actions\Action::make('user')->url(
-                    fn(Proposal $record): string => UserResource::getUrl('edit', ['record' => $record->user])
-                )
-                    ->openUrlInNewTab(),
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                          Tables\Actions\Action::make('read')
+                                               ->action(fn(Proposal $record) => $record->update(['unread' => false])),
+                          Tables\Actions\Action::make('user')->url(
+                              fn(Proposal $record): string => UserResource::getUrl('edit', ['record' => $record->user])
+                          )
+                                               ->openUrlInNewTab(),
+                          Tables\Actions\ViewAction::make(),
+                          Tables\Actions\DeleteAction::make(),
 
             ])
             ->bulkActions([

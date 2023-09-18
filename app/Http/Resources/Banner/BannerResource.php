@@ -4,6 +4,7 @@ namespace App\Http\Resources\Banner;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class BannerResource extends JsonResource
 {
@@ -16,10 +17,10 @@ class BannerResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'              => $this->id,
-            'title'           => $this->title,
-            'action_url'      => $this->action_url,
-            'img'             => env('APP_URL') . '/storage/' . $this->img,
+            'id'         => $this->id,
+            'title'      => $this->title,
+            'action_url' => $this->action_url,
+            'img'        => $this->img ? Storage::disk('public')->url($this->img) : null
         ];
     }
 }

@@ -17,12 +17,16 @@ return new class extends Migration
             $table->uuid('user_id');
             $table->foreign('user_id')
                 ->references('id')
-                ->on('users');
+                ->on('users')
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
 
             $table->uuid('lesson_id');
             $table->foreign('lesson_id')
                 ->references('id')
-                ->on('lessons');
+                ->on('lessons')
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
 
             $table->timestamps();
         });

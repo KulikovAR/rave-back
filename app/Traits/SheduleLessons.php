@@ -7,7 +7,11 @@ use App\Models\Lesson;
 trait SheduleLessons
 {
     public function addSheduleLesson()
-    {
+    {   
+        if(!$this->subscriptionAvailable()) {
+            return;
+        }
+
         $lesson_order = $this->lessons()->count();
 
         $lesson = Lesson::orderBy('order_in_display', 'asc')->skip($lesson_order)->take(1)->get()->first();

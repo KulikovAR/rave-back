@@ -19,7 +19,9 @@ return new class extends Migration
             $table->uuid('user_id');
             $table->foreign('user_id')
                 ->references('id')
-                ->on('users');
+                ->on('users')
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
 
             $table->uuid('commentable_id');
             $table->string('commentable_type');
