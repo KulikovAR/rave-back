@@ -2,25 +2,26 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\MenuTitles;
-use App\Filament\Resources\AnnounceResource\Pages;
-use App\Filament\Resources\AnnounceResource\RelationManagers;
-use App\Models\Announce;
 use App\Models\Tag;
 use Filament\Forms;
-use Filament\Forms\Components\Checkbox;
-use Filament\Forms\Components\DateTimePicker;
-use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\TextInput;
-use Filament\Resources\Form;
-use Filament\Resources\Resource;
-use Filament\Resources\Table;
 use Filament\Tables;
+use App\Models\Announce;
+use App\Filament\MenuTitles;
+use Filament\Resources\Form;
+use Filament\Resources\Table;
+use Filament\Resources\Resource;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\Textarea;
 use Filament\Tables\Columns\IconColumn;
-use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\ViewField;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\DateTimePicker;
+use App\Filament\Resources\AnnounceResource\Pages;
+use App\Filament\Resources\AnnounceResource\RelationManagers;
 
 class AnnounceResource extends Resource
 {
@@ -40,8 +41,6 @@ class AnnounceResource extends Resource
                     ->maxLength(255)
                     ->translateLabel(),
                 Textarea::make('description'),
-                TextInput::make('video_path')
-                    ->maxLength(255),
                 FileUpload::make('preview_path')
                     ->maxSize(25000),
                 Select::make('tags')
@@ -50,7 +49,9 @@ class AnnounceResource extends Resource
                     ->searchable(),
                 DateTimePicker::make('release_at')
                     ->minDate(now()),
-                Checkbox::make('main')
+                Checkbox::make('main'),
+                ViewField::make('video_path')
+                    ->view('livewire.chunkuploader'),
             ]);
     }
 
