@@ -18,10 +18,6 @@ class UserDeviceService
 
 
     public function checkTooManyDevices(): bool {
-        if (empty($this->device_name)) {
-            $this->device_name = 'spa';
-        }
-
         $token = $this->user->tokens()->where('temp', false)->where('name', $this->device_name)->first();
 
         if(!is_null($token)) {
