@@ -16,6 +16,8 @@ use Filament\Tables;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -50,30 +52,33 @@ class ShortResource extends Resource
     {
         return $table
             ->columns([
-                          Tables\Columns\TextColumn::make('id')
-                                                   ->toggleable(isToggledHiddenByDefault: true)
-                                                   ->searchable(),
-                          Tables\Columns\TextColumn::make('title')
-                                                   ->toggleable(isToggledHiddenByDefault: false)
-                                                   ->searchable()
-                                                   ->tooltip(fn($record) => $record->title)
-                                                   ->limit(15),
-                          Tables\Columns\TextColumn::make('thumbnail')
-                                                   ->toggleable(isToggledHiddenByDefault: false)
-                                                   ->searchable()
-                                                   ->tooltip(fn($record) => $record->title)
-                                                   ->limit(15),
-                          Tables\Columns\TextColumn::make('view_count')
-                                                   ->toggleable(isToggledHiddenByDefault: true)
-                                                   ->sortable(),
-                          Tables\Columns\TextColumn::make('created_at')
-                                                   ->toggleable(isToggledHiddenByDefault: true)
-                                                   ->sortable()
-                                                   ->dateTime(),
-                          Tables\Columns\TextColumn::make('updated_at')
-                                                   ->toggleable(isToggledHiddenByDefault: false)
-                                                   ->sortable()
-                                                   ->dateTime(),
+                          TextColumn::make('id')
+                                    ->toggleable(isToggledHiddenByDefault: true)
+                                    ->searchable(),
+
+                          TextColumn::make('title')
+                                    ->toggleable(isToggledHiddenByDefault: false)
+                                    ->searchable()
+                                    ->tooltip(fn($record) => $record->title)
+                                    ->limit(15),
+
+                          ImageColumn::make('thumbnail')->size(180)
+                                     ->tooltip(fn($record) => $record->thumbnail)
+                                     ->toggleable(isToggledHiddenByDefault: false),
+
+                          TextColumn::make('view_count')
+                                    ->toggleable(isToggledHiddenByDefault: true)
+                                    ->sortable(),
+
+                          TextColumn::make('created_at')
+                                    ->toggleable(isToggledHiddenByDefault: true)
+                                    ->sortable()
+                                    ->dateTime(),
+
+                          TextColumn::make('updated_at')
+                                    ->toggleable(isToggledHiddenByDefault: false)
+                                    ->sortable()
+                                    ->dateTime(),
                       ])
             ->filters([
                           //

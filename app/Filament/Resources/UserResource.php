@@ -10,6 +10,7 @@ use App\Filament\Resources\UserResource\Pages\ListUsers;
 use App\Filament\Resources\UserResource\Pages\ViewUser;
 use App\Filament\Resources\UserResource\RelationManagers\OrderRelationManager;
 use App\Filament\Resources\UserResource\RelationManagers\PassengerRelationManager;
+use App\Filament\Resources\UserResource\RelationManagers\QuizResultsRelationManager;
 use App\Filament\Resources\UserResource\RelationManagers\UserProfileRelationManager;
 use App\Models\Order;
 use App\Models\Role;
@@ -189,6 +190,7 @@ class UserResource extends Resource
     {
         return [
             UserProfileRelationManager::class,
+            QuizResultsRelationManager::class,
         ];
     }
 

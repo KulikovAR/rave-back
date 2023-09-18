@@ -23,8 +23,8 @@ class FaqTagResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-tag';
     protected static ?string $navigationGroup = MenuTitles::CATEGORY_APP;
-    protected static ?string $pluralModelLabel = 'FAQ Тэги';
-    protected static ?string $modelLabel = 'FAQ Тэг';
+    protected static ?string $pluralModelLabel = 'FAQ ';
+    protected static ?string $modelLabel = 'FAQ';
 
     public static function form(Form $form): Form
     {
