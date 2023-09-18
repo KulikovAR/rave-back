@@ -24,7 +24,7 @@ class LessonResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'description' => $this->description,
-            'video_path' => $this->video_path,
+            'video_path' => config('app.url') . '/storage/video/' . $this->video_path,
             'preview_path' => config('app.url') . '/storage/' . $this->preview_path,
             'rating' => (float)$this->getRating(),
             'tags' => new TagCollection($this->tags),
