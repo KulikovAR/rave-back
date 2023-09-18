@@ -47,8 +47,6 @@ class LessonResource extends Resource
                 TextInput::make('title')
                     ->maxLength(255)->translateLabel(),
                 Textarea::make('description'),
-                TextInput::make('video_path')
-                    ->maxLength(255),
                 FileUpload::make('preview_path')
                     ->maxSize(25000)
                     ->required(),
@@ -64,9 +62,8 @@ class LessonResource extends Resource
                 DateTimePicker::make('announc_date'),
                 TextInput::make('order_in_display')
                     ->integer()
-
                     ->unique(ignoreRecord: true),
-                ViewField::make('video')
+                ViewField::make('video_path')
                     ->view('livewire.chunkuploader'),
             ]);
     }
