@@ -19,6 +19,9 @@ return [
     'quiz'      => 'Quiz',
     'quizzes'     => 'Quizzes',
 
+    'tag'             => 'Тэг',
+    'tags'          => 'Тэги',
+
     'notifications' => 'Уведомления',
     'notification' => 'Уведомления',
 
