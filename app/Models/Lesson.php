@@ -23,6 +23,7 @@ class Lesson extends Model
         'preview_path',
         'announc_date',
         'rating',
+        'video',
         'order_in_display',
         '',
     ];

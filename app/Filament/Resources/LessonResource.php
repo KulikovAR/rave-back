@@ -2,27 +2,30 @@
 
 namespace App\Filament\Resources;
 
+use App\Models\Tag;
+use Filament\Forms;
+use Filament\Tables;
+use App\Models\Lesson;
 use App\Filament\MenuTitles;
+use Filament\Resources\Form;
+use Filament\Resources\Table;
+use Filament\Resources\Resource;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ViewColumn;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Forms\Components\ViewField;
+use Filament\Forms\Components\FileUpload;
+use Illuminate\Database\Eloquent\Builder;
+use Filament\Forms\Components\DateTimePicker;
 use App\Filament\Resources\LessonResource\Pages;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\LessonResource\RelationManagers;
 use App\Filament\Resources\LessonResource\RelationManagers\CommentsRelationManager;
 use App\Filament\Resources\LessonResource\RelationManagers\LessonAdditionalDataRelationManager;
-use App\Models\Lesson;
-use App\Models\Tag;
-use Filament\Forms;
-use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\TextInput;
-use Filament\Resources\Form;
-use Filament\Resources\Resource;
-use Filament\Resources\Table;
-use Filament\Tables;
-use Filament\Tables\Columns\IconColumn;
-use Filament\Tables\Columns\ImageColumn;
-use Filament\Tables\Columns\TextColumn;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class LessonResource extends Resource
 {
@@ -57,9 +60,13 @@ class LessonResource extends Resource
                     ->minValue(1)
                     ->maxValue(5)
                     ->maxLength(255),
+                DateTimePicker::make('announc_date'),
                 TextInput::make('order_in_display')
                     ->integer()
+
                     ->unique(ignoreRecord: true)
+                ViewField::make('video')
+                    ->view('livewire.chunkuploader'),
             ]);
     }
 
