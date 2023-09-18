@@ -34,7 +34,7 @@ class PaymentController extends Controller
 
                                    'order_status' => Order::CREATED,
                                    'order_type'   => $request->order_type,
-                                   'price'        => Setting::getValueFromFieldName('price_' . $request->order_type) ?? 9999,
+                                   'price'        => Setting::getPriceValueFromFieldName('price_' . $request->order_type) ?? 9999,
                                    'duration'     => Setting::getValueFromFieldName('duration_' . $request->order_type) ?? 1
                                ]);
 

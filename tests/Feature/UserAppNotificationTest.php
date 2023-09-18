@@ -24,6 +24,8 @@ class UserAppNotificationTest extends TestCase
 
         $response->assertJsonStructure($this->getPaginationResponse());
 
+
+        
         $response->assertJsonStructure([
             'data' => [
                 [
