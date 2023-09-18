@@ -4,6 +4,7 @@ namespace App\Http\Resources\Banner;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class BannerShowResource extends JsonResource
 {
@@ -19,7 +20,7 @@ class BannerShowResource extends JsonResource
             'id'         => $this->id,
             'title'      => $this->title,
             'action_url' => $this->action_url,
-            'img'        => config('app.url') . '/storage/' . $this->img,
+            'img'        => $this->img ? Storage::disk('public')->url($this->img) : null
         ];
     }
 }

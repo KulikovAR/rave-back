@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 use App\Traits\DateFormats;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class UserProfileResource extends JsonResource
 {
@@ -15,7 +16,7 @@ class UserProfileResource extends JsonResource
         return [
             'firstname' => $this->firstname,
             'lastname'  => $this->lastname,
-            'avatar'    => $this->avatar ? url('storage/'.$this->avatar) : null
+            'avatar'    => $this->avatar ? Storage::disk('public')->url($this->avatar) : null
         ];
     }
 }

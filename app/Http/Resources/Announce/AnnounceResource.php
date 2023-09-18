@@ -5,6 +5,7 @@ namespace App\Http\Resources\Announce;
 use App\Traits\DateFormats;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class AnnounceResource extends JsonResource
 {
@@ -22,7 +23,7 @@ class AnnounceResource extends JsonResource
             'title'        => $this->title,
             'description'  => $this->description,
             'video_path'   => $this->video_path,
-            'preview_path' => $this->preview_path ? url('storage/'.$this->preview_path) : null,
+            'preview_path' => $this->preview_path ? Storage::disk('public')->url($this->preview_path) : null,
             'release_at'   => $this->formatDateTimeForOutput($this->release_at),
             'main'         => (bool)$this->main
         ];
