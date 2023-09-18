@@ -50,6 +50,10 @@ class LessonResource extends Resource
                 TextInput::make('video_path')
                     ->maxLength(255),
                 FileUpload::make('preview_path')
+                    ->tooltip('Загрузите...')
+                    ->enableDownload()
+                    ->enableOpen()
+                    ->columnSpanFull()
                     ->maxSize(25000)
                     ->required(),
                 Select::make('tags')

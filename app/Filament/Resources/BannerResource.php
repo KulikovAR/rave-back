@@ -36,6 +36,10 @@ class BannerResource extends Resource
                                   ->maxLength(255)->translateLabel()->required(),
                          TextInput::make('action_url')->required(),
                          FileUpload::make('img')
+                                   ->tooltip('Загрузите...')
+                                   ->enableDownload()
+                                   ->enableOpen()
+                                   ->columnSpanFull()
                                    ->maxSize(25000)
                                    ->required(),
                      ]);

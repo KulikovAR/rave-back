@@ -37,7 +37,8 @@ class ShortResource extends Resource
 
                          TextInput::make('view_count')
                                   ->placeholder(0)
-                                  ->default(0),
+                                  ->default(0)
+                                  ->regex("/^[0-9]+$/"),
 
                          FileUpload::make('thumbnail')
                                    ->tooltip('Загрузите...')
