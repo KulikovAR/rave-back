@@ -143,8 +143,11 @@ class PaymentController extends Controller
         $user->subscription_expires_at = Carbon::parse($user->subscriptionAvailable() ? $user->subscription_expires_at : now())->addDays($duration)->format('Y-m-d H:i:s');
         $user->save();
 
+
         $order->order_status = Order::PAYED;
         $order->save();
+
+        $user->addSheduleLesson();
 
         return redirect(config('front-end.payment_success') . config('front-end.payment_status_success'));
     }
