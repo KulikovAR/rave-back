@@ -42,7 +42,7 @@ class NotificationController extends Controller
         $this->authorize('view', [DatabaseNotification::class, $request->user()]);
 
         return new NotificationCollection(
-            $request->user()->unreadNotifications()
+            $request->user()->notifications()
                 ->paginate(config('pagination.per_page'))
         );
     }
