@@ -6,6 +6,7 @@ use App\Enums\EnvironmentTypeEnum;
 use App\Models\Tag;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Storage;
 
 class TagSeeder extends Seeder
 {
@@ -22,62 +23,62 @@ class TagSeeder extends Seeder
             [
                 'name'  => 'Биология',
                 'slug'  => 'biology',
-                'image' => url('/tags/biology.svg')
+                'image' => Storage::disk('public')->url('/tags/biology.svg')
             ],
             [
                 'name'  => 'Химия',
                 'slug'  => 'chemistry',
-                'image' => url('/tags/chemistry.svg')
+                'image' => Storage::disk('public')->url('/tags/chemistry.svg')
             ],
             [
                 'name'  => 'Философия',
                 'slug'  => 'philosophy',
-                'image' => url('/tags/philosophy.svg')
+                'image' => Storage::disk('public')->url('/tags/philosophy.svg')
             ],
             [
                 'name'  => 'Литература',
                 'slug'  => 'literature',
-                'image' => url('/tags/literature.svg')
+                'image' => Storage::disk('public')->url('/tags/literature.svg')
             ],
             [
                 'name'  => 'История',
                 'slug'  => 'history',
-                'image' => url('/tags/history.svg')
+                'image' => Storage::disk('public')->url('/tags/history.svg')
             ],
             [
                 'name'  => 'Искусство',
                 'slug'  => 'art',
-                'image' => url('/tags/art.svg')
+                'image' => Storage::disk('public')->url('/tags/art.svg')
             ],
             [
                 'name'  => 'География',
                 'slug'  => 'geography',
-                'image' => url('/tags/geography.svg')
+                'image' => Storage::disk('public')->url('/tags/geography.svg')
             ],
             [
                 'name'  => 'Психология',
                 'slug'  => 'psychology',
-                'image' => url('/tags/psychology.svg')
+                'image' => Storage::disk('public')->url('/tags/psychology.svg')
             ],
             [
                 'name'  => 'Физкультура',
                 'slug'  => 'physical-education',
-                'image' => url('/tags/physical_education.svg')
+                'image' => Storage::disk('public')->url('/tags/physical_education.svg')
             ],
             [
                 'name'  => 'Речь',
                 'slug'  => 'speech',
-                'image' => url('/tags/speech.svg')
+                'image' => Storage::disk('public')->url('/tags/speech.svg')
             ],
             [
                 'name'  => 'Астрономия',
                 'slug'  => 'astronomy',
-                'image' => url('/tags/astronomy.svg')
+                'image' => Storage::disk('public')->url('/tags/astronomy.svg')
             ],
             [
                 'name'  => 'Математика',
                 'slug'  => 'math',
-                'image' => url('/tags/math.svg')
+                'image' => Storage::disk('public')->url('/tags/math.svg')
             ],
         ];
 
