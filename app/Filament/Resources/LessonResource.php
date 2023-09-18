@@ -26,6 +26,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\LessonResource\RelationManagers;
 use App\Filament\Resources\LessonResource\RelationManagers\CommentsRelationManager;
 use App\Filament\Resources\LessonResource\RelationManagers\LessonAdditionalDataRelationManager;
+use App\Filament\Resources\LessonResource\RelationManagers\QuizRelationManager;
 
 class LessonResource extends Resource
 {
@@ -112,7 +113,8 @@ class LessonResource extends Resource
     {
         return [
             CommentsRelationManager::class,
-            LessonAdditionalDataRelationManager::class
+            LessonAdditionalDataRelationManager::class,
+            QuizRelationManager::class
         ];
     }
 
