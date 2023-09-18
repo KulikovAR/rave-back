@@ -37,7 +37,7 @@ class ShortResource extends Resource
 
                          TextInput::make('view_count')
                                   ->placeholder(0)
-                         ->default(0),
+                                  ->default(0),
 
                          FileUpload::make('thumbnail')
                                    ->tooltip('Загрузите...')
