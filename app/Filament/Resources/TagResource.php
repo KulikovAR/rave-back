@@ -31,6 +31,10 @@ class TagResource extends Resource
                     ->required()
                     ->regex("/^[a-z0-9]+(?:-[a-z0-9]+)*$/"),
                 FileUpload::make('image')
+                    ->tooltip('Загрузите...')
+                    ->enableDownload()
+                    ->enableOpen()
+                    ->columnSpanFull()
                     ->maxSize(25000)
                     ->required()
             ]);

@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Announce extends Model
 {
@@ -24,5 +25,13 @@ class Announce extends Model
     public function tags(): BelongsToMany
     {
         return $this->BelongsToMany(Tag::class);
+    }
+
+    protected static function boot(): void
+    {
+        parent::boot();
+        static::deleting(function ($model) {
+            Storage::disk('public')->delete('video/' . $model->getOriginal('video_path'));
+        });
     }
 }

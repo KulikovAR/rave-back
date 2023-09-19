@@ -16,11 +16,12 @@ class ShortResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'title' => $this->title,
+            'title'       => $this->title,
             'slide_count' => $this->slides()->count(),
-            'view_count' => $this->view_count,
-            'thumbnail' => config('app.url') . '/storage/' . $this->thumbnail,
-            'slide' => new SlideCollection($this->slides)
+            'view_count'  => $this->view_count,
+            'thumbnail'   => config('app.url') . '/storage/' . $this->thumbnail,
+            'slide'       => new SlideCollection($this->slides),
+            'video_path'  => config('app.url') . '/storage/video/' . $this->video_path,
         ];
     }
 

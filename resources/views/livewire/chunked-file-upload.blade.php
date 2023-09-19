@@ -1,18 +1,19 @@
 <div>
-    @if ($finalFile)
+    @if ($finalFileName)
         <script>
-            console.log('finalFile: ' + '{{ $finalFile->getFilename() }}');
+            console.log('finalFile: ' + '{{ $finalFileName }}');
             let inputId = '{{ $inputId }}';
             if (inputId == '') {
                 inputId = 'data.video';
             }
 
             document.getElementById(inputId).dispatchEvent(new Event("input"));
-            document.getElementById(inputId).value = '{{ $finalFile->getFilename() }}';
-            document.getElementById(inputId).setAttribute("value", '{{ $finalFile->getFilename() }}');
+            document.getElementById(inputId).value = '{{ $finalFileName }}';
+            document.getElementById(inputId).setAttribute("value", '{{ $finalFileName }}');
 
             document.getElementById(inputId).style.border = '1px solid #1da1f2';
             @this.set('finalFile', '', true);
+            @this.set('finalFileName', '', true);
         </script>
     @endif
 
