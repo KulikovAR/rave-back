@@ -70,7 +70,7 @@ class ProposalResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\Action::make('Openfile')
+                Tables\Actions\Action::make('Open file')
                     ->url(fn(Proposal $record) => Storage::disk('public')->url($record->file))
                     ->openUrlInNewTab(),
                 Tables\Actions\Action::make('read')
