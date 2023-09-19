@@ -37,10 +37,8 @@ class CommentsRelationManager extends RelationManager
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('user.id'),
-                Tables\Columns\TextColumn::make('user.userProfile.firstname'),
-                Tables\Columns\TextColumn::make('user.userProfile.lastname'),
-                Tables\Columns\TextColumn::make('nesting_comments_count')->counts('nesting_comments'),
-                Tables\Columns\TextColumn::make('body'),
+                Tables\Columns\TextColumn::make('body')
+                                        ->limit(15),
             ])
             ->filters([
                 //

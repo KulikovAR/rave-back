@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Enums\EnvironmentTypeEnum;
 use App\Enums\StatusEnum;
+use App\Enums\SubscriptionTypeEnum;
 use App\Events\RegisteredUserEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegistrationEmailRequest;
@@ -41,7 +42,7 @@ class RegistrationController extends Controller
                     'lastname'  => $request->lastname
                 ]
             );
-   
+
         $bearerToken = $this->createOrGetAuthToken($user, Browser::userAgent());
 
         event(new RegisteredUserEvent($user));
@@ -49,9 +50,11 @@ class RegistrationController extends Controller
         Auth::login($user); //session login
 
         if (!App::environment(EnvironmentTypeEnum::productEnv())) {
-           $user->update([
-                'subscription_expires_at' => Carbon::now()->addMonth()
-           ]); 
+            $user->update([
+                'subscription_expires_at' => Carbon::now()->addMonth(),
+                'subscription_type'       => SubscriptionTypeEnum::MONTH->value,
+                'subscription_created_at' => Carbon::now()
+            ]);
         }
 
         return new ApiJsonResponse(

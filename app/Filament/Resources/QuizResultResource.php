@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\QuizResultResource\Pages;
 use App\Filament\Resources\QuizResultResource\RelationManagers;
+use App\Filament\Resources\QuizResultResource\RelationManagers\UserRelationManager;
 use App\Models\QuizResult;
 use App\Models\Role;
 use App\Notifications\UserAppNotification;
@@ -139,7 +140,7 @@ class QuizResultResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            UserRelationManager::class
         ];
     }
 

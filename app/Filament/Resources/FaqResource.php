@@ -25,6 +25,7 @@ class FaqResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-question-mark-circle';
 
     protected static bool $shouldRegisterNavigation = false;
+
     protected static ?string $navigationGroup = MenuTitles::CATEGORY_APP;
     protected static ?string $pluralModelLabel = 'Faq';
     protected static ?string $modelLabel = 'Faq';
