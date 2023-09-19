@@ -33,7 +33,6 @@ class SlideResource extends Resource
                     ->label('слайд')
                     ->enableDownload()
                     ->enableOpen()
-                    ->maxSize(12288)
                     ->columnSpanFull(),
             ]);
     }

@@ -88,6 +88,7 @@ class ShortResource extends Resource
                                     ->tooltip(fn($record) => $record->video_path)
                                     ->limit(15),
                       ])
+            ->defaultSort('updated_at', 'desc')
             ->filters([
                           //
                       ])
