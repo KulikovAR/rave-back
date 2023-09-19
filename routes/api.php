@@ -140,8 +140,8 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::get('/auth/{provider}/redirect', [AuthProviderController::class, 'redirectToProvider'])->middleware('throttle:10,1')->name('provider.redirect');
 Route::get('/auth/{provider}/callback', [AuthProviderController::class, 'loginOrRegister'])->name('provider.callback');
 
-// Route::get('/verification/{id}/{hash}', [VerificationContactController::class, 'verifyEmail'])->middleware(['signed', 'throttle:6,1'])->name('verification.email.url');
-Route::get('/verification/{id}/{hash}', [VerificationContactController::class, 'verifyEmail'])->name('verification.email.url');
+Route::get('/verification/{id}/{hash}', [VerificationContactController::class, 'verifyEmail'])->middleware(['signed', 'throttle:6,1'])->name('verification.email.url');
+//Route::get('/verification/{id}/{hash}', [VerificationContactController::class, 'verifyEmail'])->name('verification.email.url');
 
 Route::get('/assets/{locale?}', [AssetsController::class, 'show'])->name('assets.index');
 
