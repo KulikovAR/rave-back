@@ -10,6 +10,7 @@ use Filament\Forms;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
@@ -25,8 +26,8 @@ class ProposalResource extends Resource
 {
     protected static ?string $model = Proposal::class;
 
-    protected static ?string $navigationIcon   = 'heroicon-o-collection';
-    protected static ?string $navigationGroup  = MenuTitles::CATEGORY_APP;
+    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationGroup = MenuTitles::CATEGORY_APP;
     protected static ?string $pluralModelLabel = 'Предложения';
     protected static ?string $modelLabel = 'Предложения';
 
@@ -34,15 +35,16 @@ class ProposalResource extends Resource
     {
         return $form
             ->schema([
-                         //
-                     ]);
+                TextInput::make('body'),
+                FileUpload::make('file'),
+            ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-
+                TextColumn::make('user.email'),
                 TextColumn::make('body')
                     ->tooltip(fn($record) => $record->body)
                     ->limit(15),
@@ -68,14 +70,17 @@ class ProposalResource extends Resource
                 //
             ])
             ->actions([
-                          Tables\Actions\Action::make('read')
-                                               ->action(fn(Proposal $record) => $record->update(['unread' => false])),
-                          Tables\Actions\Action::make('user')->url(
-                              fn(Proposal $record): string => UserResource::getUrl('edit', ['record' => $record->user])
-                          )
-                                               ->openUrlInNewTab(),
-                          Tables\Actions\ViewAction::make(),
-                          Tables\Actions\DeleteAction::make(),
+                Tables\Actions\Action::make('Openfile')
+                    ->url(fn(Proposal $record) => Storage::disk('public')->url($record->file))
+                    ->openUrlInNewTab(),
+                Tables\Actions\Action::make('read')
+                    ->action(fn(Proposal $record) => $record->update(['unread' => false])),
+                Tables\Actions\Action::make('user')->url(
+                    fn(Proposal $record): string => UserResource::getUrl('edit', ['record' => $record->user])
+                )
+                    ->openUrlInNewTab(),
+                Tables\Actions\ViewAction::make(),
+                Tables\Actions\DeleteAction::make(),
 
             ])
             ->bulkActions([
