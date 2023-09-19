@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use App\Observers\LessonObserver;
 
 class Lesson extends Model
 {
@@ -68,8 +69,6 @@ class Lesson extends Model
     protected static function boot(): void
     {
         parent::boot();
-        static::deleting(function ($model) {
-            Storage::disk('public')->delete('video/' . $model->getOriginal('video_path'));
-        });
+        Lesson::observe(LessonObserver::class);
     }
 }

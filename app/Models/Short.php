@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Observers\ShortObserver;
 
 class Short extends Model
 {
@@ -28,8 +29,6 @@ class Short extends Model
     protected static function boot(): void
     {
         parent::boot();
-        static::deleting(function ($model) {
-            Storage::disk('public')->delete('video/' . $model->getOriginal('video_path'));
-        });
+        Short::observe(ShortObserver::class);
     }
 }
