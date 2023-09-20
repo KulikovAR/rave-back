@@ -16,7 +16,7 @@ class Chunkuploader extends Component
     public $fileChunk;
 
     private string $tempFolder = '/livewire-tmp/';
-    private string $finalFolder = '/public/video/';
+    private string $finalFolder = '/private/video/';
 
     public string $fileName;
     public string $fileSize;
