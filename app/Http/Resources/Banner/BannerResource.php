@@ -20,7 +20,7 @@ class BannerResource extends JsonResource
             'id'         => $this->id,
             'title'      => $this->title,
             'action_url' => $this->action_url,
-            'img'        => $this->img ? Storage::disk('public')->url($this->img) : null
+            'img'        => $this->img ? Storage::disk('private')->url($this->img) : null
         ];
     }
 }

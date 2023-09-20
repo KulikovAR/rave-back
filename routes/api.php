@@ -28,6 +28,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\FaqTagController;
+use App\Http\Controllers\PrivateStorageController;
 
 /*
 |--------------------------------------------------------------------------

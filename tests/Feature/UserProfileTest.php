@@ -67,7 +67,7 @@ class UserProfileTest extends TestCase
 
         $path = substr($response->json()['data']['avatar'], strpos($response->json()['data']['avatar'], '/avatars'));
 
-        Storage::disk('public')->assertExists($path);
+        Storage::disk('private')->assertExists($path);
 
         $response->assertStatus(200);
     }

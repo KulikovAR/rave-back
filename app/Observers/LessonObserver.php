@@ -21,7 +21,7 @@ class LessonObserver
     public function updated(Lesson $Lesson): void
     {
         if ($Lesson->isDirty('video_path')) {
-            Storage::disk('public')->delete('video/' . $Lesson->getOriginal('video_path'));
+            Storage::disk('private')->delete('video/' . $Lesson->getOriginal('video_path'));
         }
     }
 
@@ -31,7 +31,7 @@ class LessonObserver
     public function deleted(Lesson $Lesson): void
     {
         if (is_null($Lesson->video_path) === false) {
-            Storage::disk('public')->delete('video/' . $Lesson->getOriginal('video_path'));
+            Storage::disk('private')->delete('video/' . $Lesson->getOriginal('video_path'));
         }
     }
 

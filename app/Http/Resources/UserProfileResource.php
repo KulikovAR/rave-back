@@ -16,7 +16,7 @@ class UserProfileResource extends JsonResource
         return [
             'firstname' => $this->firstname,
             'lastname'  => $this->lastname,
-            'avatar'    => $this->avatar ? Storage::disk('public')->url($this->avatar) : null
+            'avatar'    => $this->avatar ? Storage::disk('private')->url($this->avatar) : null
         ];
     }
 }

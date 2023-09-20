@@ -21,7 +21,7 @@ class AnnounceObserver
     public function updated(Announce $Announce): void
     {
         if ($Announce->isDirty('video_path')) {
-            Storage::disk('public')->delete('video/' . $Announce->getOriginal('video_path'));
+            Storage::disk('private')->delete('video/' . $Announce->getOriginal('video_path'));
         }
     }
 
@@ -31,7 +31,7 @@ class AnnounceObserver
     public function deleted(Announce $Announce): void
     {
         if (is_null($Announce->video_path) === false) {
-            Storage::disk('public')->delete('video/' . $Announce->getOriginal('video_path'));
+            Storage::disk('private')->delete('video/' . $Announce->getOriginal('video_path'));
         }
     }
 

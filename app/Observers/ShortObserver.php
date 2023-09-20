@@ -21,7 +21,7 @@ class ShortObserver
     public function updated(Short $Short): void
     {
         if ($Short->isDirty('video_path')) {
-            Storage::disk('public')->delete('video/' . $Short->getOriginal('video_path'));
+            Storage::disk('private')->delete('video/' . $Short->getOriginal('video_path'));
         }
     }
 
@@ -31,7 +31,7 @@ class ShortObserver
     public function deleted(Short $Short): void
     {
         if (is_null($Short->video_path) === false) {
-            Storage::disk('public')->delete('video/' . $Short->getOriginal('video_path'));
+            Storage::disk('private')->delete('video/' . $Short->getOriginal('video_path'));
         }
     }
 
