@@ -14,7 +14,6 @@ return new class extends Migration {
             $table->uuid('id');
             $table->string('title');
             $table->string('thumbnail')->nullable();
-            $table->string('video_path')->nullable();
             $table->integer('view_count')->default(0);
             $table->timestamps();
             $table->primary('id');

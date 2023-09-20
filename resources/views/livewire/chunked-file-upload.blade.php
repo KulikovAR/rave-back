@@ -30,7 +30,7 @@
         </div>
         <div class="filepond--drop-label filepond-submit" style="transform: translate3d(0px, 0px, 0px); opacity: 1; display: none;">
             <label aria-hidden="true">
-                <span class="filepond--label-action" tabindex="0" onclick="uploadChunks()" style="color: #1da1f2;">Загрузить: <span id="fileNameVideo"></span></span>
+                <span class="filepond--label-action" id="videoFileUploadSubmit" tabindex="0" style="color: #1da1f2;">Загрузить: <span id="fileNameVideo"></span></span>
             </label>
         </div>
 
@@ -68,7 +68,15 @@
 
         let fileInput = document.getElementById('videoFile');
         fileInput.addEventListener("change", () => {
+            console.log('change');
             toogleInput(fileInput);
+        });
+
+        
+        let button = document.getElementById('videoFileUploadSubmit');
+        button.addEventListener("click", () => {
+            console.log('click');
+            uploadChunks();
         });
 
         function uploadChunks() {
@@ -82,12 +90,12 @@
             @this.set('fileSize', file.size, true);
             @this.set('progressPercentage', 0);
 
-            $chunks = getAllChunks(file);
-            if ($chunks.length === 0) {
+            let chunks = getAllChunks(file);
+            if (chunks.length === 0) {
                 return;
             }
 
-            uploadFile(file, $chunks);
+            uploadFile(file, chunks);
         }
 
         function getAllChunks(file) {
