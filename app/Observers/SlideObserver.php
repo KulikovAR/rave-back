@@ -21,7 +21,7 @@ class SlideObserver
     public function updated(Slide $Slide): void
     {
         if ($Slide->isDirty('video_path')) {
-            Storage::disk('public')->delete('video/' . $Slide->getOriginal('video_path'));
+            Storage::disk('private')->delete('video/' . $Slide->getOriginal('video_path'));
         }
     }
 
@@ -31,7 +31,7 @@ class SlideObserver
     public function deleted(Slide $Slide): void
     {
         if (is_null($Slide->video_path) === false) {
-            Storage::disk('public')->delete('video/' . $Slide->getOriginal('video_path'));
+            Storage::disk('private')->delete('video/' . $Slide->getOriginal('video_path'));
         }
     }
     /**
