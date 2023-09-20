@@ -12,7 +12,7 @@ class PrivateStorageController extends Controller
         if (!Storage::disk('private')->exists($filePath)) { 
             abort('404'); 
         }
-
-        return response()->file(storage_path('app' . DIRECTORY_SEPARATOR . ($filePath))); // the response()->file() will add the necessary headers in our place (no headers are needed to be provided for images (it's done automatically) expected hearder is of form => ['Content-Type' => 'image/png'];
+        
+        return response()->file(Storage::disk('private')->path($filePath)); 
     }
 }

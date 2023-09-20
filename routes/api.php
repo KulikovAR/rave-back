@@ -55,9 +55,6 @@ Route::prefix('banner')->group(function () {
     Route::get('/', [BannerController::class, 'index'])->name('banner.index');
 });
 
-Route::get('/storage/private/{filePath}', [PrivateStorageController::class,'index'])->where(['filePath' => '.*'])->name('storage.view');
-
-
 Route::middleware('auth:sanctum')->group(function () {
     Route::middleware('user_blocked')->group(function () {
         Route::get('/device', [DeviceController::class, 'index'])->name('device.index');
