@@ -29,6 +29,7 @@ class LessonShowResource extends JsonResource
             'video_path'      => config('app.url') . '/storage/video/' . $this->video_path,
             'preview_path'    => config('app.url') . '/storage/' . $this->preview_path,
             'announc_date'    => $this->formatDateForOutput($this->announc_date),
+            'duration'        => $this->duration,
             'rating'          => (float)$this->getRating(),
             'tags'            => new TagCollection($this->tags),
             'additional_data' => new LessonAdditionalDataCollection($this->lesson_additional_data),

@@ -27,7 +27,7 @@ class Lesson extends Model
         'rating',
         'video',
         'order_in_display',
-        '',
+        'duration',
     ];
 
     public function tags(): BelongsToMany
