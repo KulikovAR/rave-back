@@ -23,7 +23,7 @@ class AnnounceResource extends JsonResource
             'title'        => $this->title,
             'description'  => $this->description,
             'video_path'   => config('app.url') . '/storage/video/' . $this->video_path,
-            'preview_path' => $this->preview_path ? Storage::disk('public')->url($this->preview_path) : null,
+            'preview_path' => $this->preview_path ? Storage::disk('private')->url($this->preview_path) : null,
             'release_at'   => $this->formatDateTimeForOutput($this->release_at),
             'main'         => (bool)$this->main
         ];

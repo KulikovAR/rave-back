@@ -4,6 +4,7 @@ namespace App\Http\Resources\Proposal;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class ProposalResource extends JsonResource
 {
@@ -16,7 +17,7 @@ class ProposalResource extends JsonResource
     {
         return [
             'body' => $this->body,
-            'file' => $this->file
+            'file' => Storage::disk('private')->url($this->file)
         ];
     }
 }
