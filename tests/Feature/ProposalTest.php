@@ -22,8 +22,6 @@ class ProposalTest extends TestCase
             ],
             $this->getHeadersForUser()
         );  
-
-        dd($response->json());
         
         $path = substr($response->json()['data']['file'], strpos($response->json()['data']['file'], '/proposals'));
 
