@@ -5,6 +5,8 @@ namespace App\Filament\Resources\FaqTagResource\RelationManagers;
 use App\Filament\Resources\FaqResource;
 use App\Models\Faq;
 use Filament\Forms;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Resources\Table;
@@ -23,9 +25,11 @@ class FaqsRelationManager extends RelationManager
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('question')
-                    ->required()
-                    ->maxLength(255),
+                TextInput::make('question')
+                    ->maxLength(255)
+                    ->required(),
+                Textarea::make('answer')
+                    ->required(),
             ]);
     }
 
