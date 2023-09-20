@@ -4,6 +4,7 @@ namespace App\Http\Resources\Tag;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class TagResource extends JsonResource
 {
@@ -17,7 +18,7 @@ class TagResource extends JsonResource
         return [
             'name'          => $this->name,
             'slug'          => $this->slug,
-            'image'         => $this->image,
+            'image'         => Storage::disk('public')->url($this->image),
             'lessons_count' => $request->user()->lessons()->whereHas('tags', function ($q) {
                 $q->where('slug', $this->slug);
             })->count()
