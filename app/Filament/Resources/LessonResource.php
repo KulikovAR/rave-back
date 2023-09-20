@@ -50,7 +50,7 @@ class LessonResource extends Resource
                     ->maxLength(255)->translateLabel(),
                 Textarea::make('description'),
                 FileUpload::make('preview_path')
-                    ->tooltip('Загрузите...')
+                    ->tooltip('Загрузите обложку (изображение)')
                     ->enableDownload()
                     ->enableOpen()
                     ->columnSpanFull()
@@ -91,7 +91,8 @@ class LessonResource extends Resource
                     ->limit(15),
                 TextColumn::make('order_in_display')
                     ->sortable(),
-                ImageColumn::make('preview_path'),
+                ImageColumn::make('preview_path')
+                    ->label('Обложка'),
                 TextColumn::make('rating')
                     ->sortable(),
                 TextColumn::make('created_at')

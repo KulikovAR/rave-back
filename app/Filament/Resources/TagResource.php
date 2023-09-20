@@ -27,6 +27,7 @@ class TagResource extends Resource
                     ->maxLength(255)
                     ->required(),
                 TextInput::make('slug')
+                    ->tooltip('Латиница в нижнем регистре, допускается знак дефиса (-) в качестве разделителя')
                     ->maxLength(255)
                     ->required()
                     ->regex("/^[a-z0-9]+(?:-[a-z0-9]+)*$/"),
