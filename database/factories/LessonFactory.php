@@ -22,6 +22,7 @@ class LessonFactory extends Factory
             'video_path'       => url('videos/video1.webm'),
             'preview_path'     => url('previews/test_preview.png'),
             'announc_date'     => $this->faker->date(),
+            'duration'         => rand(5, 60),
             'order_in_display' => $this->faker->unique()->numberBetween(1, 10)
         ];
     }

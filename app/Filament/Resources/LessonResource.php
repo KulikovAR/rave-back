@@ -65,6 +65,9 @@ class LessonResource extends Resource
                     ->minValue(1)
                     ->maxValue(5)
                     ->maxLength(255),
+                TextInput::make('duration')
+                    ->integer()
+                    ->required(),
                 DateTimePicker::make('announc_date'),
                 TextInput::make('order_in_display')
                     ->integer()
