@@ -127,7 +127,7 @@ class PaymentController extends Controller
             );
         }
 
-        $duration = Setting::getValueFromFieldName('duration_' . $request->order_type) ?? 1;
+        $duration = Setting::getValueFromFieldName('duration_' . $order->order_type) ?? 1;
 
         $orderType = match ($order->order_type) {
             "normal"  => SubscriptionTypeEnum::MONTH->value,
