@@ -23,62 +23,62 @@ class TagSeeder extends Seeder
             [
                 'name'  => 'Биология',
                 'slug'  => 'biology',
-                'image' => Storage::disk('private')->url('/tags/biology.svg')
+                'image' => '/tags/biology.svg'
             ],
             [
                 'name'  => 'Химия',
                 'slug'  => 'chemistry',
-                'image' => Storage::disk('private')->url('/tags/chemistry.svg')
+                'image' => '/tags/chemistry.svg'
             ],
             [
                 'name'  => 'Философия',
                 'slug'  => 'philosophy',
-                'image' => Storage::disk('private')->url('/tags/philosophy.svg')
+                'image' => '/tags/philosophy.svg'
             ],
             [
                 'name'  => 'Литература',
                 'slug'  => 'literature',
-                'image' => Storage::disk('private')->url('/tags/literature.svg')
+                'image' => '/tags/literature.svg'
             ],
             [
                 'name'  => 'История',
                 'slug'  => 'history',
-                'image' => Storage::disk('private')->url('/tags/history.svg')
+                'image' => '/tags/history.svg'
             ],
             [
                 'name'  => 'Искусство',
                 'slug'  => 'art',
-                'image' => Storage::disk('private')->url('/tags/art.svg')
+                'image' => '/tags/art.svg'
             ],
             [
                 'name'  => 'География',
                 'slug'  => 'geography',
-                'image' => Storage::disk('private')->url('/tags/geography.svg')
+                'image' => '/tags/geography.svg'
             ],
             [
                 'name'  => 'Психология',
                 'slug'  => 'psychology',
-                'image' => Storage::disk('private')->url('/tags/psychology.svg')
+                'image' => '/tags/psychology.svg'
             ],
             [
                 'name'  => 'Физкультура',
                 'slug'  => 'physical-education',
-                'image' => Storage::disk('private')->url('/tags/physical_education.svg')
+                'image' => '/tags/physical_education.svg'
             ],
             [
                 'name'  => 'Речь',
                 'slug'  => 'speech',
-                'image' => Storage::disk('private')->url('/tags/speech.svg')
+                'image' => '/tags/speech.svg'
             ],
             [
                 'name'  => 'Астрономия',
                 'slug'  => 'astronomy',
-                'image' => Storage::disk('private')->url('/tags/astronomy.svg')
+                'image' => '/tags/astronomy.svg'
             ],
             [
                 'name'  => 'Математика',
                 'slug'  => 'math',
-                'image' => Storage::disk('private')->url('/tags/math.svg')
+                'image' => '/tags/math.svg'
             ],
         ];
 
