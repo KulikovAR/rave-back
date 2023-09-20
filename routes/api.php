@@ -28,6 +28,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\FaqTagController;
+use App\Http\Controllers\PrivateStorageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,6 +54,9 @@ Route::middleware(['guest'])->group(function () {
 Route::prefix('banner')->group(function () {
     Route::get('/', [BannerController::class, 'index'])->name('banner.index');
 });
+
+Route::get('/storage/private/{filePath}', [PrivateStorageController::class,'index'])->where(['filePath' => '.*'])->name('storage.view');
+
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::middleware('user_blocked')->group(function () {

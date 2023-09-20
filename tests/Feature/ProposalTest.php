@@ -21,9 +21,13 @@ class ProposalTest extends TestCase
                 'file' => UploadedFile::fake()->image('test.png')
             ],
             $this->getHeadersForUser()
-        );
+        );  
+
+        dd($response->json());
         
-        Storage::disk('public')->assertExists($response->json()['data']['file']);
+        $path = substr($response->json()['data']['file'], strpos($response->json()['data']['file'], '/proposals'));
+
+        Storage::disk('private')->assertExists($path);
 
         $response->assertStatus(200);
     }
