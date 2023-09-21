@@ -16,6 +16,7 @@ use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Actions\EditAction;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Forms\Components\ViewField;
 
 class SlideResource extends Resource
 {
@@ -28,12 +29,14 @@ class SlideResource extends Resource
     {
         return $form
             ->schema([
-                FileUpload::make('file')
+                FileUpload::make('image')
                     ->tooltip('Загрузите...')
                     ->label('слайд')
                     ->enableDownload()
                     ->enableOpen()
                     ->columnSpanFull(),
+                ViewField::make('video_path')
+                    ->view('livewire.chunkuploader'),
             ]);
     }
 
@@ -47,10 +50,12 @@ class SlideResource extends Resource
                 Tables\Columns\TextColumn::make('short_id')
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('file')
-                    ->toggleable(isToggledHiddenByDefault: false)
-                    ->tooltip(fn($record) => $record->file)
-                    ->limit(15),
+                Tables\Columns\ImageColumn::make('image')->size(120)
+                    ->tooltip(fn($record) => $record->thumbnail)
+                    ->toggleable(isToggledHiddenByDefault: false),
+                Tables\Columns\TextColumn::make('video_path')
+                    ->tooltip(fn($record) => $record->video_path)
+                    ->limit(35),
                 Tables\Columns\TextColumn::make('created_at')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true)

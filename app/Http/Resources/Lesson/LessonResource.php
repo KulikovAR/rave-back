@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Lesson;
 
+use App\Docs\Schemas\Lesson\Lesson;
 use App\Http\Resources\LessonAdditionalData\LessonAdditionalDataCollection;
 use App\Http\Resources\Quiz\QuizLessonCollection;
 use App\Http\Resources\Tag\TagCollection;
@@ -9,6 +10,8 @@ use App\Services\PrivateStorageUrlService;
 use App\Traits\DateFormats;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\URL;
 
 class LessonResource extends JsonResource
 {
