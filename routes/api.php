@@ -167,5 +167,10 @@ Route::get('/mail', function () {
 
     return $markdown->render('vendor.notifications.email', $message->toArray());
 });
+Route::get('/storage/{filePath}', [PrivateStorageController::class, 'show'])
+    ->middleware(['signed', 'throttle:6,1'])
+    ->name('storage.file');
 
-Route::get('/private/{filePath}', [PrivateStorageController::class, 'index'])->where(['filePath' => '.*'])->name('storage.view');
+Route::get('/private/{filePath}', [PrivateStorageController::class, 'index'])
+    ->where(['filePath' => '.*'])
+    ->name('storage.view');
