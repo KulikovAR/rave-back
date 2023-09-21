@@ -15,9 +15,10 @@ class SlideResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
-            'short_id' => $this->short_id,
-            'file' => config('app.url') . '/storage/' . $this->file,
+            'id'         => $this->id,
+            'short_id'   => $this->short_id,
+            'image'      => config('app.url') . '/storage/' . $this->image,
+            'video_path' => config('app.url') . '/storage/video/' . $this->video_path,
             'created_at' => $this->created_at,
             'updated_at' => $this->update_at,
         ];
