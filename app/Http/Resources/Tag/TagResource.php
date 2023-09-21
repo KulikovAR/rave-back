@@ -18,7 +18,7 @@ class TagResource extends JsonResource
         return [
             'name'          => $this->name,
             'slug'          => $this->slug,
-            'image'         => Storage::disk('public')->url($this->image),
+            'image'         => Storage::disk('private')->url($this->image),
             'lessons_count' => $request->user()->lessons()->whereHas('tags', function ($q) {
                 $q->where('slug', $this->slug);
             })->count()
