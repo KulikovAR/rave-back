@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Tag;
 
+use App\Services\StorageService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
@@ -18,7 +19,7 @@ class TagResource extends JsonResource
         return [
             'name'          => $this->name,
             'slug'          => $this->slug,
-            'image'         => Storage::disk('private')->url($this->image),
+            'image'         => StorageService::getUrl($this->image, config('filesystems.disks.private.temp_link_expires_image')),
             'lessons_count' => $request->user()->lessons()->whereHas('tags', function ($q) {
                 $q->where('slug', $this->slug);
             })->count()

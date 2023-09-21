@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Proposal;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
@@ -22,10 +23,10 @@ class ProposalTest extends TestCase
             ],
             $this->getHeadersForUser()
         );  
-        
-        $path = substr($response->json()['data']['file'], strpos($response->json()['data']['file'], '/proposals'));
 
-        Storage::disk('private')->assertExists($path);
+        $proposal = Proposal::findOrFail($response->json()['data']['id']);
+        
+        Storage::disk('private')->assertExists($proposal->file);
 
         $response->assertStatus(200);
     }

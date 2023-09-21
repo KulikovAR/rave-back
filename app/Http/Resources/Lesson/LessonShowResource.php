@@ -7,6 +7,7 @@ use App\Http\Resources\LessonAdditionalData\LessonAdditionalDataCollection;
 use App\Http\Resources\Quiz\QuizLessonCollection;
 use App\Http\Resources\Quiz\QuizLessonResource;
 use App\Http\Resources\Tag\TagCollection;
+use App\Services\StorageService;
 use App\Traits\DateFormats;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -26,11 +27,12 @@ class LessonShowResource extends JsonResource
             'id'              => $this->id,
             'title'           => $this->title,
             'description'     => $this->description,
-            'video_path'      => config('app.url') . '/storage/video/' . $this->video_path,
-            'preview_path'    => config('app.url') . '/storage/' . $this->preview_path,
+            'video_path'      => StorageService::getUrl('video/' . $this->video_path, config('filesystems.disks.private.temp_link_expires_video')),
+            // 'video_path'      => config('app.url') . '/storage/video/' . $this->video_path,
+            'preview_path'    => StorageService::getUrl($this->preview_path, config('filesystems.disks.private.temp_link_expires_image')),
             'announc_date'    => $this->formatDateForOutput($this->announc_date),
-            'duration'        => (int)$this->duration,
-            'rating'          => (float)$this->getRating(),
+            'duration'        => (int) $this->duration,
+            'rating'          => (float) $this->getRating(),
             'tags'            => new TagCollection($this->tags),
             'additional_data' => new LessonAdditionalDataCollection($this->lesson_additional_data),
             'quiz'            => new QuizLessonResource($this->quiz),

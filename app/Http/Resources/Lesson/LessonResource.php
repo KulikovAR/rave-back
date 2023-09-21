@@ -6,6 +6,7 @@ use App\Docs\Schemas\Lesson\Lesson;
 use App\Http\Resources\LessonAdditionalData\LessonAdditionalDataCollection;
 use App\Http\Resources\Quiz\QuizLessonCollection;
 use App\Http\Resources\Tag\TagCollection;
+use App\Services\StorageService;
 use App\Traits\DateFormats;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -27,18 +28,9 @@ class LessonResource extends JsonResource
             'id'             => $this->id,
             'title'          => $this->title,
             'description'    => $this->description,
-            'video_path'     => config('app.url') . '/storage/video/' . $this->video_path,
-            'preview_path'   => URL::temporarySignedRoute(
-                'storage.file',
-                Carbon::now()->addSeconds(30),
-                [
-                    'user_id'   => auth('sanctum')->user()->id,
-                    'model_id'   => $this->id,
-                    'model_type'   => Lesson::class,
-                    'path' => $this->preview_path,
-                ]
-            ),
-            'duration'       => (int)$this->duration,
+            'video_path'     => StorageService::getUrl('video/'.$this->video_path, config('filesystems.disks.private.temp_link_expires_video')),
+            'preview_path'   => StorageService::getUrl($this->preview_path, config('filesystems.disks.private.temp_link_expires_image')),
+            'duration'       => (int) $this->duration,
             'rating'         => (float) $this->getRating(),
             'tags'           => new TagCollection($this->tags),
             'quiz'           => new QuizLessonCollection($this->quizzes),
