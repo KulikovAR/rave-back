@@ -71,7 +71,7 @@ class ProposalResource extends Resource
             ])
             ->actions([
                 Tables\Actions\Action::make('Open file')
-                    ->url(fn(Proposal $record) => Storage::disk('public')->url($record->file))
+                    ->url(fn(Proposal $record) => Storage::disk('private')->url($record->file))
                     ->openUrlInNewTab(),
                 Tables\Actions\Action::make('read')
                     ->action(fn(Proposal $record) => $record->update(['unread' => false])),

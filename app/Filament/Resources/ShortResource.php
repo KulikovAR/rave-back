@@ -48,8 +48,6 @@ class ShortResource extends Resource
                                    ->enableOpen()
                                    ->maxSize(100000)
                                    ->columnSpanFull(),
-                        ViewField::make('video_path')
-                                  ->view('livewire.chunkuploader'),
                      ]);
     }
 
@@ -84,9 +82,6 @@ class ShortResource extends Resource
                                     ->toggleable(isToggledHiddenByDefault: false)
                                     ->sortable()
                                     ->dateTime(),
-                          TextColumn::make('video_path')
-                                    ->tooltip(fn($record) => $record->video_path)
-                                    ->limit(15),
                       ])
             ->defaultSort('updated_at', 'desc')
             ->filters([

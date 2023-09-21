@@ -19,7 +19,8 @@ return new class extends Migration
                 ->on('shorts')
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
-            $table->string('file');
+            $table->string('image');
+            $table->string('video_path')->nullable();
             $table->timestamps();
             $table->primary('id');
         });

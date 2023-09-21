@@ -20,8 +20,9 @@ class LessonFactory extends Factory
             'title'            => $this->faker->realText(100),
             'description'      => $this->faker->realText(),
             'video_path'       => url('videos/video1.webm'),
-            'preview_path'     => url('previews/test_preview.png'),
+            'preview_path'     => 'previews/test_preview.png',
             'announc_date'     => $this->faker->date(),
+            'duration'         => rand(5, 60),
             'order_in_display' => $this->faker->unique()->numberBetween(1, 10)
         ];
     }

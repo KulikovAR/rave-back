@@ -32,7 +32,7 @@ class LessonSheduleTest extends TestCase
         $this->assertTrue($user->lessons()->count() == 1);
 
 
-        $this->travelTo(Carbon::now()->addDays($lesson_shedule_duration + 1));
+        $this->travelTo(Carbon::now()->addMinutes($lesson_shedule_duration + 1));
 
         (new UserAddLessons())->handle();
 

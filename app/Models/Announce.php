@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use App\Observers\AnnounceObserver;
 
 class Announce extends Model
 {
@@ -30,8 +31,6 @@ class Announce extends Model
     protected static function boot(): void
     {
         parent::boot();
-        static::deleting(function ($model) {
-            Storage::disk('public')->delete('video/' . $model->getOriginal('video_path'));
-        });
+        Announce::observe(AnnounceObserver::class);
     }
 }

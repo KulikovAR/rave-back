@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthSessionController;
+use App\Http\Controllers\PrivateStorageController;
 
 /*
 |--------------------------------------------------------------------------

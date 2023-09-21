@@ -56,7 +56,7 @@ class UserProfileController extends Controller
         $user->userProfile()
             ->update(
                 [
-                    'avatar' => $request->file('avatar')->store('avatars', 'public')
+                    'avatar' => $request->file('avatar')->store('avatars', 'private')
                 ]
             );
 

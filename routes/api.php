@@ -28,6 +28,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\FaqTagController;
+use App\Http\Controllers\PrivateStorageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -166,3 +167,5 @@ Route::get('/mail', function () {
 
     return $markdown->render('vendor.notifications.email', $message->toArray());
 });
+
+Route::get('/private/{filePath}', [PrivateStorageController::class, 'index'])->where(['filePath' => '.*'])->name('storage.view');

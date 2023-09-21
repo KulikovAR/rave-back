@@ -17,7 +17,7 @@ class SlideFactory extends Factory
     public function definition(): array
     {
         return [
-            'file' => url('slides/slide1.mp4')
+            'image' => url('slides/slide1.mp4')
         ];
     }
 }

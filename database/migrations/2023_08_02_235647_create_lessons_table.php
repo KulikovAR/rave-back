@@ -21,6 +21,7 @@ return new class extends Migration
             $table->timestamp('announc_date');
             $table->integer('order_in_display')->default(0);
             $table->float('rating')->nullable();
+            $table->float('duration')->nullable();
             $table->timestamps();
             $table->primary('id');
         });
