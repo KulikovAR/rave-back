@@ -19,8 +19,6 @@ use App\Http\Controllers\PrivateStorageController;
 */
 Route::post('/login/session', [AuthSessionController::class, 'store'])->name('login.stateful');
 
-
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/private/{filePath}', [PrivateStorageController::class, 'index'])->where(['filePath' => '.*'])->name('storage.view');
     Route::delete('/logout/session', [AuthSessionController::class, 'destroy'])->name('logout.stateful');
 });
