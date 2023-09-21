@@ -30,7 +30,7 @@ class LessonResource extends JsonResource
             'video_path'     => config('app.url') . '/storage/video/' . $this->video_path,
             'preview_path'   => URL::temporarySignedRoute(
                 'storage.file',
-                Carbon::now()->addMinutes(180),
+                Carbon::now()->addMinutes(1),
                 [
                     'user_id'   => auth('sanctum')->user()->id,
                     'model_id'   => $this->id,
