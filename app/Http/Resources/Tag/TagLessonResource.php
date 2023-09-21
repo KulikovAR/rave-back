@@ -5,6 +5,7 @@ namespace App\Http\Resources\Tag;
 use App\Http\Resources\Lesson\LessonPaginationCollection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class TagLessonResource extends JsonResource
 {
