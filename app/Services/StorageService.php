@@ -2,16 +2,12 @@
 
 namespace App\Services;
 
-use App\Models\Role;
-use App\Models\User;
-use App\Notifications\AdminNotification;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\URL;
 
-class PrivateStorageUrlService
+class StorageService
 {
-    public static function getUrl(?string $path)
+    public static function getUrl(?string $path, int $duration = 30)
     {
         if(is_null($path)) {
             return null;
@@ -19,7 +15,7 @@ class PrivateStorageUrlService
 
         return URL::temporarySignedRoute(
             'storage.private',
-            Carbon::now()->addMinutes(config('filesystems.disks.private.temp_link_expires')),
+            Carbon::now()->addMinutes($duration),
             [
                 'filePath' => $path
             ]

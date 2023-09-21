@@ -49,7 +49,8 @@ return [
             'root'       => storage_path('app/private'),
             'url'        => env('APP_URL') . '/private',
             'visibility' => 'public',
-            'temp_link_expires' => 120, // minutes
+            'temp_link_expires_image' => 30, // seconds
+            'temp_link_expires_video' => 7200, 
         ],
 
         's3'      => [

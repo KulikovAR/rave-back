@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources\Proposal;
 
-use App\Services\PrivateStorageUrlService;
+use App\Services\StorageService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
@@ -19,7 +19,7 @@ class ProposalResource extends JsonResource
         return [
             'id' => $this->id,
             'body' => $this->body,
-            'file' => PrivateStorageUrlService::getUrl($this->file)
+            'file' => StorageService::getUrl($this->file, config('filesystems.disks.private.temp_link_expires_image'))
         ];
     }
 }

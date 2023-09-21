@@ -3,7 +3,7 @@
 namespace App\Http\Resources\Shorts;
 
 use App\Http\Resources\Slide\SlideCollection;
-use App\Services\PrivateStorageUrlService;
+use App\Services\StorageService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -20,10 +20,9 @@ class ShortResource extends JsonResource
             'title'       => $this->title,
             'slide_count' => $this->slides()->count(),
             'view_count'  => $this->view_count,
-            'thumbnail'   => PrivateStorageUrlService::getUrl($this->thumbnail),
+            'thumbnail'   => StorageService::getUrl($this->thumbnail, config('filesystems.disks.private.temp_link_expires_image')),
             'slide'       => new SlideCollection($this->slides),
-            'video_path'  => PrivateStorageUrlService::getUrl('video/' . $this->video_path),
-            // 'video_path'  => config('app.url') . '/storage/video/' . $this->video_path,
+            'video_path'  => StorageService::getUrl('video/' . $this->video_path, config('filesystems.disks.private.temp_link_expires_video')),
         ];
     }
 
