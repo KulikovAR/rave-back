@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Banner;
 
+use App\Services\PrivateStorageUrlService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
@@ -20,7 +21,7 @@ class BannerResource extends JsonResource
             'id'         => $this->id,
             'title'      => $this->title,
             'action_url' => $this->action_url,
-            'img'        => $this->img ? Storage::disk('private')->url($this->img) : null
+            'img'        => $this->img ? PrivateStorageUrlService::getUrl($this->img) : null
         ];
     }
 }

@@ -142,7 +142,6 @@ Route::get('/auth/{provider}/redirect', [AuthProviderController::class, 'redirec
 Route::get('/auth/{provider}/callback', [AuthProviderController::class, 'loginOrRegister'])->name('provider.callback');
 
 Route::get('/verification/{id}/{hash}', [VerificationContactController::class, 'verifyEmail'])->middleware(['signed', 'throttle:6,1'])->name('verification.email.url');
-//Route::get('/verification/{id}/{hash}', [VerificationContactController::class, 'verifyEmail'])->name('verification.email.url');
 
 Route::get('/assets/{locale?}', [AssetsController::class, 'show'])->name('assets.index');
 
@@ -167,5 +166,3 @@ Route::get('/mail', function () {
 
     return $markdown->render('vendor.notifications.email', $message->toArray());
 });
-
-Route::get('/private/{filePath}', [PrivateStorageController::class, 'index'])->where(['filePath' => '.*'])->name('storage.view');

@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Services\PrivateStorageUrlService;
 use App\Traits\DateFormats;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -16,7 +17,7 @@ class UserProfileResource extends JsonResource
         return [
             'firstname' => $this->firstname,
             'lastname'  => $this->lastname,
-            'avatar'    => $this->avatar ? Storage::disk('private')->url($this->avatar) : null
+            'avatar'    => PrivateStorageUrlService::getUrl($this->avatar)
         ];
     }
 }

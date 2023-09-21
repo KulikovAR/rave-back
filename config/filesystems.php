@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('FILESYSTEM_DISK', 'local'),
+    'default'                   => env('FILESYSTEM_DISK', 'local'),
 
     /*
     |--------------------------------------------------------------------------
@@ -28,9 +28,9 @@ return [
     |
     */
 
-    'disks' => [
+    'disks'                     => [
 
-        'local' => [
+        'local'   => [
             'driver' => 'local',
             'root'   => storage_path('app'),
             'throw'  => false,
@@ -47,11 +47,12 @@ return [
         'private' => [
             'driver'     => 'local',
             'root'       => storage_path('app/private'),
-            'url'        => env('APP_URL') . '/api/v1/private',
+            'url'        => env('APP_URL') . '/private',
             'visibility' => 'public',
+            'temp_link_expires' => 120, // minutes
         ],
-        
-        's3' => [
+
+        's3'      => [
             'driver'                  => 's3',
             'key'                     => env('AWS_ACCESS_KEY_ID'),
             'secret'                  => env('AWS_SECRET_ACCESS_KEY'),
@@ -76,9 +77,8 @@ return [
     |
     */
 
-    'links' => [
+    'links'                     => [
         public_path('storage') => storage_path('app/public'),
         public_path('private') => storage_path('app/private'),
     ],
-
 ];

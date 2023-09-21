@@ -5,6 +5,7 @@ namespace App\Http\Resources\Lesson;
 use App\Http\Resources\LessonAdditionalData\LessonAdditionalDataCollection;
 use App\Http\Resources\Quiz\QuizLessonCollection;
 use App\Http\Resources\Tag\TagCollection;
+use App\Services\PrivateStorageUrlService;
 use App\Traits\DateFormats;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -24,9 +25,9 @@ class LessonResource extends JsonResource
             'id'             => $this->id,
             'title'          => $this->title,
             'description'    => $this->description,
-            'video_path'     => config('app.url') . '/storage/video/' . $this->video_path,
-            'preview_path'   => config('app.url') . '/storage/' . $this->preview_path,
-            'duration'       => (int)$this->duration,
+            'video_path'     => PrivateStorageUrlService::getUrl('video/'.$this->video_path),
+            'preview_path'   => PrivateStorageUrlService::getUrl($this->preview_path),
+            'duration'       => (int) $this->duration,
             'rating'         => (float) $this->getRating(),
             'tags'           => new TagCollection($this->tags),
             'quiz'           => new QuizLessonCollection($this->quizzes),
