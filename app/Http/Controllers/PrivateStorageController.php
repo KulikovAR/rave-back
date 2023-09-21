@@ -18,13 +18,15 @@ class PrivateStorageController extends Controller
 
     public function show(Request $request)
     {
+        $authUserId = $request->user('sanctum')?->id;
+        abort_if($request->id !== $authUserId, 403);
+
 
         $filePath = $request->path;
-
         abort_if(!Storage::disk('private')->exists($filePath), 404);
 
         return response()
             ->file(Storage::disk('private')
-            ->path($filePath));
+                          ->path($filePath));
     }
 }
