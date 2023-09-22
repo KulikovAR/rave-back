@@ -49,14 +49,6 @@ class RegistrationController extends Controller
 
         Auth::login($user); //session login
 
-        if (!App::environment(EnvironmentTypeEnum::productEnv())) {
-            $user->update([
-                'subscription_expires_at' => Carbon::now()->addMonth(),
-                'subscription_type'       => SubscriptionTypeEnum::MONTH->value,
-                'subscription_created_at' => Carbon::now()
-            ]);
-        }
-
         return new ApiJsonResponse(
             200,
             StatusEnum::OK,
