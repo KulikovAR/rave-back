@@ -24,4 +24,4 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/logout/session', [AuthSessionController::class, 'destroy'])->name('logout.stateful');
 });
 
-Route::get('/storage/private/{filePath}', [PrivateStorageController::class, 'index'])->middleware(['signed', 'throttle:6,1'])->where(['filePath' => '.*'])->name('storage.private');
+Route::get('/storage/private/{filePath}', [PrivateStorageController::class, 'index'])->middleware(['signed', 'throttle:60,1'])->where(['filePath' => '.*'])->name('storage.private');
