@@ -65,7 +65,7 @@ class UserProfileTest extends TestCase
             $this->getHeadersForUser($user)
         );
     
-        Storage::disk('private')->assertExists($user->userProfile->avatar);
+        Storage::disk('public')->assertExists($user->userProfile->avatar);
 
         $response->assertStatus(200);
     }

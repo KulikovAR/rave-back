@@ -17,7 +17,7 @@ class UserProfileResource extends JsonResource
         return [
             'firstname' => $this->firstname,
             'lastname'  => $this->lastname,
-            'avatar'    => StorageService::getUrl($this->avatar, config('filesystems.disks.private.temp_link_expires_image'))
+            'avatar'    => $this->avatar ? Storage::disk('public')->url($this->avatar) : null
         ];
     }
 }
