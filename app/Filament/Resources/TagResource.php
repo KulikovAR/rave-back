@@ -35,6 +35,7 @@ class TagResource extends Resource
                     ->tooltip('Загрузите...')
                     ->enableDownload()
                     ->enableOpen()
+                    ->disk('public')
                     ->columnSpanFull()
                     ->maxSize(25000)
                     ->required()
@@ -50,6 +51,7 @@ class TagResource extends Resource
                 TextColumn::make('slug')
                     ->searchable(),
                 ImageColumn::make('image')
+                    ->disk('public')
             ])
             ->filters([
                 //

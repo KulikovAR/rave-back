@@ -47,7 +47,7 @@ class UserProfileController extends Controller
     public function storeAvatar(AvatarRequest $request)
     {
         $user        = $request->user();
-        $userProfile = $user->userProfile;
+        $userProfile = $user->userProfile()->firstOrFail();
     
         if (!is_null($user->userProfile->avatar)) {
             Storage::delete($user->userProfile->avatar);
@@ -56,7 +56,7 @@ class UserProfileController extends Controller
         $user->userProfile()
             ->update(
                 [
-                    'avatar' => $request->file('avatar')->store('avatars', 'private')
+                    'avatar' => $request->file('avatar')->store('avatars', 'public')
                 ]
             );
 

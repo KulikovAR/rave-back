@@ -19,7 +19,7 @@ class TagResource extends JsonResource
         return [
             'name'          => $this->name,
             'slug'          => $this->slug,
-            'image'         => StorageService::getUrl($this->image, config('filesystems.disks.private.temp_link_expires_image')),
+            'image'         => $this->image ? Storage::disk('public')->url($this->image) : null,
             'lessons_count' => $request->user()->lessons()->whereHas('tags', function ($q) {
                 $q->where('slug', $this->slug);
             })->count()
