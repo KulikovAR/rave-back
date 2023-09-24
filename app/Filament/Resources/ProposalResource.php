@@ -43,6 +43,7 @@ class ProposalResource extends Resource
                     ->tooltip('Загрузите документ... max 25 мб')
                     ->maxSize(25000)
                     ->columnSpanFull(),
+                Checkbox::make('unread'),
             ]);
     }
 
@@ -81,6 +82,7 @@ class ProposalResource extends Resource
                     ->color('default')
                     ->icon('heroicon-s-mail-open')
                     ->action(fn(Proposal $record) => $record->update(['unread' => false])),
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\DeleteAction::make(),
 
             ])
