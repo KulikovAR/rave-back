@@ -87,6 +87,13 @@ class CommentResource extends Resource
                     Tables\Actions\DeleteAction::make(),
                 ])
             ])
+            ->prependActions([
+                Tables\Actions\Action::make('View user')
+                    ->label('Юзер')
+                    ->color('success')
+                    ->icon('heroicon-s-user-circle')
+                    ->url(fn($record): string => UserResource::getUrl('view', ['record' => $record->user->id])),
+            ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
