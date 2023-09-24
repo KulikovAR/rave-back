@@ -9,6 +9,8 @@ use App\Interfaces\PaymentServiceInterface;
 use App\Models\Order;
 use App\Models\Setting;
 use App\Models\User;
+use App\Notifications\PaymentSuccessNotification;
+use App\Notifications\SubscriptionCanceledNotification;
 use App\Services\NotificationService;
 use App\Services\TinkoffPaymentService;
 use Carbon\Carbon;
@@ -104,6 +106,8 @@ class PaymentController extends Controller
 
         $order->order_status = Order::PAYED;
         $order->save();
+
+        $user->notify(new PaymentSuccessNotification($order));
     }
 
     public function success(UuidRequest $request)
@@ -146,6 +150,8 @@ class PaymentController extends Controller
 
         $order->order_status = Order::PAYED;
         $order->save();
+
+        $user->notify(new PaymentSuccessNotification($order));
 
         $user->addSheduleLesson();
 
@@ -190,6 +196,8 @@ class PaymentController extends Controller
 
         $user->auto_subscription = 0;
         $user->save();
+
+        $user->notify(new SubscriptionCanceledNotification());
 
         return new ApiJsonResponse();
     }
