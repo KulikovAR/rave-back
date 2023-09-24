@@ -8,13 +8,12 @@ use App\Filament\Resources\UserResource\Pages\CreateUser;
 use App\Filament\Resources\UserResource\Pages\EditUser;
 use App\Filament\Resources\UserResource\Pages\ListUsers;
 use App\Filament\Resources\UserResource\Pages\ViewUser;
+use App\Filament\Resources\UserResource\RelationManagers\CommentsRelationManager;
 use App\Filament\Resources\UserResource\RelationManagers\OrderRelationManager;
 use App\Filament\Resources\UserResource\RelationManagers\PassengerRelationManager;
 use App\Filament\Resources\UserResource\RelationManagers\QuizResultsRelationManager;
 use App\Filament\Resources\UserResource\RelationManagers\UserProfileRelationManager;
-use App\Models\Order;
 use App\Models\Role;
-use App\Models\TakeOut;
 use App\Models\User;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\DateTimePicker;
@@ -31,14 +30,12 @@ use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ForceDeleteBulkAction;
 use Filament\Tables\Actions\RestoreBulkAction;
 use Filament\Tables\Actions\ViewAction;
-use Filament\Tables\Columns\BooleanColumn;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Hash;
-use Filament\Forms\Components\DatePicker;
 
 class UserResource extends Resource
 {
@@ -191,6 +188,7 @@ class UserResource extends Resource
         return [
             UserProfileRelationManager::class,
             QuizResultsRelationManager::class,
+            CommentsRelationManager::class
         ];
     }
 
