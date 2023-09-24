@@ -81,6 +81,7 @@ class ProposalResource extends Resource
                     ->color('default')
                     ->icon('heroicon-s-mail-open')
                     ->action(fn(Proposal $record) => $record->update(['unread' => false])),
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\DeleteAction::make(),
 
             ])
