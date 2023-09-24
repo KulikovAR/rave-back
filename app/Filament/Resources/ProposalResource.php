@@ -26,7 +26,7 @@ class ProposalResource extends Resource
 {
     protected static ?string $model = Proposal::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-annotation';
     protected static ?string $navigationGroup = MenuTitles::CATEGORY_APP;
     protected static ?string $pluralModelLabel = 'Предложения';
     protected static ?string $modelLabel = 'Предложения';

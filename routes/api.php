@@ -19,16 +19,14 @@ use App\Http\Controllers\QuizResultController;
 use App\Http\Controllers\ShortsController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserProfileController;
-use App\Models\Role;
+use App\Models\Order;
 use App\Models\User;
-use App\Notifications\AdminNotification;
-use App\Notifications\PasswordResetNotification;
+use App\Notifications\PaymentSuccessNotification;
 use Database\Seeders\UserSeeder;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\FaqTagController;
-use App\Http\Controllers\PrivateStorageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -153,10 +151,10 @@ Route::prefix('payments')->group(function () {
 });
 
 Route::get('/mail', function () {
-    $admin = User::role(Role::ROLE_ADMIN)->get()->first();
-    $admin->notify(new AdminNotification('$message'));
+    //$admin = User::role(Role::ROLE_ADMIN)->get()->first();
+    //$admin->notify(new SubscriptionCanceledNotification('$message'));
 
-    $notification = new PasswordResetNotification('Order');
+    $notification = new PaymentSuccessNotification(Order::first());
 
     $user = User::where('email', UserSeeder::USER_EMAIL)->first(); // Model with Notifiable trait
 
