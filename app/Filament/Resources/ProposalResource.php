@@ -43,6 +43,7 @@ class ProposalResource extends Resource
                     ->tooltip('Загрузите документ... max 25 мб')
                     ->maxSize(25000)
                     ->columnSpanFull(),
+                Checkbox::make('unread'),
             ]);
     }
 
