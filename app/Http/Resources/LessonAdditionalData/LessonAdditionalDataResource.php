@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\LessonAdditionalData;
 
+use App\Services\StorageService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -17,7 +18,7 @@ class LessonAdditionalDataResource extends JsonResource
         return [
             'id'    => $this->id,
             'title' => $this->title,
-            'file'  => $this->file
+            'file'  => StorageService::getUrl($this->file, config('filesystems.disks.private.temp_link_expires_video')),
         ];
     }
 }
