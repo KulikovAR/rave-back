@@ -18,11 +18,7 @@ trait QuizResultStatus
         if(is_null($quiz_result)) {
             return QuizResultStatusEnum::NOT_PASSED->value;
         }
- 
-        if(!$quiz_result->verify) {
-            return QuizResultStatusEnum::IS_PROCESSING->value;
-        }   
 
-        return QuizResultStatusEnum::VERIFIED->value;
+        return $quiz_result->verify ? QuizResultStatusEnum::VERIFIED->value : QuizResultStatusEnum::IS_PROCESSING->value;
     }
 }
