@@ -22,8 +22,8 @@ class QuizResource extends JsonResource
             'title'       => $this->title,
             'description' => $this->description,
             'duration'    => $this->duration,
-            'data'        => $this->data ? $this->formatQuizForClient($this->data) : [],
-            'quiz_result' => $this->quiz_result ? $this->quiz_result->getQuizResultStatus() : QuizResultStatusEnum::NOT_PASSED->value
+            'data'        => $this->data ? $this->formatQuizForClient() : [],
+            'quiz_result' => $this->getQuizResultStatus($request->user())
         ];
     }
 }

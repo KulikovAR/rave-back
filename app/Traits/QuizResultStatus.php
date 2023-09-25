@@ -4,15 +4,24 @@ namespace App\Traits;
 
 use App\Enums\QuizResultStatusEnum;
 use App\Models\QuizResult;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
 trait QuizResultStatus
 {
-    public function getQuizResultStatus(): string
+    public function getQuizResultStatus(User $user): string
     {
-        if(!$this->verify) {
-            return QuizResultStatusEnum::IS_PROCESSING->value;
+        $quiz_result = $this->quiz_results()->whereHas('user', function ($q) use ($user) {
+            $q->where('id', $user->id);
+        })->first();
+
+        if(is_null($quiz_result)) {
+            return QuizResultStatusEnum::NOT_PASSED->value;
         }
+ 
+        if(!$quiz_result->verify) {
+            return QuizResultStatusEnum::IS_PROCESSING->value;
+        }   
 
         return QuizResultStatusEnum::VERIFIED->value;
     }

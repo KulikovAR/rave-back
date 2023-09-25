@@ -161,7 +161,7 @@ class QuizResultsTest extends TestCase
 
         $user = $this->getTestUser();
 
-        QuizResult::factory()->create([
+        $qr = QuizResult::factory()->create([
             'verify'  => true,
             'user_id' => $user->id,
             'quiz_id' => $lesson->quiz->id
@@ -177,7 +177,7 @@ class QuizResultsTest extends TestCase
         );
 
         $response->assertStatus(200);
-
+        
         $response->assertJsonFragment([
             'quiz_result_status' => QuizResultStatusEnum::VERIFIED->value
         ]);
