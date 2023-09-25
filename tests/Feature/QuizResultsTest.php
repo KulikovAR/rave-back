@@ -161,7 +161,7 @@ class QuizResultsTest extends TestCase
 
         $user = $this->getTestUser();
 
-        $qr = QuizResult::factory()->create([
+        QuizResult::factory()->create([
             'verify'  => true,
             'user_id' => $user->id,
             'quiz_id' => $lesson->quiz->id
