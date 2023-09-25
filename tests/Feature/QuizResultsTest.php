@@ -177,7 +177,7 @@ class QuizResultsTest extends TestCase
         );
 
         $response->assertStatus(200);
-
+        
         $response->assertJsonFragment([
             'quiz_result_status' => QuizResultStatusEnum::VERIFIED->value
         ]);

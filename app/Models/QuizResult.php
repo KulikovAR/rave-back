@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Enums\QuizResultStatusEnum;
-use App\Traits\QuizResultStatus;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -11,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class QuizResult extends Model
 {
-    use HasFactory, HasUuids, QuizResultStatus;
+    use HasFactory, HasUuids;
 
     protected $casts = ['data' => 'array'];
 
