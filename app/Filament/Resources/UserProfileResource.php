@@ -34,7 +34,7 @@ class UserProfileResource extends Resource
                                   ->required()
                                   ->maxLength(255),
 
-                         TextInput::make('firstname')
+                         TextInput::make('lastname')
                                   ->required()
                                   ->maxLength(255),
 

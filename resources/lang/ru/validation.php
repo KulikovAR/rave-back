@@ -161,6 +161,8 @@ return [
         'code' => 'Код',
         'hash' => 'Хэш',
         'message' => 'Сообщение',
+        'firstname' => 'Имя',
+        'lastname' => 'Фамилия',
     ],
 
 ];

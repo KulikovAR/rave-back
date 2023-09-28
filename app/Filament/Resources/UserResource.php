@@ -53,8 +53,6 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                         TextInput::make('name')
-                                  ->maxLength(255),
                          TextInput::make('email')
                                   ->email()
                                   ->unique(ignoreRecord: true)
@@ -85,14 +83,12 @@ class UserResource extends Resource
                                        return Role::where(['name' => Role::ROLE_USER]);
                                })
                                ->preload(),
-                         TextInput::make('language')
-                                  ->maxLength(2),
+                               
                          Checkbox::make('is_blocked'),
 
                          DateTimePicker::make('email_verified_at'),
                          DateTimePicker::make('created_at')->disabled(),
                          DateTimePicker::make('updated_at')->disabled(),
-                         DateTimePicker::make('deleted_at')->disabled(),
                      ]);
     }
 
