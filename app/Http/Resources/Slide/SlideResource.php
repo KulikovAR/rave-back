@@ -19,7 +19,7 @@ class SlideResource extends JsonResource
             'id'         => $this->id,
             'short_id'   => $this->short_id,
             'image'      => StorageService::getUrl($this->image, config('filesystems.disks.private.temp_link_expires_image')),
-            'video_path' => StorageService::getUrl($this->video_path, config('filesystems.disks.private.temp_link_expires_video')),
+            'video_path' => StorageService::getUrl('video/' . $this->video_path, config('filesystems.disks.private.temp_link_expires_video')),
             'created_at' => $this->created_at,
             'updated_at' => $this->update_at,
         ];

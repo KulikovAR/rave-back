@@ -17,7 +17,7 @@ class FaqTagController extends Controller
      */
     public function index(): FaqTagCollection
     {
-        return new FaqTagCollection(FaqTag::orderBy('updated_at', 'desc')->paginate(config('pagination.per_page')));
+        return new FaqTagCollection(FaqTag::has('faqs')->orderBy('updated_at', 'desc')->paginate(config('pagination.per_page')));
     }
 
     /**

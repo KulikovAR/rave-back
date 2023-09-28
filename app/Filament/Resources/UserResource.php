@@ -50,48 +50,45 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('name')
-                    ->maxLength(255),
-                TextInput::make('email')
-                    ->email()
-                    ->unique(ignoreRecord: true)
-                    ->required()
-                    ->maxLength(255),
+                         TextInput::make('email')
+                                  ->email()
+                                  ->unique(ignoreRecord: true)
+                                  ->required()
+                                  ->maxLength(255),
 
-                Select::make('lessons')
-                    ->multiple()
-                    ->relationship('lessons', 'title')
-                    ->searchable(),
+                         Select::make('lessons')
+                               ->multiple()
+                               ->relationship('lessons', 'title')
+                               ->searchable(),
 
-                Select::make('subscription_type')->options(SubscriptionTypeEnum::allValuesWithDescription()),
-                DateTimePicker::make('subscription_expires_at'),
-                DateTimePicker::make('subscription_created_at'),
-                DateTimePicker::make('last_video_added_at'),
+                         Select::make('subscription_type')->options(SubscriptionTypeEnum::allValuesWithDescription()),
+                         DateTimePicker::make('subscription_expires_at'),
+                         DateTimePicker::make('subscription_created_at'),
+                         DateTimePicker::make('last_video_added_at'),
 
-                TextInput::make('password')
-                    ->password()
-                    ->dehydrateStateUsing(fn($state) => Hash::make($state))
-                    ->dehydrated(fn($state) => filled($state))
-                    ->required(fn(string $context): bool => $context === 'create')
-                    ->maxLength(255),
-                Select::make('roles')
-                    ->required()
-                    ->multiple()
-                    ->relationship('roles', 'name', function () {
-                        if (auth()->user()->hasRole(Role::ROLE_MANAGER))
-                            return Role::where(['name' => Role::ROLE_USER]);
-                    })
-                    ->preload(),
-                TextInput::make('language')
-                    ->maxLength(2),
-                Checkbox::make('is_blocked'),
-                Checkbox::make('auto_subscription'),
-
-                DateTimePicker::make('email_verified_at'),
-                DateTimePicker::make('created_at')->disabled(),
-                DateTimePicker::make('updated_at')->disabled(),
-                DateTimePicker::make('deleted_at')->disabled(),
-            ]);
+                         TextInput::make('password')
+                                  ->password()
+                                  ->dehydrateStateUsing(fn($state) => Hash::make($state))
+                                  ->dehydrated(fn($state) => filled($state))
+                                  ->required(fn(string $context): bool => $context === 'create')
+                                  ->maxLength(255),
+                         Select::make('roles')
+                               ->required()
+                               ->multiple()
+                               ->relationship('roles', 'name', function () {
+                                   if (auth()->user()->hasRole(Role::ROLE_MANAGER))
+                                       return Role::where(['name' => Role::ROLE_USER]);
+                               })
+                               ->preload(),
+                               
+                         Checkbox::make('is_blocked'),
+                         Checkbox::make('auto_subscription'),
+              
+              
+                         DateTimePicker::make('email_verified_at'),
+                         DateTimePicker::make('created_at')->disabled(),
+                         DateTimePicker::make('updated_at')->disabled(),
+                     ]);
     }
 
     public static function table(Table $table): Table

@@ -7,6 +7,7 @@ use App\Filament\Resources\FaqResource\Pages;
 use App\Filament\Resources\FaqResource\RelationManagers;
 use App\Models\Faq;
 use Filament\Forms;
+use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -37,7 +38,7 @@ class FaqResource extends Resource
                 TextInput::make('question')
                     ->maxLength(255)
                     ->required(),
-                Textarea::make('answer')
+                MarkdownEditor::make('answer')
                     ->required(),
                 Select::make('faq_tag_id')
                     ->relationship('faqTag', 'name')
