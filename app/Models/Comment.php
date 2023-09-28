@@ -29,6 +29,7 @@ class Comment extends Model
         return $this->morphTo();
     }
 
+    //filament uses
     public function nesting_comments(): MorphMany
     {
         return $this->morphMany(Comment::class, 'commentable');

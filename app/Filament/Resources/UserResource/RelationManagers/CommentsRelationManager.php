@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\CommentResource\RelationManagers;
+namespace App\Filament\Resources\UserResource\RelationManagers;
 
 use App\Filament\Resources\CommentResource;
 use Filament\Resources\Form;
@@ -10,9 +10,9 @@ use Filament\Tables\Actions\CreateAction;
 
 class CommentsRelationManager extends RelationManager
 {
-    protected static string $relationship = 'nesting_comments';
+    protected static string $relationship = 'comments';
 
-    protected static ?string $recordTitleAttribute = 'body';
+    protected static ?string $recordTitleAttribute = 'id';
 
     public static function form(Form $form): Form
     {

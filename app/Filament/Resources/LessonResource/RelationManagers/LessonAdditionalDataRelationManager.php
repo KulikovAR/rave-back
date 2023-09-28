@@ -25,7 +25,12 @@ class LessonAdditionalDataRelationManager extends RelationManager
                     ->required()
                     ->maxLength(255),
                 FileUpload::make('file')
-                    ->maxSize(25000),
+                    ->label('Файл')
+                    ->enableDownload()
+                    ->enableOpen()
+                    ->tooltip('Загрузите документ... max 25 мб')
+                    ->maxSize(25000)
+                    ->columnSpanFull(),
             ]);
     }
 
@@ -33,8 +38,14 @@ class LessonAdditionalDataRelationManager extends RelationManager
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('title'),
-                Tables\Columns\TextColumn::make('file'),
+                Tables\Columns\TextColumn::make('title')
+                    ->tooltip(fn($record) => $record->title)
+                    ->limit(15)
+                    ->toggleable(isToggledHiddenByDefault: false),
+                Tables\Columns\TextColumn::make('file')
+                    ->tooltip(fn($record) => $record->file)
+                    ->limit(15)
+                    ->toggleable(isToggledHiddenByDefault: false),
             ])
             ->filters([
                 //

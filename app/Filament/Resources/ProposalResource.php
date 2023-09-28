@@ -26,7 +26,7 @@ class ProposalResource extends Resource
 {
     protected static ?string $model = Proposal::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-annotation';
     protected static ?string $navigationGroup = MenuTitles::CATEGORY_APP;
     protected static ?string $pluralModelLabel = 'Предложения';
     protected static ?string $modelLabel = 'Предложения';
@@ -36,7 +36,14 @@ class ProposalResource extends Resource
         return $form
             ->schema([
                 TextInput::make('body'),
-                FileUpload::make('file'),
+                FileUpload::make('file')
+                    ->label('Файл')
+                    ->enableDownload()
+                    ->enableOpen()
+                    ->tooltip('Загрузите документ... max 25 мб')
+                    ->maxSize(25000)
+                    ->columnSpanFull(),
+                Checkbox::make('unread'),
             ]);
     }
 
@@ -70,22 +77,25 @@ class ProposalResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\Action::make('Open file')
-                    ->url(fn(Proposal $record) => Storage::disk('private')->url($record->file))
-                    ->openUrlInNewTab(),
                 Tables\Actions\Action::make('read')
+                    ->label('Отметить')
+                    ->color('default')
+                    ->icon('heroicon-s-mail-open')
                     ->action(fn(Proposal $record) => $record->update(['unread' => false])),
-                Tables\Actions\Action::make('user')->url(
-                    fn(Proposal $record): string => UserResource::getUrl('edit', ['record' => $record->user])
-                )
-                    ->openUrlInNewTab(),
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\DeleteAction::make(),
 
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
-            ]);
+            ])
+            ->prependActions([
+                Tables\Actions\Action::make('View user')
+                    ->label('Юзер')
+                    ->color('success')
+                    ->icon('heroicon-s-user-circle')
+                    ->url(fn($record): string => UserResource::getUrl('view', ['record' => $record->user])),
+            ]);;
     }
 
     public static function getRelations(): array

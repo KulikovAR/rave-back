@@ -17,7 +17,7 @@ class TagResource extends Resource
 {
     protected static ?string $model = Tag::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-hashtag';
 
     public static function form(Form $form): Form
     {
@@ -32,7 +32,7 @@ class TagResource extends Resource
                     ->required()
                     ->regex("/^[a-z0-9]+(?:-[a-z0-9]+)*$/"),
                 FileUpload::make('image')
-                    ->tooltip('Загрузите...')
+                    ->tooltip('Загрузите картинку... max 25 мб')
                     ->enableDownload()
                     ->enableOpen()
                     ->disk('public')
