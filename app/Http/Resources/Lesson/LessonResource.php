@@ -28,7 +28,7 @@ class LessonResource extends JsonResource
             'id'             => $this->id,
             'title'          => $this->title,
             'description'    => $this->description,
-            'video_path'     => StorageService::getUrl('video/'.$this->video_path, config('filesystems.disks.private.temp_link_expires_video')),
+            'video_path'     => StorageService::getUrl($this->video_path, config('filesystems.disks.private.temp_link_expires_video'), 'video'),
             'preview_path'   => StorageService::getUrl($this->preview_path, config('filesystems.disks.private.temp_link_expires_image')),
             'duration'       => (int) $this->duration,
             'rating'         => (float) $this->getRating(),
