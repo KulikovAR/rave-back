@@ -10,6 +10,8 @@ class LessonPaginationCollection extends ResourceCollection
 {
     use PaginationData;
 
+    public $collects = LessonResource::class;
+    
     /**
      * Transform the resource collection into an array.
      *
