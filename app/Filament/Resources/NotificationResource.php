@@ -6,15 +6,21 @@ use App\Filament\Resources\NotificationResource\Pages;
 use App\Filament\Resources\NotificationResource\RelationManagers;
 use App\Models\Notification;
 use App\Models\Role;
+use App\Models\User;
+use App\Notifications\UserAppNotification;
 use Filament\Forms;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Notifications\DatabaseNotification;
+use Symfony\Component\Console\Input\Input;
 
 class NotificationResource extends Resource
 {
@@ -26,7 +32,16 @@ class NotificationResource extends Resource
     {
         return $form
             ->schema([
-                         Forms\Components\DateTimePicker::make('read_at'),
+                        Select::make('user_id')
+                            ->label('User')
+                            ->required()
+                            ->options(User::all()->pluck('email', 'id'))
+                            ->searchable(),
+
+                        TextInput::make('data.message')
+                            ->maxLength(255)
+                            ->required()
+                            ->translateLabel(),
                      ]);
     }
 
@@ -101,9 +116,13 @@ class NotificationResource extends Resource
         return __('admin-panel.notifications');
     }
 
-    public static function canCreate(): bool
+    public static function canEdit(Model $record): bool
+    {
+        return false;   
+    }
+
+    public static function canView(Model $record): bool
     {
         return false;
     }
-
 }

@@ -9,7 +9,9 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 class FaqPaginationCollection extends ResourceCollection
 {
     use PaginationData;
-    
+
+    public $collects = FaqResource::class;
+
     /**
      * Transform the resource collection into an array.
      *
