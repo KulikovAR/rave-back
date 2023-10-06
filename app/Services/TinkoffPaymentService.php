@@ -36,7 +36,7 @@ class TinkoffPaymentService implements PaymentServiceInterface
                 "Email"        => config('site-values.email_support.email_support'),
                 "Phone"        => config('site-values.phone_support.phone_support'),
                 "EmailCompany" => config('site-values.email_support.email_support'),
-                "Taxation"     => "usn_income",
+                "Taxation"     => "patent",
                 "Items"        => [
                     [
                         "Name"          => "Оплата подписки на TrueSchool",
