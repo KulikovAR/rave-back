@@ -137,6 +137,10 @@ class UserResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: false),
 
+                TextColumn::make('charge_attempts')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+
                 TextColumn::make('subscription_expires_at')
                     ->dateTime()
                     ->sortable()

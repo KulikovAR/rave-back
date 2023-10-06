@@ -35,6 +35,7 @@ class ChargeSubscriptionJob implements ShouldQueue
 
         $users = User::inRandomOrder()
                      ->where('subscription_expires_at', '<=', Carbon::now())
+                     ->where('charge_attempts', '<', 10)
                      ->limit(50)
                      ->get();
 

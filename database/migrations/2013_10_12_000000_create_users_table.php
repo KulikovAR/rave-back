@@ -27,6 +27,7 @@ return new class extends MigrationService {
             $table->string('subscription_type')->nullable();
             $table->boolean('auto_subscription')->default(1);
             $table->timestamp('last_video_added_at')->nullable();
+            $table->integer('charge_attempts')->default(0);
             $table->softDeletes();
             $table->timestamps();
             $table->rememberToken();
