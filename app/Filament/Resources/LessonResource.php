@@ -47,8 +47,11 @@ class LessonResource extends Resource
         return $form
             ->schema([
                 TextInput::make('title')
-                    ->maxLength(255)->translateLabel(),
-                Textarea::make('description'),
+                    ->maxLength(255)
+                     ->translateLabel()
+                     ->required(),
+                Textarea::make('description')
+                     ->required(),
                 FileUpload::make('preview_path')
                     ->tooltip('Загрузите обложку (изображение)')
                     ->enableDownload()
@@ -68,12 +71,15 @@ class LessonResource extends Resource
                 TextInput::make('duration')
                     ->integer()
                     ->required(),
-                DateTimePicker::make('announc_date'),
+                DateTimePicker::make('announc_date')
+                    ->required(),
                 TextInput::make('order_in_display')
                     ->integer()
-                    ->unique(ignoreRecord: true),
+                    ->unique(ignoreRecord: true)
+                    ->required(),
                 ViewField::make('video_path')
-                    ->view('livewire.chunkuploader'),
+                    ->view('livewire.chunkuploader')
+                    ->required(),
             ]);
     }
 
