@@ -4,19 +4,18 @@ namespace App\Filament\Resources\ProposalResource\Pages;
 
 use App\Filament\Resources\ProposalResource;
 use Filament\Pages\Actions;
-use Filament\Resources\Pages\EditRecord;
+use Filament\Resources\Pages\ViewRecord;
 
-class EditProposal extends EditRecord
+class ViewProposal extends ViewRecord
 {
     protected static string $resource = ProposalResource::class;
 
     protected function getActions(): array
     {
         return [
-            Actions\DeleteAction::make(),
+            Actions\EditAction::make(),
         ];
     }
-
 
     protected function getFooterWidgets(): array
     {

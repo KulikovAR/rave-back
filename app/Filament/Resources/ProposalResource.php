@@ -6,6 +6,7 @@ use App\Filament\MenuTitles;
 use App\Filament\Resources\ProposalResource\Pages;
 use App\Filament\Resources\ProposalResource\RelationManagers;
 use App\Models\Proposal;
+use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\FileUpload;
@@ -20,7 +21,6 @@ use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Illuminate\Support\Facades\Storage;
 
 class ProposalResource extends Resource
 {
@@ -35,7 +35,9 @@ class ProposalResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('body'),
+                TextInput::make('body')
+                    ->required()
+                ,
                 FileUpload::make('file')
                     ->label('Файл')
                     ->enableDownload()
@@ -101,7 +103,7 @@ class ProposalResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+
         ];
     }
 
@@ -109,8 +111,9 @@ class ProposalResource extends Resource
     {
         return [
             'index' => Pages\ListProposals::route('/'),
-            // 'create' => Pages\CreateProposal::route('/create'),
-            // 'edit' => Pages\EditProposal::route('/{record}/edit'),
+            'create' => Pages\CreateProposal::route('/create'),
+            'view' => Pages\ViewProposal::route('/{record}'),
+            'edit' => Pages\EditProposal::route('/{record}/edit'),
         ];
     }
 
