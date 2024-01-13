@@ -6,12 +6,11 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class ProposalRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
-    public function authorize(): bool
+   protected function prepareForValidation()
     {
-        return true;
+        $this->merge([
+            'file' => $this->file==='null' ? null : $this->file  
+        ]);
     }
 
     /**
