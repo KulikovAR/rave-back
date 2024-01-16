@@ -28,9 +28,11 @@
                 <span class="filepond--label-action" tabindex="0">Выберите видео файл</span>
             </label>
         </div>
-        <div class="filepond--drop-label filepond-submit" style="transform: translate3d(0px, 0px, 0px); opacity: 1; display: none;">
+        <div class="filepond--drop-label filepond-submit"
+            style="transform: translate3d(0px, 0px, 0px); opacity: 1; display: none;">
             <label aria-hidden="true">
-                <span class="filepond--label-action" id="videoFileUploadSubmit" tabindex="0" style="color: #1da1f2;">Загрузить: <span id="fileNameVideo"></span></span>
+                <span class="filepond--label-action" id="videoFileUploadSubmit" tabindex="0"
+                    style="color: #1da1f2;">Загрузить: <span id="fileNameVideo"></span></span>
             </label>
         </div>
 
@@ -41,9 +43,17 @@
             <div class="filepond--panel-bottom filepond--panel-root" style="transform: translate3d(0px, 34px, 0px);">
             </div>
         </div>
+
+        <div class="filepond--drop-label filepond-submit"
+            style="transform: translate3d(0px, 0px, 0px); opacity: 1; display: none;">
+            <label aria-hidden="true">
+                <span style="color: #1da1f2;">Успешно</span>
+            </label>
+        </div>
     </div>
     @if ($progressPercentage)
-        <progress max="100" wire:model="progressPercentage" class="progressUploadVideoFile"/></progress>
+        <progress max="100" wire:model="progressPercentage" class="progressUploadVideoFile" /></progress>
+        <span class="percentProgressUploadVideoFile"></span>
         <style>
             .progressUploadVideoFile {
                 width: 100%;
@@ -57,6 +67,7 @@
             .progressUploadVideoFile::-webkit-progress-bar {
                 background-color: white;
             }
+
             .progressUploadVideoFile::-webkit-progress-value {
                 background-color: #1da1f2;
             }
@@ -72,7 +83,7 @@
             toogleInput(fileInput);
         });
 
-        
+
         let button = document.getElementById('videoFileUploadSubmit');
         button.addEventListener("click", () => {
             console.log('click');
@@ -131,6 +142,14 @@
             @this.upload('fileChunk', chunk, (uploadedFilename) => {
                 console.log('uploadedFilename: ' + uploadedFilename + ' counter: ' + counter + '/' + lengthChunks);
                 @this.set('progressPercentage', Math.round((counter / lengthChunks) * 100));
+
+                if (counter == lengthChunks) {
+                    let filepondSubmit = document.querySelector('.filepond-submit');
+                    let filepondSuccess = document.querySelector('.filepond-success');
+
+                    filepondSubmit.style.display = 'none';
+                    filepondSuccess.style.display = 'block';
+                }
             }, () => {
                 console.log('error');
                 let _time = Math.floor((Math.random() * 20000) + 1);
@@ -141,6 +160,7 @@
         function toogleInput(fileInput) {
             let filepondChoose = document.querySelector('.filepond-choose');
             let filepondSubmit = document.querySelector('.filepond-submit');
+
             if (filepondChoose === null || filepondSubmit === null) {
                 return;
             }
@@ -153,7 +173,7 @@
 
             filepondChoose.style.display = 'none';
             filepondSubmit.style.display = 'block';
-            
+
             let fileName = fileInput.files[0].name;
             let nameFileSpan = document.querySelector('#fileNameVideo');
             nameFileSpan.innerText = fileName;
