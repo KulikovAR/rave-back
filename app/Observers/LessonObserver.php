@@ -12,7 +12,7 @@ class LessonObserver
      */
     public function created(Lesson $Lesson): void
     {
-        //
+        Lesson::recount();
     }
 
     /**
@@ -22,6 +22,9 @@ class LessonObserver
     {
         if ($Lesson->isDirty('video_path')) {
             Storage::disk('private')->delete('video/' . $Lesson->getOriginal('video_path'));
+        }
+        if ($Lesson->isDirty('order_in_display')) {
+            Lesson::recount();
         }
     }
 

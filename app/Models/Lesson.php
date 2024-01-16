@@ -13,10 +13,11 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use App\Observers\LessonObserver;
+use App\Traits\Orderable;
 
 class Lesson extends Model
 {
-    use HasFactory, HasUuids, Rating;
+    use HasFactory, HasUuids, Rating, Orderable;
 
     protected $fillable = [
         'title',

@@ -49,37 +49,46 @@ class LessonResource extends Resource
                 TextInput::make('title')
                     ->maxLength(255)
                      ->translateLabel()
-                     ->required(),
+                     ->required()
+                     ->label('Заголовок'),
                 Textarea::make('description')
-                     ->required(),
+                     ->required()
+                     ->label('Опиание'),
                 FileUpload::make('preview_path')
                     ->tooltip('Загрузите обложку (изображение)')
                     ->enableDownload()
                     ->enableOpen()
                     ->columnSpanFull()
                     ->maxSize(100000)
-                    ->required(),
+                    ->required()
+                    ->label('Превью'),
                 Select::make('tags')
                     ->multiple()
                     ->relationship('tags', 'name')
-                    ->searchable(),
+                    ->searchable()
+                    ->label('Тэги'),
                 TextInput::make('rating')
                     ->integer()
                     ->minValue(1)
                     ->maxValue(5)
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->label('Рейтинг'),
                 TextInput::make('duration')
                     ->integer()
-                    ->required(),
+                    ->required()
+                    ->label('Длительность'),
                 DateTimePicker::make('announc_date')
-                    ->required(),
+                    ->required()
+                    ->label('Дата анонса'),
                 TextInput::make('order_in_display')
                     ->integer()
-                    ->unique(ignoreRecord: true)
-                    ->required(),
+                    ->required()
+                    ->label('Порядок показа'),
                 ViewField::make('video_path')
+                    ->tooltip("1.Выберите видео файл. 2. Нажмите на кнопку «Загрузить». 3. Дождитесь загрузки")
                     ->view('livewire.chunkuploader')
-                    ->required(),
+                    ->required()
+                    ->label('Видеоролик'),
             ]);
     }
 
