@@ -5,12 +5,14 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\OrderResource\Pages;
 use App\Filament\Resources\OrderResource\RelationManagers;
 use App\Models\Order;
+use App\Services\TinkoffPaymentService;
 use Filament\Forms;
 use Filament\Forms\Components\Select;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
@@ -45,9 +47,9 @@ class OrderResource extends Resource
                     ->required(),
                 Select::make('order_type')
                     ->options([
-                        Order::NORMAL => __('admin-panel.order_status.created'),
-                        Order::VIP => __('admin-panel.order_status.payed'),
-                        Order::PREMIUM => __('admin-panel.order_status.expired'),
+                        Order::NORMAL => __('admin-panel.order_type.normal'),
+                        Order::VIP => __('admin-panel.order_status.vip'),
+                        Order::PREMIUM => __('admin-panel.order_status.premium'),
                     ])
                     ->required(),
                 Forms\Components\TextInput::make('duration')
@@ -105,6 +107,16 @@ class OrderResource extends Resource
             ])
             ->actions([
                 ActionGroup::make([
+                    Action::make('cancel')
+                        ->action(function (Order $record) {
+                            (new TinkoffPaymentService())->cancelPayment($record);
+                            $record->order_status=Order::CANCELED;
+                            $record->save();
+                        })
+                        ->label('Возврат')
+                        ->color('danger')
+                        ->icon('heroicon-o-x')
+                        ->requiresConfirmation(),
                     Tables\Actions\ViewAction::make(),
                     Tables\Actions\EditAction::make(),
                     Tables\Actions\DeleteAction::make(),

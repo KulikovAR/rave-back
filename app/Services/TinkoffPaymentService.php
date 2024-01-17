@@ -14,6 +14,7 @@ class TinkoffPaymentService implements PaymentServiceInterface
     const URL_PAYMENT       = 'https://securepay.tinkoff.ru/v2/Init';
     const UPD_SUBSCRIPTION  = 'https://securepay.tinkoff.ru/v2/Charge';
     const URL_PAYMENT_STATE = 'https://securepay.tinkoff.ru/v2/GetState';
+    const URL_CANCEL_PAYMENT  = 'https://securepay.tinkoff.ru/v2/Cancel';
 
     public function getPaymentUrl(Order $order): array
     {
@@ -96,6 +97,18 @@ class TinkoffPaymentService implements PaymentServiceInterface
         $paymentAmount       = $responseArr['Amount'] ?? null;
 
         return [$paymentSuccessState, $paymentAmount];
+    }
+
+    public function cancelPayment(Order $order): ?string
+    {
+        $requestData = [
+            "TerminalKey" => config('tinkoff-payment.terminal'),
+            "PaymentId"   => $order->payment_id,
+        ];
+
+        $responseArr = $this->makeRequest($requestData, self::URL_CANCEL_PAYMENT);
+
+        return $responseArr['Success'] ?? null;
     }
 
     protected function makeRequest(array $requestData, string $url): array

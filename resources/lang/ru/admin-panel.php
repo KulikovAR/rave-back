@@ -82,7 +82,8 @@ return [
     ],
     'order_type' => [
         'normal' => 'стандарт',
-        'vip' => 'премиум',
+        'vip' => 'вип',
+        'premium' => 'премиум',
     ],
     'order_resource' => [
         'billing_plan' => 'тариф',
