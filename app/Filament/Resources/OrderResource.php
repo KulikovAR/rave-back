@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\OrderResource\Pages;
 use App\Filament\Resources\OrderResource\RelationManagers;
+use App\Http\Controllers\PaymentController;
 use App\Models\Order;
 use App\Services\TinkoffPaymentService;
 use Filament\Forms;
@@ -116,6 +117,15 @@ class OrderResource extends Resource
                         ->label('Возврат')
                         ->color('danger')
                         ->icon('heroicon-o-x')
+                        ->requiresConfirmation(),
+                    Action::make('charge')
+                        ->action(function (Order $record) {
+                            (new PaymentController(new TinkoffPaymentService()))->charge($record->id);
+                        })
+
+                        ->label('Продлить')
+                        ->color('success')
+                        ->icon('heroicon-o-currency-dollar')
                         ->requiresConfirmation(),
                     Tables\Actions\ViewAction::make(),
                     Tables\Actions\EditAction::make(),

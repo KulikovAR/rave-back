@@ -95,6 +95,8 @@ class TinkoffPaymentService implements PaymentServiceInterface
 
         $responseArr = $this->makeRequest($requestData, self::UPD_SUBSCRIPTION);
 
+        $this->errorHandler($responseArr,$order->id);
+
         $paymentSuccessState = $responseArr['Success'];
         $paymentAmount       = $responseArr['Amount'] ?? null;
 
@@ -110,11 +112,7 @@ class TinkoffPaymentService implements PaymentServiceInterface
 
         $responseArr = $this->makeRequest($requestData, self::URL_CANCEL_PAYMENT);
 
-        if(isset($responseArr['Success'])===false || $responseArr['Success']===false){
-            $message = 'Can not cancel payment. Payment id:'.$order->payment_id;
-            Log::alert($message);
-            NotificationService::notifyAdmin($message);
-        }
+        $this->errorHandler($responseArr,$order->id);
 
         return $responseArr['Success'] ?? null;
     }
@@ -150,5 +148,14 @@ class TinkoffPaymentService implements PaymentServiceInterface
         $signToken = hash('sha256', $token);
 
         return ['Token' => $signToken];
+    }
+
+    private function errorHandler(array $responseArr,string $orderId): void
+    {
+        if(isset($responseArr['Success'])===false || $responseArr['Success']===false){
+            $message = 'Can not cancel payment or charge subscription. Order id:'.$orderId;
+            Log::alert($message);
+            NotificationService::notifyAdmin($message);
+        }
     }
 }
