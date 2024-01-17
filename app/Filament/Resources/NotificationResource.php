@@ -52,6 +52,9 @@ class NotificationResource extends Resource
                           TextColumn::make('id')
                                     ->toggleable(isToggledHiddenByDefault: true)
                                     ->searchable(),
+                          TextColumn::make('updated_at')
+                                    ->dateTime()
+                                    ->sortable(),
                           TextColumn::make('type')
                                     ->toggleable(isToggledHiddenByDefault: true)
                                     ->sortable(),
@@ -61,9 +64,7 @@ class NotificationResource extends Resource
                           TextColumn::make('read_at')
                                     ->dateTime()
                                     ->sortable(),
-                          TextColumn::make('updated_at')
-                                    ->dateTime()
-                                    ->sortable(),
+
                       ])
             ->defaultSort('updated_at', 'desc')
             ->filters([
