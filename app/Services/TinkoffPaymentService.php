@@ -5,9 +5,11 @@ namespace App\Services;
 use App\Enums\EnvironmentTypeEnum;
 use App\Interfaces\PaymentServiceInterface;
 use App\Models\Order;
+use App\Services\NotificationService;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Http;
 use Log;
+
 
 class TinkoffPaymentService implements PaymentServiceInterface
 {
@@ -107,6 +109,12 @@ class TinkoffPaymentService implements PaymentServiceInterface
         ];
 
         $responseArr = $this->makeRequest($requestData, self::URL_CANCEL_PAYMENT);
+
+        if(isset($responseArr['Success'])===false || $responseArr['Success']===false){
+            $message = 'Can not cancel payment. Payment id:'.$order->payment_id;
+            Log::alert($message);
+            NotificationService::notifyAdmin($message);
+        }
 
         return $responseArr['Success'] ?? null;
     }
