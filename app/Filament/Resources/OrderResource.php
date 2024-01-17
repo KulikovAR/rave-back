@@ -48,8 +48,8 @@ class OrderResource extends Resource
                 Select::make('order_type')
                     ->options([
                         Order::NORMAL => __('admin-panel.order_type.normal'),
-                        Order::VIP => __('admin-panel.order_status.vip'),
-                        Order::PREMIUM => __('admin-panel.order_status.premium'),
+                        Order::VIP => __('admin-panel.order_type.vip'),
+                        Order::PREMIUM => __('admin-panel.order_type.premium'),
                     ])
                     ->required(),
                 Forms\Components\TextInput::make('duration')
