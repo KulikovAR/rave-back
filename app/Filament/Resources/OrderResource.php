@@ -124,7 +124,7 @@ class OrderResource extends Resource
                         })
                         ->label('Статус')
                         ->color('warning')
-                        ->icon('heroicon-o-x')
+                        ->icon('heroicon-o-ticket')
                         ->requiresConfirmation(),
                     Action::make('charge')
                         ->action(function (Order $record) {
