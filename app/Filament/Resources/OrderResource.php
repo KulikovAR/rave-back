@@ -120,7 +120,7 @@ class OrderResource extends Resource
                         ->requiresConfirmation(),
                     Action::make('status')
                         ->action(function (Order $record) {
-                            dd((new TinkoffPaymentService())->getPaymentState($record));
+                            dd(((new TinkoffPaymentService())->getPaymentState($record))[2]);
                         })
                         ->label('Статус')
                         ->color('warning')
