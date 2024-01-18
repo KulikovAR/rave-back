@@ -48,14 +48,23 @@ class ChargeSubscriptionJob implements ShouldQueue
 
         foreach ($users as $user) {
             $order = $user->orders()
-                ->where(['order_status' => Order::PAYED])
                 ->whereNotNull('rebill_id')
-                ->orderBy('created_at', 'desc')
+                ->orderBy('updated_at', 'desc')
                 ->first();
+
+            $newOrder = new Order();
+            $newOrder ->user_id = $user->id;
+            $newOrder ->price = $order->price;
+            $newOrder ->duration = $order->duration;
+            $newOrder ->order_status = $order->order_status;
+            $newOrder ->order_type = $order->order_type;
+            $newOrder ->payment_id = $order->payment_id;
+            $newOrder ->rebill_id = $order->rebill_id;
+            $newOrder->save();
 
             !$order
                 ? NotificationService::notifyAdmin('No order for charging subscription. Check orders for user id:' . $user->id)
-                : (new PaymentController())->charge($order->id);
+                : (new PaymentController())->charge($newOrder->id);
         }
 
     }

@@ -96,19 +96,21 @@ class PaymentController extends Controller
             $order->order_status = Order::EXPIRED;
             $order->save();
 
-            $user->charge_attempts         = $user->charge_attempts+1;
-            $user->subscription_type       = null;
-            $user->subscription_expires_at = null;
-            $user->subscription_created_at = null;
-            $user->save();
+            $user->increment('charge_attempts');
 
             return;
         }
 
         $duration = Setting::getValueFromFieldName('duration_' . $order->order_type) ?? 1;
 
+        $orderType = match ($order->order_type) {
+            "normal"  => SubscriptionTypeEnum::MONTH->value,
+            "vip"     => SubscriptionTypeEnum::THREE_MOTHS->value,
+            "premium" => SubscriptionTypeEnum::YEAR->value,
+            default   => SubscriptionTypeEnum::MONTH->value
+        };
 
-        $user->subscription_type       = $order->order_type;
+        $user->subscription_type       = $orderType;
         $user->subscription_created_at = now();
         $user->charge_attempts         = $user->charge_attempts+1;
         $user->subscription_expires_at = Carbon::parse($user->subscriptionAvailable() ? $user->subscription_expires_at : now())->addDays($duration)->format('Y-m-d H:i:s');

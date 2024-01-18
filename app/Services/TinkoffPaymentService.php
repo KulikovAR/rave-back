@@ -93,8 +93,6 @@ class TinkoffPaymentService implements PaymentServiceInterface
             "TerminalKey" => config('tinkoff-payment.terminal'),
             "PaymentId"   => $order->payment_id,
             "RebillId"    => $order->rebill_id,
-            "SendEmail"   => true,
-            "InfoEmail"   => $order->user->email,
         ];
 
         $responseArr = $this->makeRequest($requestData, self::UPD_SUBSCRIPTION);
