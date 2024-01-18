@@ -64,7 +64,18 @@ class PaymentController extends Controller
 
     public function charge(string $orderId)
     {
-        $order = Order::findOrFail($orderId);
+        $oldOrder = Order::findOrFail($orderId);
+        $user     = $oldOrder->user;
+
+        $order = new Order();
+        $order ->user_id = $oldOrder->user_id;
+        $order ->price = $oldOrder->price;
+        $order ->duration = $oldOrder->duration;
+        $order ->order_status = Order::CREATED;
+        $order ->order_type = $oldOrder->order_type;
+        $order ->payment_id = $oldOrder->payment_id;
+        $order ->rebill_id = $oldOrder->rebill_id;
+        $order->save();
 
         list($paymentUrl, $paymentId) = $this->paymentService->getPaymentUrl($order);
 
@@ -73,7 +84,7 @@ class PaymentController extends Controller
             Log::alert($message);
             NotificationService::notifyAdmin($message);
 
-            $order->order_status = Order::EXPIRED;
+            $order->order_status = Order::CANCELED;
             $order->save();
 
             return;
@@ -86,7 +97,7 @@ class PaymentController extends Controller
 
         $cents      = 100;
         $priceTotal = $order->price * $cents;
-        $user       = $order->user;
+
 
         if ($paymentSuccessState !== true || $priceTotal < $paymentAmount) {
             $message = 'OrderId: ' . $order->id . ' Charging status failed or small payed amount. Payment/Amount: ' . $paymentSuccessState . ' / ' . $paymentAmount;

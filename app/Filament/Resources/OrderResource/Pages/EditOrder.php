@@ -2,11 +2,11 @@
 
 namespace App\Filament\Resources\OrderResource\Pages;
 
+use App\Filament\BaseEditAction;
 use App\Filament\Resources\OrderResource;
 use Filament\Pages\Actions;
-use Filament\Resources\Pages\EditRecord;
 
-class EditOrder extends EditRecord
+class EditOrder extends BaseEditAction
 {
     protected static string $resource = OrderResource::class;
 
