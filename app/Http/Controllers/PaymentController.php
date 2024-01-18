@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\EnvironmentTypeEnum;
 use App\Enums\SubscriptionTypeEnum;
 use App\Http\Requests\UuidRequest;
 use App\Http\Responses\ApiJsonResponse;
@@ -15,6 +16,7 @@ use App\Services\NotificationService;
 use App\Services\TinkoffPaymentService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Log;
 
 class PaymentController extends Controller
@@ -184,12 +186,19 @@ class PaymentController extends Controller
 
     public function paymentStatus(Request $request)
     {
-        Log::info(print_r($request->all(), true));
+        if (App::environment(EnvironmentTypeEnum::notProductEnv())) {
+            Log::info(print_r($request->all(), true));
+        }
 
         $orderId = $request->OrderId;
 
-        $order            = Order::find($orderId);
+        $order = Order::find($orderId);
         $order->rebill_id = $request->RebillId;
+        $order->card = $request->Pan;
+        $order->card_id_tinkoff = $request->CardId;
+        $order->status = $request->Status;
+        $order->err_code = $request->ErrorCode;
+        $order->token = $request->Token;
         $order->save();
 
         return response("OK", 200);

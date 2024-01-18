@@ -115,6 +115,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
                     Route::prefix('shorts')->group(function () {
                         Route::get('/', [ShortsController::class, 'index'])->name('short.index');
+                        Route::patch('/', [ShortsController::class, 'update'])->name('short.update');
                     });
                 });
 
@@ -163,4 +164,22 @@ Route::get('/mail', function () {
     $markdown = new \Illuminate\Mail\Markdown(view(), config('mail.markdown'));
 
     return $markdown->render('vendor.notifications.email', $message->toArray());
+});
+
+Route::get('/load', function () {
+    $responses = Illuminate\Support\Facades\Http::sink(storage_path('video_'.now().'.mp4'))
+        ->pool(fn (Illuminate\Http\Client\Pool $pool) => [
+
+        $pool->get('https://api.schooltrue.ru/t.mp4'),
+        $pool->get('https://api.schooltrue.ru/t.mp4'),
+        $pool->get('https://api.schooltrue.ru/t.mp4'),
+        $pool->get('https://api.schooltrue.ru/t.mp4'),
+        $pool->get('https://api.schooltrue.ru/t.mp4'),
+
+    ]);
+
+    foreach ($responses as $response){
+        dd($response);
+        file_put_contents('log_'.now(),$response->status);
+    }
 });

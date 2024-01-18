@@ -53,6 +53,10 @@ class TinkoffPaymentService implements PaymentServiceInterface
             ]
         ];
 
+        if(empty(config('tinkoff-payment.recurrent_payments'))){
+            unset($requestData['Recurrent']);
+        }
+
         $responseArr = $this->makeRequest($requestData, self::URL_PAYMENT);
 
         $paymentUrl = ($responseArr['Success'] ?? null)
