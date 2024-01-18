@@ -86,6 +86,7 @@ class PaymentController extends Controller
 
         $cents      = 100;
         $priceTotal = $order->price * $cents;
+        $user       = $order->user;
 
         if ($paymentSuccessState !== true || $priceTotal < $paymentAmount) {
             $message = 'OrderId: ' . $order->id . ' Charging status failed or small payed amount. Payment/Amount: ' . $paymentSuccessState . ' / ' . $paymentAmount;
@@ -106,7 +107,7 @@ class PaymentController extends Controller
 
         $duration = Setting::getValueFromFieldName('duration_' . $order->order_type) ?? 1;
 
-        $user                          = $order->user;
+
         $user->subscription_type       = $order->order_type;
         $user->subscription_created_at = now();
         $user->charge_attempts         = $user->charge_attempts+1;

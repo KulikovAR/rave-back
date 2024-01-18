@@ -6,6 +6,7 @@ use App\Enums\EnvironmentTypeEnum;
 use App\Http\Controllers\PaymentController;
 use App\Models\Order;
 use App\Models\User;
+use App\Services\NotificationService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -46,9 +47,15 @@ class ChargeSubscriptionJob implements ShouldQueue
         }
 
         foreach ($users as $user) {
-            $order = $user->orders()->where(['order_status' => Order::PAYED])->first();
+            $order = $user->orders()
+                ->where(['order_status' => Order::PAYED])
+                ->whereNotNull('rebill_id')
+                ->orderBy('created_at', 'desc')
+                ->first();
 
-            !$order ?: (new PaymentController())->charge($order->id);
+            !$order
+                ? NotificationService::notifyAdmin('No order for charging subscription. Check orders for user id:' . $user->id)
+                : (new PaymentController())->charge($order->id);
         }
 
     }

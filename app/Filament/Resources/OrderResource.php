@@ -61,6 +61,16 @@ class OrderResource extends Resource
                     ->maxLength(255),
                 Forms\Components\TextInput::make('rebill_id')
                     ->maxLength(255),
+                Forms\Components\TextInput::make('card')
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('card_id_tinkoff')
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('status')
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('err_code')
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('token')
+                    ->maxLength(255),
             ]);
     }
 
