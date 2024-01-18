@@ -4,7 +4,6 @@ namespace App\Jobs;
 
 use App\Enums\EnvironmentTypeEnum;
 use App\Http\Controllers\PaymentController;
-use App\Models\Order;
 use App\Models\User;
 use App\Services\NotificationService;
 use Illuminate\Bus\Queueable;
@@ -52,19 +51,9 @@ class ChargeSubscriptionJob implements ShouldQueue
                 ->orderBy('updated_at', 'desc')
                 ->first();
 
-            $newOrder = new Order();
-            $newOrder ->user_id = $user->id;
-            $newOrder ->price = $order->price;
-            $newOrder ->duration = $order->duration;
-            $newOrder ->order_status = $order->order_status;
-            $newOrder ->order_type = $order->order_type;
-            $newOrder ->payment_id = $order->payment_id;
-            $newOrder ->rebill_id = $order->rebill_id;
-            $newOrder->save();
-
             !$order
                 ? NotificationService::notifyAdmin('No order for charging subscription. Check orders for user id:' . $user->id)
-                : (new PaymentController())->charge($newOrder->id);
+                : (new PaymentController())->charge($order->id);
         }
 
     }

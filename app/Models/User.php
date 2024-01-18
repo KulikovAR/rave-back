@@ -126,9 +126,9 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
         return "{$this->email}";
     }
 
-    public function subscriptionAvailable()
+    public function subscriptionAvailable(): bool
     {
-        if (is_null($this->subscription_expires_at)) {
+        if (empty($this->subscription_expires_at)) {
             return false;
         }
 
