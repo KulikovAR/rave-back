@@ -80,7 +80,7 @@ class TinkoffPaymentService implements PaymentServiceInterface
         $paymentSuccessState = $responseArr['Success'];
         $paymentAmount       = $responseArr['Amount'] ?? null;
 
-        return [$paymentSuccessState, $paymentAmount];
+        return [$paymentSuccessState, $paymentAmount, $responseArr];
     }
 
     public function updateSubscription(Order $order): array

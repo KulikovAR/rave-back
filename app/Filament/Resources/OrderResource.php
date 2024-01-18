@@ -124,8 +124,7 @@ class OrderResource extends Resource
                         })
                         ->label('Статус')
                         ->color('warning')
-                        ->icon('heroicon-o-ticket')
-                        ->requiresConfirmation(),
+                        ->icon('heroicon-o-ticket'),
                     Action::make('charge')
                         ->action(function (Order $record) {
                             (new PaymentController(new TinkoffPaymentService()))->charge($record->id);
