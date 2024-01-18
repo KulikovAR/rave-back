@@ -80,6 +80,7 @@
                 <a
                         href="{{ config('filament.home_url') }}"
                         class="inline-block"
+                        target="_blank"
                 >
                     <x-filament::brand/>
                 </a>

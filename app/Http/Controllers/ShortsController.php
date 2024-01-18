@@ -21,4 +21,14 @@ class ShortsController extends Controller
             Short::orderBy('updated_at', 'desc')->paginate(config('pagination.per_page'))
         );
     }
+
+    public function update(UuidRequest $request)
+    {
+
+        $shortModel = Short::findOrFail($request->id);
+        $shortModel->increment('view_count');
+
+        return new ApiJsonResponse(data: new ShortResource($shortModel));
+
+    }
 }

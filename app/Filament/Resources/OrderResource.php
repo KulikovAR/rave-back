@@ -59,6 +59,8 @@ class OrderResource extends Resource
                     ->required(),
                 Forms\Components\TextInput::make('payment_id')
                     ->maxLength(255),
+                Forms\Components\TextInput::make('rebill_id')
+                    ->maxLength(255),
             ]);
     }
 

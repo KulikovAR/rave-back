@@ -58,4 +58,21 @@ class ShortsTest extends TestCase
 
         $response->assertJsonStructure($this->getPaginationResponse());
     }
+
+    public function test_increment_view_shorts(): void
+    {
+        $short=Short::first();
+        $shortId=$short->id;
+        $oldViews = $short->view_count;
+        $response = $this->json(
+            'patch',
+            route('short.index'),['id'=>$shortId],
+            headers: $this->getHeadersForUser()
+        );
+
+        $response->assertStatus(200);
+        $newViews=Short::find($shortId)->view_count;
+
+        $this->assertSame($oldViews+1,$newViews);
+    }
 }
