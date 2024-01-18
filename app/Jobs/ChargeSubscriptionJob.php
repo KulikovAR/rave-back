@@ -40,7 +40,7 @@ class ChargeSubscriptionJob implements ShouldQueue
                      ->limit(50)
                      ->get();
 
-        if($users &&  App::environment(EnvironmentTypeEnum::notProductEnv())){
+        if($users->isNotEmpty() &&  App::environment(EnvironmentTypeEnum::notProductEnv())){
             Log::info('Subscription charging job...');
             Log::info(print_r($users, true));
         }
