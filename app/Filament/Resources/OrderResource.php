@@ -118,6 +118,14 @@ class OrderResource extends Resource
                         ->color('danger')
                         ->icon('heroicon-o-x')
                         ->requiresConfirmation(),
+                    Action::make('status')
+                        ->action(function (Order $record) {
+                            dd((new TinkoffPaymentService())->getPaymentState($record));
+                        })
+                        ->label('Статус')
+                        ->color('warning')
+                        ->icon('heroicon-o-x')
+                        ->requiresConfirmation(),
                     Action::make('charge')
                         ->action(function (Order $record) {
                             (new PaymentController(new TinkoffPaymentService()))->charge($record->id);
