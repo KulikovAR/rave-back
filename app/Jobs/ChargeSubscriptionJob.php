@@ -37,22 +37,24 @@ class ChargeSubscriptionJob implements ShouldQueue
         $users = User::inRandomOrder()
                      ->where('subscription_expires_at', '<=', Carbon::now())
                      ->where('charge_attempts', '<', 10)
+                     ->where('auto_subscription', '=', 1)
                      ->limit(50)
                      ->get();
 
-        if($users->isNotEmpty() &&  App::environment(EnvironmentTypeEnum::notProductEnv())){
-            Log::info('Subscription charging job...');
-            Log::info(print_r($users, true));
-        }
+       foreach ($users as $user) {
 
-        foreach ($users as $user) {
+            if($user &&  App::environment(EnvironmentTypeEnum::notProductEnv())){
+                Log::info('Subscription charging job... ');
+                Log::info('User: ' . $user->email . ' ' . $user->id);
+            }
+            
             $order = $user->orders()
                 ->whereNotNull('rebill_id')
                 ->orderBy('updated_at', 'desc')
                 ->first();
 
             !$order
-                ? NotificationService::notifyAdmin('No order for charging subscription. Check orders for user id:' . $user->id)
+                ? Log::info('No order for charging subscription. Check orders for user id:' . $user->id)
                 : (new PaymentController())->charge($order->id);
         }
 
