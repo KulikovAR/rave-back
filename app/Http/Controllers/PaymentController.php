@@ -107,7 +107,7 @@ class PaymentController extends Controller
             $order->order_status = Order::EXPIRED;
             $order->save();
 
-            $user->increment('charge_attempts');
+          
 
             return;
         }
@@ -123,7 +123,7 @@ class PaymentController extends Controller
 
         $user->subscription_type       = $orderType;
         $user->subscription_created_at = now();
-        $user->charge_attempts         = $user->charge_attempts+1;
+        $user->charge_attempts         = 0;
         $user->subscription_expires_at = Carbon::parse($user->subscriptionAvailable() ? $user->subscription_expires_at : now())->addDays($duration)->format('Y-m-d H:i:s');
         $user->save();
 
