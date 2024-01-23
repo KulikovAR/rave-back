@@ -43,12 +43,14 @@ class ChargeSubscriptionJob implements ShouldQueue
 
        foreach ($users as $user) {
 
-            if($user &&  App::environment(EnvironmentTypeEnum::notProductEnv())){
+           if($user &&  App::environment(EnvironmentTypeEnum::notProductEnv())){
                 Log::info('Subscription charging job... ');
-                Log::info('User: ' . $user->email . ' ' . $user->id);
-            }
+                Log::info('User: ' . $user->email . '   ' . $user->id . '   ' . $user->charge_attempts);
+           }
             
-            $order = $user->orders()
+           $user->increment('charge_attempts');
+            
+           $order = $user->orders()
                 ->whereNotNull('rebill_id')
                 ->orderBy('updated_at', 'desc')
                 ->first();
