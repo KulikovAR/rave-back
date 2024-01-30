@@ -77,7 +77,7 @@ class PaymentController extends Controller
         $order ->rebill_id = $oldOrder->rebill_id;
         $order->save();
 
-        list($paymentUrl, $paymentId) = $this->paymentService->getPaymentUrl($order);
+        list($paymentUrl, $paymentId) = $this->paymentService->getPaymentUrl($order,false);
 
         if (empty($paymentId)) {
             $message = 'Charging OrderId:' . $order->id . ' No payment url. Check payment provider';
@@ -107,7 +107,7 @@ class PaymentController extends Controller
             $order->order_status = Order::EXPIRED;
             $order->save();
 
-          
+            
 
             return;
         }

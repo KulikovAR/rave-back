@@ -18,7 +18,7 @@ class TinkoffPaymentService implements PaymentServiceInterface
     const URL_PAYMENT_STATE = 'https://securepay.tinkoff.ru/v2/GetState';
     const URL_CANCEL_PAYMENT  = 'https://securepay.tinkoff.ru/v2/Cancel';
 
-    public function getPaymentUrl(Order $order): array
+    public function getPaymentUrl(Order $order, bool $isRecurent=true): array
     {
         $priceTotal = $order->price * 100;
 
@@ -53,7 +53,7 @@ class TinkoffPaymentService implements PaymentServiceInterface
             ]
         ];
 
-        if(empty(config('tinkoff-payment.recurrent_payments'))){
+        if($isRecurent===false || empty(config('tinkoff-payment.recurrent_payments'))){
             unset($requestData['Recurrent']);
         }
 
