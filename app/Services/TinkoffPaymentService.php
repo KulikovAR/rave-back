@@ -53,7 +53,11 @@ class TinkoffPaymentService implements PaymentServiceInterface
             ]
         ];
 
-        if($isRecurent===false || empty(config('tinkoff-payment.recurrent_payments'))){
+        if($isRecurent===false){
+            unset($requestData['Recurrent']);
+        }
+
+        if(empty(config('tinkoff-payment.recurrent_payments'))){
             unset($requestData['Recurrent']);
         }
 
