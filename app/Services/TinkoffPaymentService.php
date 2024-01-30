@@ -55,11 +55,10 @@ class TinkoffPaymentService implements PaymentServiceInterface
 
         if($isRecurent===false){
             unset($requestData['Recurrent']);
+            unset($requestData['CustomerKey']);
         }
 
-        if(empty(config('tinkoff-payment.recurrent_payments'))){
-            unset($requestData['Recurrent']);
-        }
+        
 
         $responseArr = $this->makeRequest($requestData, self::URL_PAYMENT);
 
