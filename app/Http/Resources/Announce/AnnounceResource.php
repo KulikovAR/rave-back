@@ -27,7 +27,8 @@ class AnnounceResource extends JsonResource
             // 'video_path'   => config('app.url') . '/storage/video/' . $this->video_path,
             'preview_path' => StorageService::getUrl($this->preview_path, config('filesystems.disks.private.temp_link_expires_image')),
             'release_at'   => $this->formatDateTimeForOutput($this->release_at),
-            'main'         => (bool) $this->main
+            'main'         => (bool) $this->main,
+'visible'=> true
         ];
     }
 }
