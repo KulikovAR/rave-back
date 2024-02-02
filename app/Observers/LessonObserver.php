@@ -26,6 +26,9 @@ class LessonObserver
         if ($Lesson->isDirty('order_in_display')) {
             Lesson::recount();
         }
+        if ($Lesson->isDirty('preview_path')) {
+            Storage::disk('private')->delete($Lesson->getOriginal('preview_path'));
+        }
     }
 
     /**
@@ -35,6 +38,9 @@ class LessonObserver
     {
         if (is_null($Lesson->video_path) === false) {
             Storage::disk('private')->delete('video/' . $Lesson->getOriginal('video_path'));
+        }
+        if (is_null($Lesson->preview_path) === false) {
+            Storage::disk('private')->delete($Lesson->getOriginal('preview_path'));
         }
     }
 
