@@ -31,6 +31,8 @@ class AuthTokenController extends Controller
         $user              = User::where('email', Str::lower($request->email))->first();
         $userDeviceService = new UserDeviceService($user, Browser::userAgent());
 
+        $user->addDevice(Browser::userAgent());
+        
         if ($userDeviceService->checkTooManyDevices()) {
             return new ApiJsonResponse(
                 status: StatusEnum::ERR,
