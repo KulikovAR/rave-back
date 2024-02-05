@@ -41,23 +41,28 @@ class AnnounceResource extends Resource
 
                 TextInput::make('title')
                     ->maxLength(255)
-                    ->translateLabel(),
+                    ->translateLabel()
+                    ->required(),
                 Textarea::make('description'),
                 FileUpload::make('preview_path')
                     ->tooltip('Загрузите...')
                     ->enableDownload()
                     ->enableOpen()
                     ->columnSpanFull()
-                    ->maxSize(25000),
+                    ->maxSize(25000)
+                    ->required(),
                 Select::make('tags')
                     ->multiple()
                     ->relationship('tags', 'name')
-                    ->searchable(),
+                    ->searchable()
+                    ->required(),
                 DateTimePicker::make('release_at')
-                    ->minDate(now()),
+                    ->minDate(now())
+                    ->required(),
                 Checkbox::make('main'),
                 ViewField::make('video_path')
-                    ->view('livewire.chunkuploader'),
+                    ->view('livewire.chunkuploader')
+                    ->required(),
             ]);
 
     }

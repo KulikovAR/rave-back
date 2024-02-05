@@ -12,26 +12,28 @@ class AnnounceObserver
      */
     public function created(Announce $announce): void
     {
-        //
+        $this->checkForOnlyOneMainAnnounce($announce);
     }
 
     /**
      * Handle the Announce "updated" event.
      */
-    public function updated(Announce $Announce): void
+    public function updated(Announce $announce): void
     {
-        if ($Announce->isDirty('video_path')) {
-            Storage::disk('private')->delete('video/' . $Announce->getOriginal('video_path'));
+        $this->checkForOnlyOneMainAnnounce($announce);        
+
+        if ($announce->isDirty('video_path')) {
+            Storage::disk('private')->delete('video/' . $announce->getOriginal('video_path'));
         }
     }
 
     /**
      * Handle the Announce "deleted" event.
      */
-    public function deleted(Announce $Announce): void
+    public function deleted(Announce $announce): void
     {
-        if (is_null($Announce->video_path) === false) {
-            Storage::disk('private')->delete('video/' . $Announce->getOriginal('video_path'));
+        if (is_null($announce->video_path) === false) {
+            Storage::disk('private')->delete('video/' . $announce->getOriginal('video_path'));
         }
     }
 
@@ -49,5 +51,11 @@ class AnnounceObserver
     public function forceDeleted(Announce $announce): void
     {
         //
+    }
+
+    private function checkForOnlyOneMainAnnounce(Announce $announce): void {
+        if(!empty($announce->main)){
+            Announce::where('title','<>',$announce->title)->update(['main'=>0]);
+        }
     }
 }
