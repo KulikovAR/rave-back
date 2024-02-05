@@ -19,7 +19,7 @@ trait UserDevices
             'userAgent' => $userAgent
         ];
 
-        return ModelsUserDevices::createOrUpdate($data, $data);
+        return ModelsUserDevices::firstOrCreate($data, $data);
     }
 
     public function getDeviceCount(): int
