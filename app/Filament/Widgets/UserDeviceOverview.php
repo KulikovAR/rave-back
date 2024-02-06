@@ -32,7 +32,7 @@ class UserDeviceOverview extends Widget
             ->selectRaw('COUNT(user_devices.id) as user_devices_count')
             ->leftJoin('user_devices', 'users.id', '=', 'user_devices.user_id')
             ->groupBy('users.id')
-            ->havingRaw('COUNT(user_devices.id) > 5')
+            ->havingRaw('COUNT(user_devices.id) >= ' . self::USER_DEVICE_COUNT_LIMIT)
             ->orderBy('user_devices_count', 'desc')
             ->get();
     }
