@@ -8,7 +8,7 @@
 
         <div class="user-device-widget-wrap">
             @if(!$users->count()) 
-                <span>Пользователи с 5 и более уствойствами нет.</span>
+                <span>0</span>
             @endif
 
             @foreach ($users as $user)
