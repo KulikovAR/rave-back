@@ -27,7 +27,7 @@
     .user-device-widget-wrap {
         display: flex;
         flex-direction: column;
-        color: rgb(44, 44, 45)
+        color: white;
     }
 
     .user-device-widget-item {
