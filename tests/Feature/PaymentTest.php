@@ -79,9 +79,8 @@ class PaymentTest extends TestCase
         $response->assertStatus(302);
 
         $this->assertTrue($order->refresh()->order_status === Order::PAYED);
-
-//        Notification::assertSentTimes(BookingFlightNotification::class, 1);
-
+        
+        $this->assertTrue($user->lessons()->count() != 0);
     }
 
     public function test_payments_unsubscribe()
