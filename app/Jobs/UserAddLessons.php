@@ -34,13 +34,19 @@ class UserAddLessons implements ShouldQueue
         $setting_lesson_shedule_duration = Setting::getValueFromFieldName('lesson_shedule_duration');
 
         $lesson_shedule_duration = $setting_lesson_shedule_duration ? $setting_lesson_shedule_duration : self::DEFAULT_DURATION;
-        
+
         $users = User::where('last_video_added_at', '<', Carbon::now()->subMinutes($lesson_shedule_duration))
             ->orWhere('last_video_added_at', null)
             ->get();
-            
+
         foreach ($users as $user) {
             $user->addSheduleLesson();
+        }
+
+        $users = User::all();
+
+        foreach ($users as $user) {
+            $user->addNewLessonIfScheduleEmpty();
         }
     }
 }

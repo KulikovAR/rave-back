@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Jobs\UserAddLessons;
+use App\Models\Lesson;
 use App\Models\Setting;
 use App\Models\User;
 use Carbon\Carbon;
@@ -40,4 +41,21 @@ class LessonSheduleTest extends TestCase
 
         $this->assertTrue($user->lessons()->count() == 2);
     }   
+
+
+    public function test_add_new_lesson_if_schedule_empty() {
+        $user = $this->createTestUserWithSubscription();
+
+        $lessons = Lesson::all();
+
+        foreach($lessons as $lesson) {
+            $user->lessons()->attach($lesson);
+        }
+
+        $lesson = Lesson::factory()->create();
+
+        $user->addNewLessonIfScheduleEmpty();
+
+        $this->assertTrue($user->lessons()->count() == Lesson::count());
+    }
 }
