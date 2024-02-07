@@ -3,7 +3,7 @@
 # True School
 
 - demo: https://true-school.dev-2-tech.ru/
-
+- demo: https://api.schooltrue.ru/admin
 ## Dev environment
 
 - make .env and fill it
