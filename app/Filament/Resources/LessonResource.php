@@ -53,7 +53,7 @@ class LessonResource extends Resource
                      ->label('Заголовок'),
                 Textarea::make('description')
                      ->required()
-                     ->label('Опиание'),
+                     ->label('Опиcание'),
                 FileUpload::make('preview_path')
                     ->tooltip('Загрузите обложку (изображение)')
                     ->enableDownload()
@@ -79,6 +79,8 @@ class LessonResource extends Resource
                     ->label('Длительность'),
                 DateTimePicker::make('announc_date')
                     ->required()
+                    ->default(now())
+                    ->hidden()
                     ->label('Дата анонса'),
                 TextInput::make('order_in_display')
                     ->integer()
