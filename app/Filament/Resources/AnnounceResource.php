@@ -62,6 +62,7 @@ class AnnounceResource extends Resource
                 Checkbox::make('main'),
                 ViewField::make('video_path')
                     ->view('livewire.chunkuploader')
+                    ->tooltip("1.Выберите видео файл. 2. Нажмите на кнопку «Загрузить». 3. Дождитесь загрузки")
                     ->required(),
             ]);
 
