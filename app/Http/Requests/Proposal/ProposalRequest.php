@@ -22,7 +22,7 @@ class ProposalRequest extends FormRequest
     {
         return [
             'body' => 'string|required',
-            'file' => 'nullable|mimes:png,jpg,jpeg,pdf|max:20480'
+            'file' => 'nullable|mimes:png,jpg,jpeg,pdf|max:2048'
         ];
     }
 }
