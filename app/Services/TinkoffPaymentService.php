@@ -5,44 +5,37 @@ namespace App\Services;
 use App\Enums\EnvironmentTypeEnum;
 use App\Interfaces\PaymentServiceInterface;
 use App\Models\Order;
-use App\Services\NotificationService;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Http;
 use Log;
 
-
 class TinkoffPaymentService implements PaymentServiceInterface
 {
     const URL_PAYMENT       = 'https://securepay.tinkoff.ru/v2/Init';
-    const UPD_SUBSCRIPTION  = 'https://securepay.tinkoff.ru/v2/Charge';
     const URL_PAYMENT_STATE = 'https://securepay.tinkoff.ru/v2/GetState';
-    const URL_CANCEL_PAYMENT  = 'https://securepay.tinkoff.ru/v2/Cancel';
 
-    public function getPaymentUrl(Order $order, bool $isRecurent=true): array
+    public function getPaymentUrl(Order $order): array
     {
-        $priceTotal = $order->price * 100;
+        $priceTotal = ($order->price - $order->discount) * 100;
 
         $requestData = [
-            "TerminalKey"     => config('tinkoff-payment.terminal'),
-            "NotificationURL" => route('payment.status'),
-            "SuccessURL"      => route('payment.success', ['id' => $order->id]),
-            "FailURL"         => route('payment.failed', ['id' => $order->id]),
-            "Amount"          => $priceTotal,
-            "OrderId"         => $order->id,
-            "Recurrent"       => "Y",
-            "CustomerKey"     => $order->user->id,
-            "Description"     => "Оплата подписки на TrueSchool",
-            "DATA"            => [
+            "TerminalKey" => config('tinkoff-payment.terminal'),
+            "SuccessURL"  => route('payment.success', ['id' => $order->id]),
+            "FailURL"     => route('payment.failed', ['id' => $order->id]),
+            "Amount"      => $priceTotal,
+            "OrderId"     => $order->id,
+            "Description" => "Бронирование через airsurfer",
+            "DATA"        => [
                 "DefaultCard" => "none"
             ],
-            "Receipt"         => [
-                "Email"        => config('site-values.email_support.email_support'),
-                "Phone"        => config('site-values.phone_support.phone_support'),
+            "Receipt"     => [
+                "Email"        => $order->email,
+                "Phone"        => trim($order->phone_prefix) . trim($order->phone),
                 "EmailCompany" => config('site-values.email_support.email_support'),
-                "Taxation"     => "patent",
+                "Taxation"     => "usn_income",
                 "Items"        => [
                     [
-                        "Name"          => "Оплата подписки на TrueSchool",
+                        "Name"          => "Бронирование через airsurfer",
                         "Price"         => $priceTotal,
                         "Quantity"      => 1.00,
                         "Amount"        => $priceTotal * 1,
@@ -52,13 +45,6 @@ class TinkoffPaymentService implements PaymentServiceInterface
                 ]
             ]
         ];
-
-        if($isRecurent===false){
-            unset($requestData['Recurrent']);
-            unset($requestData['CustomerKey']);
-        }
-
-        
 
         $responseArr = $this->makeRequest($requestData, self::URL_PAYMENT);
 
@@ -87,39 +73,7 @@ class TinkoffPaymentService implements PaymentServiceInterface
         $paymentSuccessState = $responseArr['Success'];
         $paymentAmount       = $responseArr['Amount'] ?? null;
 
-        return [$paymentSuccessState, $paymentAmount, $responseArr];
-    }
-
-    public function updateSubscription(Order $order): array
-    {
-        $requestData = [
-            "TerminalKey" => config('tinkoff-payment.terminal'),
-            "PaymentId"   => $order->payment_id,
-            "RebillId"    => $order->rebill_id,
-        ];
-
-        $responseArr = $this->makeRequest($requestData, self::UPD_SUBSCRIPTION);
-
-        $this->errorHandler($responseArr,$order->id);
-
-        $paymentSuccessState = $responseArr['Success'];
-        $paymentAmount       = $responseArr['Amount'] ?? null;
-
         return [$paymentSuccessState, $paymentAmount];
-    }
-
-    public function cancelPayment(Order $order): ?string
-    {
-        $requestData = [
-            "TerminalKey" => config('tinkoff-payment.terminal'),
-            "PaymentId"   => $order->payment_id,
-        ];
-
-        $responseArr = $this->makeRequest($requestData, self::URL_CANCEL_PAYMENT);
-
-        $this->errorHandler($responseArr,$order->id);
-
-        return $responseArr['Success'] ?? null;
     }
 
     protected function makeRequest(array $requestData, string $url): array
@@ -153,14 +107,5 @@ class TinkoffPaymentService implements PaymentServiceInterface
         $signToken = hash('sha256', $token);
 
         return ['Token' => $signToken];
-    }
-
-    private function errorHandler(array $responseArr,string $orderId): void
-    {
-        if(isset($responseArr['Success'])===false || $responseArr['Success']===false){
-            $message = 'Can not cancel payment or charge subscription. Order id:'.$orderId;
-            Log::alert($message);
-            NotificationService::notifyAdmin($message);
-        }
     }
 }

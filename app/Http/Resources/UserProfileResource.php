@@ -2,11 +2,9 @@
 
 namespace App\Http\Resources;
 
-use App\Services\StorageService;
 use App\Traits\DateFormats;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\Storage;
 
 class UserProfileResource extends JsonResource
 {
@@ -15,9 +13,15 @@ class UserProfileResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'firstname' => $this->firstname,
-            'lastname'  => $this->lastname,
-            'avatar'    => $this->avatar ? Storage::disk('public')->url($this->avatar) : null
+            'phone_prefix'     => trim($this->phone_prefix),
+            'phone'            => $this->phone,
+            'country'          => $this->country,
+            'firstname'        => $this->firstname,
+            'lastname'         => $this->lastname,
+            'birthday'         => $this->formatDateForOutput($this->birthday),
+            'gender'           => $this->gender,
+            'document_number'  => $this->document_number,
+            'document_expires' => $this->formatDateForOutput($this->document_expires),
         ];
     }
 }

@@ -19,16 +19,12 @@ class ApiJsonResponse implements Responsable
     public function toResponse($request): JsonResponse
     {
         return response()->json(
-            $this->getData(),
+            [
+                "status"  => $this->status->value,
+                "message" => $this->message,
+                "data"    => $this->data
+            ],
             $this->httpCode
         );
     }
-
-    protected function getData() {
-        return [
-            "status"  => $this->status->value,
-            "message" => $this->message,
-            "data"    => $this->data
-        ];
-    } 
 }

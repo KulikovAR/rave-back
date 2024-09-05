@@ -19,6 +19,10 @@ class UserProfile extends Model
     protected $casts = [
         'firstname'        => 'encrypted',
         'lastname'         => 'encrypted',
+        'document_number'  => 'encrypted',
+        'document_expires' => 'encrypted',
+        'birthday'         => 'encrypted',
+        'phone'            => 'encrypted',
     ];
 
     public function user(): BelongsTo

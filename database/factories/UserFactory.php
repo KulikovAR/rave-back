@@ -20,15 +20,15 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'email'                   => fake()->unique()->safeEmail(),
-            'email_verified_at'       => now(),
+            'email'             => fake()->unique()->safeEmail(),
+            'email_verified_at' => now(),
             // 'phone'             => $this->faker->numerify('+7#########'),
             // 'phone_prefix'      => $this->faker->numerify('+##'),
             // 'phone_verified_at' => now(),
-            'salt'                    => Hash::make(Str::random(10)),
-            'password'                => Hash::make('test'),
-            'language'                => config('app.locale'),
-            'remember_token'          => Str::random(10)
+            'salt'              => Hash::make(Str::random(10)),
+            'password'          => Hash::make('test'),
+            'language'        => config('app.locale'),
+            'remember_token'    => Str::random(10),
         ];
     }
 

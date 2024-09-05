@@ -21,13 +21,7 @@ return new class extends MigrationService {
             $table->char('salt', 60)->nullable();
             $table->string('password')->nullable();
             $table->char('language', 2)->nullable();
-            $table->boolean('is_blocked')->default(false);
-            $table->timestamp('subscription_expires_at')->nullable();
-            $table->timestamp('subscription_created_at')->nullable();
-            $table->string('subscription_type')->nullable();
-            $table->boolean('auto_subscription')->default(1);
-            $table->timestamp('last_video_added_at')->nullable();
-            $table->integer('charge_attempts')->default(0);
+
             $table->softDeletes();
             $table->timestamps();
             $table->rememberToken();

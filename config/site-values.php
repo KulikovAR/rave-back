@@ -1,21 +1,22 @@
 <?php
 
 return [
-    'email_support' => ['email_support' => env('MAIL_FROM_ADDRESS','support@mail.ru')],
-    'phone_support' => ['phone_support' => env('PHONE_FROM_ADDRESS','+79251112233')],
+    'email_support' => ['email_support' => env('MAIL_FROM_ADDRESS')],
 
-    'prices_ru'     => [
+    'prices_ru' => [
         'prices' => [
-            'value' => '₽'
+            'price'       => 999,
+            'price_vip'   => 1499,
+            'price_hotel' => 999,
+            'value'       => '₽'
         ]
     ],
-    'prices_us'     => [
+    'prices_us' => [
         'prices' => [
-            'value' => '$'
+            'price'       => 10,
+            'price_vip'   => 20,
+            'price_hotel' => 10,
+            'value'       => '$'
         ]
-    ],
-    'locales'       => [
-        'en',
-        'ru'
     ]
 ];

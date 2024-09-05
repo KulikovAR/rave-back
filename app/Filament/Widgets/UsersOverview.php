@@ -16,6 +16,8 @@ class UsersOverview extends BaseWidget
     {
         return [
             Card::make('Юзеров зарегистрировано', User::role('user')->count()),
+            Card::make('Создано заказов', Order::all()->count()),
+            Card::make('Оплачено заказов', Order::where(['order_status' => Order::PAYED])->count()),
         ];
     }
 }

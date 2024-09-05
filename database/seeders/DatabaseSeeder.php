@@ -14,12 +14,5 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(RolePermissionSeeder::class);
         $this->call(UserSeeder::class);
-        $this->call(TagSeeder::class);
-        $this->call(LessonSeeder::class);
-        $this->call(ShortSeeder::class);
-        $this->call(AnnounceSeeder::class);
-        $this->call(BannerSeeder::class);
-        $this->call(SettingSeeder::class);
-        $this->call(FaqSeeder::class);
     }
 }

@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Enums\EnvironmentTypeEnum;
 use App\Enums\StatusEnum;
-use App\Enums\SubscriptionTypeEnum;
 use App\Events\RegisteredUserEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegistrationEmailRequest;
@@ -14,9 +12,6 @@ use App\Models\Role;
 use App\Models\User;
 use App\Traits\BearerTokenTrait;
 use App\Traits\PasswordHash;
-use Carbon\Carbon;
-use hisorange\BrowserDetect\Parser as Browser;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
@@ -28,37 +23,26 @@ class RegistrationController extends Controller
     public function emailRegistration(RegistrationEmailRequest $request): ApiJsonResponse
     {
         $user = User::create([
-            'email'    => Str::lower($request->email),
-            'password' => $this->hashMake($request->password),
-        ]);
+                                 'email'    => Str::lower($request->email),
+                                 'password' => $this->hashMake($request->password),
+                             ]);
 
         $user->assignRole(Role::ROLE_USER);
 
-        $user->userProfile()
-            ->updateOrCreate(
-                ['user_id' => $user->id],
-                [
-                    'firstname' => $request->firstname,
-                    'lastname'  => $request->lastname
-                ]
-            );
-
-        $bearerToken = $this->createOrGetAuthToken($user, Browser::userAgent());
-
-        $user->addDevice(Browser::userAgent());
+        $bearerToken = $this->createAuthToken($user, $request->device_name);
 
         event(new RegisteredUserEvent($user));
 
         Auth::login($user); //session login
 
         return new ApiJsonResponse(
-            200,
-            StatusEnum::OK,
-            __('registration.verify_email'),
+                  200,
+                  StatusEnum::OK,
+                  __('registration.verify_email'),
             data: [
-                'user'  => new UserResource($user),
-                'token' => $bearerToken,
-            ]
+                      'user'  => new UserResource($user),
+                      'token' => $bearerToken,
+                  ]
         );
     }
 }

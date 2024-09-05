@@ -2,13 +2,8 @@
 
 namespace App\Models;
 
-use App\Enums\SubscriptionTypeEnum;
 use App\Notifications\PasswordResetNotification;
 use App\Notifications\VerifyEmailNotification;
-use App\Traits\ApiTokensWithDevice;
-use App\Traits\SheduleLessons;
-use App\Traits\UserDevices;
-use Carbon\Carbon;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasName;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -21,14 +16,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements MustVerifyEmail, HasLocalePreference, FilamentUser, HasName
 {
-
-    use HasApiTokens, HasFactory, Notifiable, HasUuids, SoftDeletes, HasRoles, ApiTokensWithDevice, SheduleLessons, UserDevices;
+    use HasApiTokens, HasFactory, Notifiable, HasUuids, SoftDeletes, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -41,12 +33,6 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
         'email_verified_at',
         'password',
         'language',
-        'subscription_expires_at',
-        'subscription_created_at',
-        'subscription_type',
-        'is_blocked',
-        'last_video_added_at',
-        'auto_subscription',
     ];
 
     /**
@@ -69,7 +55,6 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
         'phone_verified_at' => 'datetime',
         'deleted_at'        => 'datetime',
         'password'          => 'hashed',
-        'auto_subscription' => 'boolean',
     ];
 
     public function userProfile(): HasOne
@@ -80,26 +65,6 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
     public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
-    }
-
-    public function quiz_results(): HasMany
-    {
-        return $this->hasMany(QuizResult::class);
-    }
-
-    public function comments(): HasMany
-    {
-        return $this->hasMany(Comment::class);
-    }
-
-    public function lessons(): BelongsToMany
-    {
-        return $this->BelongsToMany(Lesson::class);
-    }
-
-    public function lesson_rating(): hasMany
-    {
-        return $this->hasMany(LessonRating::class);
     }
 
     public function preferredLocale()
@@ -125,23 +90,5 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
     public function getFilamentName(): string
     {
         return "{$this->email}";
-    }
-
-    public function subscriptionAvailable(): bool
-    {
-        if (empty($this->subscription_expires_at)) {
-            return false;
-        }
-
-        return Carbon::now() < Carbon::parse($this->subscription_expires_at);
-    }
-
-    public function setSubscriptionTypeAttribute($value)
-    {
-        if (!in_array($value, SubscriptionTypeEnum::allValues())) {
-            throw new \InvalidArgumentException('Invalid subscription type. Avaliable: ' . print_r(SubscriptionTypeEnum::allValues(), true));
-        }
-
-        $this->attributes['subscription_type'] = $value;
     }
 }

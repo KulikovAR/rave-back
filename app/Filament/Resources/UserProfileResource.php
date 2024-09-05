@@ -6,14 +6,10 @@ use App\Filament\Resources\UserProfileResource\Pages;
 use App\Filament\Resources\UserProfileResource\RelationManagers;
 use App\Models\UserProfile;
 use Filament\Forms;
-use Filament\Forms\Components\DateTimePicker;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
-use Filament\Tables\Columns\TextColumn;
 
 class UserProfileResource extends Resource
 {
@@ -27,21 +23,37 @@ class UserProfileResource extends Resource
     {
         return $form
             ->schema([
-                         Select::make('user_id')
-                               ->relationship('user', 'email')
-                               ->required(),
-                         TextInput::make('firstname')
-                                  ->required()
-                                  ->maxLength(255),
-
-                         TextInput::make('lastname')
-                                  ->required()
-                                  ->maxLength(255),
-
-                         TextInput::make('avatar'),
-
-                         DateTimePicker::make('created_at')->default(now()),
-                         DateTimePicker::make('updated_at')->default(now()),
+                         Forms\Components\Select::make('user_id')
+                                                ->relationship('user', 'email')
+                                                ->required(),
+                         Forms\Components\TextInput::make('firstname')
+                                                   ->required()
+                                                   ->maxLength(65535),
+                         Forms\Components\TextInput::make('lastname')
+                                                   ->required()
+                                                   ->maxLength(255),
+                         Forms\Components\TextInput::make('patronymic')
+                                                   ->maxLength(255),
+                         Forms\Components\TextInput::make('country')
+                                                   ->required()
+                                                   ->maxLength(255),
+                         Forms\Components\TextInput::make('gender')
+                                                   ->required(),
+                         Forms\Components\TextInput::make('document_number')
+                                                   ->required()
+                                                   ->maxLength(255),
+                         Forms\Components\TextInput::make('document_expires')
+                                                   ->maxLength(255),
+                         Forms\Components\TextInput::make('birthday')
+                                                   ->required()
+                                                   ->maxLength(255),
+                         Forms\Components\TextInput::make('phone_prefix')
+                                                   ->tel()
+                                                   ->required()
+                                                   ->maxLength(10),
+                         Forms\Components\TextInput::make('phone')
+                                                   ->required()
+                                                   ->maxLength(255),
                      ]);
     }
 
@@ -49,33 +61,21 @@ class UserProfileResource extends Resource
     {
         return $table
             ->columns([
-                          TextColumn::make('id')
-                                                   ->toggleable(isToggledHiddenByDefault: true)
-                                                   ->searchable(),
-
-                          TextColumn::make('user.email')
-                                                   ->toggleable(isToggledHiddenByDefault: true)
-                                                   ->searchable(),
-
-                          TextColumn::make('firstname')
-                                                   ->toggleable(isToggledHiddenByDefault: false)
-                                                   ->searchable(),
-
-                          TextColumn::make('lastname')
-                                                   ->toggleable(isToggledHiddenByDefault: false)
-                                                   ->searchable(),
-
-                          TextColumn::make('avatar')
-                                                   ->toggleable(isToggledHiddenByDefault: true),
-
-                          TextColumn::make('created_at')
-                                                   ->toggleable(isToggledHiddenByDefault: true)
-                                                   ->sortable()
+                          Tables\Columns\TextColumn::make('id'),
+                          Tables\Columns\TextColumn::make('user.name'),
+                          Tables\Columns\TextColumn::make('firstname'),
+                          Tables\Columns\TextColumn::make('lastname'),
+                          Tables\Columns\TextColumn::make('patronymic'),
+                          Tables\Columns\TextColumn::make('country'),
+                          Tables\Columns\TextColumn::make('gender'),
+                          Tables\Columns\TextColumn::make('document_number'),
+                          Tables\Columns\TextColumn::make('document_expires'),
+                          Tables\Columns\TextColumn::make('birthday'),
+                          Tables\Columns\TextColumn::make('phone_prefix'),
+                          Tables\Columns\TextColumn::make('phone'),
+                          Tables\Columns\TextColumn::make('created_at')
                                                    ->dateTime(),
-
-                          TextColumn::make('updated_at')
-                                                   ->toggleable(isToggledHiddenByDefault: false)
-                                                   ->sortable()
+                          Tables\Columns\TextColumn::make('updated_at')
                                                    ->dateTime(),
                       ])
             ->filters([

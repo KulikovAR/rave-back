@@ -169,7 +169,6 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
-        hisorange\BrowserDetect\ServiceProvider::class,
     ])->toArray(),
 
     /*
@@ -185,7 +184,6 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
-        'Browser' => \hisorange\BrowserDetect\Facade::class,
     ])->toArray(),
 
 ];

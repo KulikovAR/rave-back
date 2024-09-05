@@ -4,18 +4,6 @@ namespace App\Providers;
 
 use App\Events\RegisteredUserEvent;
 use App\Listeners\RegisteredUserListener;
-use App\Models\Announce;
-use App\Models\Lesson;
-use App\Models\Proposal;
-use App\Models\Short;
-use App\Models\Slide;
-use App\Models\Tag;
-use App\Observers\AnnounceObserver;
-use App\Observers\LessonObserver;
-use App\Observers\ProposalObserver;
-use App\Observers\ShortObserver;
-use App\Observers\SlideObserver;
-use App\Observers\TagObserver;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider
@@ -34,12 +22,7 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Lesson::observe(LessonObserver::class);
-        Proposal::observe(ProposalObserver::class);
-        Tag::observe(TagObserver::class);
-        Slide::observe(SlideObserver::class);
-        Announce::observe(AnnounceObserver::class);
-        Short::observe(ShortObserver::class);
+        //
     }
 
     /**

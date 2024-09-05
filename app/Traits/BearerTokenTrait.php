@@ -19,7 +19,7 @@ trait BearerTokenTrait
             $expiresAt = Carbon::now()->addMinutes(15)->toDateTime();
         }
 
-        return $user->createTempToken($tokenName, expiresAt: $expiresAt)->plainTextToken;
+        return $this->createAuthToken($user, $tokenName, $expiresAt);
     }
 
     protected function createAuthToken(User $user, ?string $tokenName = null, \DateTime $expiresAt = null): string
@@ -28,14 +28,6 @@ trait BearerTokenTrait
             $tokenName = 'spa';
         }
         return $user->createToken($tokenName, expiresAt: $expiresAt)->plainTextToken;
-    }
-
-    protected function createOrGetAuthToken(User $user, ?string $tokenName = null, \DateTime $expiresAt = null): string
-    {
-        if (empty($tokenName)) {
-            $tokenName = 'spa';
-        }
-        return $user->createOrGetToken($tokenName, expiresAt: $expiresAt)->plainTextToken;
     }
 }
 

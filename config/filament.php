@@ -61,7 +61,7 @@ return [
     |
     */
 
-    'home_url' => env('FRONT_URL', '/'),
+    'home_url' => '/',
 
     /*
     |--------------------------------------------------------------------------
@@ -290,7 +290,7 @@ return [
     |
     */
 
-    'default_filesystem_disk' => env('FILAMENT_FILESYSTEM_DRIVER', 'private'),
+    'default_filesystem_disk' => env('FILAMENT_FILESYSTEM_DRIVER', 'public'),
 
     /*
     |--------------------------------------------------------------------------

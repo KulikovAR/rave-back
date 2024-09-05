@@ -16,7 +16,6 @@ return new class extends Migration {
             $table->string('tokenable_type');
             $table->uuid('tokenable_id');
             $table->string('name');
-            $table->boolean('temp')->default(false);
             $table->string('token', 64)->unique();
             $table->text('abilities')->nullable();
             $table->timestamp('last_used_at')->nullable();
