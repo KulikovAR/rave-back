@@ -12,30 +12,38 @@ class AuthSessionController
      *     tags={"CSRF"},
      *     summary="Login Session",
      *     description ="before request get csrf token",
+     *
      *     @OA\Parameter(
      *          name="email",
      *          in="query",
      *          required=true,
+     *
      *          @OA\Schema(
      *              type="string",
      *              example="test@test.ru"
      *          )
      *     ),
+     *
      *     @OA\Parameter(
      *          name="password",
      *          in="query",
      *          required=true,
+     *
      *          @OA\Schema(
      *              type="string",
      *              example="testtest"
      *          )
      *     ),
+     *
      *     @OA\Response(
      *          response="200",
      *          description="Success",
+     *
      *          @OA\MediaType(
      *              mediaType="application/json",
+     *
      *              @OA\Schema(
+     *
      *                @OA\Property(property="status", type="string", example="OK"),
      *                @OA\Property(property="message", type="string", example=""),
      *                @OA\Property(property="data", type="object",
@@ -48,24 +56,21 @@ class AuthSessionController
      *             ),
      *         )
      *     ),
+     *
      *     @OA\Response(
      *          response="422",
      *          ref="#/components/responses/422"
      *      ),
+     *
      *      @OA\Server(
      *      url="/",
      *      description="Session Server"
      *     ),
      * )
-     *
-     *
      */
-    public function store()
-    {
-    }
+    public function store() {}
 
     /**
-     *
      * @OA\Delete(
      *     path="/logout/session",
      *     operationId="logout_session",
@@ -73,29 +78,33 @@ class AuthSessionController
      *     summary="Logout",
      *     security={{"api": {}}},
      *     description ="before request get csrf token if there is no one",
+     *
      *     @OA\Response(
      *          response="200",
      *          description="Success",
+     *
      *          @OA\MediaType(
      *              mediaType="application/json",
+     *
      *              @OA\Schema(
+     *
      *                @OA\Property(property="status", type="string", example="OK"),
      *                @OA\Property(property="message", type="string", example=""),
      *                @OA\Property(property="data", example="[]"),
      *             )
      *         )
      *     ),
+     *
      *     @OA\Response(
      *          response="401",
      *          ref="#/components/responses/401"
      *      ),
+     *
      *     @OA\Server(
      *      url="/",
      *      description="Session Server"
      *     ),
      *)
      */
-    public function destroy()
-    {
-    }
+    public function destroy() {}
 }

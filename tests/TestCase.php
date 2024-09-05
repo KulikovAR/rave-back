@@ -24,6 +24,7 @@ abstract class TestCase extends BaseTestCase
     public array $userBearerHeaders;
 
     const USER_PASSWORD = 'test@mail';
+
     const USER_EMAIL = 'test@mail';
 
     public function __construct(string $name)
@@ -46,7 +47,7 @@ abstract class TestCase extends BaseTestCase
 
     protected function getTestUser(): User
     {
-        return User::where(["email" => UserSeeder::USER_EMAIL])->firstOrFail();
+        return User::where(['email' => UserSeeder::USER_EMAIL])->firstOrFail();
     }
 
     protected function getTestLesson(): Lesson
@@ -60,7 +61,7 @@ abstract class TestCase extends BaseTestCase
 
     protected function createTestLessonWithUser($params = []): Lesson
     {
-        if (!empty($params)) {
+        if (! empty($params)) {
             $lesson = Lesson::factory()->create($params);
         } else {
             $lesson = Lesson::factory()->create();
@@ -76,7 +77,7 @@ abstract class TestCase extends BaseTestCase
         $lesson = $this->getTestLesson();
 
         $quiz = Quiz::factory()->create([
-            'lesson_id' => $lesson->id
+            'lesson_id' => $lesson->id,
         ]);
 
         return $quiz;
@@ -86,17 +87,17 @@ abstract class TestCase extends BaseTestCase
     {
         $user = User::factory()->create(
             [
-                'password'                => Hash::make(self::USER_PASSWORD),
-                'email'                   => self::USER_EMAIL . $this->faker->unique()->word(),
+                'password' => Hash::make(self::USER_PASSWORD),
+                'email' => self::USER_EMAIL.$this->faker->unique()->word(),
                 'subscription_expires_at' => Carbon::now()->addMonths(2),
                 'subscription_created_at' => Carbon::now()->subMonth(),
-                'subscription_type'       => SubscriptionTypeEnum::THREE_MOTHS->value
+                'subscription_type' => SubscriptionTypeEnum::THREE_MOTHS->value,
             ],
         );
 
         $user->assignRole(Role::ROLE_USER);
 
-        $user->userProfile()->create((new UserProfileFactory())->definition());
+        $user->userProfile()->create((new UserProfileFactory)->definition());
 
         return $user;
     }
@@ -106,7 +107,7 @@ abstract class TestCase extends BaseTestCase
         return Quiz::where(['lesson_id' => $this->getTestLesson()->id])->orderBy('id', 'desc')->firstOrFail();
     }
 
-    protected function getHeadersForUser(User $user = null): array
+    protected function getHeadersForUser(?User $user = null): array
     {
         $token = ($user ?? $this->getTestUser())
             ->createOrGetToken('spa')
@@ -130,21 +131,21 @@ abstract class TestCase extends BaseTestCase
         $data_with_pagination = [
             'data',
             'links' => [
-                "first",
-                "prev",
-                "next",
-                "last",
+                'first',
+                'prev',
+                'next',
+                'last',
             ],
-            'meta'  => [
-                "current_page",
-                "last_page",
-                "per_page",
-                "total",
-                "path"
+            'meta' => [
+                'current_page',
+                'last_page',
+                'per_page',
+                'total',
+                'path',
             ],
         ];
 
-        if(!empty($data)) {
+        if (! empty($data)) {
             $data_with_pagination['data'] = $data;
         }
 

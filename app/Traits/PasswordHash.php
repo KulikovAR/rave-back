@@ -11,4 +11,3 @@ trait PasswordHash
         return Hash::make($password);
     }
 }
-

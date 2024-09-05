@@ -5,18 +5,18 @@ return [
 
     'prices_ru' => [
         'prices' => [
-            'price'       => 999,
-            'price_vip'   => 1499,
+            'price' => 999,
+            'price_vip' => 1499,
             'price_hotel' => 999,
-            'value'       => '₽'
-        ]
+            'value' => '₽',
+        ],
     ],
     'prices_us' => [
         'prices' => [
-            'price'       => 10,
-            'price_vip'   => 20,
+            'price' => 10,
+            'price_vip' => 20,
             'price_hotel' => 10,
-            'value'       => '$'
-        ]
-    ]
+            'value' => '$',
+        ],
+    ],
 ];

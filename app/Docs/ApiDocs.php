@@ -7,14 +7,17 @@ namespace App\Docs;
  *      version="1.0.0",
  *      title="API Documentation",
  *      description="Documentation API",
+ *
  *      @OA\Contact(
  *          email="admin@admin.com"
  *      ),
+ *
  *      @OA\License(
  *          name="Apache 2.0",
  *          url="http://www.apache.org/licenses/LICENSE-2.0.html"
  *      )
  * )
+ *
  * @OA\Tag(
  *      name="Registration",
  *      description="Регистрация"
@@ -39,17 +42,14 @@ namespace App\Docs;
  *      name="CSRF",
  *      description="session auth with CSRF protection"
  * )
+ *
  * @OA\Server(
  *      url="/api/v1",
  *      description="API Server"
  * )
- *
  * @OA\Server(
  *      url="/",
  *      description="Session Server"
  * )
  */
-class ApiDocs
-{
-
-}
+class ApiDocs {}

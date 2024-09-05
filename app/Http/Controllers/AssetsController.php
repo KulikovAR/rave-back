@@ -10,7 +10,7 @@ class AssetsController extends Controller
 {
     public function show(?string $locale = null)
     {
-        if (!in_array($locale, LocalizationService::supportedLanguages())) {
+        if (! in_array($locale, LocalizationService::supportedLanguages())) {
             $locale = config('app.locale');
         }
 

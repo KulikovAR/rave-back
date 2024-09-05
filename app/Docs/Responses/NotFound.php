@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Docs\Responses;
 
 /**
@@ -9,6 +8,4 @@ namespace App\Docs\Responses;
  *          description="Not Found",
  *      )
  */
-class NotFound
-{
-}
+class NotFound {}

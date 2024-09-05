@@ -9,7 +9,7 @@ class UuidRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => ['sometimes', 'uuid']
+            'id' => ['sometimes', 'uuid'],
         ];
     }
 }

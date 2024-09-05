@@ -1,5 +1,6 @@
 <?php
+
 return [
-    'visit'  => 'Visit',
+    'visit' => 'Visit',
     'thanks' => 'Thank you for using our application!',
 ];

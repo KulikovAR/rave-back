@@ -46,13 +46,14 @@ class UserProfileTest extends TestCase
             [
                 'status',
                 'message',
-                'data' => ['id', "profile" => ['firstname']]
+                'data' => ['id', 'profile' => ['firstname']],
             ]
         );
     }
+
     public function test_store_avatar_user_profile(): void
     {
-        $user     = User::factory()
+        $user = User::factory()
             ->has(UserProfile::factory(), 'userProfile')
             ->create();
 
@@ -60,11 +61,11 @@ class UserProfileTest extends TestCase
             'post',
             route('user_profile.store.avatar'),
             [
-                'avatar' => UploadedFile::fake()->image('test.png')
+                'avatar' => UploadedFile::fake()->image('test.png'),
             ],
             $this->getHeadersForUser($user)
         );
-    
+
         Storage::disk('public')->assertExists($user->userProfile->avatar);
 
         $response->assertStatus(200);
@@ -74,7 +75,7 @@ class UserProfileTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $inputData = (new UserProfileFactory())->definitionRequest();
+        $inputData = (new UserProfileFactory)->definitionRequest();
 
         $response = $this->json(
             'post',
@@ -99,10 +100,10 @@ class UserProfileTest extends TestCase
         $user = User::factory()->create();
 
         $inputData = [
-            "firstname" => 1,
-            "lastname"  => null,
+            'firstname' => 1,
+            'lastname' => null,
         ];
-        $response  = $this->json(
+        $response = $this->json(
             'post',
             route('user_profile.store'),
             $inputData,
@@ -115,21 +116,21 @@ class UserProfileTest extends TestCase
             [
                 'message',
                 'errors' => [
-                    "firstname",
-                    "lastname",
-                ]
+                    'firstname',
+                    'lastname',
+                ],
             ]
         );
     }
 
     public function test_update_profile(): void
     {
-        $user        = User::factory()->create();
-        $userProfile = $user->userProfile()->create((new UserProfileFactory())->definition());
+        $user = User::factory()->create();
+        $userProfile = $user->userProfile()->create((new UserProfileFactory)->definition());
 
         $this->assertCount(1, $user->userProfile()->get());
 
-        $inputData = (new UserProfileFactory())->definitionRequest();
+        $inputData = (new UserProfileFactory)->definitionRequest();
 
         $response = $this->json(
             'post',
@@ -148,7 +149,7 @@ class UserProfileTest extends TestCase
     public function test_user_profile_encrypted(): void
     {
         $user = User::factory()->create();
-        $user->userProfile()->create((new UserProfileFactory())->definition());
+        $user->userProfile()->create((new UserProfileFactory)->definition());
 
         $rawUserProfile = DB::table('user_profiles')->where(['user_id' => $user->id])->first();
 
@@ -160,13 +161,13 @@ class UserProfileTest extends TestCase
     {
         $user = $this->getTestUser();
 
-        $user->userProfile()->create((new UserProfileFactory())->definition());
+        $user->userProfile()->create((new UserProfileFactory)->definition());
 
         $response = $this->json(
             'post',
             route('login.stateless'),
             [
-                'email'    => $user->email,
+                'email' => $user->email,
                 'password' => UserSeeder::USER_PASSWORD,
             ]
         );
@@ -175,7 +176,7 @@ class UserProfileTest extends TestCase
         $response->assertJsonStructure([
             'status',
             'message',
-            'data' => ['user' => ['profile'], 'token']
+            'data' => ['user' => ['profile'], 'token'],
         ]);
 
         $this->assertSameResource(new UserResource($user), $response->json(['data'])['user']);

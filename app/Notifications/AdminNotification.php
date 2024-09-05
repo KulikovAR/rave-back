@@ -6,7 +6,6 @@ use Illuminate\Notifications\Messages\MailMessage;
 
 class AdminNotification extends BaseNotification
 {
-
     private string $message;
 
     /**

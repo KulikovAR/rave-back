@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\Permission;
 use App\Models\Role;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\PermissionRegistrar;
@@ -19,7 +18,7 @@ class RolePermissionSeeder extends Seeder
         $this->resetCachedRolesAndPermissions();
 
         $admin = Role::create(['name' => Role::ROLE_ADMIN]);
-        $user  = Role::create(['name' => Role::ROLE_USER]);
+        $user = Role::create(['name' => Role::ROLE_USER]);
 
         Permission::create(['name' => Permission::PERMISSION]);
 
@@ -27,9 +26,6 @@ class RolePermissionSeeder extends Seeder
         $user->givePermissionTo([Permission::PERMISSION]);
     }
 
-    /**
-     * @return void
-     */
     public function resetCachedRolesAndPermissions(): void
     {
         app()[PermissionRegistrar::class]->forgetCachedPermissions();

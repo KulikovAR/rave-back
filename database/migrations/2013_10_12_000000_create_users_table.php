@@ -1,11 +1,11 @@
 <?php
 
-use App\Models\TakeOut;
 use App\Services\MigrationService;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends MigrationService {
+return new class extends MigrationService
+{
     /**
      * Run the migrations.
      */

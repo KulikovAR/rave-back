@@ -22,40 +22,40 @@ return [
     'registration' => [
         'email' => [
             'label' => 'Email',
-            'placeholder' => 'Укажите свой емейл'
+            'placeholder' => 'Укажите свой емейл',
         ],
         'password' => [
             'label' => 'Пароль',
-            'placeholder' => 'Придумайте пароль'
+            'placeholder' => 'Придумайте пароль',
         ],
         'password_confirm' => [
             'label' => 'Пароль',
-            'placeholder' => 'Подтвердите пароль'
+            'placeholder' => 'Подтвердите пароль',
         ],
         'gender' => [
             'caption' => 'Пол',
             'male' => 'Мужской',
-            'female' => 'Женский'
+            'female' => 'Женский',
         ],
         'name' => [
             'label' => 'Имя',
-            'placeholder' => 'Введите имя'
+            'placeholder' => 'Введите имя',
         ],
         'surname' => [
             'label' => 'Фамилия',
-            'placeholder' => 'Введите фамилию'
+            'placeholder' => 'Введите фамилию',
         ],
         'patronymic' => [
             'label' => 'Отчество',
-            'placeholder' => 'Введите отчество'
+            'placeholder' => 'Введите отчество',
         ],
         'accept' => [
             'caption' => 'Я принимаю',
             'terms' => 'Условия предоставления услуг',
             'policy' => 'Политику конфиденциальности',
             'cookie' => 'Политику файлов Cookie',
-            'and' => 'а также'
-        ]
+            'and' => 'а также',
+        ],
 
     ],
 ];

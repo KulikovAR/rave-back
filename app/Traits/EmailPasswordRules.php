@@ -27,4 +27,3 @@ trait EmailPasswordRules
         return ['required', 'string', 'email', 'max:100'];
     }
 }
-

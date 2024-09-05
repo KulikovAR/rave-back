@@ -16,10 +16,10 @@ trait DateFormats
         $yearsOld = Carbon::parse($birthday)->diffInYears($dateEnd);
 
         return match (true) {
-            $yearsOld >= 12                    => PassengerTypeEnum::ADULT->value,
+            $yearsOld >= 12 => PassengerTypeEnum::ADULT->value,
             ($yearsOld >= 3 && $yearsOld < 12) => PassengerTypeEnum::CHILD->value,
-            ($yearsOld < 3)                    => PassengerTypeEnum::INFANT->value,
-            default                            => null,
+            ($yearsOld < 3) => PassengerTypeEnum::INFANT->value,
+            default => null,
         };
     }
 
@@ -46,4 +46,3 @@ trait DateFormats
         return Carbon::parse($date)->toISOString();
     }
 }
-
