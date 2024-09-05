@@ -18,7 +18,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable implements FilamentUser, HasLocalePreference, HasName, MustVerifyEmail
+class User extends Authenticatable implements
 {
     use HasApiTokens, HasFactory, HasRoles, HasUuids, Notifiable, SoftDeletes;
 
@@ -29,10 +29,10 @@ class User extends Authenticatable implements FilamentUser, HasLocalePreference,
      */
     protected $fillable = [
         'name',
-        'email',
-        'email_verified_at',
+        'phone',
+        'phone_verified_at',
+        'code_send_at',
         'password',
-        'language',
     ];
 
     /**
@@ -51,44 +51,9 @@ class User extends Authenticatable implements FilamentUser, HasLocalePreference,
      * @var array<string, string>
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
         'phone_verified_at' => 'datetime',
-        'deleted_at' => 'datetime',
-        'password' => 'hashed',
+        'phone_send_at'     => 'datetime',
+        'deleted_at'        => 'datetime',
+        'password'          => 'hashed',
     ];
-
-    public function userProfile(): HasOne
-    {
-        return $this->hasOne(UserProfile::class);
-    }
-
-    public function orders(): HasMany
-    {
-        return $this->hasMany(Order::class);
-    }
-
-    public function preferredLocale()
-    {
-        return $this->language;
-    }
-
-    public function sendEmailVerification(): void
-    {
-        $this->notify(new VerifyEmailNotification);
-    }
-
-    public function sendPasswordResetNotification($token): void
-    {
-        $this->notify(new PasswordResetNotification($token));
-    }
-
-    public function canAccessFilament(): bool
-    {
-        return $this->hasRole([Role::ROLE_ADMIN, Role::ROLE_MANAGER]);
-    }
-
-    public function getFilamentName(): string
-    {
-        return "{$this->email}";
-    }
 }

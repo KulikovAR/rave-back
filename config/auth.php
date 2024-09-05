@@ -112,4 +112,9 @@ return [
 
     'password_timeout' => 10800,
 
+    'code_expires' => 30,
+
+    'access_token_expires' => 60,
+
+    'refresh_token_expires' => 3 /* days */ * 24 * 60,
 ];

@@ -1,11 +1,8 @@
 <?php
 
+use App\Enums\TokenEnum;
 use App\Http\Controllers\AssetsController;
-use App\Http\Controllers\Auth\AuthTokenController;
-use App\Http\Controllers\Auth\PasswordController;
-use App\Http\Controllers\Auth\RegistrationController;
-use App\Http\Controllers\Auth\VerificationContactController;
-use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,11 +17,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware(['guest'])->group(function () {
-    
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/verify', [AuthController::class, 'verify']);
+
+    Route::middleware('refresh')->group(function () {
+        Route::get('/auth/refresh', [AuthController::class, 'refresh']);
+    });
 });
 
 Route::middleware('auth:sanctum')->group(function () {
-    
+    Route::post('/logout', [AuthController::class, 'logout']);
 });
 
 Route::get('/assets/{locale?}', [AssetsController::class, 'show'])->name('assets.index');
