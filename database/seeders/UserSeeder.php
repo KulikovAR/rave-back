@@ -14,13 +14,13 @@ class UserSeeder extends Seeder
 {
     const ADMIN_PASSWORD = 'admin@admin';
 
-    const ADMIN_EMAIL = 'admin@admin';
+    const ADMIN_EMAIL = '+99999999999';
 
     const ADMIN_PHONE = 'admin@admin';
 
     const USER_PASSWORD = 'test@test.ru';
 
-    const USER_PHONE = 'test@test.ru';
+    const USER_PHONE = '+11111111111';
 
     const USER_EMAIL = 'test@test.ru';
 
