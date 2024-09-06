@@ -22,7 +22,6 @@ class UserFactory extends Factory
             'email'             => fake()->unique()->safeEmail(),
             'phone'             => $this->faker->numerify('+7#########'),
             'phone_verified_at' => now(),
-            'salt'              => Hash::make(Str::random(10)),
             'password'          => Hash::make('test'),
             'language'          => config('app.locale'),
             'remember_token'    => Str::random(10),
