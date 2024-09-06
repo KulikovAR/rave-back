@@ -16,7 +16,11 @@ class UserSeeder extends Seeder
 
     const ADMIN_EMAIL = 'admin@admin';
 
+    const ADMIN_PHONE = 'admin@admin';
+
     const USER_PASSWORD = 'test@test.ru';
+
+    const USER_PHONE = 'test@test.ru';
 
     const USER_EMAIL = 'test@test.ru';
 
@@ -32,7 +36,7 @@ class UserSeeder extends Seeder
         $userAdmin = User::factory()->create(
             [
                 'password' => Hash::make(self::ADMIN_PASSWORD),
-                'email' => self::ADMIN_EMAIL,
+                'phone'    => self::ADMIN_EMAIL,
             ]
         );
         $userAdmin->assignRole(Role::ROLE_ADMIN);
@@ -40,7 +44,7 @@ class UserSeeder extends Seeder
         $user = User::factory()->create(
             [
                 'password' => Hash::make(self::USER_PASSWORD),
-                'email' => self::USER_EMAIL,
+                'phone'    => self::USER_EMAIL,
             ],
         );
         $user->assignRole(Role::ROLE_USER);
