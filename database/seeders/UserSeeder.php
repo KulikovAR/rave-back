@@ -48,7 +48,5 @@ class UserSeeder extends Seeder
             ],
         );
         $user->assignRole(Role::ROLE_USER);
-
-        $user->userProfile()->create((new UserProfileFactory)->definition());
     }
 }
