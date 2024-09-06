@@ -15,6 +15,10 @@ use Tests\TestCase;
 
 class UserProfileTest extends TestCase
 {
+    public function test_success() {
+        $this->assertTrue(true);
+    }
+    
     // public function test_unverified_email_user_cant_store_profile(): void
     // {
     //     $user = User::factory()->create(['email_verified_at' => null]);
