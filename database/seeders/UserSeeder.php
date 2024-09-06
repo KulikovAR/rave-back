@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Enums\EnvironmentTypeEnum;
 use App\Models\Role;
 use App\Models\User;
-use Database\Factories\UserProfileFactory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Hash;
@@ -36,7 +35,8 @@ class UserSeeder extends Seeder
         $userAdmin = User::factory()->create(
             [
                 'password' => Hash::make(self::ADMIN_PASSWORD),
-                'phone'    => self::ADMIN_EMAIL,
+                'phone' => self::ADMIN_PHONE,
+                'email' => self::ADMIN_EMAIL,
             ]
         );
         $userAdmin->assignRole(Role::ROLE_ADMIN);
@@ -44,7 +44,8 @@ class UserSeeder extends Seeder
         $user = User::factory()->create(
             [
                 'password' => Hash::make(self::USER_PASSWORD),
-                'phone'    => self::USER_EMAIL,
+                'phone' => self::USER_PHONE,
+                'email' => self::USER_EMAIL,
             ],
         );
         $user->assignRole(Role::ROLE_USER);

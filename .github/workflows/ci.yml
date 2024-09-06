@@ -41,4 +41,4 @@ jobs:
           host: ${{ secrets.DEV_HOST }}
           username: ${{ secrets.DEV_USER }}
           password: ${{ secrets.DEV_PASSWORD }}
-          script: sh ${{ secrets.DEPLOY_PATH }}/deploy/deploy-actual-transportation.sh
+          script: sh /home/deploy/deploy-actual-transportation.sh

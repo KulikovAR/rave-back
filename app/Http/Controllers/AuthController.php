@@ -11,9 +11,7 @@ use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
-    public function __construct(protected AuthServiceContract $service)
-    {
-    }
+    public function __construct(protected AuthServiceContract $service) {}
 
     public function login(LoginRequest $request): ApiJsonResponse
     {
@@ -33,6 +31,7 @@ class AuthController extends Controller
     public function logout(Request $request): ApiJsonResponse
     {
         $this->service->logout($request->user());
-        return new ApiJsonResponse();
+
+        return new ApiJsonResponse;
     }
 }

@@ -27,6 +27,4 @@ namespace App\Docs;
  *      description="Session Server"
  * )
  */
-class ApiDocs
-{
-}
+class ApiDocs {}

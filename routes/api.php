@@ -1,6 +1,5 @@
 <?php
 
-use App\Enums\TokenEnum;
 use App\Http\Controllers\AssetsController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
@@ -17,11 +16,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware(['guest'])->group(function () {
-    Route::post('/login', [AuthController::class, 'login']);
-    Route::post('/verify', [AuthController::class, 'verify']);
+    Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
+    Route::post('/verify', [AuthController::class, 'verify'])->name('auth.verify');
 
     Route::middleware('refresh')->group(function () {
-        Route::get('/auth/refresh', [AuthController::class, 'refresh']);
+        Route::post('/auth/refresh', [AuthController::class, 'refresh'])->name('auth.refresh');
     });
 });
 

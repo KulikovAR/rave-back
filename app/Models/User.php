@@ -2,16 +2,9 @@
 
 namespace App\Models;
 
-use App\Notifications\PasswordResetNotification;
-use App\Notifications\VerifyEmailNotification;
-use Filament\Models\Contracts\FilamentUser;
-use Filament\Models\Contracts\HasName;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Contracts\Translation\HasLocalePreference;
+use App\Traits\HasRefreshToken;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -20,7 +13,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, HasRoles, HasUuids, Notifiable, SoftDeletes;
+    use HasApiTokens, HasFactory, HasRefreshToken, HasRoles, HasUuids, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -52,8 +45,8 @@ class User extends Authenticatable
      */
     protected $casts = [
         'phone_verified_at' => 'datetime',
-        'phone_send_at'     => 'datetime',
-        'deleted_at'        => 'datetime',
-        'password'          => 'hashed',
+        'phone_send_at' => 'datetime',
+        'deleted_at' => 'datetime',
+        'password' => 'hashed',
     ];
 }

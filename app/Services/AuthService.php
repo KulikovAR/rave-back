@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Contracts\AuthServiceContract;
-use App\Enums\TokenEnum;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RefreshRequest;
 use App\Http\Requests\Auth\VerifyRequest;
@@ -38,14 +37,17 @@ class AuthService implements AuthServiceContract
 
         $response = $this->createTokens($user);
 
-        return new ApiJsonResponse(data: [$response]);
+        return new ApiJsonResponse(data: $response);
     }
 
     public function refresh(RefreshRequest $request): ApiJsonResponse
     {
+        $token = AccessToken::where('token', hash('sha256', $request->refresh))->firstOrFail();
+        $userId = $token->tokenable_id;
+        $user = User::where('id', $userId)->firstOrFail();
         $response = $this->createAccessToken($request->user());
 
-        return new ApiJsonResponse(data: [$response]);
+        return new ApiJsonResponse(data: $response);
     }
 
     public function logout(User $user): void
@@ -61,7 +63,7 @@ class AuthService implements AuthServiceContract
     private function createTokens(User $user): array
     {
         return [
-            'refreshToken'   => $user->createToken('refresh_token', [TokenEnum::REFRESH->value], Carbon::now()->addMinutes(config('auth.refresh_token_expires'))),
+            'refreshToken' => $user->createRefreshToken(),
             'expiredRefresh' => Carbon::now()->addMinutes(config('auth.refresh_token_expires'))->toISOString(),
         ] + $this->createAccessToken($user);
     }
@@ -69,7 +71,7 @@ class AuthService implements AuthServiceContract
     private function createAccessToken(User $user): array
     {
         return [
-            'token'   => $user->createToken('access_token', [TokenEnum::ACCESS->value], Carbon::now()->addMinutes(config('auth.access_token_expires'))),
+            'token' => $user->createRefreshToken(),
             'expired' => Carbon::now()->addMinutes(config('auth.access_token_expires'))->toISOString(),
         ];
     }
@@ -79,7 +81,7 @@ class AuthService implements AuthServiceContract
         $code = rand(10000, 99999);
 
         $user->update([
-            'code'         => md5($code),
+            'code' => md5($code),
             'code_send_at' => now(),
         ]);
 

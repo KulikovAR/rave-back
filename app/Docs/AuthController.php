@@ -2,25 +2,31 @@
 
 namespace App\Docs;
 
-class AuthController {
+class AuthController
+{
     /**
      * @OA\Get(
      *     path="/login",
      *     summary="Запрос SMS-кода для аутентификации",
      *     description="Создает временный SMS-код для аутентификации по номеру телефона. В тестовой среде код возвращается в ответе, в продакшн-среде отправляется на указанный номер.",
      *     tags={"Auth"},
+     *
      *     @OA\Parameter(
      *         name="phone",
      *         in="query",
      *         required=true,
      *         description="Номер телефона пользователя",
+     *
      *         @OA\Schema(type="string", example="+79161234567")
      *     ),
+     *
      *     @OA\Response(
      *         response=200,
      *         description="Успешный запрос",
+     *
      *         @OA\JsonContent(
      *             type="object",
+     *
      *             @OA\Property(
      *                 property="data",
      *                 type="object",
@@ -33,6 +39,7 @@ class AuthController {
      *             )
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=400,
      *         description="Некорректный запрос"
@@ -43,10 +50,10 @@ class AuthController {
      *     )
      * )
      */
-    public function login() {
+    public function login()
+    {
         //
     }
-
 
     /**
      * @OA\Post(
@@ -54,10 +61,13 @@ class AuthController {
      *     summary="Верификация SMS-кода",
      *     description="Проверяет SMS-код и создает токены доступа и обновления. При успешной верификации возвращаются токены и их время истечения.",
      *     tags={"Auth"},
+     *
      *     @OA\RequestBody(
      *         required=true,
+     *
      *         @OA\JsonContent(
      *             type="object",
+     *
      *             @OA\Property(
      *                 property="phone",
      *                 type="string",
@@ -72,11 +82,14 @@ class AuthController {
      *             )
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=200,
      *         description="Успешная авторизация",
+     *
      *         @OA\JsonContent(
      *             type="object",
+     *
      *             @OA\Property(
      *                 property="data",
      *                 type="object",
@@ -109,11 +122,14 @@ class AuthController {
      *             )
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=403,
      *         description="Ошибка верификации: неверный код",
+     *
      *         @OA\JsonContent(
      *             type="object",
+     *
      *             @OA\Property(
      *                 property="message",
      *                 type="string",
@@ -121,6 +137,7 @@ class AuthController {
      *             )
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=400,
      *         description="Некорректный запрос"
@@ -138,10 +155,13 @@ class AuthController {
      *     summary="Обновление токена доступа",
      *     description="Создает новый токен доступа на основе предоставленного токена обновления.",
      *     tags={"Auth"},
+     *
      *     @OA\RequestBody(
      *         required=true,
+     *
      *         @OA\JsonContent(
      *             type="object",
+     *
      *             @OA\Property(
      *                 property="refresh",
      *                 type="string",
@@ -150,11 +170,14 @@ class AuthController {
      *             )
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=200,
      *         description="Успешное обновление токена",
+     *
      *         @OA\JsonContent(
      *             type="object",
+     *
      *             @OA\Property(
      *                 property="data",
      *                 type="object",
@@ -174,11 +197,14 @@ class AuthController {
      *             )
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=403,
      *         description="Ошибка обновления: токен обновления недействителен",
+     *
      *         @OA\JsonContent(
      *             type="object",
+     *
      *             @OA\Property(
      *                 property="message",
      *                 type="string",
@@ -186,6 +212,7 @@ class AuthController {
      *             )
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=400,
      *         description="Некорректный запрос"
@@ -203,6 +230,7 @@ class AuthController {
      *     summary="Выход из системы",
      *     description="Прекращает сеанс пользователя, удаляя токены доступа и обновления.",
      *     tags={"Auth"},
+     *
      *     @OA\Response(
      *         response=200,
      *         description="Успешный выход"

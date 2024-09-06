@@ -2,18 +2,11 @@
 
 namespace Tests;
 
-use App\Enums\SubscriptionTypeEnum;
-use App\Models\Lesson;
-use App\Models\Quiz;
-use App\Models\Role;
 use App\Models\User;
-use Carbon\Carbon;
-use Database\Factories\UserProfileFactory;
 use Database\Seeders\UserSeeder;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Hash;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -23,9 +16,9 @@ abstract class TestCase extends BaseTestCase
 
     public array $userBearerHeaders;
 
-    const USER_PASSWORD = 'test@mail';
+    const USER_PASSWORD = 'test@test.ru';
 
-    const USER_EMAIL = 'test@mail';
+    const USER_EMAIL = 'test@test.ru';
 
     public function __construct(string $name)
     {
@@ -35,14 +28,10 @@ abstract class TestCase extends BaseTestCase
 
     protected function setup(): void
     {
-
         parent::setUp();
         Cache::flush();
 
         $this->userBearerHeaders = $this->getHeadersForUser();
-
-        //$this->artisan('migrate:fresh');
-        //$this->seed(DatabaseSeeder::class);
     }
 
     protected function getTestUser(): User
@@ -50,67 +39,10 @@ abstract class TestCase extends BaseTestCase
         return User::where(['email' => UserSeeder::USER_EMAIL])->firstOrFail();
     }
 
-    protected function getTestLesson(): Lesson
-    {
-        $lesson = Lesson::firstOrFail();
-
-        $this->getTestUser()->lessons()->sync($lesson);
-
-        return $lesson;
-    }
-
-    protected function createTestLessonWithUser($params = []): Lesson
-    {
-        if (! empty($params)) {
-            $lesson = Lesson::factory()->create($params);
-        } else {
-            $lesson = Lesson::factory()->create();
-        }
-
-        $this->getTestUser()->lessons()->sync($lesson);
-
-        return $lesson;
-    }
-
-    protected function createTestQuiz()
-    {
-        $lesson = $this->getTestLesson();
-
-        $quiz = Quiz::factory()->create([
-            'lesson_id' => $lesson->id,
-        ]);
-
-        return $quiz;
-    }
-
-    protected function createTestUserWithSubscription(): User
-    {
-        $user = User::factory()->create(
-            [
-                'password' => Hash::make(self::USER_PASSWORD),
-                'email' => self::USER_EMAIL.$this->faker->unique()->word(),
-                'subscription_expires_at' => Carbon::now()->addMonths(2),
-                'subscription_created_at' => Carbon::now()->subMonth(),
-                'subscription_type' => SubscriptionTypeEnum::THREE_MOTHS->value,
-            ],
-        );
-
-        $user->assignRole(Role::ROLE_USER);
-
-        $user->userProfile()->create((new UserProfileFactory)->definition());
-
-        return $user;
-    }
-
-    protected function getTestQuiz()
-    {
-        return Quiz::where(['lesson_id' => $this->getTestLesson()->id])->orderBy('id', 'desc')->firstOrFail();
-    }
-
     protected function getHeadersForUser(?User $user = null): array
     {
         $token = ($user ?? $this->getTestUser())
-            ->createOrGetToken('spa')
+            ->createToken('spa')
             ->plainTextToken;
 
         return ['Authorization' => "Bearer $token"];

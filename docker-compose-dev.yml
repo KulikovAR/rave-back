@@ -14,7 +14,7 @@ services:
     volumes:
       - ./:/var/www
     networks:
-      - transportation
+      - proxy
 
   db:
     platform: linux/x86_64 #macOS
@@ -23,32 +23,33 @@ services:
     restart: unless-stopped
     environment:
       MYSQL_DATABASE: ${DB_DATABASE}
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_PASSWORD: ${DB_PASSWORD}
-      # MYSQL_USER: ${DB_USERNAME}
+#      MYSQL_USER: ${DB_USERNAME}
       SERVICE_TAGS: dev
       SERVICE_NAME: mysql
     volumes:
       - ./docker-compose/mysql:/docker-entrypoint-initdb.d
     networks:
-      - transportation
+      - proxy
 
   nginx:
     image: nginx:alpine
     container_name: transportation-nginx
     restart: unless-stopped
-    ports:
-      - 8000:80
+    expose:
+      - 80:80
+      - 443:443
     volumes:
       - ./:/var/www
       - ./docker-compose/nginx:/etc/nginx/conf.d/
     networks:
-      - transportation
+      - proxy
     environment:
       - VIRTUAL_HOST=${TRANSPORTATION_HOSTNAME}
       - LETSENCRYPT_HOST=${TRANSPORTATION_HOSTNAME}
       - LETSENCRYPT_EMAIL=${TRANSPORTATION_EMAIL}
 
 networks:
-  transportation:
-    driver: bridge
+  proxy:
+    external: true

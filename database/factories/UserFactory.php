@@ -19,11 +19,11 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'email'             => fake()->unique()->safeEmail(),
-            'phone'             => $this->faker->numerify('+7#########'),
+            'email' => fake()->unique()->safeEmail(),
+            'phone' => $this->faker->numerify('+7#########'),
             'phone_verified_at' => now(),
-            'password'          => Hash::make('test'),
-            'remember_token'    => Str::random(10),
+            'password' => Hash::make('test'),
+            'remember_token' => Str::random(10),
         ];
     }
 }
