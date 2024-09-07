@@ -10,7 +10,6 @@ class AuthController
      *     summary="Запрос SMS-кода для аутентификации",
      *     description="Создает временный SMS-код для аутентификации по номеру телефона. В тестовой среде код возвращается в ответе, в продакшн-среде отправляется на указанный номер.",
      *     tags={"Auth"},
-     *
      *     @OA\Parameter(
      *         name="phone",
      *         in="query",
@@ -155,7 +154,6 @@ class AuthController
      *     summary="Обновление токена доступа",
      *     description="Создает новый токен доступа на основе предоставленного токена обновления.",
      *     tags={"Auth"},
-     *
      *     @OA\RequestBody(
      *         required=true,
      *
@@ -230,7 +228,7 @@ class AuthController
      *     summary="Выход из системы",
      *     description="Прекращает сеанс пользователя, удаляя токены доступа и обновления.",
      *     tags={"Auth"},
-     *
+     *     security={{"api": {}}},
      *     @OA\Response(
      *         response=200,
      *         description="Успешный выход"
