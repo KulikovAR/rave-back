@@ -20,7 +20,7 @@ Route::middleware(['guest'])->group(function () {
     Route::post('/verify', [AuthController::class, 'verify'])->name('auth.verify');
 
     Route::middleware('refresh')->group(function () {
-        Route::post('/auth/refresh', [AuthController::class, 'refresh'])->name('auth.refresh');
+        Route::post('/refresh', [AuthController::class, 'refresh'])->name('auth.refresh');
     });
 });
 
