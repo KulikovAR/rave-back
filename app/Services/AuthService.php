@@ -19,7 +19,9 @@ class AuthService implements AuthServiceContract
 
         $user = User::firstOrCreate(['phone' => $request->phone], ['phone' => $request->phone]);
 
-        if ($seconds = $this->getTimeout($user->code_send_at)) {
+        $seconds = $this->getTimeout($user->code_send_at);
+
+        if ($seconds) {
             return new ApiJsonResponse(403, false, __("Повторно смс можно отпраsвить через {$seconds} секунд."));
         }
 
@@ -93,7 +95,7 @@ class AuthService implements AuthServiceContract
         return $code;
     }
 
-    private function getTimeout(null|string $code_send_at): false|int
+    private function getTimeout(?string $code_send_at): false|int
     {
         if (is_null($code_send_at) || now()->subSeconds(30) < Carbon::parse($code_send_at)) {
             return false;
