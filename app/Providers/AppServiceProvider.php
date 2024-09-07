@@ -6,9 +6,8 @@ use App\Contracts\AuthServiceContract;
 use App\Enums\EnvironmentTypeEnum;
 use App\Services\AuthService;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\URL;
-
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -29,7 +28,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        if (!$this->app->environment('local')) {
+        if (! $this->app->environment('local')) {
             URL::forceScheme('https');
         }
     }

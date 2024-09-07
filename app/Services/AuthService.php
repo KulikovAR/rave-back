@@ -19,8 +19,7 @@ class AuthService implements AuthServiceContract
 
         $user = User::firstOrCreate(['phone' => $request->phone], ['phone' => $request->phone]);
 
-        if ($user->code_send_at && now()->subSeconds(30) < Carbon::parse($user->code_send_at)) {
-            $seconds = 30 - Carbon::now()->diffInSeconds(Carbon::parse($user->code_send_at));
+        if ($seconds = $this->getTimeout($user->code_send_at)) {
             return new ApiJsonResponse(403, false, __("Повторно смс можно отпраsвить через {$seconds} секунд."));
         }
 
@@ -48,9 +47,9 @@ class AuthService implements AuthServiceContract
 
     public function refresh(RefreshRequest $request): ApiJsonResponse
     {
-        $token    = AccessToken::where('token', hash('sha256', $request->refresh))->firstOrFail();
-        $userId   = $token->tokenable_id;
-        $user     = User::where('id', $userId)->firstOrFail();
+        $token = AccessToken::where('token', hash('sha256', $request->refresh))->firstOrFail();
+        $userId = $token->tokenable_id;
+        $user = User::where('id', $userId)->firstOrFail();
         $response = $this->createAccessToken($request->user());
 
         return new ApiJsonResponse(data: $response);
@@ -69,7 +68,7 @@ class AuthService implements AuthServiceContract
     private function createTokens(User $user): array
     {
         return [
-            'refreshToken'   => $user->createRefreshToken(),
+            'refreshToken' => $user->createRefreshToken(),
             'expiredRefresh' => Carbon::now()->addMinutes(config('auth.refresh_token_expires'))->toISOString(),
         ] + $this->createAccessToken($user);
     }
@@ -77,7 +76,7 @@ class AuthService implements AuthServiceContract
     private function createAccessToken(User $user): array
     {
         return [
-            'token'   => $user->createRefreshToken(),
+            'token' => $user->createRefreshToken(),
             'expired' => Carbon::now()->addMinutes(config('auth.access_token_expires'))->toISOString(),
         ];
     }
@@ -87,10 +86,19 @@ class AuthService implements AuthServiceContract
         $code = rand(10000, 99999);
 
         $user->update([
-            'code'         => md5($code),
+            'code' => md5($code),
             'code_send_at' => now(),
         ]);
 
         return $code;
+    }
+
+    private function getTimeout(null|string $code_send_at): false|int
+    {
+        if (is_null($code_send_at) || now()->subSeconds(30) < Carbon::parse($code_send_at)) {
+            return false;
+        }
+
+        return config('app.auth.code_timeout') - Carbon::now()->diffInSeconds(Carbon::parse($code_send_at));
     }
 }
