@@ -19,15 +19,15 @@ class AuthService implements AuthServiceContract
 
         $user = User::firstOrCreate(['phone' => $request->phone], ['phone' => $request->phone]);
 
-        if($user->code_send_at && now()->subSeconds(30) < Carbon::parse($user->code_send_at)) {
-            $seconds = Carbon::parse($user->code_send_at)->diffInSeconds();
-            return new ApiJsonResponse(403, false, __("Повторно смс можно отправить через {$seconds}"));
+        if ($user->code_send_at && now()->subSeconds(30) < Carbon::parse($user->code_send_at)) {
+            $seconds = Carbon::now()->diffInSeconds(Carbon::parse($user->code_send_at));
+            return new ApiJsonResponse(403, false, __("Повторно смс можно отпраsвить через {$seconds}"));
         }
 
         $code = $this->sendCode($user);
-        
+
         if (env('APP_ENV') != 'production') {
-            $data['code'] = $code;       
+            $data['code'] = $code;
         }
 
         return new ApiJsonResponse(data: $data);
