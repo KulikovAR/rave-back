@@ -101,6 +101,6 @@ class AuthService implements AuthServiceContract
             return false;
         }
 
-        return config('app.auth.code_timeout') - Carbon::now()->diffInSeconds(Carbon::parse($code_send_at));
+        return config('auth.code_timeout') - Carbon::now()->diffInSeconds(Carbon::parse($code_send_at));
     }
 }
