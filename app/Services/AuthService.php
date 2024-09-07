@@ -97,7 +97,7 @@ class AuthService implements AuthServiceContract
 
     private function getTimeout(?string $code_send_at): false|int
     {
-        if (is_null($code_send_at) || now()->subSeconds(30) < Carbon::parse($code_send_at)) {
+        if (is_null($code_send_at) || now()->subSeconds(30) >= Carbon::parse($code_send_at)) {
             return false;
         }
 
