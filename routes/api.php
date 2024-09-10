@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware(['guest'])->group(function () {
-    Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
+    Route::get('/login', [AuthController::class, 'login'])->name('auth.login');
     Route::post('/verify', [AuthController::class, 'verify'])->name('auth.verify');
 
     Route::middleware('refresh')->group(function () {
@@ -25,7 +25,7 @@ Route::middleware(['guest'])->group(function () {
 });
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/logout', [AuthController::class, 'logout']);
 });
 
 Route::get('/assets/{locale?}', [AssetsController::class, 'show'])->name('assets.index');
