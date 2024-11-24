@@ -7,8 +7,8 @@ services:
         uid: 1000
       context: ./
       dockerfile: Dockerfile
-    image: transportation
-    container_name: transportation-app
+    image: example
+    container_name: example-app
     restart: unless-stopped
     working_dir: /var/www/
     volumes:
@@ -19,7 +19,7 @@ services:
   db:
     platform: linux/x86_64 #macOS
     image: mysql:5.7
-    container_name: transportation-db
+    container_name: example-db
     restart: unless-stopped
     environment:
       MYSQL_DATABASE: ${DB_DATABASE}
@@ -35,7 +35,7 @@ services:
 
   nginx:
     image: nginx:alpine
-    container_name: transportation-nginx
+    container_name: example-nginx
     restart: unless-stopped
     expose:
       - 80:80
@@ -46,9 +46,9 @@ services:
     networks:
       - proxy
     environment:
-      - VIRTUAL_HOST=${TRANSPORTATION_HOSTNAME}
-      - LETSENCRYPT_HOST=${TRANSPORTATION_HOSTNAME}
-      - LETSENCRYPT_EMAIL=${TRANSPORTATION_EMAIL}
+      - VIRTUAL_HOST=${EXAMPLE_HOSTNAME}
+      - LETSENCRYPT_HOST=${EXAMPLE_HOSTNAME}
+      - LETSENCRYPT_EMAIL=${EXAMPLE_EMAIL}
 
 networks:
   proxy:

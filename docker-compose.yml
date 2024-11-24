@@ -7,19 +7,19 @@ services:
         uid: 1000
       context: ./
       dockerfile: Dockerfile
-    image: transportation
-    container_name: transportation-app
+    image: example
+    container_name: example-app
     restart: unless-stopped
     working_dir: /var/www/
     volumes:
       - ./:/var/www
     networks:
-      - transportation
+      - example
 
   db:
     platform: linux/x86_64 #macOS
     image: mysql:5.7
-    container_name: transportation-db
+    container_name: example-db
     restart: unless-stopped
     environment:
       MYSQL_DATABASE: ${DB_DATABASE}
@@ -31,11 +31,11 @@ services:
     volumes:
       - ./docker-compose/mysql:/docker-entrypoint-initdb.d
     networks:
-      - transportation
+      - example
 
   nginx:
     image: nginx:alpine
-    container_name: transportation-nginx
+    container_name: example-nginx
     restart: unless-stopped
     ports:
       - 8000:80
@@ -43,12 +43,12 @@ services:
       - ./:/var/www
       - ./docker-compose/nginx:/etc/nginx/conf.d/
     networks:
-      - transportation
+      - example
     environment:
-      - VIRTUAL_HOST=${TRANSPORTATION_HOSTNAME}
-      - LETSENCRYPT_HOST=${TRANSPORTATION_HOSTNAME}
-      - LETSENCRYPT_EMAIL=${TRANSPORTATION_EMAIL}
+      - VIRTUAL_HOST=${EXAMPLE_HOSTNAME}
+      - LETSENCRYPT_HOST=${EXAMPLE_HOSTNAME}
+      - LETSENCRYPT_EMAIL=${EXAMPLE_EMAIL}
 
 networks:
-  transportation:
+  example:
     driver: bridge

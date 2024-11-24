@@ -5,7 +5,7 @@ namespace App\Docs;
 /**
  * @OA\Info(
  *      version="1.0.0",
- *      title="API Documentation for transportation back-end service",
+ *      title="API Documentation for example back-end service",
  *      description="Documentation API",
  *
  *      @OA\Contact(

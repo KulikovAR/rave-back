@@ -44,4 +44,4 @@ yarn-error.log*
 
 load_dumps.sh
 docker-compose/nginx/travellist.conf
-docker-compose/nginx/transportation.conf
+docker-compose/nginx/example.conf
