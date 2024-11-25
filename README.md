@@ -1,4 +1,4 @@
-# Actual Loading Service
+# Example App
 
 - demo: https://example-app.pisateli-studio/
 
