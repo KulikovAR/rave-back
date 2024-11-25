@@ -1,6 +1,6 @@
 # Actual Loading Service
 
-- demo: https://admin-actual-loading.cargis.pro/
+- demo: https://example-app.pisateli-studio/
 
 ## Dev environment
 
@@ -16,4 +16,4 @@
 
 ## Api Docs
 
-[https://admin-actual-loading.cargis.pro/api/documentation](https://admin-actual-loading.cargis.pro/documentation)
+[https://example-app.pisateli-studio/api/documentation](https://example-app.pisateli-studio/documentation)
