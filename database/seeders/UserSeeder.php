@@ -31,16 +31,7 @@ class UserSeeder extends Seeder
         if (App::environment(EnvironmentTypeEnum::productEnv())) {
             return;
         }
-
-        $userAdmin = User::factory()->create(
-            [
-                'password' => Hash::make(self::ADMIN_PASSWORD),
-                'phone' => self::ADMIN_PHONE,
-                'email' => self::ADMIN_EMAIL,
-            ]
-        );
-        $userAdmin->assignRole(Role::ROLE_ADMIN);
-
+     
         $user = User::factory()->create(
             [
                 'password' => Hash::make(self::USER_PASSWORD),
@@ -48,6 +39,5 @@ class UserSeeder extends Seeder
                 'email' => self::USER_EMAIL,
             ],
         );
-        $user->assignRole(Role::ROLE_USER);
     }
 }
