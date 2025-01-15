@@ -17,8 +17,8 @@ class RolePermissionSeeder extends Seeder
     {
         $this->resetCachedRolesAndPermissions();
 
-        $admin = Role::create(['name' => Role::ROLE_ADMIN]);
-        $user = Role::create(['name' => Role::ROLE_USER]);
+        $admin = Role::create(['name' => Role::ROLE_ADMIN, 'guard_name' => 'web']);
+        $user = Role::create(['name' => Role::ROLE_USER, 'guard_name' => 'web']);
 
         Permission::create(['name' => Permission::PERMISSION]);
 

@@ -12,6 +12,4 @@ class Role extends SpatieRole
     const ROLE_MANAGER = 'manager';
 
     const ROLE_USER = 'user';
-
-    protected $table = 'spatie_roles';
 }
