@@ -4,6 +4,16 @@ use App\Http\Controllers\AssetsController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\Api\{
+    RestaurantController,
+    CategoryController,
+    ProductController,
+    BannerController,
+    SettingController,
+    OrderController
+};
+
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -29,3 +39,15 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 Route::get('/assets/{locale?}', [AssetsController::class, 'show'])->name('assets.index');
+
+
+Route::apiResource('restaurants', RestaurantController::class);
+Route::apiResource('categories', CategoryController::class);
+Route::apiResource('products', ProductController::class);
+Route::apiResource('banners', BannerController::class);
+Route::apiResource('settings', SettingController::class);
+
+Route::get('products/{id}/recommended', [ProductController::class, 'getRecommended']);
+Route::post('orders', [OrderController::class, 'store']);
+Route::get('orders', [OrderController::class, 'index']);
+Route::get('orders/{id}', [OrderController::class, 'show']);
