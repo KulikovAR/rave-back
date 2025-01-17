@@ -28,11 +28,18 @@ class OrderResource extends Resource
                 Tables\Columns\TextColumn::make('total_price')->label('Итоговая стоимость'),
                 Tables\Columns\BadgeColumn::make('status')
                     ->label('Статус')
-                    ->enum([
+                    ->formatStateUsing(fn ($state) => match ($state) {
                         'new' => 'Новый',
                         'processing' => 'В обработке',
                         'completed' => 'Завершен',
                         'canceled' => 'Отменен',
+                        default => 'Неизвестно',
+                    })
+                    ->colors([
+                        'primary' => 'new',
+                        'warning' => 'processing',
+                        'success' => 'completed',
+                        'danger' => 'canceled',
                     ]),
                 Tables\Columns\TextColumn::make('created_at')->label('Дата создания'),
             ])

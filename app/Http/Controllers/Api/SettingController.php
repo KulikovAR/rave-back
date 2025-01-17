@@ -3,50 +3,70 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Setting;
+use Illuminate\Http\Request;
 
 class SettingController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $settings = Setting::all();
-        return response()->json($settings);
+
+        return response()->json($settings, 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
     public function show($key)
     {
-        $setting = Setting::where('key', $key)->firstOrFail();
-        return response()->json($setting);
+        $setting = Setting::where('key', $key)->first();
+
+        if (!$setting) {
+            return response()->json(['error' => 'Setting not found'], 404);
+        }
+
+        return response()->json($setting, 200);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'key' => 'required|string|unique:settings,key',
+            'value' => 'required|string',
+        ]);
+
+        $setting = Setting::create($validated);
+
+        return response()->json($setting, 201);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function update(Request $request, $key)
     {
-        //
+        $setting = Setting::where('key', $key)->first();
+
+        if (!$setting) {
+            return response()->json(['error' => 'Setting not found'], 404);
+        }
+
+        $validated = $request->validate([
+            'name' => 'sometimes|string|max:255',
+            'value' => 'sometimes|string',
+        ]);
+
+        $setting->update($validated);
+
+        return response()->json($setting, 200);
+    }
+
+    public function destroy($key)
+    {
+        $setting = Setting::where('key', $key)->first();
+
+        if (!$setting) {
+            return response()->json(['error' => 'Setting not found'], 404);
+        }
+
+        $setting->delete();
+
+        return response()->json(['message' => 'Setting deleted successfully'], 200);
     }
 }

@@ -8,50 +8,76 @@ use App\Models\Category;
 
 class CategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request)
     {
-        $categories = Category::orderBy('priority')
-            ->when(request('hidden') !== null, function ($query) {
-                $query->where('hidden', request('hidden'));
-            })
-            ->get();
+        $query = Category::query();
 
-        return response()->json($categories);
+        if ($request->has('hidden')) {
+            $query->where('hidden', $request->hidden);
+        }
+
+        if ($request->has('priority')) {
+            $query->orderBy('priority', 'asc');
+        }
+
+        $categories = $query->get();
+
+        return response()->json($categories, 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
     public function show($id)
     {
-        $category = Category::findOrFail($id);
-        return response()->json($category);
+        $category = Category::find($id);
+
+        if (!$category) {
+            return response()->json(['error' => 'Category not found'], 404);
+        }
+
+        return response()->json($category, 200);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'priority' => 'required|integer',
+            'hidden' => 'required|boolean',
+        ]);
+
+        $category = Category::create($validated);
+
+        return response()->json($category, 201);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $category = Category::find($id);
+
+        if (!$category) {
+            return response()->json(['error' => 'Category not found'], 404);
+        }
+
+        $validated = $request->validate([
+            'name' => 'sometimes|string|max:255',
+            'priority' => 'sometimes|integer',
+            'hidden' => 'sometimes|boolean',
+        ]);
+
+        $category->update($validated);
+
+        return response()->json($category, 200);
+    }
+
+    public function destroy($id)
+    {
+        $category = Category::find($id);
+
+        if (!$category) {
+            return response()->json(['error' => 'Category not found'], 404);
+        }
+
+        $category->delete();
+
+        return response()->json(['message' => 'Category deleted successfully'], 200);
     }
 }

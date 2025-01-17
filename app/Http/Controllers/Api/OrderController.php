@@ -5,75 +5,114 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\OrderProduct;
+use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request)
     {
-        $orders = Order::with('products')->get();
-        return response()->json($orders);
+        $query = Order::query();
+
+        if ($request->has('status')) {
+            $query->where('status', $request->status);
+        }
+
+        if ($request->has('customer_phone')) {
+            $query->where('customer_phone', 'like', '%' . $request->customer_phone . '%');
+        }
+
+        if ($request->has('date_from') && $request->has('date_to')) {
+            $query->whereBetween('created_at', [$request->date_from, $request->date_to]);
+        }
+
+        $orders = $query->get();
+
+        return response()->json($orders, 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    public function show($id)
+    {
+        $order = Order::with('orderProducts.product')->find($id);
+
+        if (!$order) {
+            return response()->json(['error' => 'Order not found'], 404);
+        }
+
+        return response()->json($order, 200);
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'customer_phone' => 'required|string',
+            'customer_phone' => 'required|string|max:15',
             'products' => 'required|array',
             'products.*.product_id' => 'required|exists:products,id',
             'products.*.quantity' => 'required|integer|min:1',
         ]);
 
-        $order = Order::create([
-            'customer_phone' => $validated['customer_phone'],
-            'total_price' => 0,
-        ]);
+        DB::beginTransaction();
 
-        $totalPrice = 0;
-        foreach ($validated['products'] as $item) {
-            $product = Product::findOrFail($item['product_id']);
-            $totalPrice += $product->price * $item['quantity'];
-
-            OrderProduct::create([
-                'order_id' => $order->id,
-                'product_id' => $product->id,
-                'quantity' => $item['quantity'],
-                'price' => $product->price,
+        try {
+            $order = Order::create([
+                'customer_phone' => $validated['customer_phone'],
+                'total_price' => 0,  
+                'status' => 'new',
             ]);
+
+            $totalPrice = 0;
+
+            foreach ($validated['products'] as $productData) {
+                $product = Product::find($productData['product_id']);
+                $totalPrice += $product->price * $productData['quantity'];
+
+                OrderProduct::create([
+                    'order_id' => $order->id,
+                    'product_id' => $product->id,
+                    'quantity' => $productData['quantity'],
+                    'price' => $product->price,
+                ]);
+            }
+
+            $order->update(['total_price' => $totalPrice]);
+
+            DB::commit();
+
+            return response()->json($order, 201);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['error' => 'Error creating order'], 500);
+        }
+    }
+
+    public function update(Request $request, $id)
+    {
+        $order = Order::find($id);
+
+        if (!$order) {
+            return response()->json(['error' => 'Order not found'], 404);
         }
 
-        $order->update(['total_price' => $totalPrice]);
-        return response()->json($order, 201);
+        $validated = $request->validate([
+            'status' => 'required|string|in:new,processing,completed,canceled',
+        ]);
+
+        $order->update($validated);
+
+        return response()->json($order, 200);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show($id)
+    public function destroy($id)
     {
-        $order = Order::with('products')->findOrFail($id);
-        return response()->json($order);
-    }
+        $order = Order::find($id);
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+        if (!$order) {
+            return response()->json(['error' => 'Order not found'], 404);
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $order->delete();
+
+        return response()->json(['message' => 'Order deleted successfully'], 200);
     }
 }

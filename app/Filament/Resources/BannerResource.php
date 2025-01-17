@@ -27,8 +27,10 @@ class BannerResource extends Resource
                     ->label('Название')
                     ->required(),
                 Forms\Components\FileUpload::make('image_path')
-                    ->label('Изображение')
-                    ->image()
+                    ->disk('public') // Указываем диск для сохранения
+                    ->directory('banners') // Папка внутри диска
+                    ->visibility('public') // Делаем файл общедоступным
+                    ->image() // Ограничиваем только изображениями
                     ->required(),
                 Forms\Components\TextInput::make('priority')
                     ->label('Приоритет')
