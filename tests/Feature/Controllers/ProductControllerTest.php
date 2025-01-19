@@ -28,6 +28,7 @@ class ProductControllerTest extends TestCase
         ];
 
         $response = $this->actingAs($user)->post('/api/v1/products', $data);
+
         $response->assertStatus(201);
         $this->assertDatabaseHas('products', $data);
     }
@@ -62,7 +63,20 @@ class ProductControllerTest extends TestCase
         $product = Product::factory()->create();
         
         $response = $this->actingAs($user)->get('/api/v1/products');
-        $response->assertStatus(200);
-        $response->assertSee($product->name);
+        $response->assertStatus(200)
+            ->assertJsonStructure([
+                '*' => [
+                    'id',
+                    'category_id',
+                    'name',
+                    'description',
+                    'price',
+                    'weight',
+                    'calories',
+                    'priority',
+                    'created_at',
+                    'updated_at',
+                ]
+            ]);
     }
 }

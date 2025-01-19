@@ -3,38 +3,28 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Order;
-use App\Models\OrderProduct;
-use App\Models\Product;
+use App\Http\Services\OrderService;
+use App\Http\Requests\OrderRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
+    private $orderService;
+
+    public function __construct(OrderService $orderService)
+    {
+        $this->orderService = $orderService;
+    }
+
     public function index(Request $request)
     {
-        $query = Order::query();
-
-        if ($request->has('status')) {
-            $query->where('status', $request->status);
-        }
-
-        if ($request->has('customer_phone')) {
-            $query->where('customer_phone', 'like', '%' . $request->customer_phone . '%');
-        }
-
-        if ($request->has('date_from') && $request->has('date_to')) {
-            $query->whereBetween('created_at', [$request->date_from, $request->date_to]);
-        }
-
-        $orders = $query->get();
-
+        $orders = $this->orderService->getAllOrders($request->all());
         return response()->json($orders, 200);
     }
 
     public function show($id)
     {
-        $order = Order::with('orderProducts.product')->find($id);
+        $order = $this->orderService->getOrderById($id);
 
         if (!$order) {
             return response()->json(['error' => 'Order not found'], 404);
@@ -43,75 +33,36 @@ class OrderController extends Controller
         return response()->json($order, 200);
     }
 
-    public function store(Request $request)
+    public function store(OrderRequest $request)
     {
-        $validated = $request->validate([
-            'customer_phone' => 'required|string|max:15',
-            'products' => 'required|array',
-            'products.*.product_id' => 'required|exists:products,id',
-            'products.*.quantity' => 'required|integer|min:1',
-        ]);
+        $validated = $request->validated();
 
-        DB::beginTransaction();
-
-        try {
-            $order = Order::create([
-                'customer_phone' => $validated['customer_phone'],
-                'total_price' => 0,  
-                'status' => 'new',
-            ]);
-
-            $totalPrice = 0;
-
-            foreach ($validated['products'] as $productData) {
-                $product = Product::find($productData['product_id']);
-                $totalPrice += $product->price * $productData['quantity'];
-
-                OrderProduct::create([
-                    'order_id' => $order->id,
-                    'product_id' => $product->id,
-                    'quantity' => $productData['quantity'],
-                    'price' => $product->price,
-                ]);
-            }
-
-            $order->update(['total_price' => $totalPrice]);
-
-            DB::commit();
-
-            return response()->json($order, 201);
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return response()->json(['error' => 'Error creating order'], 500);
-        }
+        $order = $this->orderService->createOrder($validated);
+        return response()->json($order, 201);
     }
 
     public function update(Request $request, $id)
     {
-        $order = Order::find($id);
+        $validated = $request->validate([
+            'status' => 'sometimes|string|in:pending,processing,completed,canceled',
+        ]);
+
+        $order = $this->orderService->updateOrder($id, $validated);
 
         if (!$order) {
             return response()->json(['error' => 'Order not found'], 404);
         }
-
-        $validated = $request->validate([
-            'status' => 'required|string|in:new,processing,completed,canceled',
-        ]);
-
-        $order->update($validated);
 
         return response()->json($order, 200);
     }
 
     public function destroy($id)
     {
-        $order = Order::find($id);
+        $order = $this->orderService->deleteOrder($id);
 
         if (!$order) {
             return response()->json(['error' => 'Order not found'], 404);
         }
-
-        $order->delete();
 
         return response()->json(['message' => 'Order deleted successfully'], 200);
     }

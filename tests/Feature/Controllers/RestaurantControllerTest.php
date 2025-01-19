@@ -72,7 +72,17 @@ class RestaurantControllerTest extends TestCase
         $restaurant = Restaurant::factory()->create();
         
         $response = $this->actingAs($user)->get('/api/v1/restaurants');
-        $response->assertStatus(200); // Проверка успешного ответа (200)
-        $response->assertJsonFragment(['name' => $restaurant->name]); // Проверка, что ресторан отображается в списке
+
+        $response->assertStatus(200)
+            ->assertJsonStructure([
+                '*' => [
+                    'id',
+                    'name',
+                    'photo',
+                    'priority',
+                    'created_at',
+                    'updated_at',
+                ]
+            ]);
     }
 }

@@ -4,32 +4,28 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateProductsTable extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
+    public function up()
     {
         Schema::create('products', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('category_id')->constrained()->cascadeOnDelete();
+            $table->uuid('id')->primary();
+            $table->uuid('category_id');
             $table->string('name');
             $table->text('description');
-            $table->integer('price');
+            $table->decimal('price', 10, 2);
             $table->integer('weight');
             $table->integer('calories');
             $table->boolean('hidden')->default(false);
-            $table->integer('priority')->default(0);
+            $table->integer('priority');
             $table->timestamps();
+
+            $table->foreign('category_id')->references('id')->on('categories')->cascadeOnDelete();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('products');
     }
-};
+}

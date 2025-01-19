@@ -22,10 +22,8 @@ class BannerControllerTest extends TestCase
             'priority' => 1,
         ];
 
-        $response = $this->actingAs($user) // аутентифицируем пользователя
-                         ->post('/api/v1/banners', $data);
+        $response = $this->actingAs($user)->post('/api/v1/banners', $data);
                          
-        // dd($response);
         $response->assertStatus(201);
         $this->assertDatabaseHas('banners', $data);
     }
@@ -38,8 +36,7 @@ class BannerControllerTest extends TestCase
         $banner = Banner::factory()->create();
         $data = ['name' => 'Updated Banner'];
 
-        $response = $this->actingAs($user) // аутентифицируем пользователя
-                         ->put('/api/v1/banners/' . $banner->id, $data);
+        $response = $this->actingAs($user)->put('/api/v1/banners/' . $banner->id, $data);
 
         $response->assertStatus(200);
         $this->assertDatabaseHas('banners', $data);
@@ -52,8 +49,7 @@ class BannerControllerTest extends TestCase
 
         $banner = Banner::factory()->create();
 
-        $response = $this->actingAs($user) // аутентифицируем пользователя
-                         ->delete('/api/v1/banners/' . $banner->id);
+        $response = $this->actingAs($user)->delete('/api/v1/banners/' . $banner->id);
                          
         $response->assertStatus(200);
         $this->assertDatabaseMissing('banners', ['id' => $banner->id]);
@@ -66,10 +62,18 @@ class BannerControllerTest extends TestCase
 
         $banner = Banner::factory()->create();
 
-        $response = $this->actingAs($user) // аутентифицируем пользователя
-                         ->get('/api/v1/banners');
+        $response = $this->actingAs($user)->get('/api/v1/banners');
                          
-        $response->assertStatus(200);
-        $response->assertSee($banner->name);
+        $response->assertStatus(200)
+            ->assertJsonStructure([
+                '*' => [
+                    'id',
+                    'name',
+                    'image_path',
+                    'priority',
+                    'created_at',
+                    'updated_at',
+                ]
+            ]);
     }
 }

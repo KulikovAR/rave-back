@@ -13,6 +13,7 @@ class CategoryFactory extends Factory
     {
         return [
             'name' => $this->faker->word,
+            'restaurant_id' => \App\Models\Restaurant::factory(),
             'priority' => $this->faker->numberBetween(1, 10),
             'hidden' => $this->faker->boolean,
         ];

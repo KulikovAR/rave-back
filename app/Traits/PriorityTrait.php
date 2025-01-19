@@ -8,6 +8,14 @@ trait PriorityTrait
 {
     public static function bootPriorityTrait()
     {
+        static::creating(function (Model $model) {
+            if ($model->priority === 0) {
+                static::query()
+                    ->where('priority', '>=', 0)
+                    ->increment('priority');
+            }
+        });
+
         static::saving(function (Model $model) {
             if ($model->isDirty('priority')) {
                 $oldPriority = $model->getOriginal('priority');

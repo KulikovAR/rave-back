@@ -23,6 +23,10 @@ class CategoryResource extends Resource
     {
         return $form
             ->schema([
+                Forms\Components\Select::make('restaurant_id')  // Добавляем поле для ресторана
+                    ->label('Ресторан')
+                    ->relationship('restaurant', 'name')  // Используем связь restaurant (предполагается, что такая связь существует в модели Category)
+                    ->required(),
                 Forms\Components\TextInput::make('name')
                     ->label('Название')
                     ->required(),

@@ -3,27 +3,27 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Banner;
+use App\Http\Services\BannerService;
 use Illuminate\Http\Request;
 
 class BannerController extends Controller
 {
+    private $bannerService;
+
+    public function __construct(BannerService $bannerService)
+    {
+        $this->bannerService = $bannerService;
+    }
+
     public function index(Request $request)
     {
-        $query = Banner::query();
-
-        if ($request->has('priority')) {
-            $query->orderBy('priority', 'asc');
-        }
-
-        $banners = $query->get();
-
+        $banners = $this->bannerService->getAllBanners($request->priority);
         return response()->json($banners, 200);
     }
 
     public function show($id)
     {
-        $banner = Banner::find($id);
+        $banner = $this->bannerService->getBannerById($id);
 
         if (!$banner) {
             return response()->json(['error' => 'Banner not found'], 404);
@@ -40,38 +40,34 @@ class BannerController extends Controller
             'priority' => 'required|integer',
         ]);
 
-        $banner = Banner::create($validated);
+        $banner = $this->bannerService->createBanner($validated);
 
         return response()->json($banner, 201);
     }
 
     public function update(Request $request, $id)
     {
-        $banner = Banner::find($id);
-
-        if (!$banner) {
-            return response()->json(['error' => 'Banner not found'], 404);
-        }
-
         $validated = $request->validate([
             'name' => 'sometimes|string|max:255',
             'priority' => 'sometimes|integer',
         ]);
 
-        $banner->update($validated);
+        $banner = $this->bannerService->updateBanner($id, $validated);
+
+        if (!$banner) {
+            return response()->json(['error' => 'Banner not found'], 404);
+        }
 
         return response()->json($banner, 200);
     }
 
     public function destroy($id)
     {
-        $banner = Banner::find($id);
+        $banner = $this->bannerService->deleteBanner($id);
 
         if (!$banner) {
             return response()->json(['error' => 'Banner not found'], 404);
         }
-
-        $banner->delete();
 
         return response()->json(['message' => 'Banner deleted successfully'], 200);
     }

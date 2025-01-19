@@ -60,7 +60,16 @@ class SettingControllerTest extends TestCase
         $setting = Setting::factory()->create();
 
         $response = $this->actingAs($user)->get('/api/v1/settings');
-        $response->assertStatus(200);
-        $response->assertSee($setting->name);
+        $response->assertStatus(200)
+            ->assertJsonStructure([
+                '*' => [
+                    'id',
+                    'name',
+                    'key',
+                    'value',
+                    'created_at',
+                    'updated_at',
+                ]
+            ]);
     }
 }

@@ -3,32 +3,27 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Restaurant;
+use App\Http\Services\RestaurantService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class RestaurantController extends Controller
 {
+    private $restaurantService;
+
+    public function __construct(RestaurantService $restaurantService)
+    {
+        $this->restaurantService = $restaurantService;
+    }
+
     public function index(Request $request)
     {
-        $query = Restaurant::query();
-
-        if ($request->has('hidden')) {
-            $query->where('hidden', $request->hidden);
-        }
-
-        if ($request->has('priority')) {
-            $query->orderBy('priority', 'asc');
-        }
-
-        $restaurants = $query->get();
-
+        $restaurants = $this->restaurantService->getAllRestaurants($request->hidden, $request->priority);
         return response()->json($restaurants, 200);
     }
 
     public function show($id)
     {
-        $restaurant = Restaurant::find($id);
+        $restaurant = $this->restaurantService->getRestaurantById($id);
 
         if (!$restaurant) {
             return response()->json(['error' => 'Restaurant not found'], 404);
@@ -45,52 +40,34 @@ class RestaurantController extends Controller
             'priority' => 'required|integer',
         ]);
 
-        $path = $request->file('photo')->store('restaurants', 'public');
-
-        $restaurant = Restaurant::create([
-            'name' => $validated['name'],
-            'photo' => $path,
-            'priority' => $validated['priority'],
-        ]);
-
+        $restaurant = $this->restaurantService->createRestaurant($validated, $request->file('photo'));
         return response()->json($restaurant, 201);
     }
 
     public function update(Request $request, $id)
     {
-        $restaurant = Restaurant::find($id);
-
-        if (!$restaurant) {
-            return response()->json(['error' => 'Restaurant not found'], 404);
-        }
-
         $validated = $request->validate([
             'name' => 'sometimes|string|max:255',
             'photo' => 'sometimes|image',
             'priority' => 'sometimes|integer',
         ]);
 
-        if ($request->hasFile('photo')) {
-            Storage::disk('public')->delete($restaurant->photo);
-            $path = $request->file('photo')->store('restaurants', 'public');
-            $restaurant->photo = $path;
-        }
+        $restaurant = $this->restaurantService->updateRestaurant($id, $validated, $request->file('photo'));
 
-        $restaurant->update($validated);
+        if (!$restaurant) {
+            return response()->json(['error' => 'Restaurant not found'], 404);
+        }
 
         return response()->json($restaurant, 200);
     }
 
     public function destroy($id)
     {
-        $restaurant = Restaurant::find($id);
+        $restaurant = $this->restaurantService->deleteRestaurant($id);
 
         if (!$restaurant) {
             return response()->json(['error' => 'Restaurant not found'], 404);
         }
-
-        Storage::disk('public')->delete($restaurant->photo);
-        $restaurant->delete();
 
         return response()->json(['message' => 'Restaurant deleted successfully'], 200);
     }

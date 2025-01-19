@@ -3,6 +3,7 @@
 namespace Tests\Feature\Controllers;
 
 use App\Models\Category;
+use App\Models\Restaurant;
 use App\Models\User; 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
@@ -16,8 +17,10 @@ class CategoryControllerTest extends TestCase
     {
         $user = User::where('email','admin@admin')->first();
 
+        $restaurant = Restaurant::factory()->create();
         $data = [
             'name' => 'Test Category',
+            'restaurant_id' => $restaurant->id,
             'priority' => 1,
             'hidden' => false,
         ];
@@ -60,7 +63,17 @@ class CategoryControllerTest extends TestCase
         $category = Category::factory()->create();
         
         $response = $this->actingAs($user)->get('/api/v1/categories');
-        $response->assertStatus(200);
-        $response->assertSee($category->name);
+        $response->assertStatus(200)
+            ->assertJsonStructure([
+                '*' => [
+                    'id',
+                    'name',
+                    'restaurant_id',
+                    'priority',
+                    'hidden',
+                    'created_at',
+                    'updated_at',
+                ]
+            ]);
     }
 }

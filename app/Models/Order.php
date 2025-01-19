@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
 class Order extends Model
 {
-    use HasFactory;
+    use HasFactory, HasUuids;
 
     protected $fillable = [
         'customer_phone',
@@ -20,13 +21,33 @@ class Order extends Model
         return $this->hasMany(OrderProduct::class);
     }
 
-    public function calculateTotalPrice()
+    // public function calculateTotalPrice()
+    // {
+    //     $totalPrice = $this->orderProducts->sum(function ($orderProduct) {
+    //         return $orderProduct->price * $orderProduct->quantity;
+    //     });
+
+    //     $this->total_price = $totalPrice;
+    //     $this->save();
+    // }
+
+    public function products()
     {
+        return $this->belongsToMany(Product::class, 'order_products')
+            ->withPivot('quantity', 'price')
+            ->withTimestamps();
+    }
+
+    public function recalculateTotalPrice()
+    {
+        $this->load('orderProducts');
+
+        // Пересчитываем стоимость заказа, исходя из информации из order_products
         $totalPrice = $this->orderProducts->sum(function ($orderProduct) {
             return $orderProduct->price * $orderProduct->quantity;
         });
 
-        $this->total_price = $totalPrice;
-        $this->save();
+        // Обновляем поле total_price
+        $this->update(['total_price' => $totalPrice]);
     }
 }

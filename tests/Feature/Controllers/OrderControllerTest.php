@@ -49,9 +49,38 @@ class OrderControllerTest extends TestCase
         $user = User::where('email','admin@admin')->first();
 
         $order = Order::factory()->create();
+        $orderProduct = OrderProduct::factory()->create(
+            [
+                'order_id' => $order->id
+            ]
+        );
+        $orderProduct2 = OrderProduct::factory()->create(
+            [
+                'order_id' => $order->id
+            ]
+        );
         
         $response = $this->actingAs($user)->get('/api/v1/orders');
-        $response->assertStatus(200);
-        $response->assertSee($order->customer_phone);
+
+        $response->assertStatus(200)
+            ->assertJsonStructure([
+                '*' => [
+                    'id',
+                    'customer_phone',
+                    'status',
+                    'total_price',
+                    'created_at',
+                    'updated_at',
+                    'order_products' => [
+                        '*' => [
+                            'product_id',
+                            'quantity',
+                            'price',
+                            'created_at',
+                            'updated_at',
+                        ]
+                    ]
+                ]
+            ]);
     }
 }
