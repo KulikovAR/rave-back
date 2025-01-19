@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Services\OrderService;
 use App\Http\Requests\OrderRequest;
 use Illuminate\Http\Request;
+use App\Http\Responses\ApiJsonResponse;
 
 class OrderController extends Controller
 {
@@ -16,32 +17,34 @@ class OrderController extends Controller
         $this->orderService = $orderService;
     }
 
-    public function index(Request $request)
+    public function index(Request $request): ApiJsonResponse
     {
         $orders = $this->orderService->getAllOrders($request->all());
-        return response()->json($orders, 200);
+
+        return new ApiJsonResponse(data: $orders);
     }
 
-    public function show($id)
+    public function show($id): ApiJsonResponse
     {
         $order = $this->orderService->getOrderById($id);
 
         if (!$order) {
-            return response()->json(['error' => 'Order not found'], 404);
+            return new ApiJsonResponse(404, false, 'Order not found');
         }
 
-        return response()->json($order, 200);
+        return new ApiJsonResponse(data: $order);
     }
 
-    public function store(OrderRequest $request)
+    public function store(OrderRequest $request): ApiJsonResponse
     {
         $validated = $request->validated();
 
         $order = $this->orderService->createOrder($validated);
-        return response()->json($order, 201);
+
+        return new ApiJsonResponse(201, data: $order);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $id): ApiJsonResponse
     {
         $validated = $request->validate([
             'status' => 'sometimes|string|in:pending,processing,completed,canceled',
@@ -50,20 +53,20 @@ class OrderController extends Controller
         $order = $this->orderService->updateOrder($id, $validated);
 
         if (!$order) {
-            return response()->json(['error' => 'Order not found'], 404);
+            return new ApiJsonResponse(404, false, 'Order not found');
         }
 
-        return response()->json($order, 200);
+        return new ApiJsonResponse(data: $order);
     }
 
-    public function destroy($id)
+    public function destroy($id): ApiJsonResponse
     {
         $order = $this->orderService->deleteOrder($id);
 
         if (!$order) {
-            return response()->json(['error' => 'Order not found'], 404);
+            return new ApiJsonResponse(404, false, 'Order not found');
         }
 
-        return response()->json(['message' => 'Order deleted successfully'], 200);
+        return new ApiJsonResponse(message: 'Order deleted successfully');
     }
 }

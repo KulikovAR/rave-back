@@ -64,6 +64,7 @@ class OrderControllerTest extends TestCase
 
         $response->assertStatus(200)
             ->assertJsonStructure([
+                'data' => [
                 '*' => [
                     'id',
                     'customer_phone',
@@ -81,6 +82,7 @@ class OrderControllerTest extends TestCase
                         ]
                     ]
                 ]
+            ]
             ]);
     }
 }
