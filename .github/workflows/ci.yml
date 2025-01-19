@@ -41,4 +41,5 @@ jobs:
           host: ${{ secrets.DEV_HOST }}
           username: ${{ secrets.DEV_USER }}
           password: ${{ secrets.DEV_PASSWORD }}
-          script: sh /home/deploy/deploy-actual-example.sh
+          port: ${{ secrets.DEV_PORT }}
+          script: sh /var/www/deploy-rave-back.sh
