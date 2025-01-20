@@ -16,4 +16,14 @@ class ListProducts extends ListRecords
             Actions\CreateAction::make(),
         ];
     }
+
+    public function getTitle(): string
+    {
+        return 'Список товаров';
+    }
+
+    public function getBreadcrumb(): string
+    {
+        return 'Список';
+    }
 }

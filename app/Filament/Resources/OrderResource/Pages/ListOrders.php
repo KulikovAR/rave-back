@@ -16,4 +16,14 @@ class ListOrders extends ListRecords
             Actions\CreateAction::make(),
         ];
     }
+
+    public function getTitle(): string
+    {
+        return 'Список заказов';
+    }
+
+    public function getBreadcrumb(): string
+    {
+        return 'Список';
+    }
 }

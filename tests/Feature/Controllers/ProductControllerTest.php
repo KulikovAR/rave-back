@@ -2,8 +2,8 @@
 
 namespace Tests\Feature\Controllers;
 
-use App\Models\Product;
 use App\Models\Category;
+use App\Models\Product;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
@@ -15,7 +15,7 @@ class ProductControllerTest extends TestCase
     /** @test */
     public function can_create_product()
     {
-        $user = User::where('email','admin@admin')->first();
+        $user = User::where('email', 'admin@admin')->first();
         $category = Category::factory()->create();
         $data = [
             'category_id' => $category->id,
@@ -36,11 +36,11 @@ class ProductControllerTest extends TestCase
     /** @test */
     public function can_update_product()
     {
-        $user = User::where('email','admin@admin')->first();
+        $user = User::where('email', 'admin@admin')->first();
         $product = Product::factory()->create();
         $data = ['name' => 'Updated Product'];
 
-        $response = $this->actingAs($user)->put('/api/v1/products/' . $product->id, $data);
+        $response = $this->actingAs($user)->put('/api/v1/products/'.$product->id, $data);
         $response->assertStatus(200);
         $this->assertDatabaseHas('products', $data);
     }
@@ -48,10 +48,10 @@ class ProductControllerTest extends TestCase
     /** @test */
     public function can_delete_product()
     {
-        $user = User::where('email','admin@admin')->first();
+        $user = User::where('email', 'admin@admin')->first();
         $product = Product::factory()->create();
 
-        $response = $this->actingAs($user)->delete('/api/v1/products/' . $product->id);
+        $response = $this->actingAs($user)->delete('/api/v1/products/'.$product->id);
         $response->assertStatus(200);
         $this->assertDatabaseMissing('products', ['id' => $product->id]);
     }
@@ -59,24 +59,26 @@ class ProductControllerTest extends TestCase
     /** @test */
     public function can_list_products()
     {
-        $user = User::where('email','admin@admin')->first();
+        $user = User::where('email', 'admin@admin')->first();
         $product = Product::factory()->create();
-        
+
         $response = $this->actingAs($user)->get('/api/v1/products');
         $response->assertStatus(200)
             ->assertJsonStructure([
-                '*' => [
-                    'id',
-                    'category_id',
-                    'name',
-                    'description',
-                    'price',
-                    'weight',
-                    'calories',
-                    'priority',
-                    'created_at',
-                    'updated_at',
-                ]
+                'data' => [
+                    '*' => [
+                        'id',
+                        'category_id',
+                        'name',
+                        'description',
+                        'price',
+                        'weight',
+                        'calories',
+                        'priority',
+                        'created_at',
+                        'updated_at',
+                    ],
+                ],
             ]);
     }
 }

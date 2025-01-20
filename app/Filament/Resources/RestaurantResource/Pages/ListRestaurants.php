@@ -16,4 +16,14 @@ class ListRestaurants extends ListRecords
             Actions\CreateAction::make(),
         ];
     }
+
+    public function getTitle(): string
+    {
+        return 'Список ресторанов';
+    }
+
+    public function getBreadcrumb(): string
+    {
+        return 'Список';
+    }
 }

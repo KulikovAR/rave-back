@@ -16,4 +16,14 @@ class EditRestaurant extends EditRecord
             Actions\DeleteAction::make(),
         ];
     }
+
+    public function getTitle(): string
+    {
+        return 'Редактирование ресторана';
+    }
+
+    public function getBreadcrumb(): string
+    {
+        return 'Редактирование';
+    }
 }

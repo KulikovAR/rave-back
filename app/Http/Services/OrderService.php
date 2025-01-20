@@ -18,7 +18,7 @@ class OrderService
         }
 
         if (isset($filters['customer_phone'])) {
-            $query->where('customer_phone', 'like', '%' . $filters['customer_phone'] . '%');
+            $query->where('customer_phone', 'like', '%'.$filters['customer_phone'].'%');
         }
 
         if (isset($filters['date_from']) && isset($filters['date_to'])) {
@@ -74,6 +74,7 @@ class OrderService
         if ($order) {
             $order->update($data);
         }
+
         return $order;
     }
 
@@ -83,6 +84,7 @@ class OrderService
         if ($order) {
             $order->delete();
         }
+
         return $order;
     }
 

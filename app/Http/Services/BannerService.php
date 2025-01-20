@@ -12,6 +12,7 @@ class BannerService
         if ($priority !== null) {
             $query->orderBy('priority', 'asc');
         }
+
         return $query->get();
     }
 
@@ -31,6 +32,7 @@ class BannerService
         if ($banner) {
             $banner->update($data);
         }
+
         return $banner;
     }
 
@@ -40,6 +42,7 @@ class BannerService
         if ($banner) {
             $banner->delete();
         }
+
         return $banner;
     }
 }

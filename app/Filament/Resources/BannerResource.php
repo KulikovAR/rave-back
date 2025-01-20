@@ -3,21 +3,33 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\BannerResource\Pages;
-use App\Filament\Resources\BannerResource\RelationManagers;
 use App\Models\Banner;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class BannerResource extends Resource
 {
     protected static ?string $model = Banner::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-photo';
+
+    public static function getNavigationLabel(): string
+    {
+        return 'Баннеры';
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return 'Баннеры';
+    }
+
+    public static function getModelLabel(): string
+    {
+        return 'Баннер';
+    }
 
     public static function form(Form $form): Form
     {
@@ -27,10 +39,10 @@ class BannerResource extends Resource
                     ->label('Название')
                     ->required(),
                 Forms\Components\FileUpload::make('image_path')
-                    ->disk('public') // Указываем диск для сохранения
-                    ->directory('banners') // Папка внутри диска
-                    ->visibility('public') // Делаем файл общедоступным
-                    ->image() // Ограничиваем только изображениями
+                    ->disk('public')
+                    ->directory('banners')
+                    ->visibility('public')
+                    ->image()
                     ->required(),
                 Forms\Components\TextInput::make('priority')
                     ->label('Приоритет')

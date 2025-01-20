@@ -2,14 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class OrderProduct extends Model
 {
     use HasFactory, HasUuids;
-    
+
     protected $fillable = [
         'order_id',
         'product_id',
@@ -32,18 +32,15 @@ class OrderProduct extends Model
         parent::boot();
 
         static::saved(function ($orderProduct) {
-            // После сохранения каждого OrderProduct пересчитываем стоимость заказа
             $order = $orderProduct->order;
-            $order->recalculateTotalPrice(); // Вызываем перерасчет общей стоимости
+            $order->recalculateTotalPrice();
         });
 
         static::saving(function ($model) {
-            // Если цена не установлена, извлекаем её из модели продукта
-            if (!$model->price) {
+            if (! $model->price) {
                 $product = Product::find($model->product_id);
-                $model->price = $product?->price ?? 0; // Если продукт не найден, установим цену 0
+                $model->price = $product?->price ?? 0;
             }
-            
         });
     }
 }

@@ -15,6 +15,7 @@ class CategoryService
         if ($priority !== null) {
             $query->orderBy('priority', 'asc');
         }
+
         return $query->get();
     }
 
@@ -34,6 +35,7 @@ class CategoryService
         if ($category) {
             $category->update($data);
         }
+
         return $category;
     }
 
@@ -43,6 +45,7 @@ class CategoryService
         if ($category) {
             $category->delete();
         }
+
         return $category;
     }
 }

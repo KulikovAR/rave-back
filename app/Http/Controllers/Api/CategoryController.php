@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Responses\ApiJsonResponse;
 use App\Http\Services\CategoryService;
 use Illuminate\Http\Request;
 
@@ -15,24 +16,25 @@ class CategoryController extends Controller
         $this->categoryService = $categoryService;
     }
 
-    public function index(Request $request)
+    public function index(Request $request): ApiJsonResponse
     {
         $categories = $this->categoryService->getAllCategories($request->hidden, $request->priority);
-        return response()->json($categories, 200);
+
+        return new ApiJsonResponse(data: $categories);
     }
 
-    public function show($id)
+    public function show($id): ApiJsonResponse
     {
         $category = $this->categoryService->getCategoryById($id);
 
-        if (!$category) {
-            return response()->json(['error' => 'Category not found'], 404);
+        if (! $category) {
+            return new ApiJsonResponse(404, false, 'Category not found');
         }
 
-        return response()->json($category, 200);
+        return new ApiJsonResponse(data: $category);
     }
 
-    public function store(Request $request)
+    public function store(Request $request): ApiJsonResponse
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
@@ -43,10 +45,10 @@ class CategoryController extends Controller
 
         $category = $this->categoryService->createCategory($validated);
 
-        return response()->json($category, 201);
+        return new ApiJsonResponse(201, data: $category);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $id): ApiJsonResponse
     {
         $validated = $request->validate([
             'name' => 'sometimes|string|max:255',
@@ -57,21 +59,21 @@ class CategoryController extends Controller
 
         $category = $this->categoryService->updateCategory($id, $validated);
 
-        if (!$category) {
-            return response()->json(['error' => 'Category not found'], 404);
+        if (! $category) {
+            return new ApiJsonResponse(404, false, 'Category not found');
         }
 
-        return response()->json($category, 200);
+        return new ApiJsonResponse(data: $category);
     }
 
-    public function destroy($id)
+    public function destroy($id): ApiJsonResponse
     {
         $category = $this->categoryService->deleteCategory($id);
 
-        if (!$category) {
-            return response()->json(['error' => 'Category not found'], 404);
+        if (! $category) {
+            return new ApiJsonResponse(404, false, 'Category not found');
         }
 
-        return response()->json(['message' => 'Category deleted successfully'], 200);
+        return new ApiJsonResponse(message: 'Category deleted successfully');
     }
 }

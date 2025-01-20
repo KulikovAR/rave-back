@@ -1,9 +1,5 @@
 <?php
 
-use App\Http\Controllers\Auth\AuthSessionController;
-use App\Http\Controllers\PrivateStorageController;
-use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes

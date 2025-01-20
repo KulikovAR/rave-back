@@ -16,4 +16,14 @@ class EditOrder extends EditRecord
             Actions\DeleteAction::make(),
         ];
     }
+
+    public function getTitle(): string
+    {
+        return 'Редактирование заказа';
+    }
+
+    public function getBreadcrumb(): string
+    {
+        return 'Редактирование';
+    }
 }

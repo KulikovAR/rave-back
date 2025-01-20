@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Responses\ApiJsonResponse;
 use App\Http\Services\ProductService;
 use Illuminate\Http\Request;
 
@@ -15,24 +16,25 @@ class ProductController extends Controller
         $this->productService = $productService;
     }
 
-    public function index(Request $request)
+    public function index(Request $request): ApiJsonResponse
     {
         $products = $this->productService->getAllProducts($request->all());
-        return response()->json($products, 200);
+
+        return new ApiJsonResponse(data: $products);
     }
 
-    public function show($id)
+    public function show($id): ApiJsonResponse
     {
         $product = $this->productService->getProductById($id);
 
-        if (!$product) {
-            return response()->json(['error' => 'Product not found'], 404);
+        if (! $product) {
+            return new ApiJsonResponse(404, false, 'Product not found');
         }
 
-        return response()->json($product, 200);
+        return new ApiJsonResponse(data: $product);
     }
 
-    public function store(Request $request)
+    public function store(Request $request): ApiJsonResponse
     {
         $validated = $request->validate([
             'category_id' => 'required|exists:categories,id',
@@ -46,10 +48,11 @@ class ProductController extends Controller
         ]);
 
         $product = $this->productService->createProduct($validated);
-        return response()->json($product, 201);
+
+        return new ApiJsonResponse(201, data: $product);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $id): ApiJsonResponse
     {
         $validated = $request->validate([
             'category_id' => 'sometimes|exists:categories,id',
@@ -64,21 +67,21 @@ class ProductController extends Controller
 
         $product = $this->productService->updateProduct($id, $validated);
 
-        if (!$product) {
-            return response()->json(['error' => 'Product not found'], 404);
+        if (! $product) {
+            return new ApiJsonResponse(404, false, 'Product not found');
         }
 
-        return response()->json($product, 200);
+        return new ApiJsonResponse(data: $product);
     }
 
-    public function destroy($id)
+    public function destroy($id): ApiJsonResponse
     {
         $product = $this->productService->deleteProduct($id);
 
-        if (!$product) {
-            return response()->json(['error' => 'Product not found'], 404);
+        if (! $product) {
+            return new ApiJsonResponse(404, false, 'Product not found');
         }
 
-        return response()->json(['message' => 'Product deleted successfully'], 200);
+        return new ApiJsonResponse(message: 'Product deleted successfully');
     }
 }

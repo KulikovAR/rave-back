@@ -16,4 +16,14 @@ class EditBanner extends EditRecord
             Actions\DeleteAction::make(),
         ];
     }
+
+    public function getTitle(): string
+    {
+        return 'Редактирование баннера';
+    }
+
+    public function getBreadcrumb(): string
+    {
+        return 'Редактирование';
+    }
 }

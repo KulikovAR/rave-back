@@ -16,4 +16,14 @@ class EditSetting extends EditRecord
             Actions\DeleteAction::make(),
         ];
     }
+
+    public function getTitle(): string
+    {
+        return 'Редактирование настройки';
+    }
+
+    public function getBreadcrumb(): string
+    {
+        return 'Редактирование';
+    }
 }

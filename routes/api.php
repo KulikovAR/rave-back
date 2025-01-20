@@ -1,18 +1,14 @@
 <?php
 
+use App\Http\Controllers\Api\BannerController;
+use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\OrderController;
+use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\RestaurantController;
+use App\Http\Controllers\Api\SettingController;
 use App\Http\Controllers\AssetsController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
-
-use App\Http\Controllers\Api\{
-    RestaurantController,
-    CategoryController,
-    ProductController,
-    BannerController,
-    SettingController,
-    OrderController
-};
-
 
 /*
 |--------------------------------------------------------------------------
@@ -39,7 +35,6 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 Route::get('/assets/{locale?}', [AssetsController::class, 'show'])->name('assets.index');
-
 
 Route::apiResource('restaurants', RestaurantController::class);
 Route::apiResource('categories', CategoryController::class);

@@ -16,4 +16,14 @@ class EditCategory extends EditRecord
             Actions\DeleteAction::make(),
         ];
     }
+
+    public function getTitle(): string
+    {
+        return 'Редактирование категории';
+    }
+
+    public function getBreadcrumb(): string
+    {
+        return 'Редактирование';
+    }
 }

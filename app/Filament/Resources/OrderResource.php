@@ -17,6 +17,21 @@ class OrderResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-shopping-cart';
 
+    public static function getNavigationLabel(): string
+    {
+        return 'Заказы';
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return 'Заказы';
+    }
+
+    public static function getModelLabel(): string
+    {
+        return 'Заказ';
+    }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -47,12 +62,7 @@ class OrderResource extends Resource
                             ->reactive()
                             ->searchable()
                             ->afterStateUpdated(function ($state, callable $set, callable $get) {
-                                $product = Product::find($state);
-                                if ($product) {
-                                    $set('price', $product->price);
-                                    
-                                    $set('total_item_price', $product->price * (float)$get('quantity'));
-                                }
+                                self::handleProductChange($state, $set, $get);
                             }),
 
                         Forms\Components\TextInput::make('price')
@@ -70,8 +80,7 @@ class OrderResource extends Resource
                             ->reactive()
                             ->minValue(1)
                             ->afterStateUpdated(function ($state, callable $set, callable $get) {
-                                $set('total_item_price', (float)$get('price') * $state);
-                                self::recalculateTotalPrice($set, $get);
+                                self::handleQuantityChange($state, $set, $get);
                             }),
 
                         Forms\Components\TextInput::make('total_item_price')
@@ -85,19 +94,7 @@ class OrderResource extends Resource
                         self::recalculateTotalPrice($set, $get);
                     })
                     ->afterStateHydrated(function ($state, callable $set, callable $get) {
-                        // При создании нового заказа, если уже есть продукты, пересчитываем их сразу
-                        foreach ($state as $key => $orderProduct) {
-                            if (!empty($orderProduct['product_id'])) {
-                                $product = Product::find($orderProduct['product_id']);
-                                if ($product) {
-                                    // Устанавливаем цену и цену за позицию для каждого продукта
-                                    $set("orderProducts.{$key}.price", $product->price);
-                                    $set("orderProducts.{$key}.total_item_price", $product->price * $orderProduct['quantity']);
-                                }
-                            }
-                        }
-
-                        self::recalculateTotalPrice($set, $get);
+                        self::hydrateOrderProducts($state, $set, $get);
                     }),
 
                 Forms\Components\TextInput::make('total_price')
@@ -105,38 +102,62 @@ class OrderResource extends Resource
                     ->numeric()
                     ->disabled()
                     ->reactive()
-                    ->default(0)
-                    ->afterStateUpdated(function ($state, callable $set, callable $get) {
-                        self::recalculateTotalPrice($set, $get);
-                    }),
+                    ->default(0),
             ]);
+    }
+
+    public static function handleProductChange($state, callable $set, callable $get): void
+    {
+        $product = Product::find($state);
+        if ($product) {
+            $set('price', $product->price);
+            $set('total_item_price', $product->price * (float) $get('quantity'));
+        }
+        self::recalculateTotalPrice($set, $get);
+    }
+
+    public static function handleQuantityChange($state, callable $set, callable $get): void
+    {
+        $set('total_item_price', (float) $get('price') * $state);
+        self::recalculateTotalPrice($set, $get);
+    }
+
+    public static function hydrateOrderProducts($state, callable $set, callable $get): void
+    {
+        foreach ($state as $key => $orderProduct) {
+            if (! empty($orderProduct['product_id'])) {
+                $product = Product::find($orderProduct['product_id']);
+                if ($product) {
+                    $set("orderProducts.{$key}.price", $product->price);
+                    $set("orderProducts.{$key}.total_item_price", $product->price * $orderProduct['quantity']);
+                }
+            }
+        }
+        self::recalculateTotalPrice($set, $get);
     }
 
     public static function recalculateTotalPrice(callable $set, callable $get): void
     {
         $orderProducts = $get('orderProducts');
 
-
-        if (!$orderProducts) {
+        if (! $orderProducts) {
             $set('total_price', 0);
+
             return;
         }
 
-        foreach($orderProducts as $key => $orderProduct) {
-            if(!is_null($orderProduct['price'])) {
-                continue;
-            }   
-
-            $orderProducts[$key]['price'] = Product::find($orderProduct['product_id'])?->price;
+        foreach ($orderProducts as $key => $orderProduct) {
+            if (! isset($orderProduct['price'])) {
+                $orderProducts[$key]['price'] = Product::find($orderProduct['product_id'])?->price;
+            }
         }
 
         $totalPrice = collect($orderProducts)->sum(function ($product) {
-            return (float)($product['price'] ?? 0) * (float)($product['quantity'] ?? 0);
+            return (float) ($product['price'] ?? 0) * (float) ($product['quantity'] ?? 0);
         });
 
         $set('total_price', $totalPrice);
     }
-    
 
     public static function table(Table $table): Table
     {
@@ -147,11 +168,21 @@ class OrderResource extends Resource
                 Tables\Columns\TextColumn::make('total_price')->label('Итоговая стоимость'),
                 Tables\Columns\BadgeColumn::make('status')
                     ->label('Статус')
+                    ->getStateUsing(function ($record) {
+                        $statuses = [
+                            'new' => 'Новый',
+                            'processing' => 'В процессе',
+                            'completed' => 'Завершён',
+                            'canceled' => 'Отменён',
+                        ];
+
+                        return $statuses[$record->status] ?? $record->status;
+                    })
                     ->colors([
-                        'primary' => 'new',
-                        'warning' => 'processing',
-                        'success' => 'completed',
-                        'danger' => 'canceled',
+                        'primary' => 'Новый',
+                        'warning' => 'В процессе',
+                        'success' => 'Завершён',
+                        'danger' => 'Отменён',
                     ]),
                 Tables\Columns\TextColumn::make('created_at')->label('Дата создания'),
             ])

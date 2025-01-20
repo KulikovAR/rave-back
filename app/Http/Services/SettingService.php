@@ -27,6 +27,7 @@ class SettingService
         if ($setting) {
             $setting->update($data);
         }
+
         return $setting;
     }
 
@@ -36,6 +37,7 @@ class SettingService
         if ($setting) {
             $setting->delete();
         }
+
         return $setting;
     }
 }

@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Services\OrderService;
 use App\Http\Requests\OrderRequest;
-use Illuminate\Http\Request;
 use App\Http\Responses\ApiJsonResponse;
+use App\Http\Services\OrderService;
+use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
@@ -28,7 +28,7 @@ class OrderController extends Controller
     {
         $order = $this->orderService->getOrderById($id);
 
-        if (!$order) {
+        if (! $order) {
             return new ApiJsonResponse(404, false, 'Order not found');
         }
 
@@ -52,7 +52,7 @@ class OrderController extends Controller
 
         $order = $this->orderService->updateOrder($id, $validated);
 
-        if (!$order) {
+        if (! $order) {
             return new ApiJsonResponse(404, false, 'Order not found');
         }
 
@@ -63,7 +63,7 @@ class OrderController extends Controller
     {
         $order = $this->orderService->deleteOrder($id);
 
-        if (!$order) {
+        if (! $order) {
             return new ApiJsonResponse(404, false, 'Order not found');
         }
 

@@ -19,7 +19,7 @@ class ProductService
         }
 
         if (isset($filters['search'])) {
-            $query->where('name', 'like', '%' . $filters['search'] . '%');
+            $query->where('name', 'like', '%'.$filters['search'].'%');
         }
 
         if (isset($filters['priority'])) {
@@ -45,6 +45,7 @@ class ProductService
         if ($product) {
             $product->update($data);
         }
+
         return $product;
     }
 
@@ -54,6 +55,7 @@ class ProductService
         if ($product) {
             $product->delete();
         }
+
         return $product;
     }
 }

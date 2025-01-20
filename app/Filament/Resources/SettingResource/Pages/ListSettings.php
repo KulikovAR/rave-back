@@ -16,4 +16,14 @@ class ListSettings extends ListRecords
             Actions\CreateAction::make(),
         ];
     }
+
+    public function getTitle(): string
+    {
+        return 'Список настроек';
+    }
+
+    public function getBreadcrumb(): string
+    {
+        return 'Список';
+    }
 }

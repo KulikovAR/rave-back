@@ -3,21 +3,33 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\RestaurantResource\Pages;
-use App\Filament\Resources\RestaurantResource\RelationManagers;
 use App\Models\Restaurant;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class RestaurantResource extends Resource
 {
     protected static ?string $model = Restaurant::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-building-storefront';
+
+    public static function getNavigationLabel(): string
+    {
+        return 'Рестораны';
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return 'Рестораны';
+    }
+
+    public static function getModelLabel(): string
+    {
+        return 'Ресторан';
+    }
 
     public static function form(Form $form): Form
     {

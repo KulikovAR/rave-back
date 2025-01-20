@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
@@ -20,16 +20,6 @@ class Order extends Model
     {
         return $this->hasMany(OrderProduct::class);
     }
-
-    // public function calculateTotalPrice()
-    // {
-    //     $totalPrice = $this->orderProducts->sum(function ($orderProduct) {
-    //         return $orderProduct->price * $orderProduct->quantity;
-    //     });
-
-    //     $this->total_price = $totalPrice;
-    //     $this->save();
-    // }
 
     public function products()
     {

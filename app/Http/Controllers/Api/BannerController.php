@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Responses\ApiJsonResponse;
 use App\Http\Services\BannerService;
 use Illuminate\Http\Request;
 
@@ -15,24 +16,25 @@ class BannerController extends Controller
         $this->bannerService = $bannerService;
     }
 
-    public function index(Request $request)
+    public function index(Request $request): ApiJsonResponse
     {
         $banners = $this->bannerService->getAllBanners($request->priority);
-        return response()->json($banners, 200);
+
+        return new ApiJsonResponse(data: $banners);
     }
 
-    public function show($id)
+    public function show($id): ApiJsonResponse
     {
         $banner = $this->bannerService->getBannerById($id);
 
-        if (!$banner) {
-            return response()->json(['error' => 'Banner not found'], 404);
+        if (! $banner) {
+            return new ApiJsonResponse(404, false, 'Banner not found');
         }
 
-        return response()->json($banner, 200);
+        return new ApiJsonResponse(data: $banner);
     }
 
-    public function store(Request $request)
+    public function store(Request $request): ApiJsonResponse
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
@@ -42,10 +44,10 @@ class BannerController extends Controller
 
         $banner = $this->bannerService->createBanner($validated);
 
-        return response()->json($banner, 201);
+        return new ApiJsonResponse(201, data: $banner);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $id): ApiJsonResponse
     {
         $validated = $request->validate([
             'name' => 'sometimes|string|max:255',
@@ -54,21 +56,21 @@ class BannerController extends Controller
 
         $banner = $this->bannerService->updateBanner($id, $validated);
 
-        if (!$banner) {
-            return response()->json(['error' => 'Banner not found'], 404);
+        if (! $banner) {
+            return new ApiJsonResponse(404, false, 'Banner not found');
         }
 
-        return response()->json($banner, 200);
+        return new ApiJsonResponse(data: $banner);
     }
 
-    public function destroy($id)
+    public function destroy($id): ApiJsonResponse
     {
         $banner = $this->bannerService->deleteBanner($id);
 
-        if (!$banner) {
-            return response()->json(['error' => 'Banner not found'], 404);
+        if (! $banner) {
+            return new ApiJsonResponse(404, false, 'Banner not found');
         }
 
-        return response()->json(['message' => 'Banner deleted successfully'], 200);
+        return new ApiJsonResponse(message: 'Banner deleted successfully');
     }
 }

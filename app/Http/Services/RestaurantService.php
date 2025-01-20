@@ -16,6 +16,7 @@ class RestaurantService
         if ($priority !== null) {
             $query->orderBy('priority', 'asc');
         }
+
         return $query->get();
     }
 
@@ -28,6 +29,7 @@ class RestaurantService
     {
         $path = $photo->store('restaurants', 'public');
         $data['photo'] = $path;
+
         return Restaurant::create($data);
     }
 
@@ -41,6 +43,7 @@ class RestaurantService
             }
             $restaurant->update($data);
         }
+
         return $restaurant;
     }
 
@@ -51,6 +54,7 @@ class RestaurantService
             Storage::disk('public')->delete($restaurant->photo);
             $restaurant->delete();
         }
+
         return $restaurant;
     }
 }
