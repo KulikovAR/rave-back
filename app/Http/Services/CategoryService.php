@@ -3,6 +3,7 @@
 namespace App\Http\Services;
 
 use App\Models\Category;
+use Illuminate\Support\Facades\Storage;
 
 class CategoryService
 {
@@ -26,13 +27,22 @@ class CategoryService
 
     public function createCategory(array $data)
     {
+        if (isset($data['image'])) {
+            $data['image'] = $data['image']->store('categories', 'public');
+        }
+
         return Category::create($data);
     }
 
     public function updateCategory($id, array $data)
     {
+
         $category = Category::find($id);
         if ($category) {
+            if (isset($data['image'])) {
+                $data['image'] = $data['image']->store('categories', 'public');
+            }
+    
             $category->update($data);
         }
 
@@ -43,6 +53,9 @@ class CategoryService
     {
         $category = Category::find($id);
         if ($category) {
+            if ($category->image) {
+                Storage::disk('public')->delete($category->image);
+            }
             $category->delete();
         }
 

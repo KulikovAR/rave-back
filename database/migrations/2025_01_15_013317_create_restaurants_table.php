@@ -13,6 +13,10 @@ class CreateRestaurantsTable extends Migration
             $table->string('name');
             $table->string('photo');
             $table->integer('priority');
+            $table->string('background_image');
+            $table->string('map_image');
+            $table->string('map_link')->nullable();
+            $table->string('address');
             $table->timestamps();
         });
     }

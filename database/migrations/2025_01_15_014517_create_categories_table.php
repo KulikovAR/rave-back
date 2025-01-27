@@ -14,6 +14,7 @@ class CreateCategoriesTable extends Migration
             $table->integer('priority');
             $table->boolean('hidden')->default(false);
             $table->uuid('restaurant_id');
+            $table->string('image')->nullable();
             $table->timestamps();
 
             $table->foreign('restaurant_id')->references('id')->on('restaurants')->cascadeOnDelete();

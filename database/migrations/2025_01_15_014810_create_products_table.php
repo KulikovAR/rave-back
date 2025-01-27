@@ -15,8 +15,9 @@ class CreateProductsTable extends Migration
             $table->text('description');
             $table->decimal('price', 10, 2);
             $table->integer('weight');
-            $table->integer('calories');
+            $table->integer('calories')->nullable();
             $table->boolean('hidden')->default(false);
+            $table->boolean('new')->default(true);
             $table->integer('priority');
             $table->timestamps();
 

@@ -16,6 +16,11 @@ class RestaurantResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-building-storefront';
 
+    public static function shouldRegisterNavigation(): bool
+    {
+        return false;
+    }
+
     public static function getNavigationLabel(): string
     {
         return 'Рестораны';
@@ -39,8 +44,24 @@ class RestaurantResource extends Resource
                     ->label('Название')
                     ->required(),
                 Forms\Components\FileUpload::make('photo')
-                    ->label('Фото')
-                    ->image(),
+                    ->label('Логотип')
+                    ->image()
+                    ->required(),
+                Forms\Components\FileUpload::make('background_image')
+                    ->label('Изображение фона')
+                    ->image()
+                    ->required(),
+                Forms\Components\FileUpload::make('map_image')
+                    ->label('Изображение карты')
+                    ->image()
+                    ->required(),
+                Forms\Components\TextInput::make('address')
+                    ->label('Адрес')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('map_link')
+                    ->label('Ссылка на карту')
+                    ->url(),
                 Forms\Components\TextInput::make('priority')
                     ->label('Приоритет')
                     ->numeric()
@@ -53,7 +74,11 @@ class RestaurantResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')->label('Название'),
-                Tables\Columns\ImageColumn::make('photo')->label('Фото'),
+                Tables\Columns\ImageColumn::make('photo')->label('Логотип'),
+                Tables\Columns\ImageColumn::make('background_image')->label('Изображение фона'),
+                Tables\Columns\ImageColumn::make('map_image')->label('Изображение карты'),
+                Tables\Columns\TextColumn::make('address')->label('Адрес'),
+                Tables\Columns\TextColumn::make('map_link')->label('Ссылка на карту'),
                 Tables\Columns\TextColumn::make('priority')->label('Приоритет'),
             ])
             ->defaultSort('priority', 'asc');

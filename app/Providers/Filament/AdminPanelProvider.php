@@ -2,14 +2,18 @@
 
 namespace App\Providers\Filament;
 
+use Filament\Navigation\NavigationGroup;
+use Filament\Navigation\NavigationItem;
+use Filament\Navigation\NavigationBuilder;
+use Filament\Panel;
+use Filament\PanelProvider;
+use App\Models\Restaurant;
+use Filament\Pages;
+use Filament\Widgets;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
-use Filament\Pages;
-use Filament\Panel;
-use Filament\PanelProvider;
-use Filament\Widgets;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -21,6 +25,10 @@ class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
+        // Получаем список ресторанов
+        $restaurants = Restaurant::all();
+        \Log::debug('Panel initialized', ['panel' => $panel]);
+
         return $panel
             ->default()
             ->id('admin')
@@ -52,6 +60,46 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ]);
+            ])
+            ->navigation(function (NavigationBuilder $builder) use ($restaurants): NavigationBuilder {
+                // Добавляем общие ресурсы
+                $builder->groups([
+                    NavigationGroup::make('Общие ресурсы')
+                        ->items([
+                            NavigationItem::make('Баннеры')
+                                ->url(route('filament.admin.resources.banners.index'))
+                                ->icon('heroicon-o-photo'),
+                            NavigationItem::make('Рестораны')
+                                ->url(route('filament.admin.resources.restaurants.index'))
+                                ->icon('heroicon-o-building-storefront'),
+                            NavigationItem::make('Настройки')
+                                ->url(route('filament.admin.resources.settings.index'))
+                                ->icon('heroicon-o-cog'),
+                        ]),
+                ]);
+
+                // Добавляем группы для ресторанов
+                foreach ($restaurants as $restaurant) {
+                    $builder->group(
+                        NavigationGroup::make($restaurant->name)
+                            ->items([
+                                NavigationItem::make('Категории')
+                                    ->url(route('filament.admin.resources.categories.index', ['restaurant' => $restaurant->id]))
+                                    ->icon('heroicon-o-rectangle-stack'),
+                                NavigationItem::make('Заказы')
+                                    ->url(route('filament.admin.resources.orders.index', ['restaurant' => $restaurant->id]))
+                                    ->icon('heroicon-o-shopping-cart'),
+                                NavigationItem::make('Продукты')
+                                    ->url(route('filament.admin.resources.products.index', ['restaurant' => $restaurant->id]))
+                                    ->icon('heroicon-o-cube'),
+                                NavigationItem::make('Расписание')
+                                    ->url(route('filament.admin.resources.service-schedules.index', ['restaurant' => $restaurant->id]))
+                                    ->icon('heroicon-o-clock'),
+                            ])
+                    );
+                }
+
+                return $builder;
+            });
     }
 }

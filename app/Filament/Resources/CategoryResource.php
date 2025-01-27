@@ -16,6 +16,11 @@ class CategoryResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    public static function shouldRegisterNavigation(): bool
+    {
+        return false;
+    }
+
     public static function getNavigationLabel(): string
     {
         return 'Категории';
@@ -33,40 +38,60 @@ class CategoryResource extends Resource
 
     public static function form(Form $form): Form
     {
+        // Логируем запрос
+        \Log::info('Restaurant ID from URL', ['restaurant' => request('restaurant')]);
+
         return $form
             ->schema([
-                Forms\Components\Select::make('restaurant_id')
-                    ->label('Ресторан')
-                    ->relationship('restaurant', 'name')
+                // Скрытое поле для restaurant_id
+                Forms\Components\Hidden::make('restaurant_id')
+                    ->default(request('restaurant'))  // Берем restaurant_id из query-параметра
                     ->required(),
+
                 Forms\Components\TextInput::make('name')
                     ->label('Название')
                     ->required(),
+
                 Forms\Components\Checkbox::make('hidden')
                     ->label('Скрыть категорию'),
+
                 Forms\Components\TextInput::make('priority')
                     ->label('Приоритет')
                     ->numeric()
                     ->default(0),
+
+                Forms\Components\FileUpload::make('image')
+                    ->label('Изображение категории')
+                    ->disk('public')
+                    ->visibility('public')
+                    ->image()
+                    ->required(),
             ]);
     }
 
     public static function table(Table $table): Table
     {
+        $restaurantId = request()->get('restaurant');
+        \Log::info('Restaurant ID from query', ['restaurant' => $restaurantId]);
+
+        if (!$restaurantId) {
+            throw new \RuntimeException('Параметр restaurant не передан в запросе.');
+        }
+
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')->label('Название'),
                 Tables\Columns\BooleanColumn::make('hidden')->label('Скрыта'),
                 Tables\Columns\TextColumn::make('priority')->label('Приоритет'),
+                Tables\Columns\ImageColumn::make('image')->label('Изображение'),
             ])
-            ->defaultSort('priority', 'asc');
+            ->defaultSort('priority', 'asc')
+            ->query(fn () => Category::query()->where('restaurant_id', $restaurantId));
     }
 
     public static function getRelations(): array
     {
-        return [
-            //
-        ];
+        return [];
     }
 
     public static function getPages(): array

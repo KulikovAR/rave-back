@@ -81,4 +81,50 @@ class ProductControllerTest extends TestCase
                 ],
             ]);
     }
+
+    /** @test */
+    public function can_filter_products_by_new_flag()
+    {
+        $user = User::where('email', 'admin@admin')->first();
+        $category = Category::factory()->create();
+        
+        Product::factory()->create(['category_id' => $category->id, 'new' => true]);
+        Product::factory()->create(['category_id' => $category->id, 'new' => false]);
+
+        $response = $this->actingAs($user)->get('/api/v1/products?new=true');
+        $response->assertStatus(200);
+        $response->assertJsonCount(1, 'data');
+
+        $response = $this->actingAs($user)->get('/api/v1/products?new=false');
+        $response->assertStatus(200);
+        $response->assertJsonCount(1, 'data');
+    }
+
+    /** @test */
+    public function can_get_recommended_products()
+    {
+        $product = Product::factory()->create();
+        $recommendedProduct = Product::factory()->create();
+        $product->recommendedProducts()->attach($recommendedProduct->id);
+
+        $recommendedProduct2 = Product::factory()->create();
+        $product->recommendedProducts()->attach($recommendedProduct2->id);
+
+        $response = $this->get('/api/v1/products/'.$product->id.'/recommended');
+
+        $response->assertStatus(200);
+        $response->assertJsonStructure([
+            'data' => [
+                '*' => [
+                    'id',
+                    'name',
+                    'description',
+                    'price',
+                    'weight',
+                    'calories',
+                    'priority',
+                ]
+            ]
+        ]);
+    }
 }

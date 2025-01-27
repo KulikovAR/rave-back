@@ -11,7 +11,7 @@ class Category extends Model
 {
     use HasFactory, HasUuids, PriorityTrait;
 
-    protected $fillable = ['name', 'hidden', 'priority', 'restaurant_id'];
+    protected $fillable = ['name', 'hidden', 'priority', 'restaurant_id', 'image'];
 
     public function restaurant()
     {

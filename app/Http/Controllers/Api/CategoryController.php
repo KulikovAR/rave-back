@@ -41,6 +41,7 @@ class CategoryController extends Controller
             'restaurant_id' => 'required|exists:restaurants,id',
             'priority' => 'required|integer',
             'hidden' => 'required|boolean',
+            'image' => 'nullable|image',
         ]);
 
         $category = $this->categoryService->createCategory($validated);
@@ -55,6 +56,7 @@ class CategoryController extends Controller
             'restaurant_id' => 'sometimes|exists:restaurants,id',
             'priority' => 'sometimes|integer',
             'hidden' => 'sometimes|boolean',
+            'image' => 'nullable|image',
         ]);
 
         $category = $this->categoryService->updateCategory($id, $validated);

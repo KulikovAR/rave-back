@@ -40,6 +40,10 @@ class RestaurantController extends Controller
             'name' => 'required|string|max:255',
             'photo' => 'required|image',
             'priority' => 'required|integer',
+            'background_image' => 'required|image',
+            'map_image' => 'required|image',
+            'map_link' => 'nullable|url',
+            'address' => 'required|string|max:255',
         ]);
 
         $restaurant = $this->restaurantService->createRestaurant($validated, $request->file('photo'));
@@ -53,6 +57,10 @@ class RestaurantController extends Controller
             'name' => 'sometimes|string|max:255',
             'photo' => 'sometimes|image',
             'priority' => 'sometimes|integer',
+            'background_image' => 'sometimes|image',
+            'map_image' => 'sometimes|image',
+            'map_link' => 'sometimes|url',
+            'address' => 'sometimes|string|max:255',
         ]);
 
         $restaurant = $this->restaurantService->updateRestaurant($id, $validated, $request->file('photo'));

@@ -12,8 +12,11 @@ class ListCategories extends ListRecords
 
     protected function getHeaderActions(): array
     {
+        \Log::info('Creating new category header action', ['restaurant' => request('restaurant')]);
+
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()
+                ->url(fn () => route('filament.admin.resources.categories.create') . '?restaurant=' . request('restaurant')),
         ];
     }
 

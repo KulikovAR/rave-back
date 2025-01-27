@@ -7,6 +7,8 @@ use App\Http\Responses\ApiJsonResponse;
 use App\Http\Services\ProductService;
 use Illuminate\Http\Request;
 
+use App\Models\Product;
+
 class ProductController extends Controller
 {
     private $productService;
@@ -42,7 +44,7 @@ class ProductController extends Controller
             'description' => 'required|string',
             'price' => 'required|integer',
             'weight' => 'required|integer',
-            'calories' => 'required|integer',
+            'calories' => 'integer',
             'hidden' => 'boolean',
             'priority' => 'required|integer',
         ]);
@@ -83,5 +85,19 @@ class ProductController extends Controller
         }
 
         return new ApiJsonResponse(message: 'Product deleted successfully');
+    }
+
+    public function getRecommended($id)
+    {
+        $product = Product::find($id);
+
+        if (!$product) {
+            return new ApiJsonResponse(404, false, 'Product not found');
+        }
+
+        // Возвращаем список рекомендованных товаров для данного товара
+        $recommendedProducts = $product->recommendedProducts;
+
+        return new ApiJsonResponse(data: $recommendedProducts);
     }
 }

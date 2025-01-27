@@ -11,7 +11,7 @@ class Product extends Model
 {
     use HasFactory, HasUuids, PriorityTrait;
 
-    protected $fillable = ['category_id', 'name', 'description', 'price', 'weight', 'calories', 'hidden', 'priority'];
+    protected $fillable = ['category_id', 'name', 'description', 'price', 'weight', 'calories', 'hidden', 'new', 'priority'];
 
     public function category()
     {
@@ -31,6 +31,16 @@ class Product extends Model
             'product_id',
             'recommended_product_id'
         );
+    }
+
+    public function addRecommendedProduct(Product $product)
+    {
+        $this->recommendedProducts()->attach($product->id);
+    }
+
+    public function removeRecommendedProduct(Product $product)
+    {
+        $this->recommendedProducts()->detach($product->id);
     }
 
     public function orders()

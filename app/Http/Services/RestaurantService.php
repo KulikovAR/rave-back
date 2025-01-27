@@ -27,6 +27,13 @@ class RestaurantService
 
     public function createRestaurant(array $data, $photo)
     {
+        if (isset($data['background_image'])) {
+            $data['background_image'] = $data['background_image']->store('restaurants/backgrounds', 'public');
+        }
+        if (isset($data['map_image'])) {
+            $data['map_image'] = $data['map_image']->store('restaurants/maps', 'public');
+        }
+
         $path = $photo->store('restaurants', 'public');
         $data['photo'] = $path;
 
@@ -41,6 +48,14 @@ class RestaurantService
                 Storage::disk('public')->delete($restaurant->photo);
                 $data['photo'] = $photo->store('restaurants', 'public');
             }
+            if (isset($data['background_image'])) {
+                Storage::disk('public')->delete($restaurant->background_image);
+                $data['background_image'] = $data['background_image']->store('restaurants/backgrounds', 'public');
+            }
+            if (isset($data['map_image'])) {
+                Storage::disk('public')->delete($restaurant->map_image);
+                $data['map_image'] = $data['map_image']->store('restaurants/maps', 'public');
+            }
             $restaurant->update($data);
         }
 
@@ -52,6 +67,8 @@ class RestaurantService
         $restaurant = Restaurant::find($id);
         if ($restaurant) {
             Storage::disk('public')->delete($restaurant->photo);
+            Storage::disk('public')->delete($restaurant->background_image);
+            Storage::disk('public')->delete($restaurant->map_image);
             $restaurant->delete();
         }
 

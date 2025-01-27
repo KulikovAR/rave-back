@@ -13,7 +13,8 @@ class ListProducts extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()
+                ->url(fn () => route('filament.admin.resources.products.create') . '?restaurant=' . request('restaurant')),
         ];
     }
 

@@ -16,6 +16,7 @@ class CategoryFactory extends Factory
             'restaurant_id' => \App\Models\Restaurant::factory(),
             'priority' => $this->faker->numberBetween(1, 10),
             'hidden' => $this->faker->boolean,
+            'image' => $this->faker->imageUrl(640, 480),
         ];
     }
 }

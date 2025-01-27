@@ -18,6 +18,10 @@ class ProductService
             $query->where('hidden', $filters['hidden']);
         }
 
+        if (isset($filters['new'])) {
+            $query->where('new', $filters['new']);
+        }
+
         if (isset($filters['search'])) {
             $query->where('name', 'like', '%'.$filters['search'].'%');
         }
@@ -44,6 +48,10 @@ class ProductService
         $product = Product::find($id);
         if ($product) {
             $product->update($data);
+
+            if (isset($data['recommended_products'])) {
+                $product->recommendedProducts()->sync($data['recommended_products']);
+            }
         }
 
         return $product;

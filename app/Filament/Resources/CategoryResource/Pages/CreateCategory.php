@@ -4,6 +4,8 @@ namespace App\Filament\Resources\CategoryResource\Pages;
 
 use App\Filament\Resources\CategoryResource;
 use Filament\Resources\Pages\CreateRecord;
+use Filament\Forms;
+use Illuminate\Support\Facades\Log;
 
 class CreateCategory extends CreateRecord
 {
@@ -16,6 +18,6 @@ class CreateCategory extends CreateRecord
 
     public function getTitle(): string
     {
-        return 'Создание новой катиегории';
+        return 'Создание новой категории';
     }
 }

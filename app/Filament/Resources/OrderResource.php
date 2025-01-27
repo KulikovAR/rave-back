@@ -34,6 +34,9 @@ class OrderResource extends Resource
 
     public static function form(Form $form): Form
     {
+        $restaurantId = request('restaurant');
+        // dd($restaurantId);
+
         return $form
             ->schema([
                 Forms\Components\TextInput::make('customer_phone')
@@ -54,15 +57,22 @@ class OrderResource extends Resource
 
                 Forms\Components\Repeater::make('orderProducts')
                     ->relationship('orderProducts')
+                    ->reactive()
                     ->schema([
                         Forms\Components\Select::make('product_id')
                             ->label('Продукт')
-                            ->options(Product::all()->pluck('name', 'id'))
+                            ->options(function (callable $get) use ($restaurantId) {
+                                // Переопределяем загрузку продуктов для каждого нового элемента
+                                return Product::whereHas('category', function ($query) use ($restaurantId) {
+                                    $query->where('restaurant_id', $restaurantId);
+                                })->pluck('name', 'id')->toArray();
+                            })
                             ->required()
                             ->reactive()
                             ->searchable()
                             ->afterStateUpdated(function ($state, callable $set, callable $get) {
                                 self::handleProductChange($state, $set, $get);
+                                $set("orderProducts.{$key}.product_id", $state);
                             }),
 
                         Forms\Components\TextInput::make('price')
@@ -161,6 +171,8 @@ class OrderResource extends Resource
 
     public static function table(Table $table): Table
     {
+        $restaurantId = request('restaurant');
+
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('id')->label('ID'),
@@ -186,6 +198,19 @@ class OrderResource extends Resource
                     ]),
                 Tables\Columns\TextColumn::make('created_at')->label('Дата создания'),
             ])
+            ->actions([
+                Tables\Actions\EditAction::make()
+                    ->url(fn ($record) => route('filament.admin.resources.orders.edit', [
+                        'record' => $record->id,
+                        'restaurant' => $restaurantId,  // Прокидываем restaurant_id
+                    ])),
+            ])
+            ->query(function () use ($restaurantId) {
+                return Order::query()
+                    ->whereHas('products.category', function ($query) use ($restaurantId) {
+                        $query->where('restaurant_id', $restaurantId);
+                    });
+            })
             ->defaultSort('created_at', 'desc');
     }
 
@@ -194,7 +219,7 @@ class OrderResource extends Resource
         return [
             'index' => Pages\ListOrders::route('/'),
             'create' => Pages\CreateOrder::route('/create'),
-            'edit' => Pages\EditOrder::route('/{record}/edit'),
+            'edit' => Pages\EditOrder::route('/{record}/edit/{restaurant}'),
         ];
     }
 }

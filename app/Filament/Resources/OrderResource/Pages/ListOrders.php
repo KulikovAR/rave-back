@@ -10,10 +10,20 @@ class ListOrders extends ListRecords
 {
     protected static string $resource = OrderResource::class;
 
+    // protected function getHeaderActions(): array
+    // {
+    //     return [
+    //         Actions\CreateAction::make(),
+    //     ];
+    // }
+
     protected function getHeaderActions(): array
     {
+        \Log::info('Creating new category header action', ['restaurant' => request('restaurant')]);
+
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()
+                ->url(fn () => route('filament.admin.resources.orders.create') . '?restaurant=' . request('restaurant')),
         ];
     }
 

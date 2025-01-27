@@ -6,6 +6,8 @@ use App\Models\Category;
 use App\Models\Restaurant;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class CategoryControllerTest extends TestCase
@@ -13,46 +15,67 @@ class CategoryControllerTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function can_create_category()
+    public function can_create_category_with_image()
     {
         $user = User::where('email', 'admin@admin')->first();
 
         $restaurant = Restaurant::factory()->create();
+        $image = UploadedFile::fake()->image('category_image.jpg');
+
         $data = [
             'name' => 'Test Category',
             'restaurant_id' => $restaurant->id,
             'priority' => 1,
             'hidden' => false,
+            'image' => $image, // Добавляем изображение
         ];
 
         $response = $this->actingAs($user)->post('/api/v1/categories', $data);
+
         $response->assertStatus(201);
-        $this->assertDatabaseHas('categories', $data);
+        $this->assertDatabaseHas('categories', [
+            'name' => 'Test Category',
+            'restaurant_id' => $restaurant->id,
+            'priority' => 1,
+            'hidden' => false,
+        ]);
+
+        // Проверим, что изображение сохранено в нужном месте
+        Storage::disk('public')->assertExists('categories/'.$image->hashName());
     }
 
     /** @test */
-    public function can_update_category()
+    public function can_update_category_with_image()
     {
         $user = User::where('email', 'admin@admin')->first();
 
         $category = Category::factory()->create();
-        $data = ['name' => 'Updated Category'];
+        $image = UploadedFile::fake()->image('updated_category_image.jpg');
+
+        $data = ['name' => 'Updated Category', 'image' => $image];
 
         $response = $this->actingAs($user)->put('/api/v1/categories/'.$category->id, $data);
         $response->assertStatus(200);
-        $this->assertDatabaseHas('categories', $data);
+        $this->assertDatabaseHas('categories', ['name' => 'Updated Category']);
+
+        // Проверим, что новое изображение заменило старое
+        Storage::disk('public')->assertExists('categories/'.$image->hashName());
     }
 
     /** @test */
-    public function can_delete_category()
+    public function can_delete_category_and_image()
     {
         $user = User::where('email', 'admin@admin')->first();
 
         $category = Category::factory()->create();
+        $imagePath = $category->image;
 
         $response = $this->actingAs($user)->delete('/api/v1/categories/'.$category->id);
         $response->assertStatus(200);
         $this->assertDatabaseMissing('categories', ['id' => $category->id]);
+
+        // Проверим, что файл изображения был удален
+        Storage::disk('public')->assertMissing('categories/'.$imagePath);
     }
 
     /** @test */
