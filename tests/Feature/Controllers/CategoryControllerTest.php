@@ -27,7 +27,7 @@ class CategoryControllerTest extends TestCase
             'restaurant_id' => $restaurant->id,
             'priority' => 1,
             'hidden' => false,
-            'image' => $image, // Добавляем изображение
+            'image' => $image,
         ];
 
         $response = $this->actingAs($user)->post('/api/v1/categories', $data);
@@ -40,7 +40,6 @@ class CategoryControllerTest extends TestCase
             'hidden' => false,
         ]);
 
-        // Проверим, что изображение сохранено в нужном месте
         Storage::disk('public')->assertExists('categories/'.$image->hashName());
     }
 
@@ -58,7 +57,6 @@ class CategoryControllerTest extends TestCase
         $response->assertStatus(200);
         $this->assertDatabaseHas('categories', ['name' => 'Updated Category']);
 
-        // Проверим, что новое изображение заменило старое
         Storage::disk('public')->assertExists('categories/'.$image->hashName());
     }
 
@@ -74,7 +72,6 @@ class CategoryControllerTest extends TestCase
         $response->assertStatus(200);
         $this->assertDatabaseMissing('categories', ['id' => $category->id]);
 
-        // Проверим, что файл изображения был удален
         Storage::disk('public')->assertMissing('categories/'.$imagePath);
     }
 

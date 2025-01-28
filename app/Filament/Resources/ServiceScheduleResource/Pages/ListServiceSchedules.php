@@ -10,20 +10,27 @@ class ListServiceSchedules extends ListRecords
 {
     protected static string $resource = ServiceScheduleResource::class;
 
+    public function mount(): void
+    {
+        $restaurantId = request()->get('restaurant');
+        if ($restaurantId) {
+            session(['restaurant_id' => $restaurantId]);
+        }
+    }
+
     protected function getHeaderActions(): array
     {
         $restaurantId = request()->get('restaurant');
-        \Log::info('Creating new service schedule header action', ['restaurant' => $restaurantId]);
 
         return [
             Actions\CreateAction::make()
-                ->url(fn () => route('filament.admin.resources.service-schedules.create') . '?restaurant=' . $restaurantId),
+                ->url(fn () => route('filament.admin.resources.service-schedules.create').'?restaurant='.$restaurantId),
         ];
     }
 
     public function getTitle(): string
     {
-        return 'Список расписаний';
+        return 'Список дней';
     }
 
     public function getBreadcrumb(): string

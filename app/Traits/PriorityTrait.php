@@ -6,13 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 
 trait PriorityTrait
 {
+    protected static ?string $groupByField = null;
+
     public static function bootPriorityTrait()
     {
         static::creating(function (Model $model) {
             if ($model->priority === 0) {
-                static::query()
-                    ->where('priority', '>=', 0)
-                    ->increment('priority');
+                $query = static::query()->where('priority', '>=', 0);
+
+                if (static::$groupByField && $model->{static::$groupByField}) {
+                    $query->where(static::$groupByField, $model->{static::$groupByField});
+                }
+
+                $query->increment('priority');
             }
         });
 
@@ -24,6 +30,10 @@ trait PriorityTrait
                 if ($oldPriority !== null && $newPriority !== null) {
                     $query = static::query()->where('id', '!=', $model->id);
 
+                    if (static::$groupByField && $model->{static::$groupByField}) {
+                        $query->where(static::$groupByField, $model->{static::$groupByField});
+                    }
+
                     if ($oldPriority < $newPriority) {
                         $query->whereBetween('priority', [$oldPriority + 1, $newPriority])
                             ->decrement('priority');
@@ -34,5 +44,10 @@ trait PriorityTrait
                 }
             }
         });
+    }
+
+    public static function setGroupByField(string $field): void
+    {
+        static::$groupByField = $field;
     }
 }

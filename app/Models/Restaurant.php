@@ -6,18 +6,17 @@ use App\Traits\PriorityTrait;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\ServiceSchedule;
 
 class Restaurant extends Model
 {
     use HasFactory, HasUuids, PriorityTrait;
 
     protected $fillable = [
-        'name', 
-        'photo', 
-        'priority', 
-        'background_image', 
-        'map_image', 
+        'name',
+        'photo',
+        'priority',
+        'background_image',
+        'map_image',
         'map_link',
         'address',
     ];

@@ -9,6 +9,13 @@ class CreateOrder extends CreateRecord
 {
     protected static string $resource = OrderResource::class;
 
+    protected function getRedirectUrl(): string
+    {
+        return url()->previous() ?? route('filament.admin.resources.orders.index', [
+            'restaurant' => request()->get('restaurant'),
+        ]);
+    }
+
     public function getBreadcrumb(): string
     {
         return 'Создать заказ';

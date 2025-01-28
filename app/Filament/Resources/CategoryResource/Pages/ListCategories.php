@@ -10,13 +10,19 @@ class ListCategories extends ListRecords
 {
     protected static string $resource = CategoryResource::class;
 
+    public function mount(): void
+    {
+        $restaurantId = request()->get('restaurant');
+        if ($restaurantId) {
+            session(['restaurant_id' => $restaurantId]);
+        }
+    }
+
     protected function getHeaderActions(): array
     {
-        \Log::info('Creating new category header action', ['restaurant' => request('restaurant')]);
-
         return [
             Actions\CreateAction::make()
-                ->url(fn () => route('filament.admin.resources.categories.create') . '?restaurant=' . request('restaurant')),
+                ->url(fn () => route('filament.admin.resources.categories.create').'?restaurant='.request('restaurant')),
         ];
     }
 

@@ -5,8 +5,8 @@ use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\RestaurantController;
-use App\Http\Controllers\Api\SettingController;
 use App\Http\Controllers\Api\ServiceScheduleController;
+use App\Http\Controllers\Api\SettingController;
 use App\Http\Controllers\AssetsController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
@@ -42,7 +42,6 @@ Route::apiResource('categories', CategoryController::class);
 Route::apiResource('products', ProductController::class);
 Route::apiResource('banners', BannerController::class);
 Route::apiResource('settings', SettingController::class);
-// Route::apiResource('service-schedule', ServiceScheduleController::class);
 
 Route::get('products/{id}/recommended', [ProductController::class, 'getRecommended']);
 Route::post('orders', [OrderController::class, 'store']);

@@ -2,11 +2,11 @@
 
 namespace App\Providers;
 
+use App\Models\Restaurant;
 use Filament\Facades\Filament;
 use Filament\Navigation\NavigationGroup;
 use Filament\Navigation\NavigationItem;
 use Illuminate\Support\ServiceProvider;
-use App\Models\Restaurant;
 
 class FilamentServiceProvider extends ServiceProvider
 {
@@ -46,7 +46,7 @@ class FilamentServiceProvider extends ServiceProvider
                             NavigationItem::make('Расписание')
                                 ->url(route('filament.admin.resources.service-schedules.index', ['restaurant' => $restaurant->id]))
                                 ->icon('heroicon-o-clock'),
-                        ])
+                        ]),
                 ]);
             }
         });

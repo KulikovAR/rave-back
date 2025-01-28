@@ -13,6 +13,13 @@ class Product extends Model
 
     protected $fillable = ['category_id', 'name', 'description', 'price', 'weight', 'calories', 'hidden', 'new', 'priority'];
 
+    public static function boot()
+    {
+        parent::boot();
+
+        static::setGroupByField('category_id');
+    }
+
     public function category()
     {
         return $this->belongsTo(Category::class);

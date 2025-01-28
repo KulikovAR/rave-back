@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 
 class ServiceScheduleController extends Controller
 {
-    // Получить расписание для ресторана
     public function index($restaurantId)
     {
         $schedule = ServiceSchedule::where('restaurant_id', $restaurantId)->get();
@@ -20,7 +19,6 @@ class ServiceScheduleController extends Controller
         ]);
     }
 
-    // Обновить расписание для конкретного дня
     public function update(Request $request, $id)
     {
         $request->validate([

@@ -2,10 +2,10 @@
 
 namespace Tests\Feature\Controllers;
 
-use Tests\TestCase;
 use App\Models\Restaurant;
 use App\Models\ServiceSchedule;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class ServiceScheduleApiTest extends TestCase
 {
@@ -22,7 +22,7 @@ class ServiceScheduleApiTest extends TestCase
                 'status',
                 'message',
                 'data' => [
-                    '*' => ['day_of_week', 'is_open', 'opening_time', 'closing_time']
+                    '*' => ['day_of_week', 'is_open', 'opening_time', 'closing_time'],
                 ],
             ]);
     }

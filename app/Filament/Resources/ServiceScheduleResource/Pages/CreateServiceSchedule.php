@@ -19,11 +19,8 @@ class CreateServiceSchedule extends CreateRecord
         return 'Создание расписания ресторана';
     }
 
-    // Добавим логирование для проверки
     protected function mutateFormDataBeforeCreate(array $data): array
     {
-        \Log::info('Restaurant ID from form data', ['restaurant_id' => $data['restaurant_id']]);
-
         return $data;
     }
 }

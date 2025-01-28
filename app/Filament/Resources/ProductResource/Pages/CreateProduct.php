@@ -9,6 +9,13 @@ class CreateProduct extends CreateRecord
 {
     protected static string $resource = ProductResource::class;
 
+    protected function getRedirectUrl(): string
+    {
+        return url()->previous() ?? route('filament.admin.resources.products.index', [
+            'restaurant' => request()->get('restaurant'),
+        ]);
+    }
+
     public function getBreadcrumb(): string
     {
         return 'Создать товар';

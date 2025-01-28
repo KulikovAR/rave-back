@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\OrderResource\Pages;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\Restaurant;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -24,7 +25,10 @@ class OrderResource extends Resource
 
     public static function getPluralModelLabel(): string
     {
-        return 'Заказы';
+        $restaurant = session('restaurant_id') ? Restaurant::find(session('restaurant_id')) : null;
+        $restaurantName = $restaurant ? $restaurant->name : 'Ресторан';
+
+        return $restaurantName.' | Заказы';
     }
 
     public static function getModelLabel(): string
@@ -34,8 +38,7 @@ class OrderResource extends Resource
 
     public static function form(Form $form): Form
     {
-        $restaurantId = request('restaurant');
-        // dd($restaurantId);
+        $restaurantId = session('restaurant_id');
 
         return $form
             ->schema([
@@ -61,18 +64,12 @@ class OrderResource extends Resource
                     ->schema([
                         Forms\Components\Select::make('product_id')
                             ->label('Продукт')
-                            ->options(function (callable $get) use ($restaurantId) {
-                                // Переопределяем загрузку продуктов для каждого нового элемента
-                                return Product::whereHas('category', function ($query) use ($restaurantId) {
-                                    $query->where('restaurant_id', $restaurantId);
-                                })->pluck('name', 'id')->toArray();
-                            })
+                            ->options(self::getProductOptions())
                             ->required()
                             ->reactive()
                             ->searchable()
                             ->afterStateUpdated(function ($state, callable $set, callable $get) {
                                 self::handleProductChange($state, $set, $get);
-                                $set("orderProducts.{$key}.product_id", $state);
                             }),
 
                         Forms\Components\TextInput::make('price')
@@ -114,6 +111,20 @@ class OrderResource extends Resource
                     ->reactive()
                     ->default(0),
             ]);
+    }
+
+    public static function getProductOptions(): array
+    {
+        return Product::with('category.restaurant')
+            ->join('categories', 'products.category_id', '=', 'categories.id')
+            ->join('restaurants', 'categories.restaurant_id', '=', 'restaurants.id')
+            ->orderBy('restaurants.name')
+            ->orderBy('products.name')
+            ->get(['products.id', 'products.name', 'restaurants.name as restaurant_name'])
+            ->mapWithKeys(function ($product) {
+                return [$product->id => "{$product->restaurant_name} - {$product->name}"];
+            })
+            ->toArray();
     }
 
     public static function handleProductChange($state, callable $set, callable $get): void
@@ -171,7 +182,7 @@ class OrderResource extends Resource
 
     public static function table(Table $table): Table
     {
-        $restaurantId = request('restaurant');
+        $restaurantId = session('restaurant_id');
 
         return $table
             ->columns([
@@ -202,7 +213,7 @@ class OrderResource extends Resource
                 Tables\Actions\EditAction::make()
                     ->url(fn ($record) => route('filament.admin.resources.orders.edit', [
                         'record' => $record->id,
-                        'restaurant' => $restaurantId,  // Прокидываем restaurant_id
+                        'restaurant' => $restaurantId,
                     ])),
             ])
             ->query(function () use ($restaurantId) {

@@ -5,9 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Responses\ApiJsonResponse;
 use App\Http\Services\ProductService;
-use Illuminate\Http\Request;
-
 use App\Models\Product;
+use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
@@ -91,11 +90,10 @@ class ProductController extends Controller
     {
         $product = Product::find($id);
 
-        if (!$product) {
+        if (! $product) {
             return new ApiJsonResponse(404, false, 'Product not found');
         }
 
-        // Возвращаем список рекомендованных товаров для данного товара
         $recommendedProducts = $product->recommendedProducts;
 
         return new ApiJsonResponse(data: $recommendedProducts);

@@ -2,18 +2,18 @@
 
 namespace App\Providers\Filament;
 
-use Filament\Navigation\NavigationGroup;
-use Filament\Navigation\NavigationItem;
-use Filament\Navigation\NavigationBuilder;
-use Filament\Panel;
-use Filament\PanelProvider;
 use App\Models\Restaurant;
-use Filament\Pages;
-use Filament\Widgets;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\NavigationBuilder;
+use Filament\Navigation\NavigationGroup;
+use Filament\Navigation\NavigationItem;
+use Filament\Pages;
+use Filament\Panel;
+use Filament\PanelProvider;
+use Filament\Widgets;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -25,9 +25,7 @@ class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
-        // Получаем список ресторанов
         $restaurants = Restaurant::all();
-        \Log::debug('Panel initialized', ['panel' => $panel]);
 
         return $panel
             ->default()
@@ -62,7 +60,6 @@ class AdminPanelProvider extends PanelProvider
                 Authenticate::class,
             ])
             ->navigation(function (NavigationBuilder $builder) use ($restaurants): NavigationBuilder {
-                // Добавляем общие ресурсы
                 $builder->groups([
                     NavigationGroup::make('Общие ресурсы')
                         ->items([
@@ -78,7 +75,6 @@ class AdminPanelProvider extends PanelProvider
                         ]),
                 ]);
 
-                // Добавляем группы для ресторанов
                 foreach ($restaurants as $restaurant) {
                     $builder->group(
                         NavigationGroup::make($restaurant->name)

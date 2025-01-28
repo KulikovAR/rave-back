@@ -32,12 +32,10 @@ class Order extends Model
     {
         $this->load('orderProducts');
 
-        // Пересчитываем стоимость заказа, исходя из информации из order_products
         $totalPrice = $this->orderProducts->sum(function ($orderProduct) {
             return $orderProduct->price * $orderProduct->quantity;
         });
 
-        // Обновляем поле total_price
         $this->update(['total_price' => $totalPrice]);
     }
 }

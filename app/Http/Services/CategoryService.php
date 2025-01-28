@@ -42,7 +42,7 @@ class CategoryService
             if (isset($data['image'])) {
                 $data['image'] = $data['image']->store('categories', 'public');
             }
-    
+
             $category->update($data);
         }
 

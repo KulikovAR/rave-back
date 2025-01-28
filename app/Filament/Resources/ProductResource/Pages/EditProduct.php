@@ -12,8 +12,8 @@ class EditProduct extends EditRecord
 
     protected function mutateFormDataBeforeFill(array $data): array
     {
-        // Прокидываем restaurant_id в данные формы
         $data['restaurant_id'] = request('restaurant');
+
         return $data;
     }
 

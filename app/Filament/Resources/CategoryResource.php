@@ -4,10 +4,13 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\CategoryResource\Pages;
 use App\Models\Category;
+use App\Models\Restaurant;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\BulkAction;
 use Filament\Tables\Table;
 
 class CategoryResource extends Resource
@@ -28,7 +31,10 @@ class CategoryResource extends Resource
 
     public static function getPluralModelLabel(): string
     {
-        return 'Категории';
+        $restaurant = session('restaurant_id') ? Restaurant::find(session('restaurant_id')) : null;
+        $restaurantName = $restaurant ? $restaurant->name : 'Ресторан';
+
+        return $restaurantName.' | Категории';
     }
 
     public static function getModelLabel(): string
@@ -38,14 +44,10 @@ class CategoryResource extends Resource
 
     public static function form(Form $form): Form
     {
-        // Логируем запрос
-        \Log::info('Restaurant ID from URL', ['restaurant' => request('restaurant')]);
-
         return $form
             ->schema([
-                // Скрытое поле для restaurant_id
                 Forms\Components\Hidden::make('restaurant_id')
-                    ->default(request('restaurant'))  // Берем restaurant_id из query-параметра
+                    ->default(session('restaurant_id'))
                     ->required(),
 
                 Forms\Components\TextInput::make('name')
@@ -71,10 +73,9 @@ class CategoryResource extends Resource
 
     public static function table(Table $table): Table
     {
-        $restaurantId = request()->get('restaurant');
-        \Log::info('Restaurant ID from query', ['restaurant' => $restaurantId]);
+        $restaurantId = session('restaurant_id');
 
-        if (!$restaurantId) {
+        if (! $restaurantId) {
             throw new \RuntimeException('Параметр restaurant не передан в запросе.');
         }
 
@@ -86,7 +87,36 @@ class CategoryResource extends Resource
                 Tables\Columns\ImageColumn::make('image')->label('Изображение'),
             ])
             ->defaultSort('priority', 'asc')
-            ->query(fn () => Category::query()->where('restaurant_id', $restaurantId));
+            ->query(fn () => Category::query()->where('restaurant_id', $restaurantId))
+            ->bulkActions([
+                BulkAction::make('hide')
+                    ->label('Скрыть')
+                    ->action(function ($records) {
+                        foreach ($records as $category) {
+                            $category->update(['hidden' => true]);
+                        }
+                        Notification::make()
+                            ->title('Успешно!')
+                            ->body('Выбранные категории скрыты.')
+                            ->success()
+                            ->send();
+                    })
+                    ->deselectRecordsAfterCompletion(),
+                BulkAction::make('show')
+                    ->label('Отобразить')
+                    ->action(function ($records) {
+                        foreach ($records as $category) {
+                            $category->update(['hidden' => false]);
+                        }
+
+                        Notification::make()
+                            ->title('Успешно!')
+                            ->body('Выбранные категории отображены.')
+                            ->success()
+                            ->send();
+                    })
+                    ->deselectRecordsAfterCompletion(),
+            ]);
     }
 
     public static function getRelations(): array

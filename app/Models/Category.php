@@ -17,4 +17,11 @@ class Category extends Model
     {
         return $this->belongsTo(Restaurant::class);
     }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::setGroupByField('restaurant_id');
+    }
 }

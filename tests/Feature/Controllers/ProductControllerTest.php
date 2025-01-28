@@ -87,7 +87,7 @@ class ProductControllerTest extends TestCase
     {
         $user = User::where('email', 'admin@admin')->first();
         $category = Category::factory()->create();
-        
+
         Product::factory()->create(['category_id' => $category->id, 'new' => true]);
         Product::factory()->create(['category_id' => $category->id, 'new' => false]);
 
@@ -123,8 +123,8 @@ class ProductControllerTest extends TestCase
                     'weight',
                     'calories',
                     'priority',
-                ]
-            ]
+                ],
+            ],
         ]);
     }
 }

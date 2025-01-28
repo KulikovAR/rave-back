@@ -65,14 +65,14 @@ class RestaurantControllerTest extends TestCase
 
         $response = $this->actingAs($user)->put('/api/v1/restaurants/'.$restaurant->id, $data);
         $response->assertStatus(200);
-        
+
         $this->assertDatabaseHas('restaurants', [
             'name' => 'Updated Restaurant',
             'background_image' => 'restaurants/backgrounds/'.$backgroundImage->hashName(),
             'map_image' => 'restaurants/maps/'.$mapImage->hashName(),
             'address' => '456 Updated Ave',
         ]);
-        
+
         Storage::disk('public')->assertExists('restaurants/backgrounds/'.$backgroundImage->hashName());
         Storage::disk('public')->assertExists('restaurants/maps/'.$mapImage->hashName());
     }
@@ -97,7 +97,7 @@ class RestaurantControllerTest extends TestCase
         $restaurant = Restaurant::factory()->create();
 
         $response = $this->actingAs($user)->get('/api/v1/restaurants');
-        
+
         $response->assertStatus(200)
             ->assertJsonStructure([
                 'data' => [
