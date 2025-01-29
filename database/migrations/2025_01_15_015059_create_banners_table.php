@@ -13,6 +13,7 @@ class CreateBannersTable extends Migration
             $table->string('name');
             $table->string('image_path');
             $table->integer('priority');
+            $table->boolean('hidden')->default(true);
             $table->timestamps();
         });
     }

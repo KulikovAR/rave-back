@@ -88,6 +88,13 @@ class CategoryResource extends Resource
             ])
             ->defaultSort('priority', 'asc')
             ->query(fn () => Category::query()->where('restaurant_id', $restaurantId))
+            ->actions([
+                Tables\Actions\EditAction::make()
+                    ->url(fn ($record) => route('filament.admin.resources.categories.edit', [
+                        'restaurant' => session('restaurant_id') ?? $record->restaurant_id,
+                        'record' => $record->id,
+                    ])),
+            ])
             ->bulkActions([
                 BulkAction::make('hide')
                     ->label('Скрыть')

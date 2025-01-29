@@ -11,5 +11,5 @@ class Banner extends Model
 {
     use HasFactory, HasUuids, PriorityTrait;
 
-    protected $fillable = ['name', 'image_path', 'priority'];
+    protected $fillable = ['name', 'image_path', 'priority', 'hidden'];
 }

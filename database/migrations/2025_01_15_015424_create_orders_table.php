@@ -13,6 +13,15 @@ class CreateOrdersTable extends Migration
             $table->string('customer_phone');
             $table->decimal('total_price', 10, 2)->default(0);
             $table->string('status')->default('new');
+            $table->string('type');
+            $table->string('customer_name');
+            $table->string('city')->nullable();
+            $table->string('district')->nullable();
+            $table->string('street')->nullable();
+            $table->string('house')->nullable();
+            $table->string('entrance')->nullable();
+            $table->string('apartment')->nullable();
+            $table->text('comment')->nullable();
             $table->timestamps();
         });
     }

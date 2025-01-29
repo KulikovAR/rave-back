@@ -94,6 +94,13 @@ class ServiceScheduleResource extends Resource
                     ->label('Время закрытия')
                     ->getStateUsing(fn ($record) => $record->closing_time ? Carbon::parse($record->closing_time)->format('H:i') : null),
             ])
+            ->actions([
+                Tables\Actions\EditAction::make()
+                    ->url(fn ($record) => route('filament.admin.resources.service-schedules.edit', [
+                        'restaurant' => session('restaurant_id') ?? $record->restaurant_id,
+                        'record' => $record->id,
+                    ])),
+            ])
             ->query(fn () => ServiceSchedule::query()->where('restaurant_id', $restaurantId));
     }
 

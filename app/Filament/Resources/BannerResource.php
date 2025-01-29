@@ -64,6 +64,20 @@ class BannerResource extends Resource
                 Tables\Columns\ImageColumn::make('image_path')->label('Изображение'),
                 Tables\Columns\TextColumn::make('priority')->label('Приоритет'),
             ])
+            ->actions([
+                Tables\Actions\Action::make('enable')
+                    ->label('Включить')
+                    ->icon('heroicon-o-check-circle')
+                    ->requiresConfirmation()
+                    ->action(function ($record) {
+                        // Отключаем все баннеры
+                        Banner::query()->update(['hidden' => true]);
+
+                        // Включаем текущий баннер
+                        $record->update(['hidden' => false]);
+                    })
+                    ->visible(fn ($record) => $record->hidden),
+            ])
             ->defaultSort('priority', 'asc');
     }
 

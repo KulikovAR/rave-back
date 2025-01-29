@@ -44,6 +44,15 @@ class OrderService
                 'customer_phone' => $data['customer_phone'],
                 'total_price' => 0,
                 'status' => 'new',
+                'customer_name' => $data['customer_name'],
+                'type' => $data['type'],
+                'city' => $data['city'] ?? null,
+                'district' => $data['district'] ?? null,
+                'street' => $data['street'] ?? null,
+                'house' => $data['house'] ?? null,
+                'entrance' => $data['entrance'] ?? null,
+                'apartment' => $data['apartment'] ?? null,
+                'comment' => $data['comment'] ?? null,
             ]);
 
             foreach ($data['products'] as $productData) {

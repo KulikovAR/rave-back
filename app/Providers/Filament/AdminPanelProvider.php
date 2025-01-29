@@ -85,7 +85,7 @@ class AdminPanelProvider extends PanelProvider
                                 NavigationItem::make('Заказы')
                                     ->url(route('filament.admin.resources.orders.index', ['restaurant' => $restaurant->id]))
                                     ->icon('heroicon-o-shopping-cart'),
-                                NavigationItem::make('Продукты')
+                                NavigationItem::make('Товары')
                                     ->url(route('filament.admin.resources.products.index', ['restaurant' => $restaurant->id]))
                                     ->icon('heroicon-o-cube'),
                                 NavigationItem::make('Расписание')

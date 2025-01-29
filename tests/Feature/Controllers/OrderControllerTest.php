@@ -21,6 +21,8 @@ class OrderControllerTest extends TestCase
         $product = Product::factory()->create();
         $data = [
             'customer_phone' => '1234567890',
+            'customer_name' => 'Олег',
+            'type' => 'Самовывоз',
             'products' => [
                 ['product_id' => $product->id, 'quantity' => 2],
             ],

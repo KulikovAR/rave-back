@@ -14,6 +14,15 @@ class Order extends Model
         'customer_phone',
         'total_price',
         'status',
+        'type',
+        'customer_name',
+        'city',
+        'district',
+        'street',
+        'house',
+        'entrance',
+        'apartment',
+        'comment',
     ];
 
     public function orderProducts()

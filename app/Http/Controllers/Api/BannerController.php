@@ -40,6 +40,7 @@ class BannerController extends Controller
             'name' => 'required|string|max:255',
             'image_path' => 'required|string|max:255',
             'priority' => 'required|integer',
+            'hidden' => 'boolean',
         ]);
 
         $banner = $this->bannerService->createBanner($validated);
@@ -52,6 +53,7 @@ class BannerController extends Controller
         $validated = $request->validate([
             'name' => 'sometimes|string|max:255',
             'priority' => 'sometimes|integer',
+            'hidden' => 'sometimes|boolean',
         ]);
 
         $banner = $this->bannerService->updateBanner($id, $validated);

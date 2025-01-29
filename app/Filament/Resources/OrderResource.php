@@ -42,10 +42,52 @@ class OrderResource extends Resource
 
         return $form
             ->schema([
+                Forms\Components\TextInput::make('customer_name')
+                    ->label('Имя заказчика')
+                    ->required()
+                    ->maxLength(255),
+
                 Forms\Components\TextInput::make('customer_phone')
                     ->label('Телефон заказчика')
                     ->required()
                     ->maxLength(255),
+
+                Forms\Components\Select::make('type')
+                    ->label('Тип заказа')
+                    ->options([
+                        'Доставка' => 'Доставка',
+                        'Самовывоз' => 'Самовывоз',
+                    ])
+                    ->default('Доставка')
+                    ->required(),
+
+                Forms\Components\TextInput::make('city')
+                    ->label('Город')
+                    ->nullable(),
+
+                Forms\Components\TextInput::make('district')
+                    ->label('Район')
+                    ->nullable(),
+
+                Forms\Components\TextInput::make('street')
+                    ->label('Улица')
+                    ->nullable(),
+
+                Forms\Components\TextInput::make('house')
+                    ->label('Дом')
+                    ->nullable(),
+
+                Forms\Components\TextInput::make('entrance')
+                    ->label('Подъезд')
+                    ->nullable(),
+
+                Forms\Components\TextInput::make('apartment')
+                    ->label('Квартира')
+                    ->nullable(),
+
+                Forms\Components\Textarea::make('comment')
+                    ->label('Комментарий')
+                    ->nullable(),
 
                 Forms\Components\Select::make('status')
                     ->label('Статус заказа')
@@ -63,7 +105,7 @@ class OrderResource extends Resource
                     ->reactive()
                     ->schema([
                         Forms\Components\Select::make('product_id')
-                            ->label('Продукт')
+                            ->label('Товар')
                             ->options(self::getProductOptions())
                             ->required()
                             ->reactive()
@@ -187,7 +229,16 @@ class OrderResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('id')->label('ID'),
+                Tables\Columns\TextColumn::make('customer_name')->label('Имя заказчика'),
                 Tables\Columns\TextColumn::make('customer_phone')->label('Телефон заказчика'),
+                Tables\Columns\TextColumn::make('type')->label('Тип заказа'),
+                Tables\Columns\TextColumn::make('city')->label('Город')->sortable(),
+                Tables\Columns\TextColumn::make('district')->label('Район')->sortable(),
+                Tables\Columns\TextColumn::make('street')->label('Улица')->sortable(),
+                Tables\Columns\TextColumn::make('house')->label('Дом'),
+                Tables\Columns\TextColumn::make('entrance')->label('Подъезд'),
+                Tables\Columns\TextColumn::make('apartment')->label('Квартира'),
+                Tables\Columns\TextColumn::make('comment')->label('Комментарий')->limit(50),
                 Tables\Columns\TextColumn::make('total_price')->label('Итоговая стоимость'),
                 Tables\Columns\BadgeColumn::make('status')
                     ->label('Статус')
