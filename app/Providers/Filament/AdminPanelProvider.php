@@ -25,7 +25,7 @@ class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
-        $restaurants = Restaurant::all();
+        $restaurants = env('APP_ENV') === 'test' ? [] : Restaurant::all();
 
         return $panel
             ->default()
