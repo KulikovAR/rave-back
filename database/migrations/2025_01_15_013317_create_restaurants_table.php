@@ -11,6 +11,7 @@ class CreateRestaurantsTable extends Migration
         Schema::create('restaurants', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name');
+            $table->string('slug')->unique();
             $table->string('photo');
             $table->integer('priority');
             $table->string('background_image');

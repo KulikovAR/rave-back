@@ -47,8 +47,7 @@ class BannerResource extends Resource
                     ->disk('public')
                     ->directory('banners')
                     ->visibility('public')
-                    ->image()
-                    ->required(),
+                    ->image(),
                 Forms\Components\TextInput::make('priority')
                     ->label('Приоритет')
                     ->numeric()

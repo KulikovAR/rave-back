@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\HasSlug;
 use App\Traits\PriorityTrait;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -9,10 +10,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Restaurant extends Model
 {
-    use HasFactory, HasUuids, PriorityTrait;
+    use HasFactory, HasSlug, HasUuids, PriorityTrait;
 
     protected $fillable = [
         'name',
+        'slug',
         'photo',
         'priority',
         'background_image',

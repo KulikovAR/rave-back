@@ -110,7 +110,7 @@ class ProductControllerTest extends TestCase
         $recommendedProduct2 = Product::factory()->create();
         $product->recommendedProducts()->attach($recommendedProduct2->id);
 
-        $response = $this->get('/api/v1/products/'.$product->id.'/recommended');
+        $response = $this->get('/api/v1/products/'.$product->slug.'/recommended');
 
         $response->assertStatus(200);
         $response->assertJsonStructure([
@@ -118,6 +118,7 @@ class ProductControllerTest extends TestCase
                 '*' => [
                     'id',
                     'name',
+                    'slug',
                     'description',
                     'price',
                     'weight',

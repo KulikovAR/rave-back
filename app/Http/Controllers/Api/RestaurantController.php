@@ -23,9 +23,9 @@ class RestaurantController extends Controller
         return new ApiJsonResponse(data: $restaurants);
     }
 
-    public function show($id): ApiJsonResponse
+    public function show($slug): ApiJsonResponse
     {
-        $restaurant = $this->restaurantService->getRestaurantById($id);
+        $restaurant = $this->restaurantService->getRestaurantBySlug($slug);
 
         if (! $restaurant) {
             return new ApiJsonResponse(404, false, 'Restaurant not found');

@@ -25,6 +25,11 @@ class RestaurantService
         return Restaurant::find($id);
     }
 
+    public function getRestaurantBySlug($slug)
+    {
+        return Restaurant::where('slug', $slug)->first();
+    }
+
     public function createRestaurant(array $data, $photo)
     {
         if (isset($data['background_image'])) {

@@ -11,7 +11,7 @@ class CreateBannersTable extends Migration
         Schema::create('banners', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name');
-            $table->string('image_path');
+            $table->string('image_path')->nullable();
             $table->integer('priority');
             $table->boolean('hidden')->default(true);
             $table->timestamps();

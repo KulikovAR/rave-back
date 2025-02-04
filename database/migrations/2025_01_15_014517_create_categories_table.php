@@ -11,6 +11,7 @@ class CreateCategoriesTable extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name');
+            $table->string('slug')->unique();
             $table->integer('priority');
             $table->boolean('hidden')->default(false);
             $table->uuid('restaurant_id');

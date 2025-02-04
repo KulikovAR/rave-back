@@ -25,6 +25,11 @@ class CategoryService
         return Category::find($id);
     }
 
+    public function getCategoryBySlug($slug)
+    {
+        return Category::where('slug', $slug)->first();
+    }
+
     public function createCategory(array $data)
     {
         if (isset($data['image'])) {

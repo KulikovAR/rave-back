@@ -38,6 +38,11 @@ class ProductService
         return Product::with(['media', 'recommendedProducts'])->find($id);
     }
 
+    public function getProductBySlug($slug)
+    {
+        return Product::with(['media', 'recommendedProducts'])->where('slug', $slug)->first();
+    }
+
     public function createProduct(array $data)
     {
         return Product::create($data);

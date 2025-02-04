@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Responses\ApiJsonResponse;
 use App\Http\Services\ProductService;
-use App\Models\Product;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -24,9 +23,9 @@ class ProductController extends Controller
         return new ApiJsonResponse(data: $products);
     }
 
-    public function show($id): ApiJsonResponse
+    public function show($slug): ApiJsonResponse
     {
-        $product = $this->productService->getProductById($id);
+        $product = $this->productService->getProductBySlug($slug);
 
         if (! $product) {
             return new ApiJsonResponse(404, false, 'Product not found');
@@ -86,9 +85,9 @@ class ProductController extends Controller
         return new ApiJsonResponse(message: 'Product deleted successfully');
     }
 
-    public function getRecommended($id)
+    public function getRecommended($slug)
     {
-        $product = Product::find($id);
+        $product = $this->productService->getProductBySlug($slug);
 
         if (! $product) {
             return new ApiJsonResponse(404, false, 'Product not found');

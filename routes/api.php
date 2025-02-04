@@ -37,13 +37,16 @@ Route::middleware('auth:sanctum')->group(function () {
 
 Route::get('/assets/{locale?}', [AssetsController::class, 'show'])->name('assets.index');
 
-Route::apiResource('restaurants', RestaurantController::class);
-Route::apiResource('categories', CategoryController::class);
-Route::apiResource('products', ProductController::class);
+Route::apiResource('restaurants', RestaurantController::class)->except(['show']);
+Route::get('/restaurants/{slug}', [RestaurantController::class, 'show']);
+Route::apiResource('categories', CategoryController::class)->except(['show']);
+Route::get('/categories/{slug}', [CategoryController::class, 'show']);
+Route::apiResource('products', ProductController::class)->except(['show']);
+Route::get('/products/{slug}', [ProductController::class, 'show']);
 Route::apiResource('banners', BannerController::class);
 Route::apiResource('settings', SettingController::class);
 
-Route::get('products/{id}/recommended', [ProductController::class, 'getRecommended']);
+Route::get('products/{slug}/recommended', [ProductController::class, 'getRecommended']);
 Route::post('orders', [OrderController::class, 'store']);
 Route::get('orders', [OrderController::class, 'index']);
 Route::get('orders/{id}', [OrderController::class, 'show']);

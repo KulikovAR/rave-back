@@ -23,9 +23,9 @@ class CategoryController extends Controller
         return new ApiJsonResponse(data: $categories);
     }
 
-    public function show($id): ApiJsonResponse
+    public function show($slug): ApiJsonResponse
     {
-        $category = $this->categoryService->getCategoryById($id);
+        $category = $this->categoryService->getCategoryBySlug($slug);
 
         if (! $category) {
             return new ApiJsonResponse(404, false, 'Category not found');

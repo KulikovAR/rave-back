@@ -12,6 +12,7 @@ class CreateProductsTable extends Migration
             $table->uuid('id')->primary();
             $table->uuid('category_id');
             $table->string('name');
+            $table->string('slug')->unique();
             $table->text('description');
             $table->decimal('price', 10, 2);
             $table->integer('weight');
