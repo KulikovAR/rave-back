@@ -9,7 +9,8 @@ class RestaurantService
 {
     public function getAllRestaurants($hidden = null, $priority = null)
     {
-        $query = Restaurant::query();
+        $query = Restaurant::with('schedule'); // Загружаем расписание вместе с ресторанами
+        $query->orderBy('priority', 'asc');
         if ($hidden !== null) {
             $query->where('hidden', $hidden);
         }
@@ -17,7 +18,7 @@ class RestaurantService
             $query->orderBy('priority', 'asc');
         }
 
-        return $query->get();
+        return $query->limit(3)->get();
     }
 
     public function getRestaurantById($id)

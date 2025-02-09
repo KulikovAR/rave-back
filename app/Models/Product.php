@@ -38,7 +38,7 @@ class Product extends Model
             'recommended_products',
             'product_id',
             'recommended_product_id'
-        );
+        )->with('media');
     }
 
     public function addRecommendedProduct(Product $product)

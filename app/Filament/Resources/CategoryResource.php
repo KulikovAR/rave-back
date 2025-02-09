@@ -68,6 +68,10 @@ class CategoryResource extends Resource
                     ->visibility('public')
                     ->image()
                     ->required(),
+                Forms\Components\Textarea::make('description')
+                    ->label('Описание')
+                    ->maxLength(500)
+                    ->nullable(),
             ]);
     }
 

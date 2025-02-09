@@ -13,6 +13,8 @@ class BannerService
             $query->orderBy('priority', 'asc');
         }
 
+        $query->where('hidden', 0);
+
         return $query->get();
     }
 

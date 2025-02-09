@@ -29,6 +29,7 @@ class RestaurantControllerTest extends TestCase
             'background_image' => $backgroundImage,
             'map_image' => $mapImage,
             'address' => '123 Test St',
+            'description' => 'A great restaurant',
         ];
 
         Storage::fake('public');
@@ -39,6 +40,7 @@ class RestaurantControllerTest extends TestCase
             'name' => 'Test Restaurant',
             'priority' => 1,
             'address' => '123 Test St',
+            'description' => 'A great restaurant',
         ]);
 
         Storage::disk('public')->assertExists('restaurants/'.$file->hashName());
@@ -61,6 +63,7 @@ class RestaurantControllerTest extends TestCase
             'background_image' => $backgroundImage,
             'map_image' => $mapImage,
             'address' => '456 Updated Ave',
+            'description' => 'Updated description',
         ];
 
         $response = $this->actingAs($user)->put('/api/v1/restaurants/'.$restaurant->id, $data);
@@ -71,6 +74,7 @@ class RestaurantControllerTest extends TestCase
             'background_image' => 'restaurants/backgrounds/'.$backgroundImage->hashName(),
             'map_image' => 'restaurants/maps/'.$mapImage->hashName(),
             'address' => '456 Updated Ave',
+            'description' => 'Updated description',
         ]);
 
         Storage::disk('public')->assertExists('restaurants/backgrounds/'.$backgroundImage->hashName());

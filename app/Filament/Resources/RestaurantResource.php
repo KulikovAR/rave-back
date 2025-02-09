@@ -66,6 +66,10 @@ class RestaurantResource extends Resource
                     ->label('Приоритет')
                     ->numeric()
                     ->default(0),
+                Forms\Components\Textarea::make('description')
+                    ->label('Описание')
+                    ->required()
+                    ->maxLength(100),
             ]);
     }
 

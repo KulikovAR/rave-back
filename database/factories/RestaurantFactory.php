@@ -19,6 +19,7 @@ class RestaurantFactory extends Factory
             'map_image' => $this->faker->imageUrl(640, 480),
             'map_link' => $this->faker->url,
             'address' => $this->faker->address,
+            'description' => $this->faker->sentence(),
         ];
     }
 }

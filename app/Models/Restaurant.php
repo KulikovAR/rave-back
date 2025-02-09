@@ -21,7 +21,13 @@ class Restaurant extends Model
         'map_image',
         'map_link',
         'address',
+        'description',
     ];
+
+    public function schedule()
+    {
+        return $this->hasMany(ServiceSchedule::class);
+    }
 
     protected static function booted()
     {

@@ -28,6 +28,7 @@ class CategoryControllerTest extends TestCase
             'priority' => 1,
             'hidden' => false,
             'image' => $image,
+            'description' => 'This is a test description.',
         ];
 
         $response = $this->actingAs($user)->post('/api/v1/categories', $data);
@@ -38,6 +39,7 @@ class CategoryControllerTest extends TestCase
             'restaurant_id' => $restaurant->id,
             'priority' => 1,
             'hidden' => false,
+            'description' => 'This is a test description.',
         ]);
 
         Storage::disk('public')->assertExists('categories/'.$image->hashName());
@@ -51,11 +53,11 @@ class CategoryControllerTest extends TestCase
         $category = Category::factory()->create();
         $image = UploadedFile::fake()->image('updated_category_image.jpg');
 
-        $data = ['name' => 'Updated Category', 'image' => $image];
+        $data = ['name' => 'Updated Category', 'description' => 'Updated description.', 'image' => $image];
 
         $response = $this->actingAs($user)->put('/api/v1/categories/'.$category->id, $data);
         $response->assertStatus(200);
-        $this->assertDatabaseHas('categories', ['name' => 'Updated Category']);
+        $this->assertDatabaseHas('categories', ['name' => 'Updated Category', 'description' => 'Updated description.']);
 
         Storage::disk('public')->assertExists('categories/'.$image->hashName());
     }

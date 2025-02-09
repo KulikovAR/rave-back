@@ -42,6 +42,7 @@ class CategoryController extends Controller
             'priority' => 'required|integer',
             'hidden' => 'required|boolean',
             'image' => 'nullable|image',
+            'description' => 'nullable|string|max:500',
         ]);
 
         $category = $this->categoryService->createCategory($validated);
@@ -57,6 +58,7 @@ class CategoryController extends Controller
             'priority' => 'sometimes|integer',
             'hidden' => 'sometimes|boolean',
             'image' => 'nullable|image',
+            'description' => 'nullable|string|max:500',
         ]);
 
         $category = $this->categoryService->updateCategory($id, $validated);

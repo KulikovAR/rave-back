@@ -2,13 +2,19 @@
 
 namespace App\Http\Services;
 
+use App\Models\Category;
 use App\Models\Product;
+use App\Models\Restaurant;
 
 class ProductService
 {
     public function getAllProducts($filters = [])
     {
         $query = Product::query();
+
+        $query->where('hidden', 0);
+
+        $query->orderBy('priority', 'asc');
 
         if (isset($filters['category_id'])) {
             $query->where('category_id', $filters['category_id']);
@@ -30,7 +36,7 @@ class ProductService
             $query->orderBy('priority', 'asc');
         }
 
-        return $query->with('media')->get();
+        return $query->with(['media', 'recommendedProducts.media'])->get();
     }
 
     public function getProductById($id)
@@ -41,6 +47,23 @@ class ProductService
     public function getProductBySlug($slug)
     {
         return Product::with(['media', 'recommendedProducts'])->where('slug', $slug)->first();
+    }
+
+    public function getProductsByRestSlug($slug)
+    {
+        $restaurant = Restaurant::where('slug', $slug)->first();
+        if (! $restaurant) {
+            return null;
+        }
+
+        $categories = Category::where('restaurant_id', $restaurant->id)->get();
+        $products = Product::whereIn('category_id', $categories->pluck('id'))->with(['media', 'recommendedProducts.media', 'category'])->get();
+
+        $products->each(function ($product) {
+            $product->categorySlug = $product->category ? $product->category->slug : null;
+        });
+
+        return $products;
     }
 
     public function createProduct(array $data)

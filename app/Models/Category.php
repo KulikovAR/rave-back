@@ -12,7 +12,7 @@ class Category extends Model
 {
     use HasFactory, HasSlug, HasUuids, PriorityTrait;
 
-    protected $fillable = ['name', 'slug', 'hidden', 'priority', 'restaurant_id', 'image'];
+    protected $fillable = ['name', 'slug', 'hidden', 'priority', 'restaurant_id', 'image', 'description'];
 
     public function restaurant()
     {

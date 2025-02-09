@@ -47,9 +47,11 @@ Route::apiResource('banners', BannerController::class);
 Route::apiResource('settings', SettingController::class);
 
 Route::get('products/{slug}/recommended', [ProductController::class, 'getRecommended']);
+Route::get('products-by-rest/{slug}', [ProductController::class, 'getProductsByRest']);
 Route::post('orders', [OrderController::class, 'store']);
 Route::get('orders', [OrderController::class, 'index']);
 Route::get('orders/{id}', [OrderController::class, 'show']);
 
 Route::get('/service_schedule/{restaurantId}', [ServiceScheduleController::class, 'index']);
+Route::get('/service_schedule_by_slug/{slug}', [ServiceScheduleController::class, 'getBySlug']);
 Route::put('/service_schedule/{id}', [ServiceScheduleController::class, 'update']);

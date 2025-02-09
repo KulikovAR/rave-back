@@ -97,4 +97,15 @@ class ProductController extends Controller
 
         return new ApiJsonResponse(data: $recommendedProducts);
     }
+
+    public function getProductsByRest($slug)
+    {
+        $products = $this->productService->getProductsByRestSlug($slug);
+
+        if (! $products) {
+            return new ApiJsonResponse(404, false, 'Products not found');
+        }
+
+        return new ApiJsonResponse(data: $products);
+    }
 }

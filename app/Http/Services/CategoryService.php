@@ -10,6 +10,7 @@ class CategoryService
     public function getAllCategories($hidden = null, $priority = null)
     {
         $query = Category::query();
+        $query->orderBy('priority', 'asc');
         if ($hidden !== null) {
             $query->where('hidden', $hidden);
         }
