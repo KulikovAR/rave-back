@@ -64,7 +64,7 @@ class ProductResource extends Resource
                     ->required(),
                 Forms\Components\Textarea::make('description')
                     ->label('Описание')
-                    ->required(),
+                    ->default(' '),
                 Forms\Components\TextInput::make('price')
                     ->label('Цена')
                     ->numeric()
@@ -75,8 +75,7 @@ class ProductResource extends Resource
                     ->required(),
                 Forms\Components\TextInput::make('calories')
                     ->label('Калории')
-                    ->numeric()
-                    ->required(),
+                    ->numeric(),
                 Forms\Components\Checkbox::make('hidden')
                     ->label('Скрыть товар'),
                 Forms\Components\Checkbox::make('new')
@@ -105,7 +104,9 @@ class ProductResource extends Resource
 
                         return \App\Models\Product::whereHas('category', function ($query) use ($restaurantId) {
                             $query->where('restaurant_id', $restaurantId);
-                        })->pluck('name', 'id');
+                        })
+                        ->where('hidden', 0)
+                        ->pluck('name', 'id');
                     })
                     ->preload(),
             ]);

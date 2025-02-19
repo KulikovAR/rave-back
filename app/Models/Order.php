@@ -37,6 +37,18 @@ class Order extends Model
             ->withTimestamps();
     }
 
+    public function restaurant()
+    {
+        return $this->hasOneThrough(
+            Restaurant::class, 
+            Category::class, 
+            'restaurant_id',
+            'id',
+            'category_id',
+            'restaurant_id'
+        );
+    }
+
     public function recalculateTotalPrice()
     {
         $this->load('orderProducts');

@@ -69,7 +69,7 @@ class RestaurantResource extends Resource
                 Forms\Components\Textarea::make('description')
                     ->label('Описание')
                     ->required()
-                    ->maxLength(100),
+                    ->maxLength(200),
             ]);
     }
 

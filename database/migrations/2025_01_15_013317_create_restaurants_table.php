@@ -12,10 +12,10 @@ class CreateRestaurantsTable extends Migration
             $table->uuid('id')->primary();
             $table->string('name');
             $table->string('slug')->unique();
-            $table->string('photo');
+            $table->string('photo')->nullable();
             $table->integer('priority');
-            $table->string('background_image');
-            $table->string('map_image');
+            $table->string('background_image')->nullable();
+            $table->string('map_image')->nullable();
             $table->string('map_link')->nullable();
             $table->string('address');
             $table->text('description');

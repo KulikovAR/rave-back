@@ -46,7 +46,7 @@ class SettingResource extends Resource
                 Forms\Components\TextInput::make('key')
                     ->label('Ключ')
                     ->required()
-                    ->unique(),
+                    ->unique(ignoreRecord: true),
                 Forms\Components\TextInput::make('value')
                     ->label('Значение')
                     ->required(),
