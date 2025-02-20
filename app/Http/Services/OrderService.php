@@ -164,7 +164,7 @@ class OrderService
 
         $message .= "\nКлиент:\n";
         $message .= "-Имя: {$order->customer_name}\n";
-        $message .= "-Тел: {$order->customer_phone}\n";
+        $message .= "-Тел: +{$order->customer_phone}\n";
         if (!empty($order->comment)) {
             $message .= "-Комментарий: {$order->comment}\n";
         }
