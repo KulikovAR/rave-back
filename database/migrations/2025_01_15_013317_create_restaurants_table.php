@@ -19,7 +19,6 @@ class CreateRestaurantsTable extends Migration
             $table->string('map_link')->nullable();
             $table->string('address');
             $table->text('description');
-            $table->longText('privacy')->nullable();
             $table->timestamps();
         });
     }
