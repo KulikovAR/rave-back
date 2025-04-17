@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\RestaurantResource\Pages;
 use App\Models\Restaurant;
 use Filament\Forms;
+use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -70,6 +71,26 @@ class RestaurantResource extends Resource
                     ->label('Описание')
                     ->required()
                     ->maxLength(200),
+                
+                MarkdownEditor::make('privacy')
+                    ->label('Политика конфиденциальности')
+                    ->toolbarButtons([
+                        'attachFiles',
+                        'bold',
+                        'bulletList',
+                        'codeBlock',
+                        'heading',
+                        'italic',
+                        'link',
+                        'orderedList',
+                        'redo',
+                        'strike',
+                        'table',
+                        'undo',
+                    ])
+                    ->fileAttachmentsDisk('public')
+                    ->fileAttachmentsDirectory('restaurants/privacy')
+                    ->nullable(),
             ]);
     }
 

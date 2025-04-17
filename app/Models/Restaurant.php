@@ -22,6 +22,7 @@ class Restaurant extends Model
         'map_link',
         'address',
         'description',
+        'privacy',
     ];
 
     public function schedule()
