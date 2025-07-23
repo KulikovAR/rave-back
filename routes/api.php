@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\RestaurantController;
 use App\Http\Controllers\Api\ServiceScheduleController;
 use App\Http\Controllers\Api\SettingController;
+use App\Http\Controllers\Api\TelegramBotController;
 use App\Http\Controllers\AssetsController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
@@ -44,3 +45,5 @@ Route::apiResource('products', ProductController::class)->only(['index']);
 Route::apiResource('restaurants', RestaurantController::class)->only(['index']);
 Route::apiResource('settings', SettingController::class)->only(['show']);
 Route::post('orders', [OrderController::class, 'store']);
+
+Route::post('/telegram/webhook', [TelegramBotController::class, 'handleWebhook']);
