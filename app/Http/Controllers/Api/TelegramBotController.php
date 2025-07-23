@@ -118,7 +118,11 @@ class TelegramBotController extends Controller
             return;
         }
 
-        // Дополнительная логика, если нужна
+        if ($step === 'awaiting_restart' && $text) {
+            $this->sendRestaurantsKeyboard($chatId);
+            Cache::put("step_$chatId", 'restaurant');
+            return;
+        }
     }
 
     protected function sendRestaurantsKeyboard(int $chatId): void
